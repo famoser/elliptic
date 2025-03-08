@@ -1,73 +1,22 @@
-## Pure PHP Elliptic Curve DSA and DH
+## Elliptic: Low-level Elliptic Curve Library
 
-[![Build Status](https://travis-ci.org/phpecc/phpecc.svg?branch=master)](https://travis-ci.org/phpecc/phpecc)
+This library provides low-level access to elliptic curve computations. 
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpecc/phpecc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpecc/phpecc?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/phpecc/phpecc/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phpecc/phpecc/?branch=master)
+This is a work in progress.
 
-[![Latest Stable Version](https://poser.pugx.org/mdanter/ecc/v/stable.png)](https://packagist.org/packages/mdanter/ecc)
-[![Total Downloads](https://poser.pugx.org/mdanter/ecc/downloads.png)](https://packagist.org/packages/mdanter/ecc)
-[![Latest Unstable Version](https://poser.pugx.org/mdanter/ecc/v/unstable.png)](https://packagist.org/packages/mdanter/ecc)
-[![License](https://poser.pugx.org/mdanter/ecc/license.png)](https://packagist.org/packages/mdanter/ecc)
+The library is based on `phpecc/phpecc`, but focuses purely on elliptic curve computations (hence does not provide cryptographic primitives or structures). 
 
-### Information
+## Why
 
-This library is a rewrite/update of Matyas Danter's ECC library. All credit goes to him.
+This library is a fork from `phpecc/phpecc`, which was itself was based on `mdanter/ecc` (from Matyas Danter, which currently 404s). `phpecc/phpecc` is unfortunately no longer maintained, and the original maintainer (afk11) seems to be unreachable. 
 
-For more information on Elliptic Curve Cryptography please read [this fine article](http://www.matyasdanter.com/2010/12/elliptic-curve-php-oop-dsa-and-diffie-hellman/).
+There is another fork that took over maintenance from `phpecc/phpecc` called `paragonie/phpecc`. It explained its reasons in a [public mail](https://www.openwall.com/lists/oss-security/2024/04/24/4), and is the recommended replacement by [packagist](https://github.com/phpecc/phpecc/issues/289#issuecomment-2075703542). It extended the library, with the following core contributions:
+- Introduce `SecureCurveFactories` which prevent instantiation of insecure curves
+- Harden signatures (mitigate malleable ECDSA signatures, work towards constant time math)
+- Use OpenSSL signature creation and verification when available for the respective curve
+- Introduce optimized variants of curves, with "optimized" implying hardening against side-channels
+- Add brainpool curves
 
-The library supports the following curves:
-
- - secp112r1
- - secp256k1
- - nistp192
- - nistp224
- - nistp256 / secp256r1
- - nistp384 / secp384r1
- - nistp521
-
-During ECDSA, a random value `k` is required. It is acceptable to use a true RNG to generate this value, but 
-should the same `k` value ever be repeatedly used for a key, an attacker can recover that signing key. 
-The HMAC random generator can derive a deterministic k value from the message hash and private key, voiding
-this concern.
-
-The library uses a non-branching Montgomery ladder for scalar multiplication, as it's constant time and avoids secret 
-dependant branches. 
- 
-### License
-
-This package is released under the MIT license.
-
-### Requirements
-
-* PHP 7.0+ or PHP 8.0+
-* composer
-* ext-gmp
-
-Support for older PHP versions:
- * v0.4.x: php ^5.6|<7.2
- * v0.5.x: php ^7.0
- * v1.0.x: php ^7.0|^8.0
-
-### Installation
-
-You can install this library via Composer :
-
-`composer require mdanter/ecc:^1.0`
-
-### Contribute
-
-When sending in pull requests, please make sure to run the `make` command.
-
-The default target runs all PHPUnit and PHPCS tests. All tests
-must validate for your contribution to be accepted.
-
-It's also always a good idea to check the results of the [Scrutinizer analysis](https://scrutinizer-ci.com/g/phpecc/phpecc/) for your pull requests.
-
-### Usage
-
-Examples:
- * [Key generation](./examples/key_generation.php)
- * [ECDH exchange](./examples/ecdh_exchange.php)
- * [Signature creation](./examples/creating_signature.php)
- * [Signature verification](./examples/verify_signature.php)
+The target of this project is different:
+- Acceptance that GMP itself has no constant time guarantees (and neither the PHP interpreter nor its JIT). Out of scope is therefore hardening towards constant time, as fundamentally through the usage of GMP the guarantees will remain unclear.
+- Provide expert users a way to interact with elliptic curves, for them to build their own algorithms on top of it. Out of scope is therefore guidance what curves to choose, and all higher-layer algorithms (hence no signatures, encryptions or similar). 
