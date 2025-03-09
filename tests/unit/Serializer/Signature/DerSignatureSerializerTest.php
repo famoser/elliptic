@@ -3,13 +3,15 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Serializer\Signature;
 
-use FG\ASN1\Universal\BitString;
-use FG\ASN1\Universal\Sequence;
+use OutOfBoundsException;
+use Sop\ASN1\Type\Primitive\BitString;
+use Sop\ASN1\Type\Constructed\Sequence;
 use Mdanter\Ecc\Crypto\Signature\Signature;
 use Mdanter\Ecc\Math\GmpMath;
 use Mdanter\Ecc\Random\RandomGeneratorFactory;
 use Mdanter\Ecc\Serializer\Signature\DerSignatureSerializer;
 use Mdanter\Ecc\Tests\AbstractTestCase;
+use UnexpectedValueException;
 
 class DerSignatureSerializerTest extends AbstractTestCase
 {
@@ -26,49 +28,49 @@ class DerSignatureSerializerTest extends AbstractTestCase
 
     public function testInvalidASN1()
     {
-        $this->expectException(\Mdanter\Ecc\Exception\SignatureDecodeException::class);
-        $this->expectExceptionMessage('Invalid tag for sequence.');
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('SEQUENCE expected, got primitive BIT STRING.');
         // Bitstring is not a sequence..
         $bitString = new BitString('ab');
-        $binary = $bitString->getBinary();
+        $binary = $bitString->toDER();
         $serializer = new DerSignatureSerializer();
         $serializer->parse($binary);
     }
 
     public function testInvalidASN2()
     {
-        $this->expectException(\Mdanter\Ecc\Exception\SignatureDecodeException::class);
-        $this->expectExceptionMessage('Invalid data.');
+        $this->expectException(OutOfBoundsException::class);
+        $this->expectExceptionMessage('Structure doesn\'t have an element at index 0.');
         // Sequence != 2 items
         $sequence = new Sequence();
-        $binary = $sequence->getBinary();
+        $binary = $sequence->toDER();
         $serializer = new DerSignatureSerializer();
         $serializer->parse($binary);
     }
 
     public function testInvalidASN3()
     {
-        $this->expectException(\Mdanter\Ecc\Exception\SignatureDecodeException::class);
-        $this->expectExceptionMessage('Invalid data.');
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('INTEGER expected, got primitive BIT STRING.');
         // bitstring isn't an integer
         $sequence = new Sequence(
             new BitString('41'),
             new BitString('ab')
         );
-        $binary = $sequence->getBinary();
+        $binary = $sequence->toDER();
         $serializer = new DerSignatureSerializer();
         $serializer->parse($binary);
     }
 
     public function testInvalidASN4()
     {
-        $this->expectException(\Mdanter\Ecc\Exception\SignatureDecodeException::class);
-        $this->expectExceptionMessage('Invalid data.');
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('INTEGER expected, got primitive BIT STRING.');
         // bitstring isn't an integer
         $sequence = new Sequence(
             new BitString('ab')
         );
-        $binary = $sequence->getBinary();
+        $binary = $sequence->toDER();
         $serializer = new DerSignatureSerializer();
         $serializer->parse($binary);
     }

@@ -5,7 +5,7 @@ namespace Mdanter\Ecc\Serializer\Signature;
 
 use Mdanter\Ecc\Crypto\Signature\SignatureInterface;
 
-class DerSignatureSerializer implements DerSignatureSerializerInterface
+class DerSignatureSerializer
 {
     /**
      * @var Der\Parser
@@ -29,13 +29,12 @@ class DerSignatureSerializer implements DerSignatureSerializerInterface
      */
     public function serialize(SignatureInterface $signature): string
     {
-        return $this->formatter->serialize($signature);
+        return $this->formatter->format($signature);
     }
 
     /**
      * @param string $binary
      * @return SignatureInterface
-     * @throws \FG\ASN1\Exception\ParserException
      */
     public function parse(string $binary): SignatureInterface
     {

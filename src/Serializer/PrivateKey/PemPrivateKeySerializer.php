@@ -10,7 +10,7 @@ use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
  *
  * @link https://tools.ietf.org/html/rfc5915
  */
-class PemPrivateKeySerializer implements PrivateKeySerializerInterface
+class PemPrivateKeySerializer
 {
     /**
      * @var DerPrivateKeySerializer

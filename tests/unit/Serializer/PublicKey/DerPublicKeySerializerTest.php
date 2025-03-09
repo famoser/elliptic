@@ -3,10 +3,6 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Serializer\PublicKey;
 
-use FG\ASN1\Universal\BitString;
-use FG\ASN1\Universal\Integer;
-use FG\ASN1\Universal\ObjectIdentifier;
-use FG\ASN1\Universal\Sequence;
 use Mdanter\Ecc\Curves\CurveFactory;
 use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Primitives\CurveFp;
@@ -14,16 +10,20 @@ use Mdanter\Ecc\Primitives\CurveParameters;
 use Mdanter\Ecc\Serializer\PublicKey\DerPublicKeySerializer;
 use Mdanter\Ecc\Serializer\Util\CurveOidMapper;
 use Mdanter\Ecc\Tests\AbstractTestCase;
+use Sop\ASN1\Type\Primitive\BitString;
+use Sop\ASN1\Type\Primitive\Integer;
+use Sop\ASN1\Type\Primitive\ObjectIdentifier;
+use Sop\ASN1\Type\Constructed\Sequence;
 
 class DerPublicKeySerializerTest extends AbstractTestCase
 {
     public function testFirstFailure()
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Invalid data.');
+        $this->expectExceptionMessage('SEQUENCE expected, got primitive INTEGER.');
 
         $asn = new Integer(1);
-        $binary = $asn->getBinary();
+        $binary = $asn->toDER();
 
         $serializer = new DerPublicKeySerializer();
         $serializer->parse($binary);
@@ -41,7 +41,7 @@ class DerPublicKeySerializerTest extends AbstractTestCase
             ),
             new BitString('04188DA80EB03090F67CBF20EB43A18800F4FF0AFD82FF101207192B95FFC8DA78631011ED6B24CDD573F977A11E794811')
         );
-        $binary = $sequence->getBinary();
+        $binary = $sequence->toDER();
 
         $serializer = new DerPublicKeySerializer();
         $serializer->parse($binary);
