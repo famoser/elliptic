@@ -21,7 +21,7 @@ class DerPrivateKeySerializerTest extends AbstractTestCase
     {
         $der = file_get_contents(__DIR__ . "/../../../data/openssl-secp256r1.1.der");
         $adapter = EccFactory::getAdapter();
-        $derPrivSerializer = new DerPrivateKeySerializer($adapter);
+        $derPrivSerializer = DerPrivateKeySerializer::create();
         $key = $derPrivSerializer->parse($der);
         $this->assertInstanceOf(PrivateKey::class, $key);
     }
@@ -32,7 +32,7 @@ class DerPrivateKeySerializerTest extends AbstractTestCase
         $G = EccFactory::getNistCurves($adapter)->generator192();
         $key = $G->createPrivateKey();
 
-        $derPrivSerializer = new DerPrivateKeySerializer($adapter);
+        $derPrivSerializer = DerPrivateKeySerializer::create();
         $serialized = $derPrivSerializer->serialize($key);
         $parsed = $derPrivSerializer->parse($serialized);
         $this->assertTrue($adapter->equals($parsed->getSecret(), $key->getSecret()));
@@ -43,7 +43,7 @@ class DerPrivateKeySerializerTest extends AbstractTestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Invalid data: only version 1 (RFC5915) keys are supported.');
 
-        $derPrivSerializer = new DerPrivateKeySerializer();
+        $derPrivSerializer = DerPrivateKeySerializer::create();
 
         // I don't actually have a case of a non-v1 key - just substitute self::VERSION with 2
         $privateKeyInfo = new Sequence(
@@ -65,7 +65,7 @@ class DerPrivateKeySerializerTest extends AbstractTestCase
         $asn = new Integer(1);
         $binary = $asn->toDER();
 
-        $serializer = new DerPrivateKeySerializer();
+        $serializer = DerPrivateKeySerializer::create();
         $serializer->parse($binary);
     }
 }

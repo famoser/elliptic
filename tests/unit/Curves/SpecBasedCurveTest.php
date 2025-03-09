@@ -4,16 +4,15 @@ declare(strict_types=1);
 namespace Mdanter\Ecc\Tests\Curves;
 
 use Mdanter\Ecc\Crypto\Signature\Signature;
-use Mdanter\Ecc\Crypto\Signature\SignHasher;
-use Mdanter\Ecc\Random\RandomGeneratorFactory;
-use Mdanter\Ecc\Random\RandomNumberGeneratorInterface;
-use Mdanter\Ecc\Serializer\Point\CompressedPointSerializer;
-use Mdanter\Ecc\Serializer\Point\UncompressedPointSerializer;
-use Mdanter\Ecc\Tests\AbstractTestCase;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
-use Symfony\Component\Yaml\Yaml;
-use Mdanter\Ecc\Curves\CurveFactory;
 use Mdanter\Ecc\Crypto\Signature\Signer;
+use Mdanter\Ecc\Crypto\Signature\SignHasher;
+use Mdanter\Ecc\Curves\CurveFactory;
+use Mdanter\Ecc\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Random\RandomGeneratorFactory;
+use Mdanter\Ecc\Serializer\Point\Format\CompressedPointSerializer;
+use Mdanter\Ecc\Serializer\Point\Format\UncompressedPointSerializer;
+use Mdanter\Ecc\Tests\AbstractTestCase;
+use Symfony\Component\Yaml\Yaml;
 
 class SpecBasedCurveTest extends AbstractTestCase
 {
@@ -179,12 +178,12 @@ TEXT
 
         $serializer = new UncompressedPointSerializer();
         $serialized = $serializer->serialize($publicKey->getPoint());
-        $parsed = $serializer->unserialize($generator->getCurve(), $serialized);
+        $parsed = $serializer->deserialize($generator->getCurve(), $serialized);
         $this->assertTrue($parsed->equals($publicKey->getPoint()));
 
         $compressingSerializer = new CompressedPointSerializer($adapter);
         $serialized = $compressingSerializer->serialize($publicKey->getPoint());
-        $parsed = $compressingSerializer->unserialize($generator->getCurve(), $serialized);
+        $parsed = $compressingSerializer->deserialize($generator->getCurve(), $serialized);
         $this->assertTrue($parsed->equals($publicKey->getPoint()));
     }
 

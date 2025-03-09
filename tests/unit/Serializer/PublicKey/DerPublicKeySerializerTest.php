@@ -25,7 +25,7 @@ class DerPublicKeySerializerTest extends AbstractTestCase
         $asn = new Integer(1);
         $binary = $asn->toDER();
 
-        $serializer = new DerPublicKeySerializer();
+        $serializer = DerPublicKeySerializer::create();
         $serializer->parse($binary);
     }
 
@@ -43,7 +43,7 @@ class DerPublicKeySerializerTest extends AbstractTestCase
         );
         $binary = $sequence->toDER();
 
-        $serializer = new DerPublicKeySerializer();
+        $serializer = DerPublicKeySerializer::create();
         $serializer->parse($binary);
     }
 
@@ -68,7 +68,7 @@ class DerPublicKeySerializerTest extends AbstractTestCase
         $private = $generator->getPrivateKeyFrom(gmp_init(12));
         $public = $private->getPublicKey();
 
-        $serializer = new DerPublicKeySerializer();
+        $serializer = DerPublicKeySerializer::create();
         $serializer->serialize($public);
     }
 }

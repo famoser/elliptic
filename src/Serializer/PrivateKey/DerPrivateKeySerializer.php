@@ -5,12 +5,9 @@ namespace Mdanter\Ecc\Serializer\PrivateKey;
 
 use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
 use Mdanter\Ecc\Curves\NamedCurveFp;
-use Mdanter\Ecc\Math\GmpMathInterface;
-use Mdanter\Ecc\Math\MathAdapterFactory;
-use Mdanter\Ecc\Serializer\Point\CompressedPointSerializer;
+use Mdanter\Ecc\Serializer\Point\ChainedPointSerializer;
 use Mdanter\Ecc\Serializer\Point\PointSerializerInterface;
 use Mdanter\Ecc\Serializer\Util\CurveOidMapper;
-use Mdanter\Ecc\Serializer\PublicKey\DerPublicKeySerializer;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\BitString;
 use Sop\ASN1\Type\Primitive\Integer;
@@ -27,24 +24,13 @@ class DerPrivateKeySerializer
 {
     const VERSION = 1;
 
-    /**
-     * @var GmpMathInterface|null
-     */
-    private $adapter;
-
-    /**
-     * @var PointSerializerInterface
-     */
-    private $pointSerializer;
-
-    /**
-     * @param GmpMathInterface       $adapter
-     * @param DerPublicKeySerializer $pubKeySerializer
-     */
-    public function __construct(GmpMathInterface $adapter = null, PointSerializerInterface $pointSerializer = null)
+    public function __construct(private readonly PointSerializerInterface $pointSerializer)
     {
-        $this->adapter = $adapter ?: MathAdapterFactory::getAdapter();
-        $this->pointSerializer = $pointSerializer ?: new CompressedPointSerializer($this->adapter);
+    }
+
+    public static function create(): self
+    {
+        return new self(ChainedPointSerializer::create());
     }
 
     /**
