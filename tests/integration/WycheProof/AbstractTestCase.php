@@ -44,11 +44,7 @@ abstract class AbstractTestCase extends TestCase
             define('PHPUNIT_DEBUG', false);
         }
 
-        switch (MATH_LIB) {
-            case 'gmp':
-            default:
-                $adapter = MathAdapterFactory::getAdapter(PHPUNIT_DEBUG);
-        }
+        $adapter = MathAdapterFactory::getAdapter(PHPUNIT_DEBUG);
 
         if ($extra == null) {
             return array(
@@ -86,7 +82,7 @@ abstract class AbstractTestCase extends TestCase
 
     public function importFile(string $name): string
     {
-        $contents = file_get_contents("tests/{$name}");
+        $contents = file_get_contents(__DIR__ ."/fixtures/{$name}");
         if (!$contents) {
             throw new \InvalidArgumentException("Failed to read test fixture file tests/$name");
         }

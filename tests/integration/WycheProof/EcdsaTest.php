@@ -65,14 +65,14 @@ class EcdsaTest extends AbstractTestCase
 
     private function readSpecificSet(string $curveName, string $hasherName): array
     {
-        $fixtures = json_decode($this->importFile("wycheproof/wycheproof/testvectors/ecdsa_{$curveName}_{$hasherName}_test.json"), true);
+        $fixtures = json_decode($this->importFile("testvectors/ecdsa_{$curveName}_{$hasherName}_test.json"), true);
         $disabledFlags = ["MissingZero"];
         return $this->filterSet($fixtures, $this->getCurvesList(), $disabledFlags);
     }
 
     public function getEcdsaTestVectors(): array
     {
-        $fixtures = json_decode($this->importFile("wycheproof/wycheproof/testvectors/ecdsa_test.json"), true);
+        $fixtures = json_decode($this->importFile("testvectors/ecdsa_test.json"), true);
         $disabledFlags = ["MissingZero"];
         return $this->filterSet($fixtures, $this->getCurvesList(), $disabledFlags);
     }
