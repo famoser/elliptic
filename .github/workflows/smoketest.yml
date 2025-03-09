@@ -2,7 +2,6 @@ name: Smoketests
 
 on:
   push:
-  pull_request:
 
 jobs:
   smoketest:
@@ -21,19 +20,17 @@ jobs:
         extensions: gmp
         coverage: none
 
-    - name: Get composer cache directory
+    - name: Cache Composer packages
       id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-    - name: Cache dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
 
     - name: Install dependencies
-      run: composer install --prefer-dist
+      run: composer install --prefer-dist --no-progress --no-scripts
 
     - name: Run tests
       run: vendor/bin/phpunit --testsuite Unit --coverage-text --coverage-clover=tests/output/coverage.clover
