@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Tests\Curves;
+namespace Mdanter\Ecc\Integration\Spec;
 
 use Mdanter\Ecc\Crypto\Signature\Signature;
 use Mdanter\Ecc\Crypto\Signature\Signer;
@@ -32,16 +32,16 @@ class SpecBasedCurveTest extends AbstractTestCase
     public function getFiles()
     {
         return [
-            __DIR__ . '/../../specs/secp-112r1.yml',
-            __DIR__ . '/../../specs/secp-192k1.yml',
-            __DIR__ . '/../../specs/secp-256k1.yml',
-            __DIR__ . '/../../specs/secp-256r1.yml',
-            __DIR__ . '/../../specs/secp-384r1.yml',
-            __DIR__ . '/../../specs/nist-p192.yml',
-            __DIR__ . '/../../specs/nist-p224.yml',
-            __DIR__ . '/../../specs/nist-p256.yml',
-            __DIR__ . '/../../specs/nist-p384.yml',
-            __DIR__ . '/../../specs/nist-p521.yml'
+            __DIR__ . '/fixtures/secp-112r1.yml',
+            __DIR__ . '/fixtures/secp-192k1.yml',
+            __DIR__ . '/fixtures/secp-256k1.yml',
+            __DIR__ . '/fixtures/secp-256r1.yml',
+            __DIR__ . '/fixtures/secp-384r1.yml',
+            __DIR__ . '/fixtures/nist-p192.yml',
+            __DIR__ . '/fixtures/nist-p224.yml',
+            __DIR__ . '/fixtures/nist-p256.yml',
+            __DIR__ . '/fixtures/nist-p384.yml',
+            __DIR__ . '/fixtures/nist-p521.yml'
         ];
     }
 
