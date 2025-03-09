@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\WycheProof;
+namespace Mdanter\Ecc\Integration\WycheProof;
 
-use FG\ASN1\Exception\ParserException;
 use Mdanter\Ecc\Crypto\Key\PublicKey;
 use Mdanter\Ecc\Crypto\Signature\HasherInterface;
 use Mdanter\Ecc\Crypto\Signature\SignatureInterface;
@@ -66,14 +65,14 @@ class EcdsaTest extends AbstractTestCase
 
     private function readSpecificSet(string $curveName, string $hasherName): array
     {
-        $fixtures = json_decode($this->importFile("import/wycheproof/testvectors/ecdsa_{$curveName}_{$hasherName}_test.json"), true);
+        $fixtures = json_decode($this->importFile("wycheproof/wycheproof/testvectors/ecdsa_{$curveName}_{$hasherName}_test.json"), true);
         $disabledFlags = ["MissingZero"];
         return $this->filterSet($fixtures, $this->getCurvesList(), $disabledFlags);
     }
 
     public function getEcdsaTestVectors(): array
     {
-        $fixtures = json_decode($this->importFile("import/wycheproof/testvectors/ecdsa_test.json"), true);
+        $fixtures = json_decode($this->importFile("wycheproof/wycheproof/testvectors/ecdsa_test.json"), true);
         $disabledFlags = ["MissingZero"];
         return $this->filterSet($fixtures, $this->getCurvesList(), $disabledFlags);
     }
