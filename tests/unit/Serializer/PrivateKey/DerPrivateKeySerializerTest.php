@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Serializer\PrivateKey;
 
-use FG\ASN1\ExplicitlyTaggedObject;
-use FG\ASN1\Universal\BitString;
-use FG\ASN1\Universal\Integer;
-use FG\ASN1\Universal\OctetString;
-use FG\ASN1\Universal\Sequence;
+use Sop\ASN1\Type\Tagged\ExplicitlyTaggedType;
+use Sop\ASN1\Type\Primitive\BitString;
+use Sop\ASN1\Type\Primitive\Integer;
+use Sop\ASN1\Type\Primitive\OctetString;
+use Sop\ASN1\Type\Constructed\Sequence;
 use Mdanter\Ecc\Crypto\Key\PrivateKey;
 use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Serializer\PrivateKey\DerPrivateKeySerializer;
@@ -32,7 +32,7 @@ class DerPrivateKeySerializerTest extends AbstractTestCase
         $G = EccFactory::getNistCurves($adapter)->generator192();
         $key = $G->createPrivateKey();
 
-        $derPrivSerializer = new DerPrivateKeySerializer($adapter, new DerPublicKeySerializer());
+        $derPrivSerializer = new DerPrivateKeySerializer($adapter);
         $serialized = $derPrivSerializer->serialize($key);
         $parsed = $derPrivSerializer->parse($serialized);
         $this->assertTrue($adapter->equals($parsed->getSecret(), $key->getSecret()));
@@ -43,32 +43,27 @@ class DerPrivateKeySerializerTest extends AbstractTestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Invalid data: only version 1 (RFC5915) keys are supported.');
 
-        $adapter = EccFactory::getAdapter();
-        $G = EccFactory::getNistCurves($adapter)->generator192();
-        $key = $G->createPrivateKey();
-
-        $derPubSerializer = new DerPublicKeySerializer();
-        $derPrivSerializer = new DerPrivateKeySerializer($adapter, $derPubSerializer);
+        $derPrivSerializer = new DerPrivateKeySerializer();
 
         // I don't actually have a case of a non-v1 key - just substitute self::VERSION with 2
         $privateKeyInfo = new Sequence(
             new Integer(2),
             new OctetString(str_repeat('A', 32)),
-            new ExplicitlyTaggedObject(0, CurveOidMapper::getCurveOid($key->getPoint()->getCurve())),
-            new ExplicitlyTaggedObject(1, new BitString($derPubSerializer->getUncompressedKey($key->getPublicKey())))
+            new OctetString(str_repeat('A', 32)),
+            new OctetString(str_repeat('A', 32)),
         );
 
-        $binary = $privateKeyInfo->getBinary();
+        $binary = $privateKeyInfo->toDER();
         $derPrivSerializer->parse($binary);
     }
 
     public function testParseInvalidASN()
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Invalid data.');
+        $this->expectExceptionMessage('SEQUENCE expected, got primitive INTEGER.');
 
         $asn = new Integer(1);
-        $binary = $asn->getBinary();
+        $binary = $asn->toDER();
 
         $serializer = new DerPrivateKeySerializer();
         $serializer->parse($binary);

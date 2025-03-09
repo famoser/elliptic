@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Serializer\Util;
 
-use FG\ASN1\Universal\ObjectIdentifier;
+use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Mdanter\Ecc\Curves\NamedCurveFp;
 use Mdanter\Ecc\Curves\CurveFactory;
 use Mdanter\Ecc\Curves\NistCurve;
@@ -109,7 +109,7 @@ class CurveOidMapper
      */
     public static function getCurveFromOid(ObjectIdentifier $oid): NamedCurveFp
     {
-        $oidString = $oid->getContent();
+        $oidString = $oid->oid();
         $invertedMap = array_flip(self::$oidMap);
 
         if (array_key_exists($oidString, $invertedMap)) {
@@ -127,7 +127,7 @@ class CurveOidMapper
      */
     public static function getGeneratorFromOid(ObjectIdentifier $oid): GeneratorPoint
     {
-        $oidString = $oid->getContent();
+        $oidString = $oid->oid();
         $invertedMap = array_flip(self::$oidMap);
 
         if (array_key_exists($oidString, $invertedMap)) {

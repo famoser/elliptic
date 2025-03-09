@@ -16,9 +16,8 @@ use Mdanter\Ecc\Serializer\PublicKey\Der\Parser;
  * @link https://tools.ietf.org/html/rfc5480#page-3
  * @todo: review for full spec, should we support all prefixes here?
  */
-class DerPublicKeySerializer implements PublicKeySerializerInterface
+class DerPublicKeySerializer
 {
-
     const X509_ECDSA_OID = '1.2.840.10045.2.1';
 
     /**
@@ -51,29 +50,11 @@ class DerPublicKeySerializer implements PublicKeySerializerInterface
         $this->parser = new Parser($this->adapter, $pointSerializer ?: new UncompressedPointSerializer());
     }
 
-    /**
-     *
-     * @param  PublicKeyInterface $key
-     * @return string
-     */
     public function serialize(PublicKeyInterface $key): string
     {
         return $this->formatter->format($key);
     }
 
-    /**
-     * @param PublicKeyInterface $key
-     * @return string
-     */
-    public function getUncompressedKey(PublicKeyInterface $key): string
-    {
-        return $this->formatter->encodePoint($key->getPoint());
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see \Mdanter\Ecc\Serializer\PublicKey\PublicKeySerializerInterface::parse()
-     */
     public function parse(string $string): PublicKeyInterface
     {
         return $this->parser->parse($string);

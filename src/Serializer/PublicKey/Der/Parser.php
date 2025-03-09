@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Serializer\PublicKey\Der;
 
-use FG\ASN1\ASNObject;
-use FG\ASN1\Identifier;
-use FG\ASN1\Universal\Sequence;
 use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
 use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Serializer\Util\CurveOidMapper;
@@ -14,10 +11,10 @@ use Mdanter\Ecc\Serializer\PublicKey\DerPublicKeySerializer;
 use Mdanter\Ecc\Serializer\Point\PointSerializerInterface;
 use Mdanter\Ecc\Serializer\Point\UncompressedPointSerializer;
 use Mdanter\Ecc\Crypto\Key\PublicKey;
+use Sop\ASN1\Type\UnspecifiedType;
 
 class Parser
 {
-
     /**
      * @var GmpMathInterface
      */
@@ -42,59 +39,24 @@ class Parser
     /**
      * @param string $binaryData
      * @return PublicKeyInterface
-     * @throws \FG\ASN1\Exception\ParserException
      */
     public function parse(string $binaryData): PublicKeyInterface
     {
-        $asnObject = ASNObject::fromBinary($binaryData);
-        if ($asnObject->getType() !== Identifier::SEQUENCE) {
-            throw new \RuntimeException('Invalid data.');
-        }
+        $asnObject = UnspecifiedType::fromDER($binaryData);
 
-        /** @var Sequence $asnObject */
-        if ($asnObject->getNumberofChildren() != 2) {
-            throw new \RuntimeException('Invalid data.');
-        }
+        $sequence  = $asnObject->asSequence();
+        $element0 = $sequence->at(0)->asSequence();
+        $oid = $element0->at(0)->asObjectIdentifier();
+        $curveOid = $element0->at(1)->asObjectIdentifier();
+        $encodedKey = $sequence->at(1)->asBitString();
 
-        $children = $asnObject->getChildren();
-        if (count($children) != 2) {
-            throw new \RuntimeException('Invalid data.');
-        }
-
-        if (count($children) != 2) {
-            throw new \RuntimeException('Invalid data.');
-        }
-
-        if ($children[0]->getType() !== Identifier::SEQUENCE) {
-            throw new \RuntimeException('Invalid data.');
-        }
-
-        if (count($children[0]->getChildren()) != 2) {
-            throw new \RuntimeException('Invalid data.');
-        }
-
-        if ($children[0]->getChildren()[0]->getType() !== Identifier::OBJECT_IDENTIFIER) {
-            throw new \RuntimeException('Invalid data.');
-        }
-
-        if ($children[0]->getChildren()[1]->getType() !== Identifier::OBJECT_IDENTIFIER) {
-            throw new \RuntimeException('Invalid data.');
-        }
-
-        if ($children[1]->getType() !== Identifier::BITSTRING) {
-            throw new \RuntimeException('Invalid data.');
-        }
-
-        $oid = $children[0]->getChildren()[0];
-        $curveOid = $children[0]->getChildren()[1];
-        $encodedKey = $children[1];
-        if ($oid->getContent() !== DerPublicKeySerializer::X509_ECDSA_OID) {
+        if ($oid->oid() !== DerPublicKeySerializer::X509_ECDSA_OID) {
             throw new \RuntimeException('Invalid data: non X509 data.');
         }
 
         $generator = CurveOidMapper::getGeneratorFromOid($curveOid);
 
-        return $this->parseKey($generator, $encodedKey->getContent());
+        return $this->parseKey($generator, $encodedKey->string());
     }
 
     /**
@@ -104,7 +66,7 @@ class Parser
      */
     public function parseKey(GeneratorPoint $generator, string $data): PublicKeyInterface
     {
-        $point = $this->pointSerializer->unserialize($generator->getCurve(), $data);
+        $point = $this->pointSerializer->unserialize($generator->getCurve(), bin2hex($data));
 
         return new PublicKey($this->adapter, $generator, $point);
     }

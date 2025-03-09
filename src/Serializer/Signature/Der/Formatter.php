@@ -3,30 +3,23 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Serializer\Signature\Der;
 
-use FG\ASN1\Universal\Integer;
-use FG\ASN1\Universal\Sequence;
 use Mdanter\Ecc\Crypto\Signature\SignatureInterface;
+use Sop\ASN1\Type\Constructed\Sequence;
+use Sop\ASN1\Type\Primitive\Integer;
 
 class Formatter
 {
     /**
      * @param SignatureInterface $signature
-     * @return Sequence
+     * @return string
      */
-    public function toAsn(SignatureInterface $signature): Sequence
+    public function format(SignatureInterface $signature): string
     {
-        return new Sequence(
+        $asn = new Sequence(
             new Integer(gmp_strval($signature->getR(), 10)),
             new Integer(gmp_strval($signature->getS(), 10))
         );
-    }
 
-    /**
-     * @param SignatureInterface $signature
-     * @return string
-     */
-    public function serialize(SignatureInterface $signature): string
-    {
-        return $this->toAsn($signature)->getBinary();
+        return $asn->toDER();
     }
 }

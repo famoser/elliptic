@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Serializer\Util;
 
-use FG\ASN1\Universal\ObjectIdentifier;
+use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Mdanter\Ecc\Curves\NamedCurveFp;
 use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Primitives\CurveParameters;
