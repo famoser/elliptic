@@ -1,8 +1,8 @@
 {
-    "name": "mdanter/ecc",
+    "name": "famoser/elliptic",
     "description": "PHP Elliptic Curve Cryptography library",
     "type": "library",
-    "homepage": "https://github.com/phpecc/phpecc",
+    "homepage": "https://github.com/famoser/elliptic",
     "keywords": ["secp256k1", "secp256r1", "nistp192", "nistp224", "nistp256", "nistp384", "nistp521", "ECDSA", "diffie", "hellman", "ECDH", "elliptic", "curve", "phpecc"],
     "license": "MIT",
     "authors": [
@@ -21,10 +21,16 @@
             "name": "Thomas Kerin",
             "email": "afk11@users.noreply.github.com",
             "role": "Maintainer"
+        },
+        {
+            "name": "Florian Moser",
+            "email": "git@famoser.ch",
+            "homepage": "https://famoser.ch/",
+            "role": "Maintainer"
         }
     ],
     "require": {
-        "php": "^7.0||^8.0",
+        "php": "^8.1",
         "ext-gmp": "*",
         "fgrosse/phpasn1": "^2.0"
     },
