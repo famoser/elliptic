@@ -1,10 +1,17 @@
 ## Elliptic: Low-level Elliptic Curve Library
 
-This library provides low-level access to elliptic curve computations. 
+This library provides low-level access to elliptic curve computations. It is based on `phpecc/phpecc`, but focuses purely on elliptic curve computations (hence does not provide cryptographic primitives or structures).
 
-This is a work in progress.
+This is a work in progress. Targets:
+- Reduce library to purely expose elliptic curve math
+- Re-vet and document all algorithms
+- Add brainpool & ed25519 curves
 
-The library is based on `phpecc/phpecc`, but focuses purely on elliptic curve computations (hence does not provide cryptographic primitives or structures). 
+This is part of a larger effort:
+- Provide low-level library that executes math on elliptic curves (this project)
+- Provide elliptic-crypto library which exposes general cryptographic primitives (signatures, encryptions and zero-knowledge proofs)
+- Provide more specialized libraries for more exotic cryptographic primitives (verifiable shuffle)
+
 
 ## Why
 
