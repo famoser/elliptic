@@ -44,6 +44,10 @@ class NumberTheory
      */
     private $adapter;
 
+    private \GMP $zero;
+    private \GMP $one;
+    private \GMP $two;
+
     /**
      * @param GmpMathInterface $adapter
      */
