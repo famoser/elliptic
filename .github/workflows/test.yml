@@ -2,15 +2,19 @@ name: Tests
 
 on:
   push:
+    branches: [ "main" ]
   pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '0 0 * * 0'
 
 jobs:
   test:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        operating-system: ['ubuntu-20.04', 'ubuntu-18.04']
-        php-versions: ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0']
+        operating-system: ['ubuntu-24.04', 'ubuntu-20.04']
+        php-versions: ['8.2', '8.3', '8.4']
         phpunit-versions: ['latest']
     steps:
     - name: Checkout
@@ -43,11 +47,7 @@ jobs:
       run: make phpunit-full-ci
 
   coverage:
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      matrix:
-        operating-system: ['ubuntu-20.04']
-        php-versions: ['7.4']
+    runs-on: 'ubuntu-24.04'
 
     steps:
     - name: Checkout
@@ -58,7 +58,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.php-versions }}
+        php-version: '8.2'
         extensions: gmp, xdebug
 
     - name: Get composer cache directory
@@ -76,7 +76,5 @@ jobs:
       run: composer install --prefer-dist
 
     - name: Run tests
-      run: make phpunit-ci
+      run: vendor/bin/phpunit --testsuite Unit --coverage-text --coverage-clover=tests/output/coverage.clover
 
-    - name: Upload coverage to Scrutinizer
-      run: make scrutinizer
