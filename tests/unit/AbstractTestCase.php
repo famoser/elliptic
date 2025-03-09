@@ -14,15 +14,11 @@ abstract class AbstractTestCase extends TestCase
      */
     protected function _getAdapters(array $extra = null)
     {
-        if (! defined('PHPUNIT_DEBUG')) {
+        if (!defined('PHPUNIT_DEBUG')) {
             define('PHPUNIT_DEBUG', false);
         }
 
-        switch (MATH_LIB) {
-            case 'gmp':
-            default:
-                $adapter = MathAdapterFactory::getAdapter(PHPUNIT_DEBUG);
-        }
+        $adapter = MathAdapterFactory::getAdapter(PHPUNIT_DEBUG);
 
         if ($extra == null) {
             return array(
