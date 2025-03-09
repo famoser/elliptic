@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Serializer\Point;
+namespace Mdanter\Ecc\Serializer\Point\Format;
 
-use Mdanter\Ecc\Primitives\PointInterface;
 use Mdanter\Ecc\Primitives\CurveFpInterface;
+use Mdanter\Ecc\Primitives\PointInterface;
+use Mdanter\Ecc\Serializer\Point\PointSerializerInterface;
 use Mdanter\Ecc\Serializer\Util\CurveOidMapper;
 use Mdanter\Ecc\Util\BinaryString;
 
@@ -27,21 +28,28 @@ class UncompressedPointSerializer implements PointSerializerInterface
 
     /**
      * @param CurveFpInterface $curve
-     * @param string           $data
+     * @param string           $point
      * @return PointInterface
      */
-    public function unserialize(CurveFpInterface $curve, string $data): PointInterface
+    public function deserialize(CurveFpInterface $curve, string $point): PointInterface
     {
-        if (BinaryString::substring($data, 0, 2) != '04') {
+        if (!$this->supportsDeserialize($point)) {
             throw new \InvalidArgumentException('Invalid data: only uncompressed keys are supported.');
         }
 
-        $data = BinaryString::substring($data, 2);
-        $dataLength = BinaryString::length($data);
+        $point = BinaryString::substring($point, 2);
+        $dataLength = BinaryString::length($point);
 
-        $x = gmp_init(BinaryString::substring($data, 0, $dataLength / 2), 16);
-        $y = gmp_init(BinaryString::substring($data, $dataLength / 2), 16);
+        $x = gmp_init(BinaryString::substring($point, 0, $dataLength / 2), 16);
+        $y = gmp_init(BinaryString::substring($point, $dataLength / 2), 16);
 
         return $curve->getPoint($x, $y);
+    }
+
+    public function supportsDeserialize(string $point): bool
+    {
+        $prefix = substr($point, 0, 2);
+
+        return $prefix === '04';
     }
 }

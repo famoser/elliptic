@@ -6,7 +6,7 @@ namespace Mdanter\Ecc\Tests\Crypto\EcDH;
 use Mdanter\Ecc\Crypto\EcDH\EcDH;
 use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Exception\ExchangeException;
-use Mdanter\Ecc\Serializer\Point\UncompressedPointSerializer;
+use Mdanter\Ecc\Serializer\Point\Format\UncompressedPointSerializer;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class EcDHTest extends AbstractTestCase
@@ -52,7 +52,7 @@ class EcDHTest extends AbstractTestCase
         $g192Pub = "0468e3642493c4e433a741c78ab67ee607d94925c506e9554d43de2d1c71493334c681cf4683aee863d90e9732745d5bc7";
         $g192 = EccFactory::getNistCurves()->generator192();
 
-        $p2 = (new UncompressedPointSerializer())->unserialize($g192->getCurve(), $g192Pub);
+        $p2 = (new UncompressedPointSerializer())->deserialize($g192->getCurve(), $g192Pub);
         $pubkey = $g192->getPublicKeyFrom($p2->getX(), $p2->getY());
 
         $this->expectException(ExchangeException::class);

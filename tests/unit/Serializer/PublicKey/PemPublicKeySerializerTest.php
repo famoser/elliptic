@@ -15,7 +15,7 @@ class PemPublicKeySerializerTest extends AbstractTestCase
     {
         $der = file_get_contents(__DIR__ . "/../../../data/openssl-secp256r1.1.pub.pem");
         $adapter = EccFactory::getAdapter();
-        $derSerializer = new DerPublicKeySerializer($adapter);
+        $derSerializer = DerPublicKeySerializer::create();
         $pemSerializer = new PemPublicKeySerializer($derSerializer);
         $key = $pemSerializer->parse($der);
         $this->assertInstanceOf(PublicKey::class, $key);
@@ -27,7 +27,7 @@ class PemPublicKeySerializerTest extends AbstractTestCase
         $G = EccFactory::getNistCurves($adapter)->generator192();
         $pubkey = $G->createPrivateKey()->getPublicKey();
 
-        $serializer = new PemPublicKeySerializer(new DerPublicKeySerializer($adapter));
+        $serializer = new PemPublicKeySerializer(DerPublicKeySerializer::create());
         $serialized = $serializer->serialize($pubkey);
         $parsed = $serializer->parse($serialized);
         $this->assertTrue($pubkey->getPoint()->equals($parsed->getPoint()));
