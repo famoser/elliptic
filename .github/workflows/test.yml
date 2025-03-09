@@ -11,70 +11,39 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.operating-system }}
+
     strategy:
       matrix:
         operating-system: ['ubuntu-24.04', 'ubuntu-20.04']
         php-versions: ['8.2', '8.3', '8.4']
         phpunit-versions: ['latest']
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@master
-
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php-versions }}
-        extensions: gmp
-        coverage: none
-
-    - name: Get composer cache directory
-      id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-    - name: Cache dependencies
-      uses: actions/cache@v2
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
-
-    - name: Install dependencies
-      run: composer install --prefer-dist
-
-    - name: Run tests
-      run: make phpunit-full-ci
-
-  coverage:
-    runs-on: 'ubuntu-24.04'
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@master
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-        extensions: gmp, xdebug
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
 
-    - name: Get composer cache directory
-      id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: gmp
+          coverage: none
 
-    - name: Cache dependencies
-      uses: actions/cache@v2
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
 
-    - name: Install dependencies
-      run: composer install --prefer-dist
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-scripts
 
-    - name: Run tests
-      run: vendor/bin/phpunit --testsuite Unit --coverage-text --coverage-clover=tests/output/coverage.clover
+      - name: Run tests
+        run: vendor/bin/phpunit
 

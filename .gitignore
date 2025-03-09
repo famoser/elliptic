@@ -1,5 +1,5 @@
-tests/output
-vendor/
-
 .idea
 .phpunit.result.cache
+clover.xml
+
+vendor/
