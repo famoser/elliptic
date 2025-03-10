@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Serializer\PublicKey;
+namespace Mdanter\Ecc\Integration\Utils\DER;
 
 use Mdanter\Ecc\Crypto\Key\PublicKey;
 use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
@@ -10,8 +10,6 @@ use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Math\MathAdapterFactory;
 use Mdanter\Ecc\Serializer\Point\ChainedPointSerializer;
 use Mdanter\Ecc\Serializer\Point\PointSerializerInterface;
-use Mdanter\Ecc\Serializer\PublicKey\Der\Formatter;
-use Mdanter\Ecc\Serializer\PublicKey\Der\Parser;
 use Mdanter\Ecc\Serializer\Util\CurveOidMapper;
 use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\BitString;
@@ -22,7 +20,6 @@ use function hex2bin;
 /**
  *
  * @link https://tools.ietf.org/html/rfc5480#page-3
- * @todo: review for full spec, should we support all prefixes here?
  */
 class DerPublicKeySerializer
 {

@@ -10,8 +10,8 @@ use Mdanter\Ecc\Crypto\Signature\SignatureInterface;
 use Mdanter\Ecc\Crypto\Signature\Signer;
 use Mdanter\Ecc\Curves\CurveFactory;
 use Mdanter\Ecc\Exception\SignatureDecodeException;
+use Mdanter\Ecc\Integration\Utils\DER\DerSignatureSerializer;
 use Mdanter\Ecc\Primitives\GeneratorPoint;
-use Mdanter\Ecc\Serializer\Signature\DerSignatureSerializer;
 
 class EcdsaTest extends AbstractTestCase
 {
