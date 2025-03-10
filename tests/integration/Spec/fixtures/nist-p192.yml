@@ -1,4 +1,4 @@
-name: nistp192
+curve: nistp192
 diffie:
   # https://tools.ietf.org/html/rfc5114.html
   -
@@ -59,7 +59,7 @@ pubkey:
 
  # FIPS 186-2 http://csrc.nist.gov/groups/STM/cavp/documents/dss/186-2ecdsatestvectors.zip
  # sha256sum: 4c5d7c93858fa90be65fe94f7d8941e5a0eab3ca291937e046513ad2f0886e47  186-2ecdsatestvectors.zip
- 
+
  -
    x: 491c0c4761b0a4a147b5e4ce03a531546644f5d1e3d05e57
    y: 6fa5addd47c5d6be3933fbff88f57a6c8ca0232c471965de

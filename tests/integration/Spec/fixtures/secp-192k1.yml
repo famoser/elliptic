@@ -1,5 +1,5 @@
 #http://www.secg.org/sec2-v2.pdf
-name: secp192k1
+curve: secp192k1
 
 ecdsa:
   # http://cryptomanager.com/tv.html
