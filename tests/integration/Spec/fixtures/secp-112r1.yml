@@ -1,4 +1,4 @@
-name: secp112r1
+curve: secp112r1
 # Another curve lacking known test vectors
 # first two come from
 # https://github.com/johndoe31415/joeecc/blob/28e112174b924dd264f43b82577a4e5ca07e66df/ecc/tests/PointSerializationTests.py#L55
@@ -24,4 +24,3 @@ diffie:
     alice: 2064809010051183441879192690292545
     bob: 1150006935877392410123302408654323
     shared: 50a78c813b49f9a6a7255a2ab725
-hmac: []

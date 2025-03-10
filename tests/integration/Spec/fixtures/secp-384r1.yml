@@ -1,4 +1,4 @@
-name: secp384r1
+curve: secp384r1
 keypairs:
   -
     # http://www.ietf.org/rfc/rfc5903.txt 8.2

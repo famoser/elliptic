@@ -1,6 +1,6 @@
 # http://crypto.stackexchange.com/questions/784/are-there-any-secp256k1-ecdsa-test-examples-available/787#787
 # Hard to find an official set...
-name: secp256k1
+curve: secp256k1
 keypairs:
   -
     k: 77059549740374936337596179780007572461065571555507600191520924336939429631266
