@@ -5,7 +5,6 @@ namespace Mdanter\Ecc\Random;
 
 use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
 use Mdanter\Ecc\Math\GmpMathInterface;
-use Mdanter\Ecc\Util\BinaryString;
 use Mdanter\Ecc\Util\NumberSize;
 
 class HmacRandomNumberGenerator implements RandomNumberGeneratorInterface
@@ -67,7 +66,7 @@ class HmacRandomNumberGenerator implements RandomNumberGeneratorInterface
      */
     public function bits2int(string $bits, \GMP $qlen): \GMP
     {
-        $vlen = gmp_init(BinaryString::length($bits) * 8, 10);
+        $vlen = gmp_init(strlen($bits) * 8, 10);
         $hex = bin2hex($bits);
         $v = gmp_init($hex, 16);
 
@@ -86,13 +85,13 @@ class HmacRandomNumberGenerator implements RandomNumberGeneratorInterface
     public function int2octets(\GMP $int, \GMP $rlen): string
     {
         $out = pack("H*", $this->math->decHex(gmp_strval($int, 10)));
-        $length = gmp_init(BinaryString::length($out), 10);
+        $length = gmp_init(strlen($out), 10);
         if ($this->math->cmp($length, $rlen) < 0) {
             return str_pad('', (int) $this->math->toString($this->math->sub($rlen, $length)), "\x00") . $out;
         }
 
         if ($this->math->cmp($length, $rlen) > 0) {
-            return BinaryString::substring($out, 0, (int) $this->math->toString($rlen));
+            return substr($out, 0, (int)$this->math->toString($rlen));
         }
 
         return $out;
@@ -133,8 +132,8 @@ class HmacRandomNumberGenerator implements RandomNumberGeneratorInterface
             while ($this->math->cmp($toff, $rlen) < 0) {
                 $v = hash_hmac($this->algorithm, $v, $k, true);
 
-                $cc = min(BinaryString::length($v), (int) gmp_strval(gmp_sub($rlen, $toff), 10));
-                $t .= BinaryString::substring($v, 0, $cc);
+                $cc = min(strlen($v), (int) gmp_strval(gmp_sub($rlen, $toff), 10));
+                $t .= substr($v, 0, $cc);
                 $toff = gmp_add($toff, $cc);
             }
 

@@ -5,7 +5,6 @@ namespace Mdanter\Ecc\Crypto\Signature;
 use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Primitives\GeneratorPoint;
-use Mdanter\Ecc\Util\BinaryString;
 use Mdanter\Ecc\Util\NumberSize;
 
 class SignHasher implements HasherInterface
@@ -79,11 +78,11 @@ class SignHasher implements HasherInterface
     public function truncateForECDSA(\GMP $hash, GeneratorPoint $G)
     {
         $hashBits = gmp_strval($hash, 2);
-        if (BinaryString::length($hashBits) < self::$sizeMap[$this->algorithm] * 8) {
+        if (strlen($hashBits) < self::$sizeMap[$this->algorithm] * 8) {
             $hashBits = str_pad($hashBits, self::$sizeMap[$this->algorithm] * 8, '0', STR_PAD_LEFT);
         }
 
-        return gmp_init(BinaryString::substring($hashBits, 0, NumberSize::bnNumBits($this->adapter, $G->getOrder())), 2);
+        return gmp_init(substr($hashBits, 0, NumberSize::bnNumBits($this->adapter, $G->getOrder())), 2);
     }
 
     /**

@@ -7,7 +7,6 @@ namespace Mdanter\Ecc\Crypto\Signature;
 use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
 use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
-use Mdanter\Ecc\Util\BinaryString;
 
 class Signer
 {
@@ -85,6 +84,6 @@ class Signer
         $xy = $generator->mul($u1)->add($key->getPoint()->mul($u2));
         $v = $math->mod($xy->getX(), $n);
 
-        return BinaryString::constantTimeCompare($math->toString($v), $math->toString($r));
+        return hash_equals($math->toString($v), $math->toString($r));
     }
 }

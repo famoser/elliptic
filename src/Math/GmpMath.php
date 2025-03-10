@@ -2,7 +2,6 @@
 
 namespace Mdanter\Ecc\Math;
 
-use Mdanter\Ecc\Util\BinaryString;
 use Mdanter\Ecc\Util\NumberSize;
 
 class GmpMath implements GmpMathInterface
@@ -25,7 +24,7 @@ class GmpMath implements GmpMathInterface
     {
         return gmp_cmp($first, $other) === 0;
     }
-    
+
     /**
      * {@inheritDoc}
      * @see GmpMathInterface::mod()
@@ -150,7 +149,7 @@ class GmpMath implements GmpMathInterface
 
         $hex = gmp_strval($dec, 16);
 
-        if (BinaryString::length($hex) % 2 != 0) {
+        if (strlen($hex) % 2 != 0) {
             $hex = '0'.$hex;
         }
 
@@ -257,7 +256,7 @@ class GmpMath implements GmpMathInterface
 
         $hex = gmp_strval($x, 16);
 
-        if (BinaryString::length($hex) % 2 != 0) {
+        if (strlen($hex) % 2 != 0) {
             $hex = '0'.$hex;
         }
 
@@ -271,7 +270,7 @@ class GmpMath implements GmpMathInterface
     public function stringToInt(string $s): \GMP
     {
         $result = gmp_init(0, 10);
-        $sLen = BinaryString::length($s);
+        $sLen = strlen($s);
 
         for ($c = 0; $c < $sLen; $c ++) {
             $result = gmp_add(gmp_mul(256, $result), gmp_init(ord($s[$c]), 10));
