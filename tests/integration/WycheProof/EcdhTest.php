@@ -9,10 +9,10 @@ use Mdanter\Ecc\Exception\ExchangeException;
 use Mdanter\Ecc\Exception\PointNotOnCurveException;
 use Mdanter\Ecc\Exception\PointRecoveryException;
 use Mdanter\Ecc\Exception\UnsupportedCurveException;
+use Mdanter\Ecc\Integration\Utils\DER\DerPublicKeySerializer;
 use Mdanter\Ecc\Math\GmpMath;
 use Mdanter\Ecc\Serializer\Point\Format\CompressedPointSerializer;
 use Mdanter\Ecc\Serializer\Point\Format\UncompressedPointSerializer;
-use Mdanter\Ecc\Serializer\PublicKey\DerPublicKeySerializer;
 
 class EcdhTest extends AbstractTestCase
 {
