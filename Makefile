@@ -9,9 +9,6 @@ phpunit: pretest
 		mkdir -p tests/output
 		vendor/bin/phpunit --coverage-text --coverage-clover=tests/output/coverage.clover --coverage-html=tests/output/Results
 
-test-examples:
-		./validate_examples.sh
-
 phpunit-ci: pretest
 		vendor/bin/phpunit --coverage-text --coverage-clover=tests/output/coverage.clover
 
