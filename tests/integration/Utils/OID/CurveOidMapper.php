@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Serializer\Util;
+namespace Mdanter\Ecc\Integration\Utils\OID;
 
-use Sop\ASN1\Type\Primitive\ObjectIdentifier;
-use Mdanter\Ecc\Curves\NamedCurveFp;
 use Mdanter\Ecc\Curves\CurveFactory;
+use Mdanter\Ecc\Curves\NamedCurveFp;
 use Mdanter\Ecc\Curves\NistCurve;
 use Mdanter\Ecc\Curves\SecgCurve;
 use Mdanter\Ecc\Exception\UnsupportedCurveException;
 use Mdanter\Ecc\Primitives\CurveFpInterface;
 use Mdanter\Ecc\Primitives\GeneratorPoint;
+use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 
 class CurveOidMapper
 {
@@ -52,43 +52,6 @@ class CurveOidMapper
     );
 
     /**
-     * @var array
-     */
-    private static $sizeMap = array(
-        NistCurve::NAME_P192 => 24,
-        NistCurve::NAME_P224 => 28,
-        NistCurve::NAME_P256 => 32,
-        NistCurve::NAME_P384 => 48,
-        NistCurve::NAME_P521 => 66,
-        SecgCurve::NAME_SECP_112R1 => 14,
-        SecgCurve::NAME_SECP_192K1 => 24,
-        SecgCurve::NAME_SECP_256K1 => 32,
-        SecgCurve::NAME_SECP_256R1 => 32,
-        SecgCurve::NAME_SECP_384R1 => 48,
-    );
-
-    /**
-     * @return array
-     */
-    public static function getNames(): array
-    {
-        return array_keys(self::$oidMap);
-    }
-
-    /**
-     * @param CurveFpInterface $curve
-     * @return int
-     */
-    public static function getByteSize(CurveFpInterface $curve): int
-    {
-        if ($curve instanceof NamedCurveFp && array_key_exists($curve->getName(), self::$sizeMap)) {
-            return self::$sizeMap[$curve->getName()];
-        }
-
-        throw new UnsupportedCurveException('Unsupported curve type');
-    }
-
-    /**
      * @param NamedCurveFp $curve
      * @return ObjectIdentifier
      */
@@ -101,24 +64,6 @@ class CurveOidMapper
         }
 
         throw new UnsupportedCurveException('Unsupported curve type');
-    }
-
-    /**
-     * @param ObjectIdentifier $oid
-     * @return NamedCurveFp
-     */
-    public static function getCurveFromOid(ObjectIdentifier $oid): NamedCurveFp
-    {
-        $oidString = $oid->oid();
-        $invertedMap = array_flip(self::$oidMap);
-
-        if (array_key_exists($oidString, $invertedMap)) {
-            return CurveFactory::getCurveByName($invertedMap[$oidString]);
-        }
-
-        $error = new UnsupportedCurveException('Invalid data: unsupported curve.');
-        $error->setOid($oidString);
-        throw $error;
     }
 
     /**

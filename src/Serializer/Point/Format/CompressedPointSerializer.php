@@ -7,7 +7,7 @@ use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Primitives\CurveFpInterface;
 use Mdanter\Ecc\Primitives\PointInterface;
 use Mdanter\Ecc\Serializer\Point\PointSerializerInterface;
-use Mdanter\Ecc\Serializer\Util\CurveOidMapper;
+use Mdanter\Ecc\Serializer\Point\PointSize;
 
 class CompressedPointSerializer implements PointSerializerInterface
 {
@@ -22,7 +22,7 @@ class CompressedPointSerializer implements PointSerializerInterface
     public function serialize(PointInterface $point): string
     {
         $isEven = $this->adapter->equals($this->adapter->mod($point->getY(), gmp_init(2, 10)), gmp_init(0));
-        $length = CurveOidMapper::getByteSize($point->getCurve()) * 2;
+        $length = PointSize::getByteSize($point->getCurve()) * 2;
 
         $hexString = $isEven ? '02' : '03';
         $hexString .= str_pad(gmp_strval($point->getX(), 16), $length, '0', STR_PAD_LEFT);
