@@ -7,7 +7,6 @@ use Mdanter\Ecc\Primitives\CurveFpInterface;
 use Mdanter\Ecc\Primitives\PointInterface;
 use Mdanter\Ecc\Serializer\Point\PointSerializerInterface;
 use Mdanter\Ecc\Serializer\Point\PointSize;
-use Mdanter\Ecc\Util\BinaryString;
 
 class UncompressedPointSerializer implements PointSerializerInterface
 {
@@ -37,11 +36,11 @@ class UncompressedPointSerializer implements PointSerializerInterface
             throw new \InvalidArgumentException('Invalid data: only uncompressed keys are supported.');
         }
 
-        $point = BinaryString::substring($point, 2);
-        $dataLength = BinaryString::length($point);
+        $point = substr($point, 2);
+        $coordinateLength = strlen($point) / 2;
 
-        $x = gmp_init(BinaryString::substring($point, 0, $dataLength / 2), 16);
-        $y = gmp_init(BinaryString::substring($point, $dataLength / 2), 16);
+        $x = gmp_init(substr($point, 0, $coordinateLength), 16);
+        $y = gmp_init(substr($point, $coordinateLength), 16);
 
         return $curve->getPoint($x, $y);
     }
