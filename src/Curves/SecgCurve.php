@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Curves;
 
+use Mdanter\Ecc\Math\GmpMath;
 use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Primitives\CurveParameters;
 use Mdanter\Ecc\Primitives\GeneratorPoint;
@@ -54,6 +55,11 @@ class SecgCurve
     public function __construct(GmpMathInterface $adapter)
     {
         $this->adapter = $adapter;
+    }
+
+    public static function create(): self
+    {
+        return new self(new GmpMath());
     }
 
     /**
