@@ -10,7 +10,7 @@ use Mdanter\Ecc\Crypto\Signature\SignatureInterface;
 use Mdanter\Ecc\Crypto\Signature\Signer;
 use Mdanter\Ecc\Curves\CurveFactory;
 use Mdanter\Ecc\Exception\SignatureDecodeException;
-use Mdanter\Ecc\Integration\Utils\DER\DerSignatureSerializer;
+use Mdanter\Ecc\Integration\Utils\DER\UnsafeDerSignatureSerializer;
 use Mdanter\Ecc\Primitives\GeneratorPoint;
 
 class EcdsaTest extends AbstractTestCase
@@ -223,7 +223,7 @@ class EcdsaTest extends AbstractTestCase
         $signer = new Signer($generator->getAdapter());
 
         try {
-            $sigSer = new DerSignatureSerializer();
+            $sigSer = new UnsafeDerSignatureSerializer();
             $sig = $sigSer->parse(hex2bin($sigHex));
             $hash = $hasher->makeHash(hex2bin($message), $generator);
             $verified = $signer->verify($publicKey, $sig, $hash);

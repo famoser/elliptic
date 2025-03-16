@@ -18,10 +18,11 @@ use Sop\ASN1\Type\UnspecifiedType;
 use function hex2bin;
 
 /**
- *
+ * For testing purposes only
+ * 
  * @link https://tools.ietf.org/html/rfc5480#page-3
  */
-class DerPublicKeySerializer
+class UnsafeDerPublicKeySerializer
 {
     const X509_ECDSA_OID = '1.2.840.10045.2.1';
 
@@ -46,7 +47,7 @@ class DerPublicKeySerializer
 
         $sequence = new Sequence(
             new Sequence(
-                new ObjectIdentifier(DerPublicKeySerializer::X509_ECDSA_OID),
+                new ObjectIdentifier(UnsafeDerPublicKeySerializer::X509_ECDSA_OID),
                 CurveOidMapper::getCurveOid($curveFp)
             ),
             new BitString(hex2bin($public))
@@ -65,7 +66,7 @@ class DerPublicKeySerializer
         $curveOid = $element0->at(1)->asObjectIdentifier();
         $encodedKey = $sequence->at(1)->asBitString();
 
-        if ($oid->oid() !== DerPublicKeySerializer::X509_ECDSA_OID) {
+        if ($oid->oid() !== UnsafeDerPublicKeySerializer::X509_ECDSA_OID) {
             throw new \RuntimeException('Invalid data: non X509 data.');
         }
 

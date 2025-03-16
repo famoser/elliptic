@@ -5,6 +5,7 @@ namespace Mdanter\Ecc\Serializer\Point\Format;
 
 use Mdanter\Ecc\Primitives\CurveFpInterface;
 use Mdanter\Ecc\Primitives\PointInterface;
+use Mdanter\Ecc\Serializer\Point\PointDecodingException;
 use Mdanter\Ecc\Serializer\Point\PointSerializerInterface;
 use Mdanter\Ecc\Serializer\Point\PointSize;
 
@@ -33,7 +34,7 @@ class UncompressedPointSerializer implements PointSerializerInterface
     public function deserialize(CurveFpInterface $curve, string $point): PointInterface
     {
         if (!$this->supportsDeserialize($point)) {
-            throw new \InvalidArgumentException('Invalid data: only uncompressed keys are supported.');
+            throw new PointDecodingException('Invalid data: only uncompressed keys are supported.');
         }
 
         $point = substr($point, 2);

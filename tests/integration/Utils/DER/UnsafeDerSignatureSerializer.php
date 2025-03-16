@@ -9,7 +9,7 @@ use Sop\ASN1\Type\Constructed\Sequence;
 use Sop\ASN1\Type\Primitive\Integer;
 use Sop\ASN1\Type\UnspecifiedType;
 
-class DerSignatureSerializer
+class UnsafeDerSignatureSerializer
 {
     /**
      * @param SignatureInterface $signature

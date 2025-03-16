@@ -39,7 +39,7 @@ class ChainedPointSerializer implements PointSerializerInterface
             }
         }
 
-        throw new \InvalidArgumentException('No serializer available for this point.');
+        throw new PointDecodingException('No serializer available for this point.');
     }
 
     public function supportsDeserialize(string $point): bool
@@ -50,6 +50,6 @@ class ChainedPointSerializer implements PointSerializerInterface
             }
         }
 
-        throw new \InvalidArgumentException('No serializer available for this point.');
+        return false;
     }
 }
