@@ -6,7 +6,7 @@ namespace Mdanter\Ecc\Integration\Utils\OID;
 use Mdanter\Ecc\Curves\CurveFactory;
 use Mdanter\Ecc\Curves\NamedCurveFp;
 use Mdanter\Ecc\Curves\NistCurve;
-use Mdanter\Ecc\Curves\SecgCurve;
+use Mdanter\Ecc\Curves\SecpCurves;
 use Mdanter\Ecc\Exception\UnsupportedCurveException;
 use Mdanter\Ecc\Primitives\CurveFpInterface;
 use Mdanter\Ecc\Primitives\GeneratorPoint;
@@ -25,15 +25,21 @@ class CurveOidMapper
 
     const NIST_P521_OID = '1.3.132.0.35';
 
-    const SECP_112R1_OID = '1.3.132.0.6';
-
     const SECP_192K1_OID = '1.3.132.0.31';
+
+    const SECP_192R1_OID = '1.2.840.10045.3.1.1';
+
+    const SECP_224K1_OID = '1.3.132.0.32';
+
+    const SECP_224R1_OID = '1.3.132.0.33';
 
     const SECP_256K1_OID = '1.3.132.0.10';
 
     const SECP_256R1_OID = '1.2.840.10045.3.1.7';
 
     const SECP_384R1_OID = '1.3.132.0.34';
+
+    const SECP_521R1_OID = '1.3.132.0.35';
 
     /**
      * @var array
@@ -44,11 +50,14 @@ class CurveOidMapper
         NistCurve::NAME_P256 => self::NIST_P256_OID,
         NistCurve::NAME_P384 => self::NIST_P384_OID,
         NistCurve::NAME_P521 => self::NIST_P521_OID,
-        SecgCurve::NAME_SECP_112R1 => self::SECP_112R1_OID,
-        SecgCurve::NAME_SECP_192K1 => self::SECP_192K1_OID,
-        SecgCurve::NAME_SECP_256K1 => self::SECP_256K1_OID,
-        SecgCurve::NAME_SECP_256R1 => self::SECP_256R1_OID,
-        SecgCurve::NAME_SECP_384R1 => self::SECP_384R1_OID,
+        SecpCurves::NAME_SECP_192R1 => self::SECP_192R1_OID,
+        SecpCurves::NAME_SECP_192K1 => self::SECP_192K1_OID,
+        SecpCurves::NAME_SECP_224R1 => self::SECP_224R1_OID,
+        SecpCurves::NAME_SECP_224K1 => self::SECP_224K1_OID,
+        SecpCurves::NAME_SECP_256R1 => self::SECP_256R1_OID,
+        SecpCurves::NAME_SECP_256K1 => self::SECP_256K1_OID,
+        SecpCurves::NAME_SECP_384R1 => self::SECP_384R1_OID,
+        SecpCurves::NAME_SECP_521R1 => self::SECP_521R1_OID,
     );
 
     /**

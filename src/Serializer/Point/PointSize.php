@@ -4,7 +4,7 @@ namespace Mdanter\Ecc\Serializer\Point;
 
 use Mdanter\Ecc\Curves\NamedCurveFp;
 use Mdanter\Ecc\Curves\NistCurve;
-use Mdanter\Ecc\Curves\SecgCurve;
+use Mdanter\Ecc\Curves\SecpCurves;
 use Mdanter\Ecc\Exception\UnsupportedCurveException;
 use Mdanter\Ecc\Primitives\CurveFpInterface;
 
@@ -19,11 +19,14 @@ class PointSize
         NistCurve::NAME_P256 => 32,
         NistCurve::NAME_P384 => 48,
         NistCurve::NAME_P521 => 66,
-        SecgCurve::NAME_SECP_112R1 => 14,
-        SecgCurve::NAME_SECP_192K1 => 24,
-        SecgCurve::NAME_SECP_256K1 => 32,
-        SecgCurve::NAME_SECP_256R1 => 32,
-        SecgCurve::NAME_SECP_384R1 => 48,
+        SecpCurves::NAME_SECP_192R1 => 24,
+        SecpCurves::NAME_SECP_192K1 => 24,
+        SecpCurves::NAME_SECP_224R1 => 28,
+        SecpCurves::NAME_SECP_224K1 => 28,
+        SecpCurves::NAME_SECP_256R1 => 32,
+        SecpCurves::NAME_SECP_256K1 => 32,
+        SecpCurves::NAME_SECP_384R1 => 48,
+        SecpCurves::NAME_SECP_521R1 => 66,
     );
 
     /**
