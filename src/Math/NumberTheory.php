@@ -197,7 +197,7 @@ class NumberTheory
 
             $jac = $math->jacobi($a, $p);
             if ($jac === -1) {
-                throw new SquareRootException("{$math->toString($a)} has no square root modulo {$math->toString($p)}");
+                throw new SquareRootException("{$math->toString($a)} has no square root modulo {$math->toString($p)}", SquareRootException::CODE_JACOBI);
             }
 
             if ($math->equals($math->mod($p, $four), gmp_init(3, 10))) {
@@ -266,6 +266,6 @@ class NumberTheory
             }
         }
 
-        throw new SquareRootException('Unable to calculate square root mod p!');
+        throw new SquareRootException('Unable to calculate square root mod p!', SquareRootException::CODE_GENERAL);
     }
 }

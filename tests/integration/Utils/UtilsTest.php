@@ -5,8 +5,8 @@ namespace Mdanter\Ecc\Integration\Utils;
 use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
 use Mdanter\Ecc\Crypto\Signature\Signature;
 use Mdanter\Ecc\EccFactory;
-use Mdanter\Ecc\Integration\Utils\DER\DerPublicKeySerializer;
-use Mdanter\Ecc\Integration\Utils\DER\DerSignatureSerializer;
+use Mdanter\Ecc\Integration\Utils\DER\UnsafeDerPublicKeySerializer;
+use Mdanter\Ecc\Integration\Utils\DER\UnsafeDerSignatureSerializer;
 use Mdanter\Ecc\Math\GmpMath;
 use Mdanter\Ecc\Random\RandomGeneratorFactory;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +21,7 @@ class UtilsTest extends TestCase
         array_pop($pemLines); // remove footer
         $pemContent = base64_decode(implode("\n", $pemLines));
 
-        $derSerializer = DerPublicKeySerializer::create();
+        $derSerializer = UnsafeDerPublicKeySerializer::create();
         $key = $derSerializer->parse($pemContent);
         $this->assertInstanceOf(PublicKeyInterface::class, $key);
     }
@@ -32,7 +32,7 @@ class UtilsTest extends TestCase
         $G = EccFactory::getNistCurves($adapter)->generator192();
         $pubkey = $G->createPrivateKey()->getPublicKey();
 
-        $serializer = DerPublicKeySerializer::create();
+        $serializer = UnsafeDerPublicKeySerializer::create();
         $serialized = $serializer->serialize($pubkey);
         $parsed = $serializer->parse($serialized);
         $this->assertTrue($pubkey->getPoint()->equals($parsed->getPoint()));
@@ -42,8 +42,8 @@ class UtilsTest extends TestCase
 
     /**
      * This unit test was taken over from the original authors.
-     * However, optimally the {@link DerSignatureSerializer} should be analogue to the {@link DerPublicKeySerializer} tests.
-     * Preferable is the way the {@link DerPublicKeySerializer} is tested: Read from content produced by trusted library, then do a consistency check.
+     * However, optimally the {@link UnsafeDerSignatureSerializer} should be analogue to the {@link UnsafeDerPublicKeySerializer} tests.
+     * Preferable is the way the {@link UnsafeDerPublicKeySerializer} is tested: Read from content produced by trusted library, then do a consistency check.
      * As these serializers are only relevant for the test itself, testing these serializers has comparatively lower priority.
      */
     public function testDERSignatureSerializerWrites()
@@ -52,7 +52,7 @@ class UtilsTest extends TestCase
         $s = gmp_init('32925333523544781093325025052915296870609904100588287156912210086353851961511', 10);
         $expected = strtolower('304402202130E7D504C4A498C3B3C7C0FED6DE2A84811A3BD89BADB8627658F2B1EA5029022048CB1410308E3EFC512B4CE0974F6D0869E9454095C8855ABEA6B6325A40D0A7');
         $signature = new Signature($r, $s);
-        $serializer = new DerSignatureSerializer();
+        $serializer = new UnsafeDerSignatureSerializer();
         $serialized = bin2hex($serializer->serialize($signature));
         $this->assertEquals($expected, $serialized);
     }
@@ -61,7 +61,7 @@ class UtilsTest extends TestCase
     {
         $math = new GmpMath();
         $rbg = RandomGeneratorFactory::getRandomGenerator();
-        $serializer = new DerSignatureSerializer();
+        $serializer = new UnsafeDerSignatureSerializer();
 
         $i = 256;
         $max = $math->sub($math->pow(gmp_init(2, 10), $i), gmp_init(1, 10));
