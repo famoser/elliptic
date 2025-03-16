@@ -19,7 +19,8 @@ use function hex2bin;
 
 /**
  * For testing purposes only
- * 
+ *
+ * @deprecated
  * @link https://tools.ietf.org/html/rfc5480#page-3
  */
 class UnsafeDerPublicKeySerializer
