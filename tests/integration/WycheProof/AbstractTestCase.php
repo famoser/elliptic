@@ -10,6 +10,9 @@ use Mdanter\Ecc\Curves\SecpCurves;
 use Mdanter\Ecc\Math\MathAdapterFactory;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @deprecated
+ */
 abstract class AbstractTestCase extends TestCase
 {
     protected $hashFunctions = [

@@ -13,6 +13,9 @@ use Mdanter\Ecc\Exception\SignatureDecodeException;
 use Mdanter\Ecc\Integration\Utils\DER\UnsafeDerSignatureSerializer;
 use Mdanter\Ecc\Primitives\GeneratorPoint;
 
+/**
+ * @deprecated
+ */
 class EcdsaTest extends AbstractTestCase
 {
     private function filterSet(array $fixtures, array $limitToCurves, array $disabledFlags): array
