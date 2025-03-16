@@ -39,7 +39,6 @@ class EcdsaVerifyTest extends TestCase
                     $generator,
                     gmp_init($fixture['x'], 16),
                     gmp_init($fixture['y'], 16),
-                    gmp_init($fixture['k'], 16),
                     gmp_init($fixture['r'], 16),
                     gmp_init($fixture['s'], 16),
                     $message,
@@ -55,7 +54,7 @@ class EcdsaVerifyTest extends TestCase
     /**
      * @dataProvider getEcdsaSignFixtures
      */
-    public function testEcdsaSign(GeneratorPoint $G, \GMP $x, \GMP $y, \GMP $k, \GMP $eR, \GMP $eS, \GMP $message, bool $expectedResult)
+    public function testEcdsaSign(GeneratorPoint $G, \GMP $x, \GMP $y, \GMP $eR, \GMP $eS, \GMP $message, bool $expectedResult)
     {
         $math = $G->getAdapter();
         $signer = new Signer($math);
