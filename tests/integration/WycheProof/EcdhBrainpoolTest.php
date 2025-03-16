@@ -11,9 +11,10 @@ use Mdanter\Ecc\Exception\PointRecoveryException;
 use Mdanter\Ecc\Exception\SquareRootException;
 use Mdanter\Ecc\Integration\Utils\DER\UnsafeDerPublicKeySerializer;
 use Mdanter\Ecc\Serializer\Point\PointDecodingException;
+use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertEquals;
 
-class NewEcdhTest
+class EcdhBrainpoolTest extends TestCase
 {
     private function readTestvectors(string $curve): array
     {
@@ -66,18 +67,18 @@ class NewEcdhTest
         return $results;
     }
 
-    public function getSecp256r1Fixtures(): array
+    public function getBrainpoolP224r1Fixtures(): array
     {
-        $testvectors = $this->readTestvectors("secp256r1");
+        $testvectors = $this->readTestvectors("brainpoolP224r1");
         return $this->createFilteredFixtures($testvectors);
     }
 
     /**
-     * @dataProvider getSecp256r1Fixtures
+     * @dataProvider getBrainpoolP224r1Fixtures
      */
-    public function testSecp256r1(string $comment, string $public, string $private, string $shared, string $result, array $flags)
+    public function testBrainpoolP224r1Fixtures(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
-        return $this->testCurve("secp256r1", $comment, $public, $private, $shared, $result, $flags);
+        $this->testCurve("brainpoolP224r1", $comment, $public, $private, $shared, $result, $flags);
     }
 
     private const POINT_NOT_ON_CURVE_COMMENT_WHITELIST = [
