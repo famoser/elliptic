@@ -13,7 +13,7 @@ use Mdanter\Ecc\Integration\Utils\DER\UnsafeDerPublicKeySerializer;
 use Mdanter\Ecc\Serializer\Point\PointDecodingException;
 use function PHPUnit\Framework\assertEquals;
 
-class NewEccdhTest extends AbstractTestCase
+class NewEcdhTest
 {
     private function readTestvectors(string $curve): array
     {
