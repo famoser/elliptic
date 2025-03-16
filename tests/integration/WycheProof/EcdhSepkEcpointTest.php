@@ -20,53 +20,44 @@ use function PHPUnit\Framework\assertEquals;
 
 class EcdhSepkEcpointTest extends TestCase
 {
-    private function readTestvectors(string $curve): array
+    private function getFixtures(string $testcase): array
     {
-        $path = __DIR__ . "/fixtures/testvectors/ecdh_{$curve}_ecpoint_test.json";
-        $testvectorsJson = file_get_contents($path);
-        if (!$testvectorsJson) {
-            throw new \InvalidArgumentException("Failed to read test fixture file $path");
-        }
-
-        return json_decode($testvectorsJson, true);
-    }
-
-    private function createFilteredFixtures(array $testvectors): array
-    {
-        $results = [];
-
-        assert(1 === count($testvectors['testGroups']));
-
-        foreach ($testvectors['testGroups'][0]['tests'] as $testvector) {
-            $tcId = "tcId: " . $testvector['tcId'];
-
-            $results[$tcId] = [
-                $testvector['comment'],
-                $testvector['public'],
-                $testvector['private'],
-                $testvector['shared'],
-                $testvector['result'],
-                $testvector['flags'] ?? [],
-            ];
-        }
-
-        return $results;
-    }
-
-    public function getSecp256r1Fixtures(): array
-    {
-        $testvectors = $this->readTestvectors("secp256r1");
-        return $this->createFilteredFixtures($testvectors);
+        $curve = str_replace('testSecp', 'secp', $testcase);
+        return FixturesRepository::createEcdhEcpointFixtures($curve);
     }
 
     /**
-     * @dataProvider getSecp256r1Fixtures
+     * @dataProvider getFixtures
+     */
+    public function testSecp224r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
+    {
+        $this->markTestSkipped();
+    }
+
+    /**
+     * @dataProvider getFixtures
      */
     public function testSecp256r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
-        $math = new GmpMath();
-        $generator = (new SecgCurve($math))->generator256r1();
+        $generator = SecgCurve::create()->generator256r1();
         $this->testCurve($generator, $comment, $public, $private, $shared, $result, $flags);
+    }
+
+    /**
+     * @dataProvider getFixtures
+     */
+    public function testSecp384r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
+    {
+        $generator = SecgCurve::create()->generator384r1();
+        $this->testCurve($generator, $comment, $public, $private, $shared, $result, $flags);
+    }
+
+    /**
+     * @dataProvider getFixtures
+     */
+    public function testSecp521r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
+    {
+        $this->markTestSkipped();
     }
 
     private const POINT_NOT_ON_CURVE_COMMENT_WHITELIST = [
@@ -116,7 +107,7 @@ class EcdhSepkEcpointTest extends TestCase
         $expectedSharedSecret = gmp_init($shared, 16);
         $this->assertEquals($expectedSharedSecret, $secret->getX());
 
-        // check congruend with Wyche proof
+        // check congruent with Wyche proof expectation
         $this->assertNotEquals($result, WycheProofConstants::RESULT_INVALID);
     }
 }
