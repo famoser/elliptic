@@ -57,13 +57,13 @@ class CurveOidMapper
      */
     public static function getCurveOid(NamedCurveFp $curve): ObjectIdentifier
     {
-        if (array_key_exists($curve->getName(), self::$oidMap)) {
-            $oidString = self::$oidMap[$curve->getName()];
-
-            return new ObjectIdentifier($oidString);
+        if (!array_key_exists($curve->getName(), self::$oidMap)) {
+            throw new UnsupportedCurveException('Unsupported curve type');
         }
 
-        throw new UnsupportedCurveException('Unsupported curve type');
+        $oidString = self::$oidMap[$curve->getName()];
+
+        return new ObjectIdentifier($oidString);
     }
 
     /**
@@ -75,12 +75,12 @@ class CurveOidMapper
         $oidString = $oid->oid();
         $invertedMap = array_flip(self::$oidMap);
 
-        if (array_key_exists($oidString, $invertedMap)) {
-            return CurveFactory::getGeneratorByName($invertedMap[$oidString]);
+        if (!array_key_exists($oidString, $invertedMap)) {
+            $error = new UnsupportedCurveException('Invalid data: unsupported generator.');
+            $error->setOid($oidString);
+            throw $error;
         }
 
-        $error = new UnsupportedCurveException('Invalid data: unsupported generator.');
-        $error->setOid($oidString);
-        throw $error;
+        return CurveFactory::getGeneratorByName($invertedMap[$oidString]);
     }
 }
