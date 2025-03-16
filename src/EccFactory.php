@@ -5,7 +5,7 @@ namespace Mdanter\Ecc;
 
 use Mdanter\Ecc\Crypto\Signature\Signer;
 use Mdanter\Ecc\Curves\NistCurve;
-use Mdanter\Ecc\Curves\SecgCurve;
+use Mdanter\Ecc\Curves\SecpCurves;
 use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Math\MathAdapterFactory;
 use Mdanter\Ecc\Primitives\CurveFp;
@@ -45,11 +45,11 @@ class EccFactory
      * Returns a factory to return SECG Recommended curves and generators.
      *
      * @param  GmpMathInterface $adapter [optional] Defaults to the return value of EccFactory::getAdapter().
-     * @return SecgCurve
+     * @return SecpCurves
      */
-    public static function getSecgCurves(GmpMathInterface $adapter = null): SecgCurve
+    public static function getSecgCurves(GmpMathInterface $adapter = null): SecpCurves
     {
-        return new SecgCurve($adapter ?: self::getAdapter());
+        return new SecpCurves($adapter ?: self::getAdapter());
     }
 
     /**

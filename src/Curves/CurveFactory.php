@@ -32,16 +32,22 @@ class CurveFactory
                 return $nistFactory->curve384();
             case NistCurve::NAME_P521:
                 return $nistFactory->curve521();
-            case SecgCurve::NAME_SECP_112R1:
-                return $secpFactory->curve112r1();
-            case SecgCurve::NAME_SECP_192K1:
+            case SecpCurves::NAME_SECP_192R1:
+                return $secpFactory->curve192r1();
+            case SecpCurves::NAME_SECP_192K1:
                 return $secpFactory->curve192k1();
-            case SecgCurve::NAME_SECP_256K1:
-                return $secpFactory->curve256k1();
-            case SecgCurve::NAME_SECP_256R1:
+            case SecpCurves::NAME_SECP_224R1:
+                return $secpFactory->curve224r1();
+            case SecpCurves::NAME_SECP_224K1:
+                return $secpFactory->curve224k1();
+            case SecpCurves::NAME_SECP_256R1:
                 return $secpFactory->curve256r1();
-            case SecgCurve::NAME_SECP_384R1:
+            case SecpCurves::NAME_SECP_256K1:
+                return $secpFactory->curve256k1();
+            case SecpCurves::NAME_SECP_384R1:
                 return $secpFactory->curve384r1();
+            case SecpCurves::NAME_SECP_521R1:
+                return $secpFactory->curve521r1();
             default:
                 $error = new UnsupportedCurveException('Unknown curve.');
                 $error->setCurveName($name);
@@ -70,16 +76,22 @@ class CurveFactory
                 return $nistFactory->generator384();
             case NistCurve::NAME_P521:
                 return $nistFactory->generator521();
-            case SecgCurve::NAME_SECP_112R1:
-                return $secpFactory->generator112r1();
-            case SecgCurve::NAME_SECP_192K1:
+            case SecpCurves::NAME_SECP_192R1:
+                return $secpFactory->generator192r1();
+            case SecpCurves::NAME_SECP_192K1:
                 return $secpFactory->generator192k1();
-            case SecgCurve::NAME_SECP_256K1:
-                return $secpFactory->generator256k1();
-            case SecgCurve::NAME_SECP_256R1:
+            case SecpCurves::NAME_SECP_224R1:
+                return $secpFactory->generator224r1();
+            case SecpCurves::NAME_SECP_224K1:
+                return $secpFactory->generator224k1();
+            case SecpCurves::NAME_SECP_256R1:
                 return $secpFactory->generator256r1();
-            case SecgCurve::NAME_SECP_384R1:
+            case SecpCurves::NAME_SECP_256K1:
+                return $secpFactory->generator256k1();
+            case SecpCurves::NAME_SECP_384R1:
                 return $secpFactory->generator384r1();
+            case SecpCurves::NAME_SECP_521R1:
+                return $secpFactory->generator521r1();
             default:
                 $error = new UnsupportedCurveException('Unknown generator.');
                 $error->setCurveName($name);
@@ -98,10 +110,10 @@ class CurveFactory
 
     /**
      * @param GmpMathInterface $math
-     * @return SecgCurve
+     * @return SecpCurves
      */
-    private static function getSecpFactory(GmpMathInterface $math): SecgCurve
+    private static function getSecpFactory(GmpMathInterface $math): SecpCurves
     {
-        return new SecgCurve($math);
+        return new SecpCurves($math);
     }
 }

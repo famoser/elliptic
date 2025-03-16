@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Mdanter\Ecc\Integration\WycheProof;
 
 use Mdanter\Ecc\Curves\NamedCurveFp;
-use Mdanter\Ecc\Curves\SecgCurve;
+use Mdanter\Ecc\Curves\SecpCurves;
 use Mdanter\Ecc\Exception\ExchangeException;
 use Mdanter\Ecc\Exception\PointNotOnCurveException;
 use Mdanter\Ecc\Exception\PointRecoveryException;
@@ -31,7 +31,8 @@ class EcdhSepkEcpointTest extends TestCase
      */
     public function testSecp224r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
-        $this->markTestSkipped();
+        $generator = SecpCurves::create()->generator224r1();
+        $this->testCurve($generator, $comment, $public, $private, $shared, $result, $flags);
     }
 
     /**
@@ -39,7 +40,7 @@ class EcdhSepkEcpointTest extends TestCase
      */
     public function testSecp256r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
-        $generator = SecgCurve::create()->generator256r1();
+        $generator = SecpCurves::create()->generator256r1();
         $this->testCurve($generator, $comment, $public, $private, $shared, $result, $flags);
     }
 
@@ -48,7 +49,7 @@ class EcdhSepkEcpointTest extends TestCase
      */
     public function testSecp384r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
-        $generator = SecgCurve::create()->generator384r1();
+        $generator = SecpCurves::create()->generator384r1();
         $this->testCurve($generator, $comment, $public, $private, $shared, $result, $flags);
     }
 
@@ -57,7 +58,8 @@ class EcdhSepkEcpointTest extends TestCase
      */
     public function testSecp521r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
-        $this->markTestSkipped();
+        $generator = SecpCurves::create()->generator521r1();
+        $this->testCurve($generator, $comment, $public, $private, $shared, $result, $flags);
     }
 
     private const POINT_NOT_ON_CURVE_COMMENT_WHITELIST = [
