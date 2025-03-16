@@ -5,7 +5,7 @@ namespace Mdanter\Ecc\Tests\Curves;
 
 use Mdanter\Ecc\Curves\CurveFactory;
 use Mdanter\Ecc\Curves\NistCurve;
-use Mdanter\Ecc\Curves\SecgCurve;
+use Mdanter\Ecc\Curves\SecpCurves;
 use Mdanter\Ecc\Exception\UnsupportedCurveException;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
@@ -19,11 +19,14 @@ class CurveFactoryTest extends AbstractTestCase
             [NistCurve::NAME_P256],
             [NistCurve::NAME_P384],
             [NistCurve::NAME_P521],
-            [SecgCurve::NAME_SECP_112R1],
-            [SecgCurve::NAME_SECP_192K1],
-            [SecgCurve::NAME_SECP_256R1],
-            [SecgCurve::NAME_SECP_256K1],
-            [SecgCurve::NAME_SECP_384R1],
+            [SecpCurves::NAME_SECP_192R1],
+            [SecpCurves::NAME_SECP_192K1],
+            [SecpCurves::NAME_SECP_224R1],
+            [SecpCurves::NAME_SECP_224K1],
+            [SecpCurves::NAME_SECP_256R1],
+            [SecpCurves::NAME_SECP_256K1],
+            [SecpCurves::NAME_SECP_384R1],
+            [SecpCurves::NAME_SECP_521R1],
         ];
     }
 
