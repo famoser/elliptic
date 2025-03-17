@@ -6,7 +6,7 @@ namespace Mdanter\Ecc\Integration\WycheProof;
 
 use Mdanter\Ecc\Curves\SecpCurves;
 
-class EcdhSepkEcpointTest extends AbstractEcdhTest
+class EcdhSepkEcpointTest extends AbstractEcdhTestCase
 {
     public static function provideSecp224r1(): array
     {
