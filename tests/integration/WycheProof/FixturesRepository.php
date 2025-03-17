@@ -19,19 +19,19 @@ class FixturesRepository
     {
         $results = [];
 
-        assert(1 === count($testvectors['testGroups']));
+        foreach ($testvectors['testGroups'] as $testGroup) {
+            foreach ($testGroup['tests'] as $testvector) {
+                $tcId = "tcId: " . $testvector['tcId'];
 
-        foreach ($testvectors['testGroups'][0]['tests'] as $testvector) {
-            $tcId = "tcId: " . $testvector['tcId'];
-
-            $results[$tcId] = [
-                'comment' => $testvector['comment'],
-                'public' => $testvector['public'],
-                'private' => $testvector['private'],
-                'shared' => $testvector['shared'],
-                'result' => $testvector['result'],
-                'flags' => $testvector['flags'] ?? [],
-            ];
+                $results[$tcId] = [
+                    'comment' => $testvector['comment'],
+                    'public' => $testvector['public'],
+                    'private' => $testvector['private'],
+                    'shared' => $testvector['shared'],
+                    'result' => $testvector['result'],
+                    'flags' => $testvector['flags'] ?? [],
+                ];
+            }
         }
 
         return $results;
@@ -75,10 +75,5 @@ class FixturesRepository
         $fixtures = FixturesRepository::createEcdhFixtures($testvectors);
 
         return self::filterEcdhFixtures($fixtures);
-    }
-
-    public static function assertExpectedExceptionEcdh()
-    {
-
     }
 }
