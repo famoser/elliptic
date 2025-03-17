@@ -8,6 +8,7 @@ use Mdanter\Ecc\Curves\SecpCurves;
 use Mdanter\Ecc\Exception\PointNotOnCurveException;
 use Mdanter\Ecc\Integration\Utils\DER\UnsafeDerRawPublicKeySerializer;
 use Mdanter\Ecc\Primitives\GeneratorPoint;
+use Sop\ASN1\Type\UnspecifiedType;
 
 class EcdhSepkTest extends AbstractEcdhTest
 {
@@ -39,8 +40,9 @@ class EcdhSepkTest extends AbstractEcdhTest
     {
         // unserialize public key from DER format
         try {
-            $pubKeySerializer = UnsafeDerRawPublicKeySerializer::create();
-            $publicKey = $pubKeySerializer->parse(hex2bin($public));
+            $asnObject = UnspecifiedType::fromDER(hex2bin($public));
+            $encodedKey  = $asnObject->asSequence()->at(1)->asBitString();
+            $publicKey = bin2hex($encodedKey->string());
         } catch (PointNotOnCurveException) {
             $this->assertEquals($result, WycheProofConstants::RESULT_INVALID);
             if ($comment === 'public point not on curve') {
