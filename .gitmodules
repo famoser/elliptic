@@ -1,3 +1,6 @@
 [submodule "tests/integration/WycheProof/fixtures"]
 	path = tests/integration/WycheProof/fixtures
 	url = https://github.com/google/wycheproof
+[submodule "tests/integration/Rooterberg/fixtures"]
+	path = tests/integration/Rooterberg/fixtures
+	url = https://github.com/bleichenbacher-daniel/Rooterberg.git
