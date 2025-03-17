@@ -272,18 +272,18 @@ class Point implements PointInterface
             clone $this
         ];
 
-        $maxBitLength = $this->curve->getSize() + 1;
-        $n = str_pad($this->adapter->baseConvert($this->adapter->toString($n), 10, 2), $maxBitLength, '0', STR_PAD_LEFT);
+        $k = $this->curve->getSize();
+        $n = str_pad($this->adapter->baseConvert($this->adapter->toString($n), 10, 2), $k, '0', STR_PAD_LEFT);
 
-        for ($i = 0; $i < $maxBitLength; $i++) {
+        for ($i = 0; $i < $k; $i++) {
             $j = $n[$i];
 
-            $this->cswap($r[0], $r[1], $j ^ 1, $maxBitLength);
+            $this->cswap($r[0], $r[1], $j ^ 1, $k);
 
             $r[0] = $r[0]->add($r[1]);
             $r[1] = $r[1]->getDouble();
 
-            $this->cswap($r[0], $r[1], $j ^ 1, $maxBitLength);
+            $this->cswap($r[0], $r[1], $j ^ 1, $k);
         }
 
         $r[0]->validate();

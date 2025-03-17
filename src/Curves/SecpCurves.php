@@ -109,7 +109,7 @@ class SecpCurves
         $a = gmp_init('00000000 00000000 00000000 00000000 00000000 00000000 00000000', 16);
         $b = gmp_init('00000000 00000000 00000000 00000000 00000000 00000000 00000005', 16);
 
-        $parameters = new CurveParameters(224, $p, $a, $b);
+        $parameters = new CurveParameters(225, $p, $a, $b);
 
         return new NamedCurveFp(self::NAME_SECP_224K1, $parameters, $this->adapter);
     }
