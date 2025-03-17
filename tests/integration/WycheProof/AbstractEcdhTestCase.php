@@ -10,7 +10,7 @@ use Mdanter\Ecc\Serializer\Point\ChainedPointSerializer;
 use Mdanter\Ecc\Serializer\Point\PointDecodingException;
 use PHPUnit\Framework\TestCase;
 
-abstract class AbstractEcdhTest extends TestCase
+abstract class AbstractEcdhTestCase extends TestCase
 {
     protected const POINT_NOT_ON_CURVE_COMMENT_WHITELIST = [
         'public point not on curve',

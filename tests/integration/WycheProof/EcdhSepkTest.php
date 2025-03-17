@@ -10,7 +10,7 @@ use Mdanter\Ecc\Integration\Utils\DER\UnsafeDerRawPublicKeySerializer;
 use Mdanter\Ecc\Primitives\GeneratorPoint;
 use Sop\ASN1\Type\UnspecifiedType;
 
-class EcdhSepkTest extends AbstractEcdhTest
+class EcdhSepkTest extends AbstractEcdhTestCase
 {
     public static function provideSecp256k1(): array
     {
