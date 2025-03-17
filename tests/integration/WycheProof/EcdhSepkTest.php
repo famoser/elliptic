@@ -12,14 +12,13 @@ use Sop\ASN1\Type\UnspecifiedType;
 
 class EcdhSepkTest extends AbstractEcdhTest
 {
-    private function getFixtures(string $testcase): array
+    public static function provideSecp256k1(): array
     {
-        $curve = str_replace('testSecp', 'secp', $testcase);
-        return FixturesRepository::createFilteredEcdhFixtures($curve);
+        return FixturesRepository::createFilteredEcdhFixtures('secp256k1');
     }
 
     /**
-     * @dataProvider getFixtures
+     * @dataProvider provideSecp256k1
      */
     public function testSecp256k1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {

@@ -8,14 +8,13 @@ use Mdanter\Ecc\Curves\SecpCurves;
 
 class EcdhSepkEcpointTest extends AbstractEcdhTest
 {
-    private function getFixtures(string $testcase): array
+    public static function provideSecp224r1(): array
     {
-        $curve = str_replace('testSecp', 'secp', $testcase);
-        return FixturesRepository::createEcdhEcpointFixtures($curve);
+        return FixturesRepository::createEcdhEcpointFixtures('secp224r1');
     }
 
     /**
-     * @dataProvider getFixtures
+     * @dataProvider provideSecp224r1
      */
     public function testSecp224r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
@@ -23,8 +22,13 @@ class EcdhSepkEcpointTest extends AbstractEcdhTest
         $this->testCurve($generator, $comment, $public, $private, $shared, $result, $flags);
     }
 
+    public static function provideSecp256r1(): array
+    {
+        return FixturesRepository::createEcdhEcpointFixtures('secp256r1');
+    }
+
     /**
-     * @dataProvider getFixtures
+     * @dataProvider provideSecp256r1
      */
     public function testSecp256r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
@@ -32,8 +36,13 @@ class EcdhSepkEcpointTest extends AbstractEcdhTest
         $this->testCurve($generator, $comment, $public, $private, $shared, $result, $flags);
     }
 
+    public static function provideSecp384r1(): array
+    {
+        return FixturesRepository::createEcdhEcpointFixtures('secp384r1');
+    }
+
     /**
-     * @dataProvider getFixtures
+     * @dataProvider provideSecp384r1
      */
     public function testSecp384r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
@@ -41,8 +50,13 @@ class EcdhSepkEcpointTest extends AbstractEcdhTest
         $this->testCurve($generator, $comment, $public, $private, $shared, $result, $flags);
     }
 
+    public static function provideSecp521r1(): array
+    {
+        return FixturesRepository::createEcdhEcpointFixtures('secp521r1');
+    }
+
     /**
-     * @dataProvider getFixtures
+     * @dataProvider provideSecp521r1
      */
     public function testSecp521r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {

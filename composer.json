@@ -35,9 +35,9 @@
         "sop/asn1": "^4.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0||^8.0||^9.0",
+        "phpunit/phpunit": "^10",
         "squizlabs/php_codesniffer": "^2.0",
-        "symfony/yaml": "^2.6|^3.0"
+        "symfony/yaml": "^6.4"
     },
     "autoload": {
         "psr-4": {
