@@ -21,8 +21,13 @@ class EcdsaSepkTest extends TestCase
         return FixturesRepository::createEcdsaSha256Fixtures($curve);
     }
 
+    public static function provideSecp192r1(): array
+    {
+        return FixturesRepository::createEcdsaSha256Fixtures('secp192r1');
+    }
+
     /**
-     * @dataProvider getFixtures
+     * @dataProvider provideSecp192r1
      */
     public function testSecp192r1(GeneratorPoint $generator, PublicKeyInterface $publicKey, \GMP $hash, string $signature, string $comment, string $result, array $flags): void
     {
@@ -31,8 +36,13 @@ class EcdsaSepkTest extends TestCase
         $this->testCurve($generator, $publicKey, $hash, $signature, $comment, $result, $flags);
     }
 
+    public static function provideSecp192k1(): array
+    {
+        return FixturesRepository::createEcdsaSha256Fixtures('secp192k1');
+    }
+
     /**
-     * @dataProvider getFixtures
+     * @dataProvider provideSecp192k1
      */
     public function testSecp192k1(GeneratorPoint $generator, PublicKeyInterface $publicKey, \GMP $hash, string $signature, string $comment, string $result, array $flags): void
     {
