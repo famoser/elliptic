@@ -24,6 +24,4 @@ There is another fork that took over maintenance from `phpecc/phpecc` called `pa
 - Introduce optimized variants of curves, with "optimized" implying hardening against side-channels
 - Add brainpool curves
 
-The target of this project is different:
-- Acceptance that GMP itself has no constant time guarantees (and neither the PHP interpreter nor its JIT). Out of scope is therefore hardening towards constant time, as fundamentally through the usage of GMP the guarantees will remain unclear. Best-effort constant time is of course welcome.
-- Provide expert users a way to interact with elliptic curves, for them to build their own algorithms on top of it. Out of scope is therefore guidance what curves to choose, and all higher-layer algorithms (hence no signatures, encryptions or similar). 
+The target of this project is different: It provides expert users a way to interact with elliptic curves, for them to build their own algorithms on top of it. Out of scope is therefore guidance what curves to choose, and all higher-layer algorithms (hence no signatures, encryptions or similar). 
