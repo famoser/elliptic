@@ -30,6 +30,21 @@ class EcdsaSepkTest extends TestCase
         $this->testCurve($generator, $publicKey, $hash, $signature, $comment, $valid, $flags);
     }
 
+    public static function provideSecp224r1(): array
+    {
+        return FixturesRepository::createEcdsaSha224Fixtures('secp224r1');
+    }
+
+    /**
+     * @dataProvider provideSecp224r1
+     */
+    public function testSecp224r1(GeneratorPoint $generator, PublicKeyInterface $publicKey, \GMP $hash, string $signature, string $comment, bool $valid, array $flags): void
+    {
+        $generator = SecpCurves::create()->generator224r1();
+
+        $this->testCurve($generator, $publicKey, $hash, $signature, $comment, $valid, $flags);
+    }
+
     protected function testCurve(GeneratorPoint $generator, PublicKeyInterface $publicKey, \GMP $hash, string $signature, string $comment, bool $valid, array $flags): void
     {
         // crude signature decoding, as this is not our prime concern here
