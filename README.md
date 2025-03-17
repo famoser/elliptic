@@ -1,4 +1,4 @@
-## Elliptic: Low-level Elliptic Curve Library
+# Elliptic: Low-level Elliptic Curve Library
 
 This library provides low-level access to elliptic curve computations. It is based on `phpecc/phpecc`, but focuses purely on elliptic curve computations (hence does not provide cryptographic primitives or structures).
 
