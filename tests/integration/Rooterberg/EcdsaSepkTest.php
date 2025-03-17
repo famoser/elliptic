@@ -32,12 +32,8 @@ class EcdsaSepkTest extends TestCase
 
     protected function testCurve(GeneratorPoint $generator, PublicKeyInterface $publicKey, \GMP $hash, string $signature, string $comment, bool $valid, array $flags): void
     {
-        // crude signature validity check, as this is not our prime concern here
-        $integerHexLength = PointSize::getByteSize($generator->getCurve()) * 2;
-        if (strlen($signature) !== $integerHexLength*2) {
-            $this->assertFalse($valid);
-            return;
-        }
+        // crude signature decoding, as this is not our prime concern here
+        $integerHexLength = strlen($signature) / 2;
 
         // unserialize signature
         $r = gmp_init(substr($signature, 0, $integerHexLength), 16);
@@ -48,7 +44,7 @@ class EcdsaSepkTest extends TestCase
         $signer = new Signer(new GmpMath());
         $verified = $signer->verify($publicKey, $signature, $hash);
 
-        // check congruent with Wyche proof expectation
+        // check congruent with proof expectation
         if ($verified) {
             $this->assertTrue($valid);
         } else {
