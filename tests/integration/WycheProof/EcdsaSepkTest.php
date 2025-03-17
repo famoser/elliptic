@@ -15,12 +15,6 @@ use PHPUnit\Framework\TestCase;
 
 class EcdsaSepkTest extends TestCase
 {
-    private function getFixtures(string $testcase): array
-    {
-        $curve = str_replace('testSecp', 'secp', $testcase);
-        return FixturesRepository::createEcdsaSha256Fixtures($curve);
-    }
-
     public static function provideSecp192r1(): array
     {
         return FixturesRepository::createEcdsaSha256Fixtures('secp192r1');
