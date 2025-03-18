@@ -91,17 +91,6 @@ class EcDH implements EcDHInterface
 
     /**
      * {@inheritDoc}
-     * @see \Mdanter\Ecc\Integration\Utils\EcDH\EcDHInterface::createMultiPartyKey()
-     */
-    public function createMultiPartyKey(): PublicKeyInterface
-    {
-        $this->calculateKey();
-
-        return $this->secretKey;
-    }
-
-    /**
-     * {@inheritDoc}
      * @see \Mdanter\Ecc\Integration\Utils\EcDH\EcDHInterface::setRecipientKey()
      */
     public function setRecipientKey(PublicKeyInterface $key = null)
