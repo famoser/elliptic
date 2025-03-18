@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc;
 
-use Mdanter\Ecc\Crypto\Signature\Signer;
 use Mdanter\Ecc\Curves\NistCurve;
 use Mdanter\Ecc\Curves\SecpCurves;
+use Mdanter\Ecc\Integration\Utils\Signer;
 use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Math\MathAdapterFactory;
 use Mdanter\Ecc\Primitives\CurveFp;

@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Primitives;
 
-use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
-use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
+use Mdanter\Ecc\Integration\Utils\Key\PrivateKey;
+use Mdanter\Ecc\Integration\Utils\Key\PrivateKeyInterface;
+use Mdanter\Ecc\Integration\Utils\Key\PublicKey;
+use Mdanter\Ecc\Integration\Utils\Key\PublicKeyInterface;
 use Mdanter\Ecc\Math\GmpMathInterface;
-use Mdanter\Ecc\Crypto\Key\PrivateKey;
-use Mdanter\Ecc\Crypto\Key\PublicKey;
 use Mdanter\Ecc\Random\RandomGeneratorFactory;
 use Mdanter\Ecc\Random\RandomNumberGeneratorInterface;
 
@@ -51,7 +51,7 @@ class GeneratorPoint extends Point
      */
     public function isValid(\GMP $x, \GMP $y): bool
     {
-       
+
         $math = $this->getAdapter();
 
         $n = $this->getOrder();

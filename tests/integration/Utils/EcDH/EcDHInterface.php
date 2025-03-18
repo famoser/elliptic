@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Crypto\Signature;
+namespace Mdanter\Ecc\Integration\Utils\EcDH;
 
 /**
  * *********************************************************************
@@ -27,22 +27,39 @@ namespace Mdanter\Ecc\Crypto\Signature;
  * ***********************************************************************
  */
 
+use Mdanter\Ecc\Integration\Utils\Key\PrivateKeyInterface;
+use Mdanter\Ecc\Integration\Utils\Key\PublicKeyInterface;
+
 /**
- * This is the contract for describing a signature used in ECDSA.
+ * This is the contract for implementing EcDH (EC Diffie Hellman).
  */
-interface SignatureInterface
+interface EcDHInterface
 {
-    /**
-     * Returns the r parameter of the signature.
-     *
-     * @return \GMP
-     */
-    public function getR(): \GMP;
 
     /**
-     * Returns the s parameter of the signature.
+     * Calculates and returns the shared key for the exchange.
      *
      * @return \GMP
      */
-    public function getS(): \GMP;
+    public function calculateSharedKey(): \GMP;
+
+    /**
+     * @return PublicKeyInterface
+     */
+    public function createMultiPartyKey(): PublicKeyInterface;
+
+    /**
+     * Sets the sender's key.
+     *
+     * @param PrivateKeyInterface $key
+     */
+    public function setSenderKey(PrivateKeyInterface $key);
+
+    /**
+     * Sets the recipient key.
+     *
+     * @param  PublicKeyInterface $key
+     * @return void
+     */
+    public function setRecipientKey(PublicKeyInterface $key);
 }

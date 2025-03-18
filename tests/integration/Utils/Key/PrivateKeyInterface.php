@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Crypto\EcDH;
+namespace Mdanter\Ecc\Integration\Utils\Key;
 
 /**
  * *********************************************************************
@@ -26,39 +26,34 @@ namespace Mdanter\Ecc\Crypto\EcDH;
  * OTHER DEALINGS IN THE SOFTWARE.
  * ***********************************************************************
  */
-use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
-use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
+
+use Mdanter\Ecc\Integration\Utils\EcDH\EcDHInterface;
+use Mdanter\Ecc\Primitives\GeneratorPoint;
 
 /**
- * This is the contract for implementing EcDH (EC Diffie Hellman).
+ * This is a contract for the PrivateKey portion of ECDSA.
  */
-interface EcDHInterface
+interface PrivateKeyInterface
 {
-
-    /**
-     * Calculates and returns the shared key for the exchange.
-     *
-     * @return \GMP
-     */
-    public function calculateSharedKey(): \GMP;
 
     /**
      * @return PublicKeyInterface
      */
-    public function createMultiPartyKey(): PublicKeyInterface;
+    public function getPublicKey(): PublicKeyInterface;
 
     /**
-     * Sets the sender's key.
-     *
-     * @param PrivateKeyInterface $key
+     * @return GeneratorPoint
      */
-    public function setSenderKey(PrivateKeyInterface $key);
+    public function getPoint(): GeneratorPoint;
 
     /**
-     * Sets the recipient key.
-     *
-     * @param  PublicKeyInterface $key
-     * @return void
+     * @return \GMP
      */
-    public function setRecipientKey(PublicKeyInterface $key);
+    public function getSecret(): \GMP;
+
+    /**
+     * @param  PublicKeyInterface $recipient
+     * @return EcDHInterface
+     */
+    public function createExchange(PublicKeyInterface $recipient): EcDHInterface;
 }

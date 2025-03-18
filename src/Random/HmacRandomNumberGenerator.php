@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Random;
 
-use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
+use Mdanter\Ecc\Integration\Utils\Key\PrivateKeyInterface;
 use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Util\NumberSize;
 

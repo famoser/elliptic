@@ -1,13 +1,13 @@
 <?php
 
-namespace Mdanter\Ecc\Crypto\Signature;
+namespace Mdanter\Ecc\Integration\Utils\Signature;
 
 use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Math\GmpMathInterface;
 use Mdanter\Ecc\Primitives\GeneratorPoint;
 use Mdanter\Ecc\Util\NumberSize;
 
-class SignHasher implements HasherInterface
+class SignHasher
 {
     /**
      * @var int[]

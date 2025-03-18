@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Mdanter\Ecc\Tests\Random;
 
 use Mdanter\Ecc\EccFactory;
-use Mdanter\Ecc\Crypto\Key\PrivateKey;
+use Mdanter\Ecc\Integration\Utils\Key\PrivateKey;
 use Mdanter\Ecc\Random\HmacRandomNumberGenerator;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 

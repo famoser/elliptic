@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Crypto\EcDH;
 
-use Mdanter\Ecc\Crypto\EcDH\EcDH;
 use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Exception\ExchangeException;
+use Mdanter\Ecc\Integration\Utils\EcDH\EcDH;
 use Mdanter\Ecc\Serializer\Point\Format\UncompressedPointSerializer;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 

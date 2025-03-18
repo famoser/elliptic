@@ -2,8 +2,8 @@
 
 namespace Mdanter\Ecc\Integration\WycheProof;
 
-use Mdanter\Ecc\Crypto\Signature\SignHasher;
 use Mdanter\Ecc\Curves\CurveFactory;
+use Mdanter\Ecc\Integration\Utils\Signature\SignHasher;
 
 class FixturesRepository
 {
