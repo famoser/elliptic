@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Crypto\Key;
+namespace Mdanter\Ecc\Integration\Utils\Key;
 
 /**
  * *********************************************************************
@@ -98,7 +98,7 @@ class PublicKey implements PublicKeyInterface
 
     /**
      * {@inheritDoc}
-     * @see \Mdanter\Ecc\Crypto\Key\PublicKeyInterface::getCurve()
+     * @see \Mdanter\Ecc\Integration\Utils\Key\PublicKeyInterface::getCurve()
      */
     public function getCurve(): CurveFpInterface
     {
@@ -107,7 +107,7 @@ class PublicKey implements PublicKeyInterface
 
     /**
      * {$inheritDoc}
-     * @see \Mdanter\Ecc\Crypto\Key\PublicKeyInterface::getGenerator()
+     * @see \Mdanter\Ecc\Integration\Utils\Key\PublicKeyInterface::getGenerator()
      */
     public function getGenerator(): GeneratorPoint
     {
@@ -116,7 +116,7 @@ class PublicKey implements PublicKeyInterface
 
     /**
      * {@inheritDoc}
-     * @see \Mdanter\Ecc\Crypto\Key\PublicKeyInterface::getPoint()
+     * @see \Mdanter\Ecc\Integration\Utils\Key\PublicKeyInterface::getPoint()
      */
     public function getPoint(): PointInterface
     {

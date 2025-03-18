@@ -2,9 +2,9 @@
 
 namespace Mdanter\Ecc\Integration\Rooterberg;
 
-use Mdanter\Ecc\Crypto\Key\PublicKey;
-use Mdanter\Ecc\Crypto\Signature\SignHasher;
 use Mdanter\Ecc\Curves\CurveFactory;
+use Mdanter\Ecc\Integration\Utils\Key\PublicKey;
+use Mdanter\Ecc\Integration\Utils\Signature\SignHasher;
 use Mdanter\Ecc\Math\GmpMath;
 use Mdanter\Ecc\Serializer\Point\Format\CompressedPointSerializer;
 

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Crypto\Key;
 
-use Mdanter\Ecc\Crypto\Key\PublicKey;
 use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Exception\PublicKeyException;
+use Mdanter\Ecc\Integration\Utils\Key\PublicKey;
 use Mdanter\Ecc\Primitives\CurveFp;
 use Mdanter\Ecc\Primitives\GeneratorPoint;
 use Mdanter\Ecc\Primitives\Point;

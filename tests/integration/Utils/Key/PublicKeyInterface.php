@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Crypto\Signature;
+namespace Mdanter\Ecc\Integration\Utils\Key;
 
 /**
  * *********************************************************************
@@ -27,49 +27,28 @@ namespace Mdanter\Ecc\Crypto\Signature;
  * ***********************************************************************
  */
 
+use Mdanter\Ecc\Primitives\CurveFpInterface;
+use Mdanter\Ecc\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Primitives\PointInterface;
+
 /**
- * Plain Old PHP Object that stores the signature r,s for ECDSA
+ * This is the contract for the PublicKey portion of ECDSA.
  */
-class Signature implements SignatureInterface
+interface PublicKeyInterface
 {
-    /**
-     * @var \GMP
-     */
-    private $r;
 
     /**
-     *
-     * @var \GMP
+     * @return CurveFpInterface
      */
-    private $s;
+    public function getCurve(): CurveFpInterface;
 
     /**
-     * Initialize a new instance with values
-     *
-     * @param \GMP $r
-     * @param \GMP $s
+     * @return PointInterface
      */
-    public function __construct(\GMP $r, \GMP $s)
-    {
-        $this->r = $r;
-        $this->s = $s;
-    }
+    public function getPoint(): PointInterface;
 
     /**
-     * {@inheritDoc}
-     * @see \Mdanter\Ecc\Crypto\Signature\SignatureInterface::getR()
+     * @return GeneratorPoint
      */
-    public function getR(): \GMP
-    {
-        return $this->r;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see \Mdanter\Ecc\Crypto\Signature\SignatureInterface::getS()
-     */
-    public function getS(): \GMP
-    {
-        return $this->s;
-    }
+    public function getGenerator(): GeneratorPoint;
 }

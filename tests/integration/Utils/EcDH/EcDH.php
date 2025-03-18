@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Crypto\EcDH;
+namespace Mdanter\Ecc\Integration\Utils\EcDH;
 
 /**
  * *********************************************************************
@@ -27,9 +27,9 @@ namespace Mdanter\Ecc\Crypto\EcDH;
  * ***********************************************************************
  */
 
-use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
-use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
 use Mdanter\Ecc\Exception\ExchangeException;
+use Mdanter\Ecc\Integration\Utils\Key\PrivateKeyInterface;
+use Mdanter\Ecc\Integration\Utils\Key\PublicKeyInterface;
 use Mdanter\Ecc\Math\GmpMathInterface;
 
 /**
@@ -80,7 +80,7 @@ class EcDH implements EcDHInterface
 
     /**
      * {@inheritDoc}
-     * @see \Mdanter\Ecc\Crypto\EcDH\EcDHInterface::calculateSharedKey()
+     * @see \Mdanter\Ecc\Integration\Utils\EcDH\EcDHInterface::calculateSharedKey()
      */
     public function calculateSharedKey(): \GMP
     {
@@ -91,7 +91,7 @@ class EcDH implements EcDHInterface
 
     /**
      * {@inheritDoc}
-     * @see \Mdanter\Ecc\Crypto\EcDH\EcDHInterface::createMultiPartyKey()
+     * @see \Mdanter\Ecc\Integration\Utils\EcDH\EcDHInterface::createMultiPartyKey()
      */
     public function createMultiPartyKey(): PublicKeyInterface
     {
@@ -102,7 +102,7 @@ class EcDH implements EcDHInterface
 
     /**
      * {@inheritDoc}
-     * @see \Mdanter\Ecc\Crypto\EcDH\EcDHInterface::setRecipientKey()
+     * @see \Mdanter\Ecc\Integration\Utils\EcDH\EcDHInterface::setRecipientKey()
      */
     public function setRecipientKey(PublicKeyInterface $key = null)
     {
@@ -112,7 +112,7 @@ class EcDH implements EcDHInterface
 
     /**
      * {@inheritDoc}
-     * @see \Mdanter\Ecc\Crypto\EcDH\EcDHInterface::setSenderKey()
+     * @see \Mdanter\Ecc\Integration\Utils\EcDH\EcDHInterface::setSenderKey()
      */
     public function setSenderKey(PrivateKeyInterface $key)
     {

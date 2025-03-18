@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Crypto\Signature;
 
-use Mdanter\Ecc\Crypto\Signature\SignHasher;
+use Mdanter\Ecc\Integration\Utils\Signature\SignHasher;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class SignerTest extends AbstractTestCase

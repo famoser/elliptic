@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Crypto\Signature;
+namespace Mdanter\Ecc\Integration\Utils\Signature;
 
+use Mdanter\Ecc\Integration\Utils\Key\PrivateKeyInterface;
+use Mdanter\Ecc\Integration\Utils\Key\PublicKeyInterface;
 use Mdanter\Ecc\Math\GmpMathInterface;
-use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;
-use Mdanter\Ecc\Crypto\Key\PublicKeyInterface;
 
 class Signer
 {
-
     /**
      *
      * @var GmpMathInterface
@@ -30,9 +29,8 @@ class Signer
      * @param PrivateKeyInterface $key
      * @param \GMP $truncatedHash - hash truncated for use in ECDSA
      * @param \GMP $randomK
-     * @return SignatureInterface
      */
-    public function sign(PrivateKeyInterface $key, \GMP $truncatedHash, \GMP $randomK): SignatureInterface
+    public function sign(PrivateKeyInterface $key, \GMP $truncatedHash, \GMP $randomK): Signature
     {
         $math = $this->adapter;
         $generator = $key->getPoint();
@@ -56,11 +54,10 @@ class Signer
 
     /**
      * @param PublicKeyInterface $key
-     * @param SignatureInterface $signature
      * @param \GMP $hash
      * @return bool
      */
-    public function verify(PublicKeyInterface $key, SignatureInterface $signature, \GMP $hash): bool
+    public function verify(PublicKeyInterface $key, Signature $signature, \GMP $hash): bool
     {
         $generator = $key->getGenerator();
         $n = $generator->getOrder();
