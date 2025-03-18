@@ -44,11 +44,6 @@ interface EcDHInterface
     public function calculateSharedKey(): \GMP;
 
     /**
-     * @return PublicKeyInterface
-     */
-    public function createMultiPartyKey(): PublicKeyInterface;
-
-    /**
      * Sets the sender's key.
      *
      * @param PrivateKeyInterface $key

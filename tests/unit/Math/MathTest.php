@@ -5,8 +5,9 @@ namespace Mdanter\Ecc\Tests\Math;
 
 use Mdanter\Ecc\Math\GmpMath;
 use Mdanter\Ecc\Math\GmpMathInterface;
+use Mdanter\Ecc\Tests\AbstractTestCase;
 
-class MathTest extends MathTestBase
+class MathTest extends AbstractTestCase
 {
     private $startPrime = 31;
 
@@ -30,6 +31,26 @@ class MathTest extends MathTestBase
         '0e' => 14,
         '0f' => 15,
     );
+
+    protected $knownPrimes;
+
+    protected function setUp(): void
+    {
+        $file = TEST_DATA_DIR.'/primes.lst';
+
+        if (! file_exists($file)) {
+            $this->fail('Primes not found');
+        }
+
+        $lines = file($file);
+        if (! $lines) {
+            $this->fail('Empty prime file');
+        }
+
+        $this->knownPrimes = array_map(function ($i) {
+            return intval($i);
+        }, $lines);
+    }
 
     /**
      * @dataProvider getAdapters
