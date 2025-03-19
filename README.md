@@ -29,14 +29,7 @@ The target of this project is different: It provides expert users a way to inter
 
 ## Next steps
 
-Major steps done:
-- Rewrite integration testing infrastructure
-- Define new structure of curves, math and serializer 
-- Implement `UnsafeMath`; a best-effort generic implementation
-
 Major next steps:
-- Migrate `Spec` and `WycheProof` integration tests to new curves / math
-- Remove all crypto primitives no longer used, together with their unit tests
 - Write unit tests for the new structures
 - Add constant time math for specific curves
 - Add brainpool, ed25519 curves
