@@ -25,3 +25,18 @@ There is another fork that took over maintenance from `phpecc/phpecc` called `pa
 - Add brainpool curves
 
 The target of this project is different: It provides expert users a way to interact with elliptic curves, for them to build their own algorithms on top of it. Out of scope is therefore guidance what curves to choose, and all higher-layer algorithms (hence no signatures, encryptions or similar). 
+
+
+## Next steps
+
+Major steps done:
+- Rewrite integration testing infrastructure
+- Define new structure of curves, math and serializer 
+- Implement `UnsafeMath`; a best-effort generic implementation
+
+Major next steps:
+- Migrate `Spec` and `WycheProof` integration tests to new curves / math
+- Remove all crypto primitives no longer used, together with their unit tests
+- Write unit tests for the new structures
+- Add constant time math for specific curves
+- Add brainpool, ed25519 curves
