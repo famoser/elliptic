@@ -2,8 +2,9 @@
 
 namespace Mdanter\Ecc\Integration\Spec;
 
-use Mdanter\Ecc\Legacy\Curves\CurveFactory;
-use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Curves\CurveRepository;
+use Mdanter\Ecc\Math\UnsafeMath;
+use Mdanter\Ecc\Primitives\Curve;
 use PHPUnit\Framework\TestCase;
 
 class DiffieHellmanTest extends TestCase
@@ -13,17 +14,19 @@ class DiffieHellmanTest extends TestCase
      */
     public function getDiffieHellmanFixtures(): array
     {
+        $curveRepository = new CurveRepository();
+
         $files = FixturesRepository::read('diffie');
         $datasets = [];
 
         foreach ($files as $file) {
-            $generator = CurveFactory::getGeneratorByName($file['curve']);
+            $curve = $curveRepository->resolveByName($file['curve']);
 
             foreach ($file['fixtures'] as $i => $fixture) {
                 $datasetIdentifier = $file['file'] . "." . $i;
 
                 $datasets[$datasetIdentifier] = [
-                    $generator,
+                    $curve,
                     gmp_init($fixture['alice'], 10),
                     gmp_init($fixture['bob'], 10),
                     gmp_init($fixture['shared'], 16)
@@ -37,15 +40,16 @@ class DiffieHellmanTest extends TestCase
     /**
      * @dataProvider getDiffieHellmanFixtures()
      */
-    public function testDiffieHellman(GeneratorPoint $generator, \GMP $alice, \GMP $bob, \GMP $expectedX)
+    public function testDiffieHellman(Curve $curve, \GMP $alice, \GMP $bob, \GMP $expectedX)
     {
-        $alicePrivKey = $generator->getPrivateKeyFrom($alice);
-        $bobPrivKey = $generator->getPrivateKeyFrom($bob);
+        $math = new UnsafeMath($curve);
+        $Ga = $math->mul($curve->getG(), $alice);
+        $Gb = $math->mul($curve->getG(), $bob);
 
-        $aliceDh = $alicePrivKey->createExchange($bobPrivKey->getPublicKey());
-        $bobDh = $bobPrivKey->createExchange($alicePrivKey->getPublicKey());
+        $Gab = $math->mul($Ga, $bob);
+        $Gba = $math->mul($Gb, $alice);
 
-        $this->assertEquals($expectedX, $aliceDh->calculateSharedKey());
-        $this->assertEquals($expectedX, $bobDh->calculateSharedKey());
+        $this->assertEquals($expectedX, $Gab->x);
+        $this->assertEquals($expectedX, $Gba->x);
     }
 }
