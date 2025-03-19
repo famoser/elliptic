@@ -24,6 +24,21 @@ class ECDSASigner
         return gmp_and($hash, $mask);
     }
 
+    private function tryDecodeSignature(string $signature, \GMP &$r, \GMP &$s): bool
+    {
+        // crude signature validity check, as this is not our prime concern here
+        $integerOctetLength = (int) ceil((float) strlen(gmp_strval($this->math->getCurve()->getN(), 2)) / 8);
+        if (strlen($signature) !== $integerOctetLength*4) {
+            return false;
+        }
+
+        // unserialize signature
+        $r = gmp_init(substr($signature, 0, $integerOctetLength*2), 16);
+        $s = gmp_init(substr($signature, $integerOctetLength*2), 16);
+
+        return true;
+    }
+
     public function sign(\GMP $secret, string $message, \GMP $k): Signature
     {
         $n = $this->math->getCurve()->getN();
@@ -44,13 +59,16 @@ class ECDSASigner
         return new Signature($r, $s);
     }
 
-    public function verify(Point $publicKey, Signature $signature, string $message): bool
+    public function verify(Point $publicKey, string $signature, string $message): bool
     {
         $n = $this->math->getCurve()->getN();
         $G = $this->math->getCurve()->getG();
 
-        $r = $signature->getR();
-        $s = $signature->getS();
+        $r = gmp_init(0);
+        $s = gmp_init(0);
+        if (!$this->tryDecodeSignature($signature, $r, $s)) {
+            return false;
+        }
 
         $one = gmp_init(1, 10);
         if (gmp_cmp($r, $one) < 0 || gmp_cmp($r, gmp_sub($n, $one)) > 0) {
