@@ -1,12 +1,12 @@
 <?php
 
-namespace Mdanter\Ecc\Integration\WycheProof;
+namespace Famoser\Elliptic\Integration\WycheProof;
 
-use Mdanter\Ecc\Math\UnsafeMath;
-use Mdanter\Ecc\Primitives\Curve;
-use Mdanter\Ecc\Serializer\PointDecoderException;
-use Mdanter\Ecc\Serializer\PointSerializer;
-use Mdanter\Ecc\Serializer\PointSerializerException;
+use Famoser\Elliptic\Math\UnsafeMath;
+use Famoser\Elliptic\Primitives\Curve;
+use Famoser\Elliptic\Serializer\PointDecoderException;
+use Famoser\Elliptic\Serializer\PointSerializer;
+use Famoser\Elliptic\Serializer\PointSerializerException;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractEcdhTestCase extends TestCase

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Integration\Rooterberg;
+namespace Famoser\Elliptic\Integration\Rooterberg;
 
-use Mdanter\Ecc\Integration\Utils\ECDSASigner;
-use Mdanter\Ecc\Math\UnsafeMath;
-use Mdanter\Ecc\Primitives\Curve;
-use Mdanter\Ecc\Primitives\Point;
-use Mdanter\Ecc\Serializer\PointDecoderException;
+use Famoser\Elliptic\Integration\Utils\ECDSASigner;
+use Famoser\Elliptic\Math\UnsafeMath;
+use Famoser\Elliptic\Primitives\Curve;
+use Famoser\Elliptic\Primitives\Point;
+use Famoser\Elliptic\Serializer\PointDecoderException;
 use PHPUnit\Framework\TestCase;
 
 class EcdsaSepkTest extends TestCase

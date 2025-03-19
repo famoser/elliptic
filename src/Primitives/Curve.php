@@ -1,6 +1,6 @@
 <?php
 
-namespace Mdanter\Ecc\Primitives;
+namespace Famoser\Elliptic\Primitives;
 
 /**
  * In the finite field F_p,

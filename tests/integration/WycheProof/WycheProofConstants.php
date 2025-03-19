@@ -1,6 +1,6 @@
 <?php
 
-namespace Mdanter\Ecc\Integration\WycheProof;
+namespace Famoser\Elliptic\Integration\WycheProof;
 
 class WycheProofConstants
 {

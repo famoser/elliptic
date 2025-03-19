@@ -1,6 +1,6 @@
 <?php
 
-namespace Mdanter\Ecc\Primitives;
+namespace Famoser\Elliptic\Primitives;
 
 /**
  * Elliptic curve point with x and y coordinates

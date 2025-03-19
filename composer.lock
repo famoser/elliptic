@@ -4,63 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0c25bfe4f70bc980d3ffdb15f87b799",
-    "packages": [
-        {
-            "name": "sop/asn1",
-            "version": "4.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sop/asn1.git",
-                "reference": "a652a5c4db949e4e1d065820aeef68c297ce404d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sop/asn1/zipball/a652a5c4db949e4e1d065820aeef68c297ce404d",
-                "reference": "a652a5c4db949e4e1d065820aeef68c297ce404d",
-                "shasum": ""
-            },
-            "require": {
-                "ext-gmp": "*",
-                "ext-mbstring": "*",
-                "php": ">=7.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Sop\\ASN1\\": "lib/ASN1/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Joni Kollani",
-                    "email": "joni.kollani@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A PHP library for X.690 ASN.1 DER encoding and decoding.",
-            "homepage": "https://github.com/sop/asn1",
-            "keywords": [
-                "DER",
-                "asn.1",
-                "asn1",
-                "x.690",
-                "x690"
-            ],
-            "support": {
-                "issues": "https://github.com/sop/asn1/issues",
-                "source": "https://github.com/sop/asn1/tree/4.1.2"
-            },
-            "time": "2025-01-08T13:56:59+00:00"
-        }
-    ],
+    "content-hash": "bd35ac7789608cac71b4f6bf21561602",
+    "packages": [],
     "packages-dev": [
         {
             "name": "myclabs/deep-copy",
@@ -1635,6 +1580,60 @@
                 }
             ],
             "time": "2023-02-07T11:34:05+00:00"
+        },
+        {
+            "name": "sop/asn1",
+            "version": "4.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sop/asn1.git",
+                "reference": "a652a5c4db949e4e1d065820aeef68c297ce404d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sop/asn1/zipball/a652a5c4db949e4e1d065820aeef68c297ce404d",
+                "reference": "a652a5c4db949e4e1d065820aeef68c297ce404d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gmp": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sop\\ASN1\\": "lib/ASN1/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joni Kollani",
+                    "email": "joni.kollani@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP library for X.690 ASN.1 DER encoding and decoding.",
+            "homepage": "https://github.com/sop/asn1",
+            "keywords": [
+                "DER",
+                "asn.1",
+                "asn1",
+                "x.690",
+                "x690"
+            ],
+            "support": {
+                "issues": "https://github.com/sop/asn1/issues",
+                "source": "https://github.com/sop/asn1/tree/4.1.2"
+            },
+            "time": "2025-01-08T13:56:59+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",

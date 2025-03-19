@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Integration\WycheProof;
+namespace Famoser\Elliptic\Integration\WycheProof;
 
-use Mdanter\Ecc\Curves\SEC2CurveFactory;
-use Mdanter\Ecc\Legacy\Exception\PointNotOnCurveException;
-use Mdanter\Ecc\Primitives\Curve;
+use Famoser\Elliptic\Curves\SEC2CurveFactory;
+use Famoser\Elliptic\Legacy\Exception\PointNotOnCurveException;
+use Famoser\Elliptic\Primitives\Curve;
 use Sop\ASN1\Type\UnspecifiedType;
 
 class EcdhSepkTest extends AbstractEcdhTestCase
