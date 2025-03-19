@@ -152,10 +152,10 @@ class UnsafeMath implements MathInterface
         return gmp_mul($a, $inversion);
     }
 
-    private function conditionalSwap(Point $a, Point $b, int $maskBit): void
+    private function conditionalSwap(Point $a, Point $b, int $swapBit): void
     {
-        $this->scalarConditionalSwap($a->x, $b->x, $maskBit);
-        $this->scalarConditionalSwap($a->y, $b->y, $maskBit);
+        $this->scalarConditionalSwap($a->x, $b->x, $swapBit);
+        $this->scalarConditionalSwap($a->y, $b->y, $swapBit);
     }
 
     private function scalarConditionalSwap(\GMP &$a, \GMP &$b, int $swapBit): void
