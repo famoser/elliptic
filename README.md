@@ -1,10 +1,13 @@
 # Elliptic: Low-level Elliptic Curve Library
 
-This library provides low-level access to elliptic curve computations. It is based on `phpecc/phpecc`, but focuses purely on elliptic curve computations (hence does not provide cryptographic primitives or structures).
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![Test](https://github.com/famoser/elliptic/actions/workflows/test.yml/badge.svg)](https://github.com/famoser/elliptic/actions/workflows/test.yml)
+
+This library provides low-level access to elliptic curve group computations.
 
 This is a work in progress. Targets:
-- Reduce library to purely expose elliptic curve math
-- Re-vet and document all algorithms
+- [done] Expose elliptic curves and primitive math operations
+- Add hardened implementations for some selected curves
 - Add brainpool & ed25519 curves
 
 This is part of a larger effort:
@@ -12,24 +15,5 @@ This is part of a larger effort:
 - Provide elliptic-crypto library which exposes general cryptographic primitives (signatures, encryptions and zero-knowledge proofs)
 - Provide more specialized libraries for more exotic cryptographic primitives (verifiable shuffle)
 
+If you are looking for a project that provides cryptographic primitives, you might want to look into `phpecc/phpecc` (resp. its recommended replacement by [packagist](https://github.com/phpecc/phpecc/issues/289#issuecomment-2075703542) at `paragonie/phpecc`). 
 
-## Why
-
-This library is a fork from `phpecc/phpecc`, which was itself was based on `mdanter/ecc` (from Matyas Danter, which currently 404s). `phpecc/phpecc` is unfortunately no longer maintained, and the original maintainer (afk11) seems to be unreachable. 
-
-There is another fork that took over maintenance from `phpecc/phpecc` called `paragonie/phpecc`. It explained its reasons in a [public mail](https://www.openwall.com/lists/oss-security/2024/04/24/4), and is the recommended replacement by [packagist](https://github.com/phpecc/phpecc/issues/289#issuecomment-2075703542). It extended the library, with the following core contributions:
-- Introduce `SecureCurveFactories` which prevent instantiation of insecure curves
-- Harden signatures (mitigate malleable ECDSA signatures, work towards constant time math)
-- Use OpenSSL signature creation and verification when available for the respective curve
-- Introduce optimized variants of curves, with "optimized" implying hardening against side-channels
-- Add brainpool curves
-
-The target of this project is different: It provides expert users a way to interact with elliptic curves, for them to build their own algorithms on top of it. Out of scope is therefore guidance what curves to choose, and all higher-layer algorithms (hence no signatures, encryptions or similar). 
-
-
-## Next steps
-
-Major next steps:
-- Write unit tests for the new structures
-- Add constant time math for specific curves
-- Add brainpool, ed25519 curves
