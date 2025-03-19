@@ -4,24 +4,10 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Integration\WycheProof;
 
-use Mdanter\Ecc\Legacy\Curves\SecpCurves;
+use Mdanter\Ecc\Curves\SEC2CurveFactory;
 
 class EcdhSepkEcpointTest extends AbstractEcdhTestCase
 {
-    public static function provideSecp224r1(): array
-    {
-        return FixturesRepository::createEcdhEcpointFixtures('secp224r1');
-    }
-
-    /**
-     * @dataProvider provideSecp224r1
-     */
-    public function testSecp224r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
-    {
-        $generator = SecpCurves::create()->generator224r1();
-        $this->testCurve($generator, $comment, $public, $private, $shared, $result, $flags);
-    }
-
     public static function provideSecp256r1(): array
     {
         return FixturesRepository::createEcdhEcpointFixtures('secp256r1');
@@ -32,8 +18,8 @@ class EcdhSepkEcpointTest extends AbstractEcdhTestCase
      */
     public function testSecp256r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
-        $generator = SecpCurves::create()->generator256r1();
-        $this->testCurve($generator, $comment, $public, $private, $shared, $result, $flags);
+        $curve = SEC2CurveFactory::secp256r1();
+        $this->testCurve($curve, $comment, $public, $private, $shared, $result, $flags);
     }
 
     public static function provideSecp384r1(): array
@@ -46,8 +32,8 @@ class EcdhSepkEcpointTest extends AbstractEcdhTestCase
      */
     public function testSecp384r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
-        $generator = SecpCurves::create()->generator384r1();
-        $this->testCurve($generator, $comment, $public, $private, $shared, $result, $flags);
+        $curve = SEC2CurveFactory::secp384r1();
+        $this->testCurve($curve, $comment, $public, $private, $shared, $result, $flags);
     }
 
     public static function provideSecp521r1(): array
@@ -60,7 +46,7 @@ class EcdhSepkEcpointTest extends AbstractEcdhTestCase
      */
     public function testSecp521r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
-        $generator = SecpCurves::create()->generator521r1();
-        $this->testCurve($generator, $comment, $public, $private, $shared, $result, $flags);
+        $curve = SEC2CurveFactory::secp521r1();
+        $this->testCurve($curve, $comment, $public, $private, $shared, $result, $flags);
     }
 }

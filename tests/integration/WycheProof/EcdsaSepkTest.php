@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Integration\WycheProof;
 
-use Mdanter\Ecc\Integration\Utils\Key\PublicKeyInterface;
-use Mdanter\Ecc\Integration\Utils\Signature\Signature;
-use Mdanter\Ecc\Integration\Utils\Signature\Signer;
-use Mdanter\Ecc\Legacy\Curves\SecpCurves;
-use Mdanter\Ecc\Legacy\Math\GmpMath;
-use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
-use Mdanter\Ecc\Legacy\Serializer\Point\PointSize;
+use Mdanter\Ecc\Integration\Utils\Signature\ECDSASigner;
+use Mdanter\Ecc\Math\UnsafeMath;
+use Mdanter\Ecc\Primitives\Curve;
+use Mdanter\Ecc\Primitives\Point;
 use PHPUnit\Framework\TestCase;
 
 class EcdsaSepkTest extends TestCase
@@ -23,11 +20,9 @@ class EcdsaSepkTest extends TestCase
     /**
      * @dataProvider provideSecp192r1
      */
-    public function testSecp192r1(GeneratorPoint $generator, PublicKeyInterface $publicKey, \GMP $hash, string $signature, string $comment, string $result, array $flags): void
+    public function testSecp192r1(Curve $curve, Point $publicKey, string $message, string $signature, string $comment, string $result, array $flags): void
     {
-        $generator = SecpCurves::create()->generator192r1();
-
-        $this->testCurve($generator, $publicKey, $hash, $signature, $comment, $result, $flags);
+        $this->testCurve($curve, $publicKey, $message, $signature, $comment, $result, $flags);
     }
 
     public static function provideSecp192k1(): array
@@ -38,32 +33,18 @@ class EcdsaSepkTest extends TestCase
     /**
      * @dataProvider provideSecp192k1
      */
-    public function testSecp192k1(GeneratorPoint $generator, PublicKeyInterface $publicKey, \GMP $hash, string $signature, string $comment, string $result, array $flags): void
+    public function testSecp192k1(Curve $curve, Point $publicKey, string $message, string $signature, string $comment, string $result, array $flags): void
     {
-        $generator = SecpCurves::create()->generator192k1();
-
-        $this->testCurve($generator, $publicKey, $hash, $signature, $comment, $result, $flags);
+        $this->testCurve($curve, $publicKey, $message, $signature, $comment, $result, $flags);
     }
 
-    protected function testCurve(GeneratorPoint $generator, PublicKeyInterface $publicKey, \GMP $hash, string $signature, string $comment, string $result, array $flags): void
+    protected function testCurve(Curve $curve, Point $publicKey, string $message, string $signature, string $comment, string $result, array $flags): void
     {
-        // crude signature validity check, as this is not our prime concern here
-        $integerHexLength = PointSize::getByteSize($generator->getCurve()) * 2;
-        if (strlen($signature) !== $integerHexLength*2) {
-            $this->assertNotEquals($result, WycheProofConstants::RESULT_VALID);
-            return;
-        }
-
-        // unserialize signature
-        $r = gmp_init(substr($signature, 0, $integerHexLength), 16);
-        $s = gmp_init(substr($signature, $integerHexLength), 16);
-        $signature = new Signature($r, $s);
-
         // verify signature
-        $signer = new Signer(new GmpMath());
-        $verified = $signer->verify($publicKey, $signature, $hash);
+        $unsafeMath = new UnsafeMath($curve);
+        $signer = new ECDSASigner($unsafeMath, 'sha256');
 
-        // check congruent with Wyche proof expectation
+        $verified = $signer->verify($publicKey, $signature, $message);
         if ($verified) {
             $this->assertEquals($result, WycheProofConstants::RESULT_VALID);
         } else {
