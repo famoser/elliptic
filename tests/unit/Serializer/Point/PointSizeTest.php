@@ -2,11 +2,11 @@
 
 namespace Mdanter\Ecc\Tests\Serializer\Point;
 
-use Mdanter\Ecc\Curves\NamedCurveFp;
-use Mdanter\Ecc\EccFactory;
-use Mdanter\Ecc\Exception\UnsupportedCurveException;
-use Mdanter\Ecc\Primitives\CurveParameters;
-use Mdanter\Ecc\Serializer\Point\PointSize;
+use Mdanter\Ecc\Legacy\Curves\NamedCurveFp;
+use Mdanter\Ecc\Legacy\EccFactory;
+use Mdanter\Ecc\Legacy\Exception\UnsupportedCurveException;
+use Mdanter\Ecc\Legacy\Primitives\CurveParameters;
+use Mdanter\Ecc\Legacy\Serializer\Point\PointSize;
 use PHPUnit\Framework\TestCase;
 
 class PointSizeTest extends TestCase

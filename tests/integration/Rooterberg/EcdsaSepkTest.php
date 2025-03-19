@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Integration\Rooterberg;
 
-use Mdanter\Ecc\Curves\SecpCurves;
 use Mdanter\Ecc\Integration\Utils\Key\PublicKeyInterface;
 use Mdanter\Ecc\Integration\Utils\Signature\Signature;
 use Mdanter\Ecc\Integration\Utils\Signature\Signer;
-use Mdanter\Ecc\Math\GmpMath;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\Curves\SecpCurves;
+use Mdanter\Ecc\Legacy\Math\GmpMath;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
 use PHPUnit\Framework\TestCase;
 
 class EcdsaSepkTest extends TestCase

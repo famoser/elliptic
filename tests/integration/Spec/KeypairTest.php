@@ -2,10 +2,10 @@
 
 namespace Mdanter\Ecc\Integration\Spec;
 
-use Mdanter\Ecc\Curves\CurveFactory;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
-use Mdanter\Ecc\Serializer\Point\Format\CompressedPointSerializer;
-use Mdanter\Ecc\Serializer\Point\Format\UncompressedPointSerializer;
+use Mdanter\Ecc\Legacy\Curves\CurveFactory;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\Serializer\Point\Format\CompressedPointSerializer;
+use Mdanter\Ecc\Legacy\Serializer\Point\Format\UncompressedPointSerializer;
 use PHPUnit\Framework\TestCase;
 
 class KeypairTest extends TestCase

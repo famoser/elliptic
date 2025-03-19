@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Math;
 
-use Mdanter\Ecc\EccFactory;
-use Mdanter\Ecc\Math\GmpMath;
-use Mdanter\Ecc\Math\GmpMathInterface;
-use Mdanter\Ecc\Math\NumberTheory;
+use Mdanter\Ecc\Legacy\EccFactory;
+use Mdanter\Ecc\Legacy\Math\GmpMath;
+use Mdanter\Ecc\Legacy\Math\GmpMathInterface;
+use Mdanter\Ecc\Legacy\Math\NumberTheory;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class NumberTheoryTest extends AbstractTestCase
@@ -22,7 +22,7 @@ class NumberTheoryTest extends AbstractTestCase
     protected $sqrt_data;
 
     /**
-     * @var \Mdanter\Ecc\Primitives\GeneratorPoint
+     * @var \Mdanter\Ecc\Legacy\Primitives\GeneratorPoint
      */
     protected $generator;
 
@@ -65,7 +65,7 @@ class NumberTheoryTest extends AbstractTestCase
      */
     public function testSqrtDataWithNoRoots(string $a, string $p)
     {
-        $this->expectException(\Mdanter\Ecc\Exception\SquareRootException::class);
+        $this->expectException(\Mdanter\Ecc\Legacy\Exception\SquareRootException::class);
         $adapter = new GmpMath();
         $theory = $adapter->getNumberTheory();
         $theory->squareRootModP(gmp_init($a, 10), gmp_init($p, 10));

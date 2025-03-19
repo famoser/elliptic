@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Util;
 
-use Mdanter\Ecc\Math\GmpMathInterface;
+use Mdanter\Ecc\Legacy\Math\GmpMathInterface;
+use Mdanter\Ecc\Legacy\Util\NumberSize;
 use Mdanter\Ecc\Tests\AbstractTestCase;
-use Mdanter\Ecc\Util\NumberSize;
 
 class NumberSizeTest extends AbstractTestCase
 {

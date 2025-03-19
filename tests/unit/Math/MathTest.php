@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Math;
 
-use Mdanter\Ecc\Math\GmpMath;
-use Mdanter\Ecc\Math\GmpMathInterface;
+use Mdanter\Ecc\Legacy\Math\GmpMath;
+use Mdanter\Ecc\Legacy\Math\GmpMathInterface;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class MathTest extends AbstractTestCase

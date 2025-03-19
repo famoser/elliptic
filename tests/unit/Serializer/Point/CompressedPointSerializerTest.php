@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Serializer\Point;
 
-use Mdanter\Ecc\EccFactory;
-use Mdanter\Ecc\Serializer\Point\Format\CompressedPointSerializer;
-use Mdanter\Ecc\Serializer\Point\PointDecodingException;
+use Mdanter\Ecc\Legacy\EccFactory;
+use Mdanter\Ecc\Legacy\Serializer\Point\Format\CompressedPointSerializer;
+use Mdanter\Ecc\Legacy\Serializer\Point\PointDecodingException;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class CompressedPointSerializerTest extends AbstractTestCase

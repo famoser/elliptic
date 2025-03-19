@@ -2,8 +2,8 @@
 
 namespace Mdanter\Ecc\Integration\Spec;
 
-use Mdanter\Ecc\Curves\CurveFactory;
-use Mdanter\Ecc\Curves\NamedCurveFp;
+use Mdanter\Ecc\Legacy\Curves\CurveFactory;
+use Mdanter\Ecc\Legacy\Curves\NamedCurveFp;
 use PHPUnit\Framework\TestCase;
 
 class PublicKeyTest extends TestCase

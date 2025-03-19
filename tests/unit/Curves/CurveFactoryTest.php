@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Curves;
 
-use Mdanter\Ecc\Curves\CurveFactory;
-use Mdanter\Ecc\Curves\NistCurve;
-use Mdanter\Ecc\Curves\SecpCurves;
-use Mdanter\Ecc\Exception\UnsupportedCurveException;
+use Mdanter\Ecc\Legacy\Curves\CurveFactory;
+use Mdanter\Ecc\Legacy\Curves\NistCurve;
+use Mdanter\Ecc\Legacy\Curves\SecpCurves;
+use Mdanter\Ecc\Legacy\Exception\UnsupportedCurveException;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class CurveFactoryTest extends AbstractTestCase
@@ -44,7 +44,7 @@ class CurveFactoryTest extends AbstractTestCase
 
     public function testFailsOnUnknownCurve()
     {
-        $this->expectException(\Mdanter\Ecc\Exception\UnsupportedCurveException::class);
+        $this->expectException(\Mdanter\Ecc\Legacy\Exception\UnsupportedCurveException::class);
         $this->expectExceptionMessage('Unknown curve.');
 
         $curveName = 'unknown';
@@ -59,7 +59,7 @@ class CurveFactoryTest extends AbstractTestCase
 
     public function testFailsOnUnknownGenerator()
     {
-        $this->expectException(\Mdanter\Ecc\Exception\UnsupportedCurveException::class);
+        $this->expectException(\Mdanter\Ecc\Legacy\Exception\UnsupportedCurveException::class);
         $this->expectExceptionMessage('Unknown generator.');
 
         $curveName = 'unknown';

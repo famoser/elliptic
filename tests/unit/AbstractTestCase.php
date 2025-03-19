@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests;
 
-use Mdanter\Ecc\Math\MathAdapterFactory;
+use Mdanter\Ecc\Legacy\Math\MathAdapterFactory;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTestCase extends TestCase

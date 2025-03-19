@@ -28,7 +28,7 @@ namespace Mdanter\Ecc\Integration\Utils\Key;
  */
 
 use Mdanter\Ecc\Integration\Utils\EcDH\EcDHInterface;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
 
 /**
  * This is a contract for the PrivateKey portion of ECDSA.

@@ -3,19 +3,19 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Crypto\Key;
 
-use Mdanter\Ecc\EccFactory;
-use Mdanter\Ecc\Exception\PublicKeyException;
 use Mdanter\Ecc\Integration\Utils\Key\PublicKey;
-use Mdanter\Ecc\Primitives\CurveFp;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
-use Mdanter\Ecc\Primitives\Point;
+use Mdanter\Ecc\Legacy\EccFactory;
+use Mdanter\Ecc\Legacy\Exception\PublicKeyException;
+use Mdanter\Ecc\Legacy\Primitives\CurveFp;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\Primitives\Point;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class PublicKeyTest extends AbstractTestCase
 {
     public function testBadPointForGenerator()
     {
-        $this->expectException(\Mdanter\Ecc\Exception\PublicKeyException::class);
+        $this->expectException(\Mdanter\Ecc\Legacy\Exception\PublicKeyException::class);
         $this->expectExceptionMessage('Point has x and y out of range');
 
         $adapter = EccFactory::getAdapter();
@@ -34,7 +34,7 @@ class PublicKeyTest extends AbstractTestCase
 
     public function testPointGeneratorMismatch()
     {
-        $this->expectException(\Mdanter\Ecc\Exception\PublicKeyException::class);
+        $this->expectException(\Mdanter\Ecc\Legacy\Exception\PublicKeyException::class);
         $this->expectExceptionMessage('Curve for given point not in common with GeneratorPoint');
 
         $adapter = EccFactory::getAdapter();

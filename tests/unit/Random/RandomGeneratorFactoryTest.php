@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Random;
 
-use Mdanter\Ecc\Math\GmpMath;
-use Mdanter\Ecc\Primitives\CurveFp;
-use Mdanter\Ecc\Primitives\CurveParameters;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
-use Mdanter\Ecc\Random\DebugDecorator;
-use Mdanter\Ecc\Random\RandomGeneratorFactory;
+use Mdanter\Ecc\Legacy\Math\GmpMath;
+use Mdanter\Ecc\Legacy\Primitives\CurveFp;
+use Mdanter\Ecc\Legacy\Primitives\CurveParameters;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\Random\DebugDecorator;
+use Mdanter\Ecc\Legacy\Random\RandomGeneratorFactory;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class RandomGeneratorFactoryTest extends AbstractTestCase

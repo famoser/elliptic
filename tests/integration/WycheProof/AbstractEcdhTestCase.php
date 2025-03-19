@@ -2,12 +2,12 @@
 
 namespace Mdanter\Ecc\Integration\WycheProof;
 
-use Mdanter\Ecc\Exception\PointNotOnCurveException;
-use Mdanter\Ecc\Exception\PointRecoveryException;
-use Mdanter\Ecc\Exception\SquareRootException;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
-use Mdanter\Ecc\Serializer\Point\ChainedPointSerializer;
-use Mdanter\Ecc\Serializer\Point\PointDecodingException;
+use Mdanter\Ecc\Legacy\Exception\PointNotOnCurveException;
+use Mdanter\Ecc\Legacy\Exception\PointRecoveryException;
+use Mdanter\Ecc\Legacy\Exception\SquareRootException;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\Serializer\Point\ChainedPointSerializer;
+use Mdanter\Ecc\Legacy\Serializer\Point\PointDecodingException;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractEcdhTestCase extends TestCase

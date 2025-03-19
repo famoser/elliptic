@@ -6,7 +6,7 @@ namespace Mdanter\Ecc\Integration\Utils\Signature;
 
 use Mdanter\Ecc\Integration\Utils\Key\PrivateKeyInterface;
 use Mdanter\Ecc\Integration\Utils\Key\PublicKeyInterface;
-use Mdanter\Ecc\Math\GmpMathInterface;
+use Mdanter\Ecc\Legacy\Math\GmpMathInterface;
 
 class Signer
 {

@@ -29,9 +29,9 @@ namespace Mdanter\Ecc\Integration\Utils\Key;
 
 use Mdanter\Ecc\Integration\Utils\EcDH\EcDH;
 use Mdanter\Ecc\Integration\Utils\EcDH\EcDHInterface;
-use Mdanter\Ecc\Math\GmpMathInterface;
-use Mdanter\Ecc\Primitives\CurveFpInterface;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\Math\GmpMathInterface;
+use Mdanter\Ecc\Legacy\Primitives\CurveFpInterface;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
 
 /**
  * This class serves as public - private key exchange for signature verification.

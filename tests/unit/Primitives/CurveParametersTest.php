@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Primitives;
 
-use Mdanter\Ecc\Primitives\CurveParameters;
+use Mdanter\Ecc\Legacy\Primitives\CurveParameters;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class CurveParametersTest extends AbstractTestCase
