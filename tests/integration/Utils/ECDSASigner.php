@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Integration\Utils\Signature;
+namespace Mdanter\Ecc\Integration\Utils;
 
-use Mdanter\Ecc\Legacy\Util\NumberSize;
+use Mdanter\Ecc\Integration\Utils\Signature\Signature;
 use Mdanter\Ecc\Math\MathInterface;
 use Mdanter\Ecc\Primitives\Point;
 
