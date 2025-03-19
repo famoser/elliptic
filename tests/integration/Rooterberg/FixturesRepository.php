@@ -2,11 +2,11 @@
 
 namespace Mdanter\Ecc\Integration\Rooterberg;
 
+use Mdanter\Ecc\Curves\CurveRepository;
 use Mdanter\Ecc\Integration\Utils\Key\PublicKey;
 use Mdanter\Ecc\Integration\Utils\Signature\SignHasher;
-use Mdanter\Ecc\Legacy\Curves\CurveFactory;
-use Mdanter\Ecc\Legacy\Math\GmpMath;
-use Mdanter\Ecc\Legacy\Serializer\Point\Format\CompressedPointSerializer;
+use Mdanter\Ecc\Serializer\PointDecoderException;
+use Mdanter\Ecc\Serializer\PointSerializer;
 
 class FixturesRepository
 {
@@ -21,31 +21,27 @@ class FixturesRepository
         return json_decode($testvectorsJson, true);
     }
 
+    /**
+     * @throws PointDecoderException
+     */
     private static function parseEcdsaSha224Testvectors(array $testvectors): array
     {
         $results = [];
 
         $algorithm = $testvectors['algorithm'];
-        $generator = CurveFactory::getGeneratorByName($algorithm['curve']);
+        $curveRepository = new CurveRepository();
+        $curve = $curveRepository->resolveByName($algorithm['curve']);
 
-        assert($algorithm['sha'] === 'SHA-224');
-        $signHasher = new SignHasher('sha224');
-
-        $pointSerializer = new CompressedPointSerializer(new GmpMath());
+        $pointSerializer = new PointSerializer($curve);
 
         foreach ($testvectors['tests'] as $testvector) {
-            $point = $pointSerializer->deserialize($generator->getCurve(), $testvector['publicKeyCompressed']);
-            $publicKey = new PublicKey(new GmpMath(), $generator, $point);
-
-            assert($testvector['sha'], 'SHA-256');
+            $publicKey = $pointSerializer->deserialize($testvector['publicKeyUncompressed']);
 
             $tcId = "tcId: " . $testvector['tcId'];
-
-            $hash = $signHasher->makeHash(hex2bin($testvector['msg']), $generator);
             $results[$tcId] = [
-                'generator' => $generator,
+                'curve' => $curve,
                 'publicKey' => $publicKey,
-                'hash' => $hash,
+                'message' => hex2bin($testvector['msg']),
                 'sig' => $testvector['sig'],
                 'comment' => $testvector['comment'],
                 'valid' => $testvector['valid'],
@@ -56,6 +52,9 @@ class FixturesRepository
         return $results;
     }
 
+    /**
+     * @throws PointDecoderException
+     */
     public static function createEcdsaSha224Fixtures(string $curve): array
     {
         $testvectors = FixturesRepository::readTestvectors("ecdsa", "{$curve}_sha_224_p1363");
