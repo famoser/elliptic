@@ -16,12 +16,18 @@ class ECDSASigner
 
     private function hash(string $message): \GMP
     {
-        $hash = gmp_init(hash($this->hashAlgorithm, $message), 16);
+        $hashValue = hash($this->hashAlgorithm, $message);
+        $hashBits = gmp_strval(gmp_init($hashValue, 16), 2);
 
-        $orderBits = gmp_strval($this->math->getCurve()->getN(), 2);
-        $mask = gmp_init(str_repeat('1', strlen($orderBits)), 2);
+        // expand to fill out all bits
+        $expectedHashBits = (int) substr($this->hashAlgorithm, 3);
+        $hashBits = str_pad($hashBits, $expectedHashBits, '0', STR_PAD_LEFT);
 
-        return gmp_and($hash, $mask);
+        // cut out lower bits that do not fit inside the curve order
+        $truncateSize = strlen(gmp_strval($this->math->getCurve()->getN(), 2));
+        $truncatedHash = substr($hashBits, 0, $truncateSize);
+
+        return gmp_init($truncatedHash, 2);
     }
 
     private function tryDecodeSignature(string $signature, \GMP &$r, \GMP &$s): bool

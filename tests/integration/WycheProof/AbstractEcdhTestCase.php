@@ -2,12 +2,11 @@
 
 namespace Mdanter\Ecc\Integration\WycheProof;
 
-use Mdanter\Ecc\Legacy\Exception\PointNotOnCurveException;
-use Mdanter\Ecc\Legacy\Exception\PointRecoveryException;
-use Mdanter\Ecc\Legacy\Exception\SquareRootException;
-use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
-use Mdanter\Ecc\Legacy\Serializer\Point\ChainedPointSerializer;
+use Mdanter\Ecc\Math\UnsafeMath;
+use Mdanter\Ecc\Primitives\Curve;
 use Mdanter\Ecc\Serializer\PointDecoderException;
+use Mdanter\Ecc\Serializer\PointSerializer;
+use Mdanter\Ecc\Serializer\PointSerializerException;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractEcdhTestCase extends TestCase
@@ -15,38 +14,27 @@ abstract class AbstractEcdhTestCase extends TestCase
     protected const POINT_NOT_ON_CURVE_COMMENT_WHITELIST = [
         'public point not on curve',
         'point is not on curve',
-        'public point = (0,0)'
-    ];
-
-    protected const POINT_RECOVERY_JACOBI_COMMENT_WHITELIST = [
+        'public point = (0,0)',
         'invalid public key',
         'public key is a low order point on twist'
     ];
 
-    protected function testCurve(GeneratorPoint $generator, string $comment, string $public, string $private, string $shared, string $result, array $flags): void
+    protected function testCurve(Curve $curve, string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
         // unserialize public key
         try {
-            $pointSerializer = ChainedPointSerializer::create();
-            $publicKey = $pointSerializer->deserialize($generator->getCurve(), $public);
-        } catch (PointNotOnCurveException) {
+            $pointSerializer = new PointSerializer($curve);
+            $publicKey = $pointSerializer->deserialize($public);
+        } catch (PointDecoderException) {
             $this->assertEquals($result, WycheProofConstants::RESULT_INVALID);
             if (in_array($comment, self::POINT_NOT_ON_CURVE_COMMENT_WHITELIST, true)) {
                 return;
             }
 
             $this->fail('Test data considers other error: ' . $comment);
-        } catch (PointRecoveryException $ex) {
+        } catch (PointSerializerException) {
             $this->assertEquals($result, WycheProofConstants::RESULT_INVALID);
-            $jacobiException = $ex->getPrevious() instanceof SquareRootException && $ex->getPrevious()->getCode() === SquareRootException::CODE_JACOBI;
-            if (in_array($comment, self::POINT_RECOVERY_JACOBI_COMMENT_WHITELIST, true) && $jacobiException) {
-                return;
-            }
-
-            $this->fail('Test data considers other error: ' . $comment);
-        } catch (PointDecoderException) {
-            $this->assertEquals($result, WycheProofConstants::RESULT_INVALID);
-            if ($public === '') {
+            if ($public === '' || in_array('InvalidPublic', $flags)) {
                 return;
             }
 
@@ -54,12 +42,12 @@ abstract class AbstractEcdhTestCase extends TestCase
         }
 
         // do DH
-        $privateKey = $generator->mul(gmp_init($private, 16));
-        $secret = $privateKey->mul($publicKey->getX());
+        $math = new UnsafeMath($curve);
+        $sharedSecret = $math->mul($publicKey, gmp_init($private, 16));
 
         // check shared secret as expected
         $expectedSharedSecret = gmp_init($shared, 16);
-        $this->assertEquals($expectedSharedSecret, $secret->getX());
+        $this->assertEquals($expectedSharedSecret, $sharedSecret->x);
 
         // check congruent with Wyche proof expectation
         $this->assertNotEquals($result, WycheProofConstants::RESULT_INVALID);

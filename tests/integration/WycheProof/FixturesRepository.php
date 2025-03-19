@@ -2,8 +2,8 @@
 
 namespace Mdanter\Ecc\Integration\WycheProof;
 
-use Mdanter\Ecc\Integration\Utils\Signature\SignHasher;
-use Mdanter\Ecc\Legacy\Curves\CurveFactory;
+use Mdanter\Ecc\Curves\CurveRepository;
+use Mdanter\Ecc\Primitives\Point;
 
 class FixturesRepository
 {
@@ -42,24 +42,21 @@ class FixturesRepository
 
     private static function parseEcdsaSha256Testvectors(array $testvectors): array
     {
+        $curveRepository = new CurveRepository();
         $results = [];
 
         foreach ($testvectors['testGroups'] as $testGroup) {
             $key = $testGroup['key'];
-            $generator = CurveFactory::getGeneratorByName($key['curve']);
-            $publicKey = $generator->getPublicKeyFrom(gmp_init($key['wx'], 16), gmp_init($key['wy'], 16));
-
-            assert($testGroup['sha'], 'SHA-256');
-            $signHasher = new SignHasher('sha256');
+            $curve = $curveRepository->resolveByName($key['curve']);
+            $publicKey = new Point(gmp_init($key['wx'], 16), gmp_init($key['wy'], 16));
 
             foreach ($testGroup['tests'] as $testvector) {
                 $tcId = "tcId: " . $testvector['tcId'];
 
-                $hash = $signHasher->makeHash(hex2bin($testvector['msg']), $generator);
                 $results[$tcId] = [
-                    'generator' => $generator,
+                    'generator' => $curve,
                     'publicKey' => $publicKey,
-                    'hash' => $hash,
+                    'message' => hex2bin($testvector['msg']),
                     'sig' => $testvector['sig'],
                     'comment' => $testvector['comment'],
                     'result' => $testvector['result'],
