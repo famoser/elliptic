@@ -47,6 +47,7 @@ class ECDSASigner
     public function verify(Point $publicKey, Signature $signature, string $message): bool
     {
         $n = $this->math->getCurve()->getN();
+        $G = $this->math->getCurve()->getG();
 
         $r = $signature->getR();
         $s = $signature->getS();
@@ -64,7 +65,7 @@ class ECDSASigner
         $c = gmp_invert($s, $n);
         $u1 = gmp_mul($hash, $c);
         $u2 = gmp_mul($r, $c);
-        $xy = $this->math->add($this->math->mul($publicKey, $u1), $this->math->mul($publicKey, $u2));
+        $xy = $this->math->add($this->math->mul($G, $u1), $this->math->mul($publicKey, $u2));
 
         // check equality
         $result = gmp_mod(gmp_sub($xy->x, $r), $n);

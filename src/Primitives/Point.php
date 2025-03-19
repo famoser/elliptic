@@ -18,6 +18,6 @@ class Point
 
     public function isInfinity(): bool
     {
-        return gmp_cmp($this->x, 0) && gmp_cmp($this->y, 0);
+        return gmp_cmp($this->x, 0) === 0 && gmp_cmp($this->y, 0) === 0;
     }
 }
