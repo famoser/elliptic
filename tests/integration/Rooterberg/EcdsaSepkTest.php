@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mdanter\Ecc\Integration\Rooterberg;
 
 use Mdanter\Ecc\Integration\Utils\Signature\ECDSASigner;
-use Mdanter\Ecc\Integration\Utils\Signature\Signature;
 use Mdanter\Ecc\Math\UnsafeMath;
 use Mdanter\Ecc\Primitives\Curve;
 use Mdanter\Ecc\Primitives\Point;
@@ -48,24 +47,10 @@ class EcdsaSepkTest extends TestCase
 
     protected function testCurve(Curve $curve, Point $publicKey, string $message, string $signature, string $comment, bool $valid, array $flags): void
     {
-        // crude signature validity check, as this is not our prime concern here
-        $integerOctetLength = (int) ceil((float) strlen(gmp_strval($curve->getN(), 2)) / 8);
-        if (strlen($signature) !== $integerOctetLength*4) {
-            $this->assertFalse($valid);
-            return;
-        }
-
-        // unserialize signature
-        $r = gmp_init(substr($signature, 0, $integerOctetLength*2), 16);
-        $s = gmp_init(substr($signature, $integerOctetLength*2), 16);
-        $signature = new Signature($r, $s);
-
-        // verify signature
         $math = new UnsafeMath($curve);
         $signer = new ECDSASigner($math, 'sha224');
-        $verified = $signer->verify($publicKey, $signature, $message);
 
-        // check congruent with proof expectation
+        $verified = $signer->verify($publicKey, $signature, $message);
         if ($verified) {
             $this->assertTrue($valid);
         } else {
