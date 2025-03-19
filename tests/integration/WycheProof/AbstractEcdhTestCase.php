@@ -7,7 +7,7 @@ use Mdanter\Ecc\Legacy\Exception\PointRecoveryException;
 use Mdanter\Ecc\Legacy\Exception\SquareRootException;
 use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
 use Mdanter\Ecc\Legacy\Serializer\Point\ChainedPointSerializer;
-use Mdanter\Ecc\Legacy\Serializer\Point\PointDecodingException;
+use Mdanter\Ecc\Serializer\PointDecoderException;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractEcdhTestCase extends TestCase
@@ -44,7 +44,7 @@ abstract class AbstractEcdhTestCase extends TestCase
             }
 
             $this->fail('Test data considers other error: ' . $comment);
-        } catch (PointDecodingException) {
+        } catch (PointDecoderException) {
             $this->assertEquals($result, WycheProofConstants::RESULT_INVALID);
             if ($public === '') {
                 return;

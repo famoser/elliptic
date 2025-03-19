@@ -7,6 +7,7 @@ use Mdanter\Ecc\Legacy\Primitives\CurveFpInterface;
 use Mdanter\Ecc\Legacy\Primitives\PointInterface;
 use Mdanter\Ecc\Legacy\Serializer\Point\Format\CompressedPointSerializer;
 use Mdanter\Ecc\Legacy\Serializer\Point\Format\UncompressedPointSerializer;
+use Mdanter\Ecc\Serializer\PointDecoderException;
 
 class ChainedPointSerializer implements PointSerializerInterface
 {
@@ -39,7 +40,7 @@ class ChainedPointSerializer implements PointSerializerInterface
             }
         }
 
-        throw new PointDecodingException('No serializer available for this point.');
+        throw new PointDecoderException('No serializer available for this point.');
     }
 
     public function supportsDeserialize(string $point): bool

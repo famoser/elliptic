@@ -6,9 +6,9 @@ namespace Mdanter\Ecc\Legacy\Serializer\Point\Format;
 use Mdanter\Ecc\Legacy\Math\GmpMathInterface;
 use Mdanter\Ecc\Legacy\Primitives\CurveFpInterface;
 use Mdanter\Ecc\Legacy\Primitives\PointInterface;
-use Mdanter\Ecc\Legacy\Serializer\Point\PointDecodingException;
 use Mdanter\Ecc\Legacy\Serializer\Point\PointSerializerInterface;
 use Mdanter\Ecc\Legacy\Serializer\Point\PointSize;
+use Mdanter\Ecc\Serializer\PointDecoderException;
 
 class CompressedPointSerializer implements PointSerializerInterface
 {
@@ -39,7 +39,7 @@ class CompressedPointSerializer implements PointSerializerInterface
     public function deserialize(CurveFpInterface $curve, string $point): PointInterface
     {
         if (!$this->supportsDeserialize($point)) {
-            throw new PointDecodingException('Invalid data: only compressed keys are supported.');
+            throw new PointDecoderException('Invalid data: only compressed keys are supported.');
         }
 
         $x = gmp_init(substr($point, 2), 16);
