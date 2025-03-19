@@ -64,6 +64,22 @@ class CurveRepository
      */
     private array $curveCache = [];
 
+    /**
+     * @return string[]
+     */
+    public function getKnownNames(): array
+    {
+        return array_merge(array_keys($this->canonicalNameCurveConstructors), array_keys($this->nameAlias));
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getKnownCurveOIDs(): array
+    {
+        return array_keys($this->oidAlias);
+    }
+
     public function resolveByOID(string $oid): ?Curve
     {
         if (!array_key_exists($oid, $this->oidAlias)) {

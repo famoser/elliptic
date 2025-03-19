@@ -2,6 +2,7 @@
 
 namespace Mdanter\Ecc\Serializer;
 
+use Mdanter\Ecc\Legacy\Exception\SquareRootException;
 use Mdanter\Ecc\Primitives\Curve;
 use Mdanter\Ecc\Primitives\Point;
 
@@ -25,11 +26,38 @@ class PointDecoder
     }
 
     /**
+     * implements https://www.secg.org/sec1-v2.pdf 2.3.4
      * @throws PointDecoderException
      */
-    public function fromXCoordinate(\GMP $x, bool $evenY)
+    public function fromXCoordinate(\GMP $x, bool $isEvenY): Point
     {
-        throw new PointDecoderException('Not yet implemented.');
+        $p = $this->curve->getP();
+        if (gmp_cmp(gmp_mod($p, 4), 3) !== 0) {
+            throw new PointDecoderException('Point decoding for p mod 4 != 3 not implemented.');
+        }
+
+        $alpha = gmp_add(
+            gmp_add(
+                gmp_powm($x, gmp_init(3, 10), $p),
+                gmp_mul($this->curve->getA(), $x)
+            ),
+            $this->curve->getB()
+        );
+
+        $jacobiSymbol = gmp_jacobi($alpha, $p);
+        if ($jacobiSymbol !== 1) {
+            throw new PointDecoderException('No square root of alpha.');
+        }
+
+        $const = gmp_div(gmp_add($p, 1), 4);
+        $beta = gmp_powm($alpha, $const, $p);
+
+        $yp = $isEvenY ? gmp_init(0) : gmp_init(1);
+        if (gmp_cmp(gmp_mod($beta, 2), $yp) === 0) {
+            return new Point($x, $beta);
+        } else {
+            return new Point($x, gmp_sub($p, $beta));
+        }
     }
 
     /**

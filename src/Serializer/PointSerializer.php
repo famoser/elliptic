@@ -15,7 +15,7 @@ class PointSerializer
     private readonly PointDecoder $pointDecoder;
 
     const ENCODING_COMPRESSED = 'compressed';
-    const ENCODING_UNCOMPRESSED = 'compressed';
+    const ENCODING_UNCOMPRESSED = 'uncompressed';
 
     public function __construct(private readonly Curve $curve, private readonly string $preferredEncoding = self::ENCODING_COMPRESSED)
     {
@@ -26,7 +26,7 @@ class PointSerializer
     /**
      * implements https://www.secg.org/SEC1-Ver-1.0.pdf 2.3.4
      *
-     * @throws PointDecoderException
+     * @throws PointDecoderException|PointSerializerException
      */
     public function deserialize(string $hex): Point
     {
@@ -37,9 +37,9 @@ class PointSerializer
         $compressedFormatOctetLength = 1 + $this->pointOctetLength;
         if (strlen($hex) === 2 * $compressedFormatOctetLength && (str_starts_with($hex, '02') || str_starts_with($hex, '03'))) {
             $x = gmp_init(substr($hex, 2), 16);
-            $evenY = str_starts_with($hex, '02');
+            $isEvenY = str_starts_with($hex, '02');
 
-            return $this->pointDecoder->fromXCoordinate($x, $evenY);
+            return $this->pointDecoder->fromXCoordinate($x, $isEvenY);
         }
 
         $uncompressedFormatOctetLength = 1 + 2 * $this->pointOctetLength;
