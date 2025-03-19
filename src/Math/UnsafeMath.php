@@ -117,13 +117,21 @@ class UnsafeMath implements MathInterface
 
     public function mul(Point $point, \GMP $factor): Point
     {
+        // reduce factor once to ensure it is within our curve N bit size (and reduce computational effort)
         $reducedFactor = gmp_mod($factor, $this->curve->getN());
 
-        /** @var Point[] $r */
-        $r = [Point::createInfinity(), clone $point];
+        // normalize to curve N bit length to get approximate constant time runtime (however, not good enough for prod usage)
         $factorBits = gmp_strval($reducedFactor, 2);
         $normalizedFactorBits = str_pad($factorBits, $this->curveNBitLength, '0', STR_PAD_LEFT);
 
+        /**
+         * how this works:
+         * first, observe r[0] is infinity at (0,0), and r[1] our "real" point.
+         * r[0] and r[1] are swapped iff the corresponding bit in $factor is set to 1,
+         * hence if $j = 1, then the "real" point is added, else the "real" point is doubled
+         */
+        /** @var Point[] $r */
+        $r = [Point::createInfinity(), clone $point];
         for ($i = 0; $i < $this->curveNBitLength; $i++) {
             $j = $normalizedFactorBits[$i];
 
