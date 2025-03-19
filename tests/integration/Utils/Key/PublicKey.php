@@ -27,11 +27,11 @@ namespace Mdanter\Ecc\Integration\Utils\Key;
  * ***********************************************************************
  */
 
-use Mdanter\Ecc\Exception\PublicKeyException;
-use Mdanter\Ecc\Math\GmpMathInterface;
-use Mdanter\Ecc\Primitives\CurveFpInterface;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
-use Mdanter\Ecc\Primitives\PointInterface;
+use Mdanter\Ecc\Legacy\Exception\PublicKeyException;
+use Mdanter\Ecc\Legacy\Math\GmpMathInterface;
+use Mdanter\Ecc\Legacy\Primitives\CurveFpInterface;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\Primitives\PointInterface;
 
 /**
  * This class serves as public- private key exchange for signature verification

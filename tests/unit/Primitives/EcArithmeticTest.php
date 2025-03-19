@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Primitives;
 
-use Mdanter\Ecc\Math\GmpMathInterface;
-use Mdanter\Ecc\Primitives\CurveParameters;
-use Mdanter\Ecc\Primitives\CurveFp;
-use Mdanter\Ecc\Primitives\CurveFpInterface;
+use Mdanter\Ecc\Legacy\Math\GmpMathInterface;
+use Mdanter\Ecc\Legacy\Primitives\CurveFp;
+use Mdanter\Ecc\Legacy\Primitives\CurveFpInterface;
+use Mdanter\Ecc\Legacy\Primitives\CurveParameters;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class EcArithmeticTest extends AbstractTestCase

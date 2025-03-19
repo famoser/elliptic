@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Integration\WycheProof;
 
-use Mdanter\Ecc\Curves\SecpCurves;
+use Mdanter\Ecc\Legacy\Curves\SecpCurves;
 
 class EcdhSepkEcpointTest extends AbstractEcdhTestCase
 {

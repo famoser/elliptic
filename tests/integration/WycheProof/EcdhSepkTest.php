@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Integration\WycheProof;
 
-use Mdanter\Ecc\Curves\SecpCurves;
-use Mdanter\Ecc\Exception\PointNotOnCurveException;
 use Mdanter\Ecc\Integration\Utils\DER\UnsafeDerRawPublicKeySerializer;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\Curves\SecpCurves;
+use Mdanter\Ecc\Legacy\Exception\PointNotOnCurveException;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
 use Sop\ASN1\Type\UnspecifiedType;
 
 class EcdhSepkTest extends AbstractEcdhTestCase

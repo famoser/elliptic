@@ -27,9 +27,9 @@ namespace Mdanter\Ecc\Integration\Utils\Key;
  * ***********************************************************************
  */
 
-use Mdanter\Ecc\Primitives\CurveFpInterface;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
-use Mdanter\Ecc\Primitives\PointInterface;
+use Mdanter\Ecc\Legacy\Primitives\CurveFpInterface;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\Primitives\PointInterface;
 
 /**
  * This is the contract for the PublicKey portion of ECDSA.

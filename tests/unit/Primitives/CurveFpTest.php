@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Primitives;
 
-use Mdanter\Ecc\EccFactory;
-use Mdanter\Ecc\Math\GmpMath;
-use Mdanter\Ecc\Math\ModularArithmetic;
-use Mdanter\Ecc\Primitives\CurveFp;
-use Mdanter\Ecc\Primitives\CurveParameters;
+use Mdanter\Ecc\Legacy\EccFactory;
+use Mdanter\Ecc\Legacy\Math\GmpMath;
+use Mdanter\Ecc\Legacy\Math\ModularArithmetic;
+use Mdanter\Ecc\Legacy\Primitives\CurveFp;
+use Mdanter\Ecc\Legacy\Primitives\CurveParameters;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class CurveFpTest extends AbstractTestCase

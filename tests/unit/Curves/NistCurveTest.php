@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests;
 
-use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Integration\Utils\Signature\Signature;
 use Mdanter\Ecc\Integration\Utils\Signature\Signer;
-use Mdanter\Ecc\Math\GmpMathInterface;
-use Mdanter\Ecc\Random\RandomGeneratorFactory;
-use Mdanter\Ecc\Random\RandomNumberGeneratorInterface;
+use Mdanter\Ecc\Legacy\EccFactory;
+use Mdanter\Ecc\Legacy\Math\GmpMathInterface;
+use Mdanter\Ecc\Legacy\Random\RandomGeneratorFactory;
+use Mdanter\Ecc\Legacy\Random\RandomNumberGeneratorInterface;
 
 class NistCurveTest extends AbstractTestCase
 {

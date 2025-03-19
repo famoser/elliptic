@@ -2,11 +2,11 @@
 
 namespace Mdanter\Ecc\Integration\Rooterberg;
 
-use Mdanter\Ecc\Curves\CurveFactory;
 use Mdanter\Ecc\Integration\Utils\Key\PublicKey;
 use Mdanter\Ecc\Integration\Utils\Signature\SignHasher;
-use Mdanter\Ecc\Math\GmpMath;
-use Mdanter\Ecc\Serializer\Point\Format\CompressedPointSerializer;
+use Mdanter\Ecc\Legacy\Curves\CurveFactory;
+use Mdanter\Ecc\Legacy\Math\GmpMath;
+use Mdanter\Ecc\Legacy\Serializer\Point\Format\CompressedPointSerializer;
 
 class FixturesRepository
 {

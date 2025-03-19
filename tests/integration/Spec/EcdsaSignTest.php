@@ -2,10 +2,10 @@
 
 namespace Mdanter\Ecc\Integration\Spec;
 
-use Mdanter\Ecc\Curves\CurveFactory;
 use Mdanter\Ecc\Integration\Utils\Signature\Signer;
 use Mdanter\Ecc\Integration\Utils\Signature\SignHasher;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\Curves\CurveFactory;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
 use PHPUnit\Framework\TestCase;
 
 class EcdsaSignTest extends TestCase

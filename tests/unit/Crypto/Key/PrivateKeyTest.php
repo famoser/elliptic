@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Crypto\Key;
 
-use Mdanter\Ecc\EccFactory;
 use Mdanter\Ecc\Integration\Utils\EcDH\EcDH;
 use Mdanter\Ecc\Integration\Utils\Key\PublicKey;
-use Mdanter\Ecc\Primitives\CurveFp;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\EccFactory;
+use Mdanter\Ecc\Legacy\Primitives\CurveFp;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class PrivateKeyTest extends AbstractTestCase

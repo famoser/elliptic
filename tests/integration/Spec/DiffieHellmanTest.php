@@ -2,9 +2,8 @@
 
 namespace Mdanter\Ecc\Integration\Spec;
 
-use Mdanter\Ecc\Curves\CurveFactory;
-use Mdanter\Ecc\Curves\NamedCurveFp;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\Curves\CurveFactory;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
 use PHPUnit\Framework\TestCase;
 
 class DiffieHellmanTest extends TestCase

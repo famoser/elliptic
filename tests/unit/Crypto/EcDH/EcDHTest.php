@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Crypto\EcDH;
 
-use Mdanter\Ecc\EccFactory;
-use Mdanter\Ecc\Exception\ExchangeException;
 use Mdanter\Ecc\Integration\Utils\EcDH\EcDH;
-use Mdanter\Ecc\Serializer\Point\Format\UncompressedPointSerializer;
+use Mdanter\Ecc\Legacy\EccFactory;
+use Mdanter\Ecc\Legacy\Exception\ExchangeException;
+use Mdanter\Ecc\Legacy\Serializer\Point\Format\UncompressedPointSerializer;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class EcDHTest extends AbstractTestCase
 {
     public function testExceptionOnInvalidState()
     {
-        $this->expectException(\Mdanter\Ecc\Exception\ExchangeException::class);
+        $this->expectException(\Mdanter\Ecc\Legacy\Exception\ExchangeException::class);
         $this->expectExceptionMessage('Sender key not set');
         $adapter = EccFactory::getAdapter();
         $ecdh = new EcDH($adapter);
@@ -22,7 +22,7 @@ class EcDHTest extends AbstractTestCase
 
     public function testExceptionOnInvalidState1()
     {
-        $this->expectException(\Mdanter\Ecc\Exception\ExchangeException::class);
+        $this->expectException(\Mdanter\Ecc\Legacy\Exception\ExchangeException::class);
         $this->expectExceptionMessage('Recipient key not set');
         $G = EccFactory::getNistCurves()->generator521();
         $adapter = EccFactory::getAdapter();

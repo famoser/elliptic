@@ -2,10 +2,10 @@
 
 namespace Mdanter\Ecc\Integration\Utils\Signature;
 
-use Mdanter\Ecc\EccFactory;
-use Mdanter\Ecc\Math\GmpMathInterface;
-use Mdanter\Ecc\Primitives\GeneratorPoint;
-use Mdanter\Ecc\Util\NumberSize;
+use Mdanter\Ecc\Legacy\EccFactory;
+use Mdanter\Ecc\Legacy\Math\GmpMathInterface;
+use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
+use Mdanter\Ecc\Legacy\Util\NumberSize;
 
 class SignHasher
 {

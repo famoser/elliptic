@@ -3,19 +3,19 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Tests\Primitives;
 
-use Mdanter\Ecc\Curves\CurveFactory;
-use Mdanter\Ecc\EccFactory;
-use Mdanter\Ecc\Math\GmpMath;
-use Mdanter\Ecc\Primitives\CurveParameters;
-use Mdanter\Ecc\Primitives\Point;
-use Mdanter\Ecc\Primitives\CurveFp;
+use Mdanter\Ecc\Legacy\Curves\CurveFactory;
+use Mdanter\Ecc\Legacy\EccFactory;
+use Mdanter\Ecc\Legacy\Math\GmpMath;
+use Mdanter\Ecc\Legacy\Primitives\CurveFp;
+use Mdanter\Ecc\Legacy\Primitives\CurveParameters;
+use Mdanter\Ecc\Legacy\Primitives\Point;
 use Mdanter\Ecc\Tests\AbstractTestCase;
 
 class PointTest extends AbstractTestCase
 {
     public function testConstructorInvalidCurvePoint()
     {
-        $this->expectException(\Mdanter\Ecc\Exception\PointException::class);
+        $this->expectException(\Mdanter\Ecc\Legacy\Exception\PointException::class);
         $this->expectExceptionMessage('Curve curve(1, 1, 23) does not contain point (2, 2)');
 
         $adapter = new GmpMath();
@@ -149,7 +149,7 @@ class PointTest extends AbstractTestCase
 
     public function testRejectsInvalidPoints()
     {
-        $this->expectException(\Mdanter\Ecc\Exception\PointException::class);
+        $this->expectException(\Mdanter\Ecc\Legacy\Exception\PointException::class);
         $this->expectExceptionMessage('Curve curve(-3, 41058363725152142129326129780047268409114441015993725554835256314039467401291, 115792089210356248762697446949407573530086143415290314195533631308867097853951) does not contain point (58449750472625921448203013684212508347339475414040948669953216871973381284903, 50970277084784601725958135138198442242271560603337990589052444638672428978267)');
 
         $x = gmp_init('58449750472625921448203013684212508347339475414040948669953216871973381284903', 10);
