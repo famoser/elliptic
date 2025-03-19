@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mdanter\Ecc\Integration\WycheProof;
 
-use Mdanter\Ecc\Integration\Utils\Signature\ECDSASigner;
+use Mdanter\Ecc\Integration\Utils\ECDSASigner;
 use Mdanter\Ecc\Math\UnsafeMath;
 use Mdanter\Ecc\Primitives\Curve;
 use Mdanter\Ecc\Primitives\Point;
