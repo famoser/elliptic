@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Integration\WycheProof;
+namespace Famoser\Elliptic\Integration\WycheProof;
 
-use Mdanter\Ecc\Curves\SEC2CurveFactory;
+use Famoser\Elliptic\Curves\SEC2CurveFactory;
 
 class EcdhSepkEcpointTest extends AbstractEcdhTestCase
 {

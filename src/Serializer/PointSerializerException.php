@@ -1,6 +1,6 @@
 <?php
 
-namespace Mdanter\Ecc\Serializer;
+namespace Famoser\Elliptic\Serializer;
 
 class PointSerializerException extends \Exception
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Mdanter\Ecc\Tests\Curves;
+namespace Famoser\Elliptic\Tests\Curves;
 
-use Mdanter\Ecc\Curves\CurveRepository;
+use Famoser\Elliptic\Curves\CurveRepository;
 use PHPUnit\Framework\TestCase;
 
 class CurveRepositoryTest extends TestCase

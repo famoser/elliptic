@@ -1,9 +1,9 @@
 <?php
 
-namespace Mdanter\Ecc\Math;
+namespace Famoser\Elliptic\Math;
 
-use Mdanter\Ecc\Primitives\Curve;
-use Mdanter\Ecc\Primitives\Point;
+use Famoser\Elliptic\Primitives\Curve;
+use Famoser\Elliptic\Primitives\Point;
 
 class UnsafeMath implements MathInterface
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Mdanter\Ecc\Integration\Rooterberg;
+namespace Famoser\Elliptic\Integration\Rooterberg;
 
-use Mdanter\Ecc\Curves\CurveRepository;
-use Mdanter\Ecc\Integration\Utils\Key\PublicKey;
-use Mdanter\Ecc\Integration\Utils\Signature\SignHasher;
-use Mdanter\Ecc\Serializer\PointDecoderException;
-use Mdanter\Ecc\Serializer\PointSerializer;
+use Famoser\Elliptic\Curves\CurveRepository;
+use Famoser\Elliptic\Integration\Utils\Key\PublicKey;
+use Famoser\Elliptic\Integration\Utils\Signature\SignHasher;
+use Famoser\Elliptic\Serializer\PointDecoderException;
+use Famoser\Elliptic\Serializer\PointSerializer;
 
 class FixturesRepository
 {

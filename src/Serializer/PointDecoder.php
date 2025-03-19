@@ -1,9 +1,9 @@
 <?php
 
-namespace Mdanter\Ecc\Serializer;
+namespace Famoser\Elliptic\Serializer;
 
-use Mdanter\Ecc\Primitives\Curve;
-use Mdanter\Ecc\Primitives\Point;
+use Famoser\Elliptic\Primitives\Curve;
+use Famoser\Elliptic\Primitives\Point;
 
 class PointDecoder
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Mdanter\Ecc\Curves;
+namespace Famoser\Elliptic\Curves;
 
-use Mdanter\Ecc\Primitives\Curve;
+use Famoser\Elliptic\Primitives\Curve;
 
 /**
  * Resolves to all known curves, guaranteeing a single instance per curve.

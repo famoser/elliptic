@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Integration\Utils;
+namespace Famoser\Elliptic\Integration\Utils;
 
-use Mdanter\Ecc\Integration\Utils\Signature\Signature;
-use Mdanter\Ecc\Math\MathInterface;
-use Mdanter\Ecc\Primitives\Point;
+use Famoser\Elliptic\Integration\Utils\Signature\Signature;
+use Famoser\Elliptic\Math\MathInterface;
+use Famoser\Elliptic\Primitives\Point;
 
 class ECDSASigner
 {

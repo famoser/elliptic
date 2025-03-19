@@ -1,9 +1,9 @@
 <?php
 
-namespace Mdanter\Ecc\Integration\WycheProof;
+namespace Famoser\Elliptic\Integration\WycheProof;
 
-use Mdanter\Ecc\Curves\CurveRepository;
-use Mdanter\Ecc\Primitives\Point;
+use Famoser\Elliptic\Curves\CurveRepository;
+use Famoser\Elliptic\Primitives\Point;
 
 class FixturesRepository
 {

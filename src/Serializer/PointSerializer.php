@@ -1,10 +1,10 @@
 <?php
 
-namespace Mdanter\Ecc\Serializer;
+namespace Famoser\Elliptic\Serializer;
 
-use Mdanter\Ecc\Math\MathInterface;
-use Mdanter\Ecc\Primitives\Curve;
-use Mdanter\Ecc\Primitives\Point;
+use Famoser\Elliptic\Math\MathInterface;
+use Famoser\Elliptic\Primitives\Curve;
+use Famoser\Elliptic\Primitives\Point;
 
 /**
  * TODO implement https://www.secg.org/SEC1-Ver-1.0.pdf

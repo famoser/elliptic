@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Mdanter\Ecc\Integration\WycheProof;
+namespace Famoser\Elliptic\Integration\WycheProof;
 
-use Mdanter\Ecc\Integration\Utils\ECDSASigner;
-use Mdanter\Ecc\Math\UnsafeMath;
-use Mdanter\Ecc\Primitives\Curve;
-use Mdanter\Ecc\Primitives\Point;
+use Famoser\Elliptic\Integration\Utils\ECDSASigner;
+use Famoser\Elliptic\Math\UnsafeMath;
+use Famoser\Elliptic\Primitives\Curve;
+use Famoser\Elliptic\Primitives\Point;
 use PHPUnit\Framework\TestCase;
 
 class EcdsaSepkTest extends TestCase
