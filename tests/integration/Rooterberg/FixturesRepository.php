@@ -30,7 +30,7 @@ class FixturesRepository
 
         $algorithm = $testvectors['algorithm'];
         $curveRepository = new CurveRepository();
-        $curve = $curveRepository->resolveByName($algorithm['curve']);
+        $curve = $curveRepository->findByName($algorithm['curve']);
 
         $pointSerializer = new PointSerializer($curve);
 

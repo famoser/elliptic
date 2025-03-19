@@ -20,7 +20,7 @@ class DiffieHellmanTest extends TestCase
         $datasets = [];
 
         foreach ($files as $file) {
-            $curve = $curveRepository->resolveByName($file['curve']);
+            $curve = $curveRepository->findByName($file['curve']);
 
             foreach ($file['fixtures'] as $i => $fixture) {
                 $datasetIdentifier = $file['file'] . "." . $i;

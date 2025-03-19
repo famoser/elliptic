@@ -2,7 +2,6 @@
 
 namespace Mdanter\Ecc\Serializer;
 
-use Mdanter\Ecc\Legacy\Exception\SquareRootException;
 use Mdanter\Ecc\Primitives\Curve;
 use Mdanter\Ecc\Primitives\Point;
 
