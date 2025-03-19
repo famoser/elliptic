@@ -5,50 +5,18 @@ namespace Mdanter\Ecc\Math;
 use Mdanter\Ecc\Primitives\Curve;
 use Mdanter\Ecc\Primitives\Point;
 
-class UnsafeMath
+class UnsafeMath implements MathInterface
 {
     private readonly int $curveNBitLength;
 
     public function __construct(private readonly Curve $curve)
     {
         $this->curveNBitLength = strlen(gmp_strval($this->curve->getN(), 2));
-
     }
 
-    private function scalarModDiv(\GMP $a, \GMP $d)
+    public function getCurve(): Curve
     {
-        /**
-         * it holds that a * d^-1 (mod p) ≡ a/d (mod p)
-         *
-         * proof:
-         *  d * d^-1 ≡ 1 (mod p)               by modular inverse (that always exist in prime group p)
-         *  a * d * d^-1 ≡ a (mod p)           by multiplying a on both sides
-         *  a * d^-1 * d ≡ a (mod p)           by commutativity of multiplication
-         */
-        $inversion = gmp_invert($d, $this->curve->getP());
-        return gmp_mul($a, $inversion);
-    }
-
-    private function conditionalSwap(Point $a, Point $b, int $maskBit): void
-    {
-        $this->scalarConditionalSwap($a->x, $b->x, $maskBit);
-        $this->scalarConditionalSwap($a->y, $b->y, $maskBit);
-    }
-
-    private function scalarConditionalSwap(\GMP &$a, \GMP &$b, int $swapBit): void
-    {
-        // create a mask (note how it inverts the maskbit)
-        $mask = gmp_init(str_pad('', 100, (string) (1 - $swapBit), STR_PAD_LEFT), 2);
-
-        // if mask is 1, tempA = a, else temp = 0
-        $tempA = gmp_and($a, $mask);
-        $tempB = gmp_and($b, $mask);
-
-        $a = gmp_xor($tempB, gmp_xor($a, $b)); // if mask is 1, then b XOR a XOR b = a, else 0 XOR a XOR b = a XOR b
-        $b = gmp_xor($tempA, gmp_xor($a, $b)); // if mask is 1, then a XOR a XOR b = b, else 0 XOR a XOR b XOR b = a
-        $a = gmp_xor($tempB, gmp_xor($a, $b)); // if mask is 1, then b XOR a XOR b = a, else 0 XOR a XOR b XOR a = b
-
-        // hence if mask is 1, then no swap, else swap
+        return $this->curve;
     }
 
     /**
@@ -168,5 +136,41 @@ class UnsafeMath
         }
 
         return $r[0];
+    }
+
+    private function scalarModDiv(\GMP $a, \GMP $d)
+    {
+        /**
+         * it holds that a * d^-1 (mod p) ≡ a/d (mod p)
+         *
+         * proof:
+         *  d * d^-1 ≡ 1 (mod p)               by modular inverse (that always exist in prime group p)
+         *  a * d * d^-1 ≡ a (mod p)           by multiplying a on both sides
+         *  a * d^-1 * d ≡ a (mod p)           by commutativity of multiplication
+         */
+        $inversion = gmp_invert($d, $this->curve->getP());
+        return gmp_mul($a, $inversion);
+    }
+
+    private function conditionalSwap(Point $a, Point $b, int $maskBit): void
+    {
+        $this->scalarConditionalSwap($a->x, $b->x, $maskBit);
+        $this->scalarConditionalSwap($a->y, $b->y, $maskBit);
+    }
+
+    private function scalarConditionalSwap(\GMP &$a, \GMP &$b, int $swapBit): void
+    {
+        // create a mask (note how it inverts the maskbit)
+        $mask = gmp_init(str_repeat((string) (1 - $swapBit), $this->curveNBitLength), 2);
+
+        // if mask is 1, tempA = a, else temp = 0
+        $tempA = gmp_and($a, $mask);
+        $tempB = gmp_and($b, $mask);
+
+        $a = gmp_xor($tempB, gmp_xor($a, $b)); // if mask is 1, then b XOR a XOR b = a, else 0 XOR a XOR b = a XOR b
+        $b = gmp_xor($tempA, gmp_xor($a, $b)); // if mask is 1, then a XOR a XOR b = b, else 0 XOR a XOR b XOR b = a
+        $a = gmp_xor($tempB, gmp_xor($a, $b)); // if mask is 1, then b XOR a XOR b = a, else 0 XOR a XOR b XOR a = b
+
+        // hence if mask is 1, then no swap, else swap
     }
 }
