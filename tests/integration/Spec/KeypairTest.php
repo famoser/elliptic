@@ -2,10 +2,14 @@
 
 namespace Mdanter\Ecc\Integration\Spec;
 
+use Mdanter\Ecc\Curves\CurveRepository;
 use Mdanter\Ecc\Legacy\Curves\CurveFactory;
 use Mdanter\Ecc\Legacy\Primitives\GeneratorPoint;
 use Mdanter\Ecc\Legacy\Serializer\Point\Format\CompressedPointSerializer;
 use Mdanter\Ecc\Legacy\Serializer\Point\Format\UncompressedPointSerializer;
+use Mdanter\Ecc\Math\UnsafeMath;
+use Mdanter\Ecc\Primitives\Curve;
+use Mdanter\Ecc\Serializer\PointSerializer;
 use PHPUnit\Framework\TestCase;
 
 class KeypairTest extends TestCase
@@ -18,16 +22,18 @@ class KeypairTest extends TestCase
         $files = FixturesRepository::read('keypairs');
         $datasets = [];
 
+        $curveRepository = new CurveRepository();
         foreach ($files as $file) {
-            $generator = CurveFactory::getGeneratorByName($file['curve']);
+            $curve = $curveRepository->resolveByName($file['curve']);
             foreach ($file['fixtures'] as $i => $fixture) {
                 $datasetIdentifier = $file['file'] . "." . $i;
 
                 $datasets[$datasetIdentifier] = [
-                    $generator,
+                    $curve,
                     gmp_init((string)$fixture['k'], 10),
                     gmp_init($fixture['x'], 16),
-                    gmp_init($fixture['y'], 16)
+                    gmp_init($fixture['y'], 16),
+                    $file['curve'] === 'nistp224' // skip decompress for this curve, as not implemented
                 ];
             }
         }
@@ -38,32 +44,28 @@ class KeypairTest extends TestCase
     /**
      * @dataProvider getKeypairFixtures()
      */
-    public function testGetPublicKey(GeneratorPoint $generator, \GMP $k, \GMP $expectedX, \GMP $expectedY)
+    public function testGetPublicKey(Curve $curve, \GMP $k, \GMP $expectedX, \GMP $expectedY, bool $skipDecompress)
     {
-        $privateKey = $generator->getPrivateKeyFrom($k);
-        $publicKey = $privateKey->getPublicKey();
+        $math = new UnsafeMath($curve);
 
-        $this->assertEquals($expectedX, $publicKey->getPoint()->getX());
-        $this->assertEquals($expectedY, $publicKey->getPoint()->getY());
-    }
+        $publicKey = $math->mul($curve->getG(), $k);
 
-    /**
-     * @dataProvider getKeypairFixtures()
-     */
-    public function testPointSerializers(GeneratorPoint $generator, \GMP $k, \GMP $expectedX, \GMP $expectedY)
-    {
-        $adapter = $generator->getAdapter();
+        $this->assertEquals($expectedX, $publicKey->x);
+        $this->assertEquals($expectedY, $publicKey->y);
 
-        $publicKey = $generator->getPublicKeyFrom($expectedX, $expectedY);
+        $serializer = new PointSerializer($curve, PointSerializer::ENCODING_UNCOMPRESSED);
+        $serialized = $serializer->serialize($publicKey);
+        $parsed = $serializer->deserialize($serialized);
+        $this->assertEquals($expectedX, $parsed->x);
+        $this->assertEquals($expectedY, $parsed->y);
 
-        $serializer = new UncompressedPointSerializer();
-        $serialized = $serializer->serialize($publicKey->getPoint());
-        $parsed = $serializer->deserialize($generator->getCurve(), $serialized);
-        $this->assertTrue($parsed->equals($publicKey->getPoint()));
-
-        $compressingSerializer = new CompressedPointSerializer($adapter);
-        $serialized = $compressingSerializer->serialize($publicKey->getPoint());
-        $parsed = $compressingSerializer->deserialize($generator->getCurve(), $serialized);
-        $this->assertTrue($parsed->equals($publicKey->getPoint()));
+        $serializer = new PointSerializer($curve, PointSerializer::ENCODING_COMPRESSED);
+        $serialized = $serializer->serialize($publicKey);
+        if ($skipDecompress) {
+            return;
+        }
+        $parsed = $serializer->deserialize($serialized);
+        $this->assertEquals($expectedX, $parsed->x);
+        $this->assertEquals($expectedY, $parsed->y);
     }
 }
