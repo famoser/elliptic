@@ -6,9 +6,6 @@ namespace Mdanter\Ecc\Integration\Rooterberg;
 
 use Mdanter\Ecc\Integration\Utils\Signature\ECDSASigner;
 use Mdanter\Ecc\Integration\Utils\Signature\Signature;
-use Mdanter\Ecc\Integration\Utils\Signature\Signer;
-use Mdanter\Ecc\Integration\WycheProof\WycheProofConstants;
-use Mdanter\Ecc\Legacy\Serializer\Point\PointSize;
 use Mdanter\Ecc\Math\UnsafeMath;
 use Mdanter\Ecc\Primitives\Curve;
 use Mdanter\Ecc\Primitives\Point;
