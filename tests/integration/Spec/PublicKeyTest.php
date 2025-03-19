@@ -2,19 +2,24 @@
 
 namespace Mdanter\Ecc\Integration\Spec;
 
+use Mdanter\Ecc\Curves\CurveRepository;
 use Mdanter\Ecc\Legacy\Curves\CurveFactory;
 use Mdanter\Ecc\Legacy\Curves\NamedCurveFp;
+use Mdanter\Ecc\Primitives\Curve;
+use Mdanter\Ecc\Serializer\PointDecoder;
 use PHPUnit\Framework\TestCase;
 
 class PublicKeyTest extends TestCase
 {
-    public function getPublicKeyFixtures(): array
+    public static function getPublicKeyFixtures(): array
     {
+        $curveRepository = new CurveRepository();
+
         $files = FixturesRepository::read('pubkey');
         $datasets = [];
 
         foreach ($files as $file) {
-            $curve = CurveFactory::getCurveByName($file['curve']);
+            $curve = $curveRepository->findByName($file['curve']);
             foreach ($file['fixtures'] as $i => $fixture) {
                 $datasetIdentifier = $file['file'] . "." . $i;
 
@@ -33,50 +38,16 @@ class PublicKeyTest extends TestCase
     /**
      * @dataProvider getPublicKeyFixtures
      */
-    public function testPublicKeyFrom(NamedCurveFp $curve, \GMP $x, \GMP $y, bool $expectedResult)
+    public function testPublicKeyFrom(Curve $curve, \GMP $x, \GMP $y, bool $expectedResult)
     {
-        $generator = CurveFactory::getGeneratorByName($curve->getName());
+        $pointDecoder = new PointDecoder($curve);
         try {
-            $generator->getPublicKeyFrom($x, $y);
+            $point = $pointDecoder->fromCoordinates($x, $y);
             $pointOnCurve = true;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $pointOnCurve = false;
         }
 
         $this->assertEquals($expectedResult, $pointOnCurve);
-    }
-
-    /**
-     * @dataProvider getPublicKeyFixtures
-     */
-    public function testContains(NamedCurveFp $curve, \GMP $x, \GMP $y, bool $expectedResult)
-    {
-        // dataset is relative to public keys, and there are less public keys valid than points on curve
-        if (!$expectedResult) {
-            $this->markTestSkipped();
-        }
-
-        $result = $curve->contains($x, $y);
-        $this->assertTrue($result);
-    }
-
-    /**
-     * @dataProvider getPublicKeyFixtures
-     */
-    public function testGetPoint(NamedCurveFp $curve, \GMP $x, \GMP $y, bool $expectedResult)
-    {
-        // dataset is relative to public keys, and there are less public keys valid than points on curve
-        if (!$expectedResult) {
-            $this->markTestSkipped();
-        }
-
-        try {
-            $curve->getPoint($x, $y);
-            $pointOnCurve = true;
-        } catch (\Exception $e) {
-            $pointOnCurve = false;
-        }
-
-        $this->assertTrue($pointOnCurve);
     }
 }

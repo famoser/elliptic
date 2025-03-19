@@ -47,7 +47,7 @@ class FixturesRepository
 
         foreach ($testvectors['testGroups'] as $testGroup) {
             $key = $testGroup['key'];
-            $curve = $curveRepository->resolveByName($key['curve']);
+            $curve = $curveRepository->findByName($key['curve']);
             $publicKey = new Point(gmp_init($key['wx'], 16), gmp_init($key['wy'], 16));
 
             foreach ($testGroup['tests'] as $testvector) {

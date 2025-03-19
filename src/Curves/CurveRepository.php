@@ -80,24 +80,24 @@ class CurveRepository
         return array_keys($this->oidAlias);
     }
 
-    public function resolveByOID(string $oid): ?Curve
+    public function findByOID(string $oid): ?Curve
     {
         if (!array_key_exists($oid, $this->oidAlias)) {
             return null;
         }
 
         $canonicalName = $this->oidAlias[$oid];
-        return $this->resolveByCanonicalName($canonicalName);
+        return $this->findByCanonicalName($canonicalName);
     }
 
-    public function resolveByName(string $name): ?Curve
+    public function findByName(string $name): ?Curve
     {
         $canonicalName = array_key_exists($name, $this->nameAlias) ? $this->nameAlias[$name] : $name;
 
-        return $this->resolveByCanonicalName($canonicalName);
+        return $this->findByCanonicalName($canonicalName);
     }
 
-    private function resolveByCanonicalName(string $canonicalName): ?Curve
+    private function findByCanonicalName(string $canonicalName): ?Curve
     {
         if (!array_key_exists($canonicalName, $this->canonicalNameCurveConstructors)) {
             return null;
