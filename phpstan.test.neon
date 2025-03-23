@@ -1,0 +1,15 @@
+includes:
+  - vendor/phpstan/phpstan-phpunit/extension.neon
+  - vendor/phpstan/phpstan-phpunit/rules.neon
+
+parameters:
+  # with 7 or higher, we would need to null-checks & ensure always the correct type is passed; but not the target of the tests
+  level: 6
+  paths:
+    - tests
+  excludePaths:
+    - tests/integration/Rooterberg/fixtures
+    - tests/integration/WycheProof/fixtures
+  ignoreErrors:
+    # we do not want the needless effort of documenting the dataProviders or similar
+    - identifier: missingType.iterableValue

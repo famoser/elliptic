@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class CurveRepositoryTest extends TestCase
 {
-    public function testAllKnownNamesReturnCurves()
+    public function testAllKnownNamesReturnCurves(): void
     {
         $curveRepository = new CurveRepository();
 
@@ -16,7 +16,7 @@ class CurveRepositoryTest extends TestCase
         }
     }
 
-    public function testAllKnownOIDsReturnCurves()
+    public function testAllKnownOIDsReturnCurves(): void
     {
         $curveRepository = new CurveRepository();
 
@@ -25,7 +25,7 @@ class CurveRepositoryTest extends TestCase
         }
     }
 
-    public function testSingleInstanceOfCurves()
+    public function testSingleInstanceOfCurves(): void
     {
         $curveRepository = new CurveRepository();
 
