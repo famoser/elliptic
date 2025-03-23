@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Famoser\Elliptic\Integration\WycheProof;
 
 use Famoser\Elliptic\Integration\Utils\ECDSASigner;
-use Famoser\Elliptic\Math\UnsafeMath;
+use Famoser\Elliptic\Math\UnsafePrimeCurveMath;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 use PHPUnit\Framework\TestCase;
@@ -41,7 +41,7 @@ class EcdsaSepkTest extends TestCase
     protected function testCurve(Curve $curve, Point $publicKey, string $message, string $signature, string $comment, string $result, array $flags): void
     {
         // verify signature
-        $unsafeMath = new UnsafeMath($curve);
+        $unsafeMath = new UnsafePrimeCurveMath($curve);
         $signer = new ECDSASigner($unsafeMath, 'sha256');
 
         $verified = $signer->verify($publicKey, $signature, $message);
