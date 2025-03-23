@@ -56,6 +56,7 @@ class UnsafePrimeCurveCalculator extends AbstractPointCalculator implements Calc
         // rule 4 (note that a / b = a * b^-1)
         $lambda = $this->field->mul(
             gmp_sub($b->y, $a->y),
+            /** @phpstan-ignore-next-line invert may return false; then this will crash (which is OK, because cannot recover anyway) */
             $this->field->invert(gmp_sub($b->x, $a->x))
         );
 
@@ -93,6 +94,7 @@ class UnsafePrimeCurveCalculator extends AbstractPointCalculator implements Calc
                 ),
                 $this->curve->getA()
             ),
+            /** @phpstan-ignore-next-line invert may return false; then this will crash (which is OK, because cannot recover anyway) */
             $this->field->invert(
                 gmp_mul(2, $a->y)
             )

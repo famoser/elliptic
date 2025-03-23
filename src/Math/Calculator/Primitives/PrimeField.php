@@ -42,7 +42,7 @@ class PrimeField
         return gmp_mod($a, $this->prime);
     }
 
-    public function invert(\GMP $z): \GMP
+    public function invert(\GMP $z): \GMP|false
     {
         return gmp_invert($z, $this->prime);
     }

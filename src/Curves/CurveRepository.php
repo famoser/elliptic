@@ -46,7 +46,7 @@ class CurveRepository
     ];
 
     /**
-     * @var array<string, array{0: class-string, 1: string}>
+     * @var array<string, callable():Curve>
      */
     private array $canonicalNameCurveConstructors = [
         'secp192k1' => [SEC2CurveFactory::class, 'secp192k1'],
