@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Famoser\Elliptic\Integration\Utils;
 
-use Famoser\Elliptic\Integration\Utils\Signature\Signature;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Primitives\Point;
 
 class ECDSASigner
 {
+    private readonly P1363Encoder $encoder;
+
     public function __construct(private readonly MathInterface $math, private readonly string $hashAlgorithm = 'sha256')
     {
+        $this->encoder = new P1363Encoder($this->math->getCurve());
     }
 
     private function hash(string $message): \GMP
@@ -30,22 +32,7 @@ class ECDSASigner
         return gmp_init($truncatedHash, 2);
     }
 
-    private function tryDecodeSignature(string $signature, \GMP &$r, \GMP &$s): bool
-    {
-        // crude signature validity check, as this is not our prime concern here
-        $integerOctetLength = (int) ceil((float) strlen(gmp_strval($this->math->getCurve()->getN(), 2)) / 8);
-        if (strlen($signature) !== $integerOctetLength * 4) {
-            return false;
-        }
-
-        // unserialize signature
-        $r = gmp_init(substr($signature, 0, $integerOctetLength * 2), 16);
-        $s = gmp_init(substr($signature, $integerOctetLength * 2), 16);
-
-        return true;
-    }
-
-    public function sign(\GMP $secret, string $message, \GMP $k): Signature
+    public function sign(\GMP $secret, string $message, \GMP $k): string
     {
         $n = $this->math->getCurve()->getN();
 
@@ -62,7 +49,7 @@ class ECDSASigner
             throw new \RuntimeException("Error: random number S = 0");
         }
 
-        return new Signature($r, $s);
+        return $this->encoder->encode($r, $s);
     }
 
     public function verify(Point $publicKey, string $signature, string $message): bool
@@ -72,7 +59,7 @@ class ECDSASigner
 
         $r = gmp_init(0);
         $s = gmp_init(0);
-        if (!$this->tryDecodeSignature($signature, $r, $s)) {
+        if (!$this->encoder->tryDecode($signature, $r, $s)) {
             return false;
         }
 
