@@ -2,8 +2,7 @@
 
 namespace Famoser\Elliptic\Math\Algorithm;
 
-use Famoser\Elliptic\Math\Calculator\CalculatorInterface;
-use Famoser\Elliptic\Math\Calculator\Primitives\JacobiPoint;
+use Famoser\Elliptic\Math\Calculator\Base\CalculatorInterface;
 use Famoser\Elliptic\Math\Calculator\Primitives\PrimeField;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;

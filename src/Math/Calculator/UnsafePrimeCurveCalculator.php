@@ -2,6 +2,8 @@
 
 namespace Famoser\Elliptic\Math\Calculator;
 
+use Famoser\Elliptic\Math\Calculator\Base\AbstractPointCalculator;
+use Famoser\Elliptic\Math\Calculator\Base\CalculatorInterface;
 use Famoser\Elliptic\Math\Calculator\Primitives\PrimeField;
 use Famoser\Elliptic\Math\Utils\SwapperInterface;
 use Famoser\Elliptic\Primitives\Curve;
@@ -13,39 +15,17 @@ use Famoser\Elliptic\Primitives\Point;
  *
  * @implements CalculatorInterface<Point>
  */
-class UnsafePrimeCurveCalculator extends BaseCalculator implements CalculatorInterface
+class UnsafePrimeCurveCalculator extends AbstractPointCalculator
 {
     private readonly PrimeField $field;
 
-    public function __construct(private readonly Curve $curve, private readonly SwapperInterface $swapper)
+    public function __construct(private readonly Curve $curve, SwapperInterface $swapper)
     {
-        parent::__construct($this->curve);
+        $this->field = new PrimeField($curve->getP());
+        parent::__construct($this->curve, $swapper, $this->field);
 
         // check allowed to use this calculator
         assert(in_array($curve->getType(), [CurveType::ShortWeierstrass, CurveType::Montgomery], true));
-
-        $this->field = new PrimeField($curve->getP());
-    }
-
-    public function affineToNative(Point $point): Point
-    {
-        return clone $point;
-    }
-
-    public function nativeToAffine(mixed $nativePoint): Point
-    {
-        return clone $nativePoint;
-    }
-
-    public function getNativeInfinity(): Point
-    {
-        return Point::createInfinity();
-    }
-
-    public function conditionalSwap(mixed $a, mixed $b, int $swapBit): void
-    {
-        $this->swapper->conditionalSwap($a->x, $b->x, $swapBit, $this->field->getElementBitLength());
-        $this->swapper->conditionalSwap($a->y, $b->y, $swapBit, $this->field->getElementBitLength());
     }
 
     /**

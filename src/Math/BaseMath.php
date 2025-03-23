@@ -2,11 +2,7 @@
 
 namespace Famoser\Elliptic\Math;
 
-use Famoser\Elliptic\Math\Algorithm\DoubleAndAddAlways;
-use Famoser\Elliptic\Math\Calculator\CalculatorInterface;
-use Famoser\Elliptic\Math\Calculator\Primitives\PrimeField;
-use Famoser\Elliptic\Math\Calculator\UnsafePrimeCurveCalculator;
-use Famoser\Elliptic\Math\Utils\ConstSwapper;
+use Famoser\Elliptic\Math\Calculator\Base\CalculatorInterface;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
