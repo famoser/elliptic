@@ -1,12 +1,4 @@
-includes:
-  - vendor/phpstan/phpstan-phpunit/extension.neon
-  - vendor/phpstan/phpstan-phpunit/rules.neon
-
 parameters:
-  level: 4
+  level: 6
   paths:
     - src
-    - tests
-  excludePaths:
-    - tests/integration/Rooterberg/fixtures
-    - tests/integration/WycheProof/fixtures

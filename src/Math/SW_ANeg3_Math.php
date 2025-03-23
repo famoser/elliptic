@@ -3,6 +3,7 @@
 namespace Famoser\Elliptic\Math;
 
 use Famoser\Elliptic\Math\Algorithm\DoubleAndAddAlways;
+use Famoser\Elliptic\Math\Calculator\Primitives\JacobiPoint;
 use Famoser\Elliptic\Math\Calculator\SW_ANeg3_Jacobi_Calculator;
 use Famoser\Elliptic\Math\Utils\ConstSwapper;
 use Famoser\Elliptic\Primitives\Curve;
@@ -11,9 +12,14 @@ use Famoser\Elliptic\Primitives\Point;
 /**
  * Assumes Short Weierstrass curve with a=-3
  * Hence of the form y^2 = x^3 + ax + b for a = -3 mod p
+ *
+ * Some hardening against side-channels has been done.
+ *
+ * @extends BaseMath<JacobiPoint>
  */
 class SW_ANeg3_Math extends BaseMath implements MathInterface
 {
+    /** @var DoubleAndAddAlways<JacobiPoint> */
     private readonly DoubleAndAddAlways $doubleAndAddAlways;
 
     public function __construct(Curve $curve)

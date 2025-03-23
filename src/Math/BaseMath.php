@@ -6,8 +6,14 @@ use Famoser\Elliptic\Math\Calculator\Base\CalculatorInterface;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
+/**
+ * @template T
+ */
 abstract class BaseMath implements MathInterface
 {
+    /**
+     * @param CalculatorInterface<T> $calculator
+     */
     public function __construct(private readonly CalculatorInterface $calculator)
     {
     }
