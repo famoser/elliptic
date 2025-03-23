@@ -6,7 +6,8 @@ use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
 /**
- * Implements the group laws
+ * Provides double and add using some native representation (e.g. Jacobi).
+ *
  * @template T
  */
 interface CalculatorInterface

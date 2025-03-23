@@ -2,9 +2,6 @@
 
 namespace Famoser\Elliptic\Math\Calculator\Primitives;
 
-/**
- * Elliptic curve point with x and y coordinates
- */
 class JacobiPoint
 {
     public function __construct(public \GMP $X, public \GMP $Y, public \GMP $Z)

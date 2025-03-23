@@ -3,7 +3,7 @@
 namespace Famoser\Elliptic\Math;
 
 use Famoser\Elliptic\Math\Algorithm\DoubleAndAddAlways;
-use Famoser\Elliptic\Math\Calculator\SW_ANeg3_Jacobi_Calculator;
+use Famoser\Elliptic\Math\Calculator\SW_ANeg3_Jacobi_Affine_Calculator;
 use Famoser\Elliptic\Math\Utils\ConstSwapper;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
@@ -19,7 +19,7 @@ class SW_ANeg3_Math extends BaseMath implements MathInterface
     public function __construct(Curve $curve)
     {
         $swapper = new ConstSwapper();
-        $calculator = new SW_ANeg3_Jacobi_Calculator($curve, $swapper);
+        $calculator = new SW_ANeg3_Jacobi_Affine_Calculator($curve, $swapper);
         parent::__construct($calculator);
 
         $this->doubleAndAddAlways = new DoubleAndAddAlways($calculator);
