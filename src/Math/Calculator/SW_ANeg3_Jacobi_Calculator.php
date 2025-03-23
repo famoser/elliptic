@@ -2,6 +2,9 @@
 
 namespace Famoser\Elliptic\Math\Calculator;
 
+use Famoser\Elliptic\Math\Calculator\Base\AbstractJacobiCalculator;
+use Famoser\Elliptic\Math\Calculator\Base\AddAffineCalculatorInterface;
+use Famoser\Elliptic\Math\Calculator\Base\CalculatorInterface;
 use Famoser\Elliptic\Math\Calculator\Primitives\JacobiPoint;
 use Famoser\Elliptic\Math\Calculator\Primitives\PrimeField;
 use Famoser\Elliptic\Math\Utils\SwapperInterface;
@@ -11,58 +14,27 @@ use Famoser\Elliptic\Primitives\Point;
 
 /**
  * Assumes Short Weierstrass curve with a=-3
- * Hence of the form y^2 = x^3 + ax + b for a = -3 mod p
- * Jacobi coordinates (X,Y,Z) chosen such that affine coordinates (x=X/Z, y=Y/Z).
- *
- * Chosen as it is the best strongly unified variant from: https://www.hyperelliptic.org/EFD/g1p/auto-shortw-projective-3.html
- * Strongly unified is important as it supports points regardless of whether they are at 0, are the same or different.
+ * Hence of the form y^2 = x^3 + ax + b for a = -3 mod p.
  *
  * Algorithms taken directly from original publication: https://eprint.iacr.org/2015/1060
+ * Chosen as it is the best strongly unified variant from: https://www.hyperelliptic.org/EFD/g1p/auto-shortw-projective-3.html
+ * Strongly unified is important as it supports points regardless of whether they are at 0, are the same or different.
  *
  * @implements CalculatorInterface<JacobiPoint>
  * @implements AddAffineCalculatorInterface<JacobiPoint>
  */
-class SW_ANeg3_Jacobi_Affine_Calculator extends BaseCalculator implements CalculatorInterface, AddAffineCalculatorInterface
+class SW_ANeg3_Jacobi_Calculator extends AbstractJacobiCalculator implements AddAffineCalculatorInterface
 {
     private readonly PrimeField $field;
 
     public function __construct(private readonly Curve $curve, private readonly SwapperInterface $swapper)
     {
-        parent::__construct($this->curve);
+        $this->field = new PrimeField($curve->getP());
+        parent::__construct($this->curve, $this->swapper, $this->field);
 
         // check allowed to use this calculator
         assert($curve->getType() === CurveType::ShortWeierstrass);
         assert(gmp_cmp($curve->getA(), gmp_sub($curve->getP(), -3)) === 0);
-
-        $this->field = new PrimeField($curve->getP());
-    }
-
-    public function affineToNative(Point $point): JacobiPoint
-    {
-        // for Z = 1, it holds that X = x and Y = y
-        return new JacobiPoint($point->x, $point->y, gmp_init(1));
-    }
-
-    public function nativeToAffine(mixed $nativePoint): Point
-    {
-        // to get x, need to calculate X/Z; same for y
-        $zInverse = $this->field->invert($nativePoint->Z);
-        $x = $this->field->mul($nativePoint->X, $zInverse);
-        $y = $this->field->mul($nativePoint->Y, $zInverse);
-
-        return new Point($x, $y);
-    }
-
-    public function getNativeInfinity(): JacobiPoint
-    {
-        return JacobiPoint::createInfinity();
-    }
-
-    public function conditionalSwap(mixed $a, mixed $b, int $swapBit): void
-    {
-        $this->swapper->conditionalSwap($a->X, $b->X, $swapBit, $this->field->getElementBitLength());
-        $this->swapper->conditionalSwap($a->Y, $b->Y, $swapBit, $this->field->getElementBitLength());
-        $this->swapper->conditionalSwap($a->Z, $b->Z, $swapBit, $this->field->getElementBitLength());
     }
 
     /**

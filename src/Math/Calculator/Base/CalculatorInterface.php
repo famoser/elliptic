@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Math\Calculator;
+namespace Famoser\Elliptic\Math\Calculator\Base;
 
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
