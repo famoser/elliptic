@@ -5,9 +5,11 @@ namespace Famoser\Elliptic\Math\Calculator;
 use Famoser\Elliptic\Primitives\Point;
 
 /**
+ * Provides affine add, which sometimes improves performance (e.g. when used in conjunction with fixed-based multiplication).
+ *
  * @template T
  */
-interface AffineAddCalculatorInterface
+interface AddAffineCalculatorInterface extends CalculatorInterface
 {
     /**
      * @param T $a

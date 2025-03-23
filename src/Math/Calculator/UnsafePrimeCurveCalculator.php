@@ -44,8 +44,8 @@ class UnsafePrimeCurveCalculator extends BaseCalculator implements CalculatorInt
 
     public function conditionalSwap(mixed $a, mixed $b, int $swapBit): void
     {
-        $this->swapper->conditionalSwap($a->x, $b->x, $swapBit, $this->getCurveNBitLength());
-        $this->swapper->conditionalSwap($a->y, $b->y, $swapBit, $this->getCurveNBitLength());
+        $this->swapper->conditionalSwap($a->x, $b->x, $swapBit, $this->field->getElementBitLength());
+        $this->swapper->conditionalSwap($a->y, $b->y, $swapBit, $this->field->getElementBitLength());
     }
 
     /**

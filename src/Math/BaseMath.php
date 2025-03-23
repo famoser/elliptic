@@ -29,6 +29,7 @@ abstract class BaseMath implements MathInterface
     public function double(Point $a): Point
     {
         $nativeA = $this->calculator->affineToNative($a);
+
         $nativeResult = $this->calculator->double($nativeA);
 
         return $this->calculator->nativeToAffine($nativeResult);
@@ -38,6 +39,7 @@ abstract class BaseMath implements MathInterface
     {
         $nativeA = $this->calculator->affineToNative($a);
         $nativeB = $this->calculator->affineToNative($b);
+
         $nativeResult = $this->calculator->add($nativeA, $nativeB);
 
         return $this->calculator->nativeToAffine($nativeResult);

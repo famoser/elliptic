@@ -17,12 +17,12 @@ use Famoser\Elliptic\Primitives\Point;
  * Chosen as it is the best strongly unified variant from: https://www.hyperelliptic.org/EFD/g1p/auto-shortw-projective-3.html
  * Strongly unified is important as it supports points regardless of whether they are at 0, are the same or different.
  *
- * Algorithms copied from original publication: https://eprint.iacr.org/2015/1060
+ * Algorithms taken directly from original publication: https://eprint.iacr.org/2015/1060
  *
  * @implements CalculatorInterface<JacobiPoint>
- * @implements AffineAddCalculatorInterface<JacobiPoint>
+ * @implements AddAffineCalculatorInterface<JacobiPoint>
  */
-class SW_ANeg3_Jacobi_Calculator extends BaseCalculator implements CalculatorInterface, AffineAddCalculatorInterface
+class SW_ANeg3_Jacobi_Affine_Calculator extends BaseCalculator implements CalculatorInterface, AddAffineCalculatorInterface
 {
     private readonly PrimeField $field;
 
@@ -60,10 +60,9 @@ class SW_ANeg3_Jacobi_Calculator extends BaseCalculator implements CalculatorInt
 
     public function conditionalSwap(mixed $a, mixed $b, int $swapBit): void
     {
-        // TODO this should be P bit length, no?
-        $this->swapper->conditionalSwap($a->X, $b->X, $swapBit, $this->getCurveNBitLength());
-        $this->swapper->conditionalSwap($a->Y, $b->Y, $swapBit, $this->getCurveNBitLength());
-        $this->swapper->conditionalSwap($a->Z, $b->Z, $swapBit, $this->getCurveNBitLength());
+        $this->swapper->conditionalSwap($a->X, $b->X, $swapBit, $this->field->getElementBitLength());
+        $this->swapper->conditionalSwap($a->Y, $b->Y, $swapBit, $this->field->getElementBitLength());
+        $this->swapper->conditionalSwap($a->Z, $b->Z, $swapBit, $this->field->getElementBitLength());
     }
 
     /**

@@ -4,7 +4,7 @@ namespace Famoser\Elliptic\Primitives;
 
 /**
  * In the finite field F_p,
- * an elliptic curve of the form y^2 = x^3 + ax + b is defined,
+ * an elliptic curve of the form y^2 = x^3 + x + c is defined,
  * forming a group over addition.
  *
  * A base point G of order n and cofactor h is picked in this group.
