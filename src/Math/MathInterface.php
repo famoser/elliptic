@@ -9,6 +9,7 @@ interface MathInterface
 {
     public function double(Point $a): Point;
     public function add(Point $a, Point $b): Point;
+    public function mulG(\GMP $factor): Point;
     public function mul(Point $point, \GMP $factor): Point;
     public function getCurve(): Curve;
 }
