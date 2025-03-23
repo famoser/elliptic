@@ -10,7 +10,7 @@ use Famoser\Elliptic\Primitives\Point;
 /**
  * @implements CalculatorInterface<Point>
  */
-abstract class AbstractPointCalculator extends AbstractCalculator
+abstract class AbstractPointCalculator extends AbstractCalculator implements CalculatorInterface
 {
     public function __construct(Curve $curve, private readonly SwapperInterface $swapper, private readonly PrimeField $field)
     {

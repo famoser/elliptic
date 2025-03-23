@@ -15,7 +15,7 @@ use Famoser\Elliptic\Primitives\Point;
  *
  * @implements CalculatorInterface<Point>
  */
-class UnsafePrimeCurveCalculator extends AbstractPointCalculator
+class UnsafePrimeCurveCalculator extends AbstractPointCalculator implements CalculatorInterface
 {
     private readonly PrimeField $field;
 
