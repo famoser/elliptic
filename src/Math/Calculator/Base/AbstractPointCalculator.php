@@ -8,6 +8,7 @@ use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
 /**
+ * @extends AbstractCalculator<Point>
  * @implements CalculatorInterface<Point>
  */
 abstract class AbstractPointCalculator extends AbstractCalculator implements CalculatorInterface

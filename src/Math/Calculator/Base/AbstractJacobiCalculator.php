@@ -11,6 +11,7 @@ use Famoser\Elliptic\Primitives\Point;
 /**
  * Jacobi coordinates (X,Y,Z) chosen such that affine coordinates (x=X/Z, y=Y/Z).
  *
+ * @extends AbstractCalculator<JacobiPoint>
  * @implements CalculatorInterface<JacobiPoint>
  */
 abstract class AbstractJacobiCalculator extends AbstractCalculator implements CalculatorInterface

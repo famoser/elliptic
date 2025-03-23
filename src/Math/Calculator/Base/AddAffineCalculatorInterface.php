@@ -8,6 +8,7 @@ use Famoser\Elliptic\Primitives\Point;
  * Provides affine add, which sometimes improves performance (e.g. when used in conjunction with fixed-based multiplication).
  *
  * @template T
+ * @extends CalculatorInterface<T>
  */
 interface AddAffineCalculatorInterface extends CalculatorInterface
 {
