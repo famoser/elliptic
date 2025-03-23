@@ -20,4 +20,9 @@ class Point
     {
         return gmp_cmp($this->x, 0) === 0 && gmp_cmp($this->y, 0) === 0;
     }
+
+    public function equals(self $other): bool
+    {
+        return gmp_cmp($this->x, $other->x) === 0 && gmp_cmp($this->y, $other->y) === 0;
+    }
 }
