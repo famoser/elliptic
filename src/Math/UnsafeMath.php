@@ -2,16 +2,24 @@
 
 namespace Famoser\Elliptic\Math;
 
+use Famoser\Elliptic\Math\Primitives\PrimeField;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
 class UnsafeMath implements MathInterface
 {
     private readonly int $curveNBitLength;
+    private readonly PrimeField $field;
 
     public function __construct(private readonly Curve $curve)
     {
         $this->curveNBitLength = strlen(gmp_strval($this->curve->getN(), 2));
+        $this->field = new PrimeField($curve->getP());
+    }
+
+    protected function getCurveNBitLength(): int
+    {
+        return $this->curveNBitLength;
     }
 
     public function getCurve(): Curve
@@ -28,8 +36,8 @@ class UnsafeMath implements MathInterface
             return Point::createInfinity();
         }
 
-        // rule 4
-        $lambda = $this->scalarModDiv(
+        // rule 5 (note that a / b = a * b^-1)
+        $lambda = $this->field->mul(
             gmp_add(
                 gmp_mul(
                     gmp_init(3),
@@ -37,28 +45,24 @@ class UnsafeMath implements MathInterface
                 ),
                 $this->curve->getA()
             ),
-            gmp_mul(
-                gmp_init(2),
-                $a->y
+            $this->field->invert(
+                gmp_mul(
+                    gmp_init(2),
+                    $a->y
+                )
             )
         );
 
-        $x = gmp_mod(
-            gmp_sub(
-                gmp_pow($lambda, 2),
-                gmp_mul(gmp_init(2), $a->x)
-            ),
-            $this->curve->getP()
+        $x = $this->field->sub(
+            gmp_pow($lambda, 2),
+            gmp_mul(gmp_init(2), $a->x)
         );
 
-        $y = gmp_mod(
-            gmp_sub(
-                gmp_mul(
-                    $lambda,
-                    gmp_sub($a->x, $x)),
-                $a->y
-            ),
-            $this->curve->getP()
+        $y = $this->field->sub(
+            gmp_mul(
+                $lambda,
+                gmp_sub($a->x, $x)),
+            $a->y
         );
 
         return new Point($x, $y);
@@ -86,33 +90,32 @@ class UnsafeMath implements MathInterface
             return $this->double($a);
         }
 
-        // rule 4
-        $lambda = $this->scalarModDiv(
+        // rule 4 (note that a / b = a * b^-1)
+        $lambda = $this->field->mul(
             gmp_sub($b->y, $a->y),
-            gmp_sub($b->x, $a->x)
+            $this->field->invert(gmp_sub($b->x, $a->x))
         );
 
-        $x = gmp_mod(
+        $x = $this->field->sub(
             gmp_sub(
-                gmp_sub(
-                    gmp_pow($lambda, 2),
-                    $a->x),
-                $b->x
-            ),
-            $this->curve->getP()
+                gmp_pow($lambda, 2),
+                $a->x),
+            $b->x
         );
 
-        $y = gmp_mod(
-            gmp_sub(
-                gmp_mul(
-                    $lambda,
-                    gmp_sub($a->x, $x)),
-                $a->y
-            ),
-            $this->curve->getP()
+        $y = $this->field->sub(
+            gmp_mul(
+                $lambda,
+                gmp_sub($a->x, $x)),
+            $a->y
         );
 
         return new Point($x, $y);
+    }
+
+    public function mulG(\GMP $factor): Point
+    {
+        return $this->mul($this->curve->getG(), $factor);
     }
 
     public function mul(Point $point, \GMP $factor): Point
@@ -120,7 +123,7 @@ class UnsafeMath implements MathInterface
         // reduce factor once to ensure it is within our curve N bit size (and reduce computational effort)
         $reducedFactor = gmp_mod($factor, $this->curve->getN());
 
-        // normalize to curve N bit length to get approximate constant time runtime (however, not good enough for prod usage)
+        // normalize to curve N bit length to always execute the double-add loop a constant number of times
         $factorBits = gmp_strval($reducedFactor, 2);
         $normalizedFactorBits = str_pad($factorBits, $this->curveNBitLength, '0', STR_PAD_LEFT);
 
@@ -146,30 +149,16 @@ class UnsafeMath implements MathInterface
         return $r[0];
     }
 
-    private function scalarModDiv(\GMP $a, \GMP $d)
-    {
-        /**
-         * it holds that a * d^-1 (mod p) ≡ a/d (mod p)
-         *
-         * proof:
-         *  d * d^-1 ≡ 1 (mod p)               by modular inverse (that always exist in prime group p)
-         *  a * d * d^-1 ≡ a (mod p)           by multiplying a on both sides
-         *  a * d^-1 * d ≡ a (mod p)           by commutativity of multiplication
-         */
-        $inversion = gmp_invert($d, $this->curve->getP());
-        return gmp_mul($a, $inversion);
-    }
-
-    private function conditionalSwap(Point $a, Point $b, int $swapBit): void
+    protected function conditionalSwap(Point $a, Point $b, int $swapBit): void
     {
         $this->scalarConditionalSwap($a->x, $b->x, $swapBit);
         $this->scalarConditionalSwap($a->y, $b->y, $swapBit);
     }
 
-    private function scalarConditionalSwap(\GMP &$a, \GMP &$b, int $swapBit): void
+    protected function scalarConditionalSwap(\GMP &$a, \GMP &$b, int $swapBit): void
     {
         // create a mask (note how it inverts the maskbit)
-        $mask = gmp_init(str_repeat((string) (1 - $swapBit), $this->curveNBitLength), 2);
+        $mask = gmp_init(str_repeat((string)(1 - $swapBit), $this->curveNBitLength), 2);
 
         // if mask is 1, tempA = a, else temp = 0
         $tempA = gmp_and($a, $mask);
@@ -179,6 +168,6 @@ class UnsafeMath implements MathInterface
         $b = gmp_xor($tempA, gmp_xor($a, $b)); // if mask is 1, then a XOR a XOR b = b, else 0 XOR a XOR b XOR b = a
         $a = gmp_xor($tempB, gmp_xor($a, $b)); // if mask is 1, then b XOR a XOR b = a, else 0 XOR a XOR b XOR a = b
 
-        // hence if mask is 1, then no swap, else swap
+        // hence if mask is 1 (= inverse of $swapBit), then no swap, else swap
     }
 }
