@@ -24,7 +24,7 @@ class SEC2CurveFactory
         $hex = str_replace(" ", "", $hexWithSpaces);
         $points = substr($hex, 2);
 
-        $coordinateLength = strlen($points) / 2;
+        $coordinateLength = (int) (strlen($points) / 2);
         $x = gmp_init(substr($points, 0, $coordinateLength), 16);
         $y = gmp_init(substr($points, $coordinateLength), 16);
 

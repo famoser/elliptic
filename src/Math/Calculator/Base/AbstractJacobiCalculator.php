@@ -31,6 +31,7 @@ abstract class AbstractJacobiCalculator extends AbstractCalculator implements Ca
     {
         // to get x, need to calculate X/Z; same for y
         $zInverse = $this->field->invert($nativePoint->Z);
+        /** @var \GMP $zInverse in case zInverse is false, this will crash. that is OK; we rather skip an if check here */
         $x = $this->field->mul($nativePoint->X, $zInverse);
         $y = $this->field->mul($nativePoint->Y, $zInverse);
 
