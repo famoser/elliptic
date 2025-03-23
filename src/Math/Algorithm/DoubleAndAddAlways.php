@@ -42,7 +42,7 @@ class DoubleAndAddAlways
         /** @var T[] $r */
         $r = [$this->calculator->getNativeInfinity(), $this->calculator->affineToNative($point)];
         for ($i = 0; $i < $this->field->getElementBitLength(); $i++) {
-            $j = $normalizedFactorBits[$i];
+            $j = (int) $normalizedFactorBits[$i];
 
             $this->calculator->conditionalSwap($r[0], $r[1], $j ^ 1);
 

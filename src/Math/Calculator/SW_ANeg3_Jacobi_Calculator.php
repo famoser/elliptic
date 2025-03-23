@@ -25,7 +25,7 @@ use Famoser\Elliptic\Primitives\Point;
  * @implements CalculatorInterface<JacobiPoint>
  * @implements AddAffineCalculatorInterface<JacobiPoint>
  */
-class SW_ANeg3_Jacobi_Calculator extends AbstractJacobiCalculator implements AddAffineCalculatorInterface
+class SW_ANeg3_Jacobi_Calculator extends AbstractJacobiCalculator implements CalculatorInterface, AddAffineCalculatorInterface
 {
     private readonly PrimeField $field;
 

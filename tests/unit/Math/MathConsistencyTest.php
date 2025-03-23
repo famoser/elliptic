@@ -43,6 +43,7 @@ class MathConsistencyTest extends TestCase
     {
         $this->markTestSkipped("Adding the point at infinity is undefined behavior; and as it turns out not all calculators handle the case equally.");
 
+        /** @phpstan-ignore deadCode.unreachable */
         $curve = $math->getCurve();
         $groundTruth = new UnsafePrimeCurveMath($curve);
 
