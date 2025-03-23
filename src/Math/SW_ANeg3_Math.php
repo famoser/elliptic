@@ -18,8 +18,7 @@ class SW_ANeg3_Math extends BaseMath implements MathInterface
 
     public function __construct(Curve $curve)
     {
-        $swapper = new ConstSwapper();
-        $calculator = new SW_ANeg3_Jacobi_Calculator($curve, $swapper);
+        $calculator = new SW_ANeg3_Jacobi_Calculator($curve, new ConstSwapper());
         parent::__construct($calculator);
 
         $this->doubleAndAddAlways = new DoubleAndAddAlways($calculator);

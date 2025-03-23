@@ -14,8 +14,7 @@ class UnsafePrimeCurveMath extends BaseMath implements MathInterface
 
     public function __construct(Curve $curve)
     {
-        $swapper = new ConstSwapper();
-        $calculator = new UnsafePrimeCurveCalculator($curve, $swapper);
+        $calculator = new UnsafePrimeCurveCalculator($curve, new ConstSwapper());
         parent::__construct($calculator);
 
         $this->doubleAndAddAlways = new DoubleAndAddAlways($calculator);
