@@ -14,8 +14,8 @@ class P1363Encoder
 
     public function encode(\GMP $r, \GMP $s): string
     {
-        $rString = str_pad(gmp_strval($r, 16), $this->scalarOctetLength*2, '0', STR_PAD_LEFT);
-        $sString = str_pad(gmp_strval($s, 16), $this->scalarOctetLength*2, '0', STR_PAD_LEFT);
+        $rString = str_pad(gmp_strval($r, 16), $this->scalarOctetLength * 2, '0', STR_PAD_LEFT);
+        $sString = str_pad(gmp_strval($s, 16), $this->scalarOctetLength * 2, '0', STR_PAD_LEFT);
 
         return $rString . $sString;
     }
