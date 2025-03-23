@@ -36,5 +36,10 @@ jobs:
     - name: Check code style
       run: ./vendor/bin/phpcs
 
+    - name: Do static analysis
+      run: |
+        ./vendor/bin/phpstan
+        ./vendor/bin/phpstan --configuration=phpstan.test.neon
+
     - name: Run tests
       run: vendor/bin/phpunit --testsuite Unit --no-coverage
