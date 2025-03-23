@@ -3,8 +3,6 @@
 namespace Famoser\Elliptic\Integration\Rooterberg;
 
 use Famoser\Elliptic\Curves\CurveRepository;
-use Famoser\Elliptic\Integration\Utils\Key\PublicKey;
-use Famoser\Elliptic\Integration\Utils\Signature\SignHasher;
 use Famoser\Elliptic\Serializer\PointDecoderException;
 use Famoser\Elliptic\Serializer\PointSerializer;
 

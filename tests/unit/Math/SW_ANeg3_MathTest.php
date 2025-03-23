@@ -3,12 +3,9 @@
 namespace Famoser\Elliptic\Tests\Math;
 
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
-use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
-use Famoser\Elliptic\Math\UnsafePrimeCurveMath;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
-use Famoser\Elliptic\Primitives\Point;
 use PHPUnit\Framework\TestCase;
 
 class SW_ANeg3_MathTest extends TestCase
