@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\Math\Calculator;
+namespace Famoser\Elliptic\Tests\Math;
 
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Math\MathInterface;
@@ -11,10 +11,11 @@ use PHPUnit\Framework\TestCase;
 
 class MathConsistencyTest extends TestCase
 {
-    public static function calculatorsToCompareTo(): array
+    public static function mathToCompareTo(): array
     {
         return [
             [new SW_ANeg3_Math(SEC2CurveFactory::secp192r1())],
+            [new SW_ANeg3_Math(SEC2CurveFactory::secp224r1())],
             [new SW_ANeg3_Math(SEC2CurveFactory::secp256r1())],
             [new SW_ANeg3_Math(SEC2CurveFactory::secp384r1())],
             [new SW_ANeg3_Math(SEC2CurveFactory::secp521r1())]
@@ -22,7 +23,7 @@ class MathConsistencyTest extends TestCase
     }
 
     /**
-     * @dataProvider calculatorsToCompareTo
+     * @dataProvider mathToCompareTo
      */
     public function testAdd(MathInterface $math): void
     {
@@ -36,7 +37,7 @@ class MathConsistencyTest extends TestCase
     }
 
     /**
-     * @dataProvider calculatorsToCompareTo
+     * @dataProvider mathToCompareTo
      */
     public function testAddInfinity(MathInterface $math): void
     {
@@ -52,7 +53,7 @@ class MathConsistencyTest extends TestCase
     }
 
     /**
-     * @dataProvider calculatorsToCompareTo
+     * @dataProvider mathToCompareTo
      */
     public function testDouble(MathInterface $math): void
     {
@@ -66,7 +67,7 @@ class MathConsistencyTest extends TestCase
     }
 
     /**
-     * @dataProvider calculatorsToCompareTo
+     * @dataProvider mathToCompareTo
      */
     public function testDoubleEqualsAddSelf(MathInterface $math): void
     {
@@ -79,7 +80,7 @@ class MathConsistencyTest extends TestCase
     }
 
     /**
-     * @dataProvider calculatorsToCompareTo
+     * @dataProvider mathToCompareTo
      */
     public function testMulG(MathInterface $math): void
     {
@@ -94,7 +95,7 @@ class MathConsistencyTest extends TestCase
     }
 
     /**
-     * @dataProvider calculatorsToCompareTo
+     * @dataProvider mathToCompareTo
      */
     public function testMulGEqualsMul(MathInterface $math): void
     {
@@ -108,7 +109,7 @@ class MathConsistencyTest extends TestCase
     }
 
     /**
-     * @dataProvider calculatorsToCompareTo
+     * @dataProvider mathToCompareTo
      */
     public function testMulSameResult(MathInterface $math): void
     {
@@ -123,7 +124,7 @@ class MathConsistencyTest extends TestCase
     }
 
     /**
-     * @dataProvider calculatorsToCompareTo
+     * @dataProvider mathToCompareTo
      */
     public function testMulEqualsDoubleAdd(MathInterface $math): void
     {
