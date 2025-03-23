@@ -25,7 +25,8 @@ class UnsafePrimeCurveCalculator extends AbstractPointCalculator
         parent::__construct($this->curve, $swapper, $this->field);
 
         // check allowed to use this calculator
-        assert(in_array($curve->getType(), [CurveType::ShortWeierstrass, CurveType::Montgomery], true));
+        $check = in_array($curve->getType(), [CurveType::ShortWeierstrass, CurveType::Montgomery], true);
+        if (!$check) throw new \AssertionError('Cannot use this calculator with the chosen curve.');
     }
 
     /**
