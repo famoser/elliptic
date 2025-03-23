@@ -14,10 +14,7 @@ class PointSerializer
     private readonly int $pointOctetLength;
     private readonly PointDecoder $pointDecoder;
 
-    const ENCODING_COMPRESSED = 'compressed';
-    const ENCODING_UNCOMPRESSED = 'uncompressed';
-
-    public function __construct(private readonly Curve $curve, private readonly string $preferredEncoding = self::ENCODING_COMPRESSED)
+    public function __construct(private readonly Curve $curve, private readonly PointEncoding $preferredEncoding = PointEncoding::ENCODING_COMPRESSED)
     {
         $this->pointOctetLength = (int) ceil((float) strlen(gmp_strval($this->curve->getP(), 2)) / 8);
         $this->pointDecoder = new PointDecoder($this->curve);
@@ -63,8 +60,8 @@ class PointSerializer
             return '00';
         }
 
-        if ($this->preferredEncoding === self::ENCODING_COMPRESSED) {
-            $x = str_pad(gmp_strval($point->x, 16), $this->pointOctetLength*2, '0', STR_PAD_LEFT);
+        if ($this->preferredEncoding === PointEncoding::ENCODING_COMPRESSED) {
+            $x = str_pad(gmp_strval($point->x, 16), $this->pointOctetLength * 2, '0', STR_PAD_LEFT);
 
             $isEven = gmp_cmp(gmp_mod($point->y, 2), 0);
             $prefix = $isEven ? '02' : '03';
@@ -72,11 +69,11 @@ class PointSerializer
             return $prefix . $x;
         }
 
-        if ($this->preferredEncoding === self::ENCODING_UNCOMPRESSED) {
-            $x = str_pad(gmp_strval($point->x, 16), $this->pointOctetLength*2, '0', STR_PAD_LEFT);
-            $y = str_pad(gmp_strval($point->y, 16), $this->pointOctetLength*2, '0', STR_PAD_LEFT);
+        if ($this->preferredEncoding === PointEncoding::ENCODING_UNCOMPRESSED) {
+            $x = str_pad(gmp_strval($point->x, 16), $this->pointOctetLength * 2, '0', STR_PAD_LEFT);
+            $y = str_pad(gmp_strval($point->y, 16), $this->pointOctetLength * 2, '0', STR_PAD_LEFT);
 
-            return '04'.$x.$y;
+            return '04' . $x . $y;
         }
 
         throw new PointSerializerException('Unknown serialization format.');
