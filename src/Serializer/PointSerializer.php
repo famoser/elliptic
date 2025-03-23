@@ -60,22 +60,27 @@ class PointSerializer
             return '00';
         }
 
-        if ($this->preferredEncoding === PointEncoding::ENCODING_COMPRESSED) {
-            $x = str_pad(gmp_strval($point->x, 16), $this->pointOctetLength * 2, '0', STR_PAD_LEFT);
+        return match ($this->preferredEncoding) {
+            PointEncoding::ENCODING_COMPRESSED => $this->serializeCompressed($point),
+            PointEncoding::ENCODING_UNCOMPRESSED => $this->serializeUncompressed($point)
+        };
+    }
 
-            $isEven = gmp_cmp(gmp_mod($point->y, 2), 0);
-            $prefix = $isEven ? '02' : '03';
+    private function serializeCompressed(Point $point): string
+    {
+        $x = str_pad(gmp_strval($point->x, 16), $this->pointOctetLength * 2, '0', STR_PAD_LEFT);
 
-            return $prefix . $x;
-        }
+        $isEven = gmp_cmp(gmp_mod($point->y, 2), 0);
+        $prefix = $isEven ? '02' : '03';
 
-        if ($this->preferredEncoding === PointEncoding::ENCODING_UNCOMPRESSED) {
-            $x = str_pad(gmp_strval($point->x, 16), $this->pointOctetLength * 2, '0', STR_PAD_LEFT);
-            $y = str_pad(gmp_strval($point->y, 16), $this->pointOctetLength * 2, '0', STR_PAD_LEFT);
+        return $prefix . $x;
+    }
 
-            return '04' . $x . $y;
-        }
+    private function serializeUncompressed(Point $point): string
+    {
+        $x = str_pad(gmp_strval($point->x, 16), $this->pointOctetLength * 2, '0', STR_PAD_LEFT);
+        $y = str_pad(gmp_strval($point->y, 16), $this->pointOctetLength * 2, '0', STR_PAD_LEFT);
 
-        throw new PointSerializerException('Unknown serialization format.');
+        return '04' . $x . $y;
     }
 }
