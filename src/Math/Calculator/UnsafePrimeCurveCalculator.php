@@ -26,7 +26,9 @@ class UnsafePrimeCurveCalculator extends AbstractPointCalculator
 
         // check allowed to use this calculator
         $check = in_array($curve->getType(), [CurveType::ShortWeierstrass, CurveType::Montgomery], true);
-        if (!$check) throw new \AssertionError('Cannot use this calculator with the chosen curve.');
+        if (!$check) {
+            throw new \AssertionError('Cannot use this calculator with the chosen curve.');
+        }
     }
 
     /**
@@ -37,7 +39,7 @@ class UnsafePrimeCurveCalculator extends AbstractPointCalculator
         // rule 1 & 2
         if ($a->isInfinity()) {
             return clone $b;
-        } else if ($b->isInfinity()) {
+        } elseif ($b->isInfinity()) {
             return clone $a;
         }
 

@@ -1,4 +1,6 @@
-<?php /** @noinspection DuplicatedCode */
+<?php
+
+/** @noinspection DuplicatedCode */
 
 namespace Famoser\Elliptic\Math\Calculator;
 
@@ -35,7 +37,9 @@ class SW_ANeg3_Jacobi_Calculator extends AbstractJacobiCalculator implements Add
         // check allowed to use this calculator
         $check = $curve->getType() === CurveType::ShortWeierstrass;
         $check &= gmp_cmp($curve->getA(), gmp_sub($curve->getP(), -3)) === 0;
-        if (!$check) throw new \AssertionError('Cannot use this calculator with the chosen curve.');
+        if (!$check) {
+            throw new \AssertionError('Cannot use this calculator with the chosen curve.');
+        }
     }
 
     /**

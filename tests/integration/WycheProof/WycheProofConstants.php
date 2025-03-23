@@ -4,19 +4,19 @@ namespace Famoser\Elliptic\Integration\WycheProof;
 
 class WycheProofConstants
 {
-    const RESULT_VALID = 'valid';
-    const RESULT_ACCEPTABLE = 'acceptable';
-    const RESULT_INVALID = 'invalid';
+    public const RESULT_VALID = 'valid';
+    public const RESULT_ACCEPTABLE = 'acceptable';
+    public const RESULT_INVALID = 'invalid';
 
-    const FLAG_ADD_SUB_CHAIN = 'AddSubChain';
-    const FLAG_COMPRESSED_POINT = 'CompressedPoint';
-    const FLAG_INVALID_ASN = 'InvalidAsn';
-    const FLAG_INVALID_PUBLIC = 'InvalidPublic';
-    const FLAG_LARGE_COFACTOR = 'LargeCofactor';
-    const FLAG_MODIFIED_PRIME = 'ModifiedPrime';
-    const FLAG_NEGATIVE_COFACTOR = 'NegativeCofactor';
-    const FLAG_UNNAMED_CURVE = 'UnnamedCurve';
-    const FLAG_UNUSED_PARAM = 'UnusedParam';
-    const FLAG_WEAK_PUBLIC_KEY = 'WeakPublicKey';
-    const FLAG_WRONG_ORDER = 'WrongOrder';
+    public const FLAG_ADD_SUB_CHAIN = 'AddSubChain';
+    public const FLAG_COMPRESSED_POINT = 'CompressedPoint';
+    public const FLAG_INVALID_ASN = 'InvalidAsn';
+    public const FLAG_INVALID_PUBLIC = 'InvalidPublic';
+    public const FLAG_LARGE_COFACTOR = 'LargeCofactor';
+    public const FLAG_MODIFIED_PRIME = 'ModifiedPrime';
+    public const FLAG_NEGATIVE_COFACTOR = 'NegativeCofactor';
+    public const FLAG_UNNAMED_CURVE = 'UnnamedCurve';
+    public const FLAG_UNUSED_PARAM = 'UnusedParam';
+    public const FLAG_WEAK_PUBLIC_KEY = 'WeakPublicKey';
+    public const FLAG_WRONG_ORDER = 'WrongOrder';
 }
