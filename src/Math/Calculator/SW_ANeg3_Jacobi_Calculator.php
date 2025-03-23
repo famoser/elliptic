@@ -33,8 +33,9 @@ class SW_ANeg3_Jacobi_Calculator extends AbstractJacobiCalculator implements Add
         parent::__construct($this->curve, $this->swapper, $this->field);
 
         // check allowed to use this calculator
-        assert($curve->getType() === CurveType::ShortWeierstrass);
-        assert(gmp_cmp($curve->getA(), gmp_sub($curve->getP(), -3)) === 0);
+        $check = $curve->getType() === CurveType::ShortWeierstrass;
+        $check &= gmp_cmp($curve->getA(), gmp_sub($curve->getP(), -3)) === 0;
+        if (!$check) throw new \AssertionError('Cannot use this calculator with the chosen curve.');
     }
 
     /**
