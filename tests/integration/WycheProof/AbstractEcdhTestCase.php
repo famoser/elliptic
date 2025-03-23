@@ -2,7 +2,7 @@
 
 namespace Famoser\Elliptic\Integration\WycheProof;
 
-use Famoser\Elliptic\Math\UnsafeMath;
+use Famoser\Elliptic\Math\UnsafePrimeCurveMath;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Serializer\PointDecoderException;
 use Famoser\Elliptic\Serializer\PointSerializer;
@@ -42,7 +42,7 @@ abstract class AbstractEcdhTestCase extends TestCase
         }
 
         // do DH
-        $math = new UnsafeMath($curve);
+        $math = new UnsafePrimeCurveMath($curve);
         $sharedSecret = $math->mul($publicKey, gmp_init($private, 16));
 
         // check shared secret as expected

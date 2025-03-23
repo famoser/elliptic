@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Math\Primitives;
+namespace Famoser\Elliptic\Math\Calculator\Primitives;
 
 /**
  * Elliptic curve point with x and y coordinates

@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Math\Primitives;
+namespace Famoser\Elliptic\Math\Calculator\Primitives;
 
 /**
  * Math inside a prime field; hence always (mod p)

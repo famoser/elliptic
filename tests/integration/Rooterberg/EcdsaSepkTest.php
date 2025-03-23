@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Famoser\Elliptic\Integration\Rooterberg;
 
 use Famoser\Elliptic\Integration\Utils\ECDSASigner;
-use Famoser\Elliptic\Math\UnsafeMath;
+use Famoser\Elliptic\Math\UnsafePrimeCurveMath;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoderException;
@@ -47,7 +47,7 @@ class EcdsaSepkTest extends TestCase
 
     protected function testCurve(Curve $curve, Point $publicKey, string $message, string $signature, string $comment, bool $valid, array $flags): void
     {
-        $math = new UnsafeMath($curve);
+        $math = new UnsafePrimeCurveMath($curve);
         $signer = new ECDSASigner($math, 'sha224');
 
         $verified = $signer->verify($publicKey, $signature, $message);
