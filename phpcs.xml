@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+
+    <rule ref="PSR12"/>
+
+    <!-- ignore line length warnings -->
+    <rule ref="Generic.Files.LineLength.TooLong">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+    <!-- whitelist some awkward class names, as else they would become very long and hard to read -->
+    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
+        <exclude-pattern>SW_ANeg3_Jacobi_Calculator</exclude-pattern>
+        <exclude-pattern>SW_ANeg3_Math</exclude-pattern>
+    </rule>
+
+    <arg name="colors"/> <!-- use colors in output -->
+    <arg value="s"/> <!-- show name that is broken -->
+    <arg name="cache" value=".phpcs-cache"/> <!-- cache executions -->
+    <arg value="p"/> <!-- show progress -->
+
+    <file>src</file>
+    <file>tests</file>
+    <exclude-pattern>tests/integration/Rooterberg/fixtures</exclude-pattern>
+    <exclude-pattern>tests/integration/WycheProof/fixtures</exclude-pattern>
+
+
+</ruleset>
