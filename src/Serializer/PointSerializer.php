@@ -2,7 +2,6 @@
 
 namespace Famoser\Elliptic\Serializer;
 
-use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 

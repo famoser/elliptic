@@ -2,9 +2,9 @@
 
 namespace Famoser\Elliptic\Curves;
 
+use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
 use Famoser\Elliptic\Primitives\Point;
-use Famoser\Elliptic\Primitives\Curve;
 
 /**
  * SEC2 curves from https://www.secg.org/sec2-v2.pdf (only the secp variants for now).
