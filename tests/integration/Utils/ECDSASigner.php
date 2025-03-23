@@ -34,13 +34,13 @@ class ECDSASigner
     {
         // crude signature validity check, as this is not our prime concern here
         $integerOctetLength = (int) ceil((float) strlen(gmp_strval($this->math->getCurve()->getN(), 2)) / 8);
-        if (strlen($signature) !== $integerOctetLength*4) {
+        if (strlen($signature) !== $integerOctetLength * 4) {
             return false;
         }
 
         // unserialize signature
-        $r = gmp_init(substr($signature, 0, $integerOctetLength*2), 16);
-        $s = gmp_init(substr($signature, $integerOctetLength*2), 16);
+        $r = gmp_init(substr($signature, 0, $integerOctetLength * 2), 16);
+        $s = gmp_init(substr($signature, $integerOctetLength * 2), 16);
 
         return true;
     }

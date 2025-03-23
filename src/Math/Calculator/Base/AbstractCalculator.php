@@ -6,7 +6,7 @@ use Famoser\Elliptic\Primitives\Curve;
 
 /**
  * @template T
- * 
+ *
  * @implements CalculatorInterface<T>
  */
 abstract class AbstractCalculator implements CalculatorInterface

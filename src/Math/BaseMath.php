@@ -40,6 +40,4 @@ abstract class BaseMath implements MathInterface
 
         return $this->calculator->nativeToAffine($nativeResult);
     }
-
-
 }
