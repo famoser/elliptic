@@ -11,8 +11,13 @@ namespace Famoser\Elliptic\Primitives;
  */
 class Curve
 {
-    public function __construct(private readonly \GMP $p, private readonly \GMP $a, private readonly \GMP $b, private readonly Point $G, private readonly \GMP $n, private readonly \GMP $h)
+    public function __construct(private readonly CurveType $type, private readonly \GMP $p, private readonly \GMP $a, private readonly \GMP $b, private readonly Point $G, private readonly \GMP $n, private readonly \GMP $h)
     {
+    }
+
+    public function getType(): CurveType
+    {
+        return $this->type;
     }
 
     public function getP(): \GMP

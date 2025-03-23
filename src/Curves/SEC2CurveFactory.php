@@ -2,6 +2,7 @@
 
 namespace Famoser\Elliptic\Curves;
 
+use Famoser\Elliptic\Primitives\CurveType;
 use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Primitives\Curve;
 
@@ -42,7 +43,7 @@ class SEC2CurveFactory
         $n = gmp_init('FFFFFFFF FFFFFFFF FFFFFFFE 26F2FC17 0F69466A 74DEFD8D', 16);
         $h = gmp_init('01', 16);
 
-        return new Curve($p, $a, $b, $G, $n, $h);
+        return new Curve(CurveType::ShortWeierstrass, $p, $a, $b, $G, $n, $h);
     }
 
     public static function secp192r1(): Curve
@@ -57,7 +58,7 @@ class SEC2CurveFactory
         $n = gmp_init('FFFFFFFF FFFFFFFF FFFFFFFF 99DEF836 146BC9B1 B4D22831', 16);
         $h = gmp_init('01', 16);
 
-        return new Curve($p, $a, $b, $G, $n, $h);
+        return new Curve(CurveType::ShortWeierstrass, $p, $a, $b, $G, $n, $h);
     }
 
     public static function secp224k1(): Curve
@@ -74,7 +75,7 @@ B6B7A45C 7E089FED 7FBA3442 82CAFBD6 F7E319F7 C0B0BD59 E2CA4BDB
 769FB1F7', 16);
         $h = gmp_init('01', 16);
 
-        return new Curve($p, $a, $b, $G, $n, $h);
+        return new Curve(CurveType::ShortWeierstrass, $p, $a, $b, $G, $n, $h);
     }
 
     public static function secp224r1(): Curve
@@ -90,7 +91,7 @@ B6B7A45C 7E089FED 7FBA3442 82CAFBD6 F7E319F7 C0B0BD59 E2CA4BDB
         $n = gmp_init('FFFFFFFF FFFFFFFF FFFFFFFF FFFF16A2 E0B8F03E 13DD2945 5C5C2A3D', 16);
         $h = gmp_init('01', 16);
 
-        return new Curve($p, $a, $b, $G, $n, $h);
+        return new Curve(CurveType::ShortWeierstrass, $p, $a, $b, $G, $n, $h);
     }
 
     public static function secp256k1(): Curve
@@ -110,7 +111,7 @@ A6855419 9C47D08F FB10D4B8');
 D0364141', 16);
         $h = gmp_init('01', 16);
 
-        return new Curve($p, $a, $b, $G, $n, $h);
+        return new Curve(CurveType::ShortWeierstrass, $p, $a, $b, $G, $n, $h);
     }
 
     public static function secp256r1(): Curve
@@ -130,7 +131,7 @@ F4A13945 D898C296 4FE342E2 FE1A7F9B 8EE7EB4A 7C0F9E16 2BCE3357
 FC632551', 16);
         $h = gmp_init('01', 16);
 
-        return new Curve($p, $a, $b, $G, $n, $h);
+        return new Curve(CurveType::ShortWeierstrass, $p, $a, $b, $G, $n, $h);
     }
 
     public static function secp384r1(): Curve
@@ -151,7 +152,7 @@ FFFFFFFE FFFFFFFF 00000000 00000000 FFFFFFFC', 16);
 F4372DDF 581A0DB2 48B0A77A ECEC196A CCC52973', 16);
         $h = gmp_init('01', 16);
 
-        return new Curve($p, $a, $b, $G, $n, $h);
+        return new Curve(CurveType::ShortWeierstrass, $p, $a, $b, $G, $n, $h);
     }
 
     public static function secp521r1(): Curve
@@ -177,6 +178,6 @@ FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF
 FFFFFFFF FFFFFFFF FFFFFFFF', 16);
         $h = gmp_init('01', 16);
 
-        return new Curve($p, $a, $b, $G, $n, $h);
+        return new Curve(CurveType::ShortWeierstrass, $p, $a, $b, $G, $n, $h);
     }
 }
