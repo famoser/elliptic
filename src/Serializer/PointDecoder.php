@@ -3,6 +3,7 @@
 namespace Famoser\Elliptic\Serializer;
 
 use Famoser\Elliptic\Primitives\Curve;
+use Famoser\Elliptic\Primitives\CurveType;
 use Famoser\Elliptic\Primitives\Point;
 
 class PointDecoder
@@ -61,8 +62,20 @@ class PointDecoder
 
     /**
      * check fulfills defining equation of the curve
+     * @throws PointDecoderException
      */
     private function fulfillsDefiningEquationOfCurve(Point $point): bool
+    {
+        return match ($this->curve->getType()) {
+            CurveType::ShortWeierstrass => $this->fulfillsShortWeierstrassDefiningEquation($point),
+            CurveType::Montgomery => throw new PointDecoderException('Montgomery not yet supported.'),
+        };
+    }
+
+    /**
+     * short weierstrass defined as y^2 = x^3 + ax + b
+     */
+    private function fulfillsShortWeierstrassDefiningEquation(Point $point): bool
     {
         $left = gmp_pow($point->y, 2);
         $right = gmp_add(
