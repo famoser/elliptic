@@ -6,6 +6,7 @@ use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
+use Famoser\Elliptic\Tests\TestUtils\CurveBuilder;
 use PHPUnit\Framework\TestCase;
 
 class SW_ANeg3_MathTest extends TestCase
@@ -14,13 +15,14 @@ class SW_ANeg3_MathTest extends TestCase
     {
         $curve = SEC2CurveFactory::secp384r1();
 
+        $aPlusOne = gmp_add($curve->getA(), 1);
         return [
             // wrong because not short weierstrass
-            [new Curve(CurveType::Montgomery, $curve->getP(), $curve->getA(), $curve->getB(), $curve->getG(), $curve->getN(), $curve->getH())],
+            [(new CurveBuilder($curve))->withType(CurveType::Montgomery)->build()],
             // wrong because a not -3
-            [new Curve(CurveType::ShortWeierstrass, $curve->getP(), gmp_add($curve->getA(), 1), $curve->getB(), $curve->getG(), $curve->getN(), $curve->getH())],
+            [(new CurveBuilder($curve))->withA($aPlusOne)->build()],
             // wrong, failures of above combined
-            [new Curve(CurveType::Montgomery, $curve->getP(), gmp_add($curve->getA(), 1), $curve->getB(), $curve->getG(), $curve->getN(), $curve->getH())],
+            [(new CurveBuilder($curve))->withType(CurveType::Montgomery)->withA($aPlusOne)->build()],
         ];
     }
 

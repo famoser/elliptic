@@ -29,7 +29,7 @@ class PointDecoderTest extends TestCase
         $expectedPoint = $curve->getG();
 
         $one = gmp_init(1);
-        $unsupportedCurve = new Curve(CurveType::Montgomery, $curve->getP(), $curve->getA(), $curve->getB(), $curve->getG(), $curve->getN(), $curve->getH());
+        $unsupportedCurve = (new CurveBuilder($curve))->withType(CurveType::Montgomery)->build();
         return [
             [$curve, $one, $expectedPoint->y],
             [$curve, $expectedPoint->x, $one],
