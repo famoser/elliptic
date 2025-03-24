@@ -11,8 +11,8 @@ class CurveRepositoryTest extends TestCase
     {
         $curveRepository = new CurveRepository();
 
-        foreach ($curveRepository->getKnownCurveOIDs() as $knownCurveOID) {
-            $this->assertNotNull($curveRepository->findByOID($knownCurveOID));
+        foreach ($curveRepository->getKnownNames() as $knownName) {
+            $this->assertNotNull($curveRepository->findByName($knownName));
         }
     }
 
@@ -23,6 +23,13 @@ class CurveRepositoryTest extends TestCase
         foreach ($curveRepository->getKnownCurveOIDs() as $knownCurveOID) {
             $this->assertNotNull($curveRepository->findByOID($knownCurveOID));
         }
+    }
+
+    public function testNonSenseReturnsNull(): void
+    {
+        $curveRepository = new CurveRepository();
+        $this->assertNull($curveRepository->findByName('unknown'));
+        $this->assertNull($curveRepository->findByOID('1.3.132.0.99'));
     }
 
     public function testSingleInstanceOfCurves(): void
