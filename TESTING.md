@@ -1,8 +1,9 @@
 # Testing
 
 Testing Targets:
-- 100% branch coverage for the crypto code using unit tests [in progress]
 - Third-party integration tests for all curves [done]
+- 100% branch coverage for the crypto code using unit tests [in progress]
+- Timing tests for all curves (e.g. see [here](https://github.com/bleichenbacher-daniel/Rooterberg/issues/2)).
 
 ## Integration tests
 
