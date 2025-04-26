@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Famoser\Elliptic\Integration\WycheProof;
 
+use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
-use Famoser\Elliptic\Legacy\Exception\PointNotOnCurveException;
 use Famoser\Elliptic\Primitives\Curve;
 use Sop\ASN1\Type\UnspecifiedType;
 
@@ -30,6 +30,29 @@ class EcdhSepkTest extends AbstractEcdhTestCase
         }
 
         $curve = SEC2CurveFactory::secp256k1();
+        $this->testCurve($curve, $comment, $public, $private, $shared, $result, $flags);
+    }
+
+    public static function provideBrainpoolP256r1(): array
+    {
+        return FixturesRepository::createFilteredEcdhFixtures('brainpoolP256r1');
+    }
+
+    /**
+     * @dataProvider provideBrainpoolP256r1
+     */
+    public function testBrainpoolP256r1(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
+    {
+        // we do not test the DER deserialization; hence these are fine
+        if (str_contains($comment, "a point shared with brainpoolP256r1") || str_contains($comment, "The point of the public key is a valid on brainpoolP256r1")) {
+            $result = WycheProofConstants::RESULT_VALID;
+        }
+
+        if (str_contains($comment, 'using secp256r1') || str_contains($comment, 'using secp256k1') || str_contains($comment, 'public key on isomorphic curve brainpoolP256t1')) {
+            $comment = parent::POINT_NOT_ON_CURVE_COMMENT_WHITELIST[0];
+        }
+
+        $curve = BrainpoolCurveFactory::P256r1();
         $this->testCurve($curve, $comment, $public, $private, $shared, $result, $flags);
     }
 
