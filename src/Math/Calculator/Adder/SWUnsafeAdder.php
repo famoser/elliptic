@@ -7,7 +7,7 @@ use Famoser\Elliptic\Primitives\Point;
 /**
  * Implements algorithms proposed in https://www.secg.org/SEC1-Ver-1.0.pdf (2.2.1)
  */
-trait UnsafePointAdder
+trait SWUnsafeAdder
 {
     /**
      * rules from https://www.secg.org/SEC1-Ver-1.0.pdf (2.2.1)

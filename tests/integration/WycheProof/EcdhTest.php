@@ -8,7 +8,7 @@ use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
-use Famoser\Elliptic\Math\UnsafePrimeCurveMath;
+use Famoser\Elliptic\Math\SWUnsafeMath;
 use Sop\ASN1\Type\UnspecifiedType;
 
 class EcdhTest extends AbstractEcdhTestCase
@@ -32,7 +32,7 @@ class EcdhTest extends AbstractEcdhTestCase
         }
 
         $curve = SEC2CurveFactory::secp256k1();
-        $math = new UnsafePrimeCurveMath($curve);
+        $math = new SWUnsafeMath($curve);
         $this->testCurve($math, $comment, $public, $private, $shared, $result, $flags);
     }
 

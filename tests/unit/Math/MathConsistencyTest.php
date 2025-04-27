@@ -7,7 +7,7 @@ use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
-use Famoser\Elliptic\Math\UnsafePrimeCurveMath;
+use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Primitives\Point;
 use PHPUnit\Framework\TestCase;
 
@@ -44,7 +44,7 @@ class MathConsistencyTest extends TestCase
     public function testAdd(MathInterface $math): void
     {
         $curve = $math->getCurve();
-        $groundTruth = new UnsafePrimeCurveMath($curve);
+        $groundTruth = new SWUnsafeMath($curve);
 
         $expected = $groundTruth->add($curve->getG(), $curve->getG());
         $actual = $math->add($curve->getG(), $curve->getG());
@@ -61,7 +61,7 @@ class MathConsistencyTest extends TestCase
 
         /** @phpstan-ignore deadCode.unreachable */
         $curve = $math->getCurve();
-        $groundTruth = new UnsafePrimeCurveMath($curve);
+        $groundTruth = new SWUnsafeMath($curve);
 
         $expected = $groundTruth->add($curve->getG(), Point::createInfinity());
         $actual = $math->add($curve->getG(), Point::createInfinity());
@@ -75,7 +75,7 @@ class MathConsistencyTest extends TestCase
     public function testDouble(MathInterface $math): void
     {
         $curve = $math->getCurve();
-        $groundTruth = new UnsafePrimeCurveMath($curve);
+        $groundTruth = new SWUnsafeMath($curve);
 
         $expected = $groundTruth->double($curve->getG());
         $actual = $math->double($curve->getG());
@@ -102,7 +102,7 @@ class MathConsistencyTest extends TestCase
     public function testMulG(MathInterface $math): void
     {
         $curve = $math->getCurve();
-        $groundTruth = new UnsafePrimeCurveMath($curve);
+        $groundTruth = new SWUnsafeMath($curve);
 
         $factor = gmp_init(5);
         $expected = $groundTruth->mulG($factor);
@@ -131,7 +131,7 @@ class MathConsistencyTest extends TestCase
     public function testMulSameResult(MathInterface $math): void
     {
         $curve = $math->getCurve();
-        $groundTruth = new UnsafePrimeCurveMath($curve);
+        $groundTruth = new SWUnsafeMath($curve);
 
         $factor = gmp_init(5);
         $expected = $groundTruth->mul($curve->getG(), $factor);

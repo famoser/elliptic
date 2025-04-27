@@ -2,7 +2,7 @@
 
 namespace Famoser\Elliptic\Math\Calculator;
 
-use Famoser\Elliptic\Math\Calculator\Adder\UnsafePointAdder;
+use Famoser\Elliptic\Math\Calculator\Adder\SWUnsafeAdder;
 use Famoser\Elliptic\Math\Calculator\Coordinator\PointCoordinator;
 use Famoser\Elliptic\Math\Calculator\Multiplicator\DoubleAndAddAlwaysMultiplicator;
 use Famoser\Elliptic\Math\Calculator\Swapper\PointSwapper;
@@ -14,10 +14,10 @@ use Famoser\Elliptic\Primitives\Point;
 /**
  * General-purpose calculator, but uses an unsafe adder.
  */
-class UnsafePrimeCurveCalculator extends AbstractCalculator
+class SWUnsafeCalculator extends AbstractCalculator
 {
     use PointCoordinator;
-    use UnsafePointAdder;
+    use SWUnsafeAdder;
     use PointSwapper;
     /** @use DoubleAndAddAlwaysMultiplicator<Point> */
     use DoubleAndAddAlwaysMultiplicator;
@@ -27,7 +27,7 @@ class UnsafePrimeCurveCalculator extends AbstractCalculator
         parent::__construct($curve);
 
         // check allowed to use this calculator
-        $check = in_array($curve->getType(), [CurveType::ShortWeierstrass, CurveType::Montgomery], true);
+        $check = $curve->getType() === CurveType::ShortWeierstrass;
         if (!$check) {
             throw new \AssertionError('Cannot use this calculator with the chosen curve.');
         }
