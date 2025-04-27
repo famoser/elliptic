@@ -76,6 +76,7 @@ class ECDSASigner
         $c = gmp_invert($s, $n);
         $u1 = gmp_mul($hash, $c);
         $u2 = gmp_mul($r, $c);
+
         $xy = $this->math->add($this->math->mul($G, $u1), $this->math->mul($publicKey, $u2));
 
         // check equality

@@ -2,8 +2,7 @@
 
 namespace Famoser\Elliptic\Integration\WycheProof;
 
-use Famoser\Elliptic\Math\UnsafePrimeCurveMath;
-use Famoser\Elliptic\Primitives\Curve;
+use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Serializer\PointDecoderException;
 use Famoser\Elliptic\Serializer\PointSerializer;
 use Famoser\Elliptic\Serializer\PointSerializerException;
@@ -19,11 +18,11 @@ abstract class AbstractEcdhTestCase extends TestCase
         'public key is a low order point on twist'
     ];
 
-    protected function testCurve(Curve $curve, string $comment, string $public, string $private, string $shared, string $result, array $flags): void
+    protected function testCurve(MathInterface $math, string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
         // unserialize public key
         try {
-            $pointSerializer = new PointSerializer($curve);
+            $pointSerializer = new PointSerializer($math->getCurve());
             $publicKey = $pointSerializer->deserialize($public);
         } catch (PointDecoderException) {
             $this->assertEquals($result, WycheProofConstants::RESULT_INVALID);
@@ -42,7 +41,6 @@ abstract class AbstractEcdhTestCase extends TestCase
         }
 
         // do DH
-        $math = new UnsafePrimeCurveMath($curve);
         $sharedSecret = $math->mul($publicKey, gmp_init($private, 16));
 
         // check shared secret as expected
