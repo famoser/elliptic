@@ -24,8 +24,20 @@ class CurveRepository
         '1.3.132.0.35' => 'secp521r1',
 
         /* source: https://datatracker.ietf.org/doc/html/rfc5639 */
+        '1.3.36.3.3.2.8.1.1.1' => 'brainpoolP160r1',
+        '1.3.36.3.3.2.8.1.1.2' => 'brainpoolP160t1',
+        '1.3.36.3.3.2.8.1.1.3' => 'brainpoolP192r1',
+        '1.3.36.3.3.2.8.1.1.4' => 'brainpoolP192t1',
+        '1.3.36.3.3.2.8.1.1.5' => 'brainpoolP224r1',
+        '1.3.36.3.3.2.8.1.1.6' => 'brainpoolP224t1',
         '1.3.36.3.3.2.8.1.1.7' => 'brainpoolP256r1',
         '1.3.36.3.3.2.8.1.1.8' => 'brainpoolP256t1',
+        '1.3.36.3.3.2.8.1.1.9' => 'brainpoolP320r1',
+        '1.3.36.3.3.2.8.1.1.10' => 'brainpoolP320t1',
+        '1.3.36.3.3.2.8.1.1.11' => 'brainpoolP384r1',
+        '1.3.36.3.3.2.8.1.1.12' => 'brainpoolP384t1',
+        '1.3.36.3.3.2.8.1.1.13' => 'brainpoolP512r1',
+        '1.3.36.3.3.2.8.1.1.14' => 'brainpoolP512t1',
     ];
 
     /**
@@ -62,8 +74,20 @@ class CurveRepository
         'secp384r1' => [SEC2CurveFactory::class, 'secp384r1'],
         'secp521r1' => [SEC2CurveFactory::class, 'secp521r1'],
 
+        'brainpoolP160r1' => [BrainpoolCurveFactory::class, 'p160r1'],
+        'brainpoolP160t1' => [BrainpoolCurveFactory::class, 'p160t1'],
+        'brainpoolP192r1' => [BrainpoolCurveFactory::class, 'p192r1'],
+        'brainpoolP192t1' => [BrainpoolCurveFactory::class, 'p192t1'],
+        'brainpoolP224r1' => [BrainpoolCurveFactory::class, 'p224r1'],
+        'brainpoolP224t1' => [BrainpoolCurveFactory::class, 'p224t1'],
         'brainpoolP256r1' => [BrainpoolCurveFactory::class, 'p256r1'],
         'brainpoolP256t1' => [BrainpoolCurveFactory::class, 'p256t1'],
+        'brainpoolP320r1' => [BrainpoolCurveFactory::class, 'p320r1'],
+        'brainpoolP320t1' => [BrainpoolCurveFactory::class, 'p320t1'],
+        'brainpoolP384r1' => [BrainpoolCurveFactory::class, 'p384r1'],
+        'brainpoolP384t1' => [BrainpoolCurveFactory::class, 'p384t1'],
+        'brainpoolP512r1' => [BrainpoolCurveFactory::class, 'p512r1'],
+        'brainpoolP512t1' => [BrainpoolCurveFactory::class, 'p512t1'],
     ];
 
     /**
