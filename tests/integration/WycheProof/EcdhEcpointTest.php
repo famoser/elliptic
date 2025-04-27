@@ -7,7 +7,7 @@ namespace Famoser\Elliptic\Integration\WycheProof;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 
-class EcdhSepkEcpointTest extends AbstractEcdhTestCase
+class EcdhEcpointTest extends AbstractEcdhTestCase
 {
     public static function provideSecp256r1(): array
     {

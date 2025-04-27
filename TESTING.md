@@ -23,10 +23,20 @@ There are two kind of integration tests at the moment:
 | `secp256r1`      | ecdh_ecpoint(216) |            |
 | `secp384r1`      | ecdh_ecpoint(182) |            |
 | `secp521r1`      | ecdh_ecpoint(237) |            |
-| `brainpool256r1` | ecdh(318)         |            |
+| `brainpool192r1` |                   | ecdsa(375) |
+| `brainpool192t1` |                   | ecdsa(377) |
+| `brainpool224r1` | ecdh(241)         |            |
+| `brainpool224t1` |                   | ecdsa(406) |
+| `brainpool256r1` | ecdh(288)         |            |
 | `brainpool256t1` |                   | ecdsa(534) |
+| `brainpool320r1` | ecdh(189)         |            |
+| `brainpool320t1` |                   | ecdsa(431) |
+| `brainpool384r1` | ecdh(128)         |            |
+| `brainpool384t1` |                   | ecdsa(428) |
+| `brainpool512r1` | ecdh(184)         |            |
+| `brainpool512t1` |                   | ecdsa(741) |
 
-For the `WycheProof`, it seems to be the case that the more abstract testsuites include all the primitive tests, plus some new tests corresponding to the abstraction. As an example, `ecdh_ecpoint` and `ecdh` contain the same tests, while `ecdh` contains additional tests concerning the DER public key deserialization. As we do not care about the abstract functionality, we aim to execute the single most primitive test suite per curve. Concretely, we prefer `ecdh_ecpoint`, if not available then `ecdh`, if not available `ecdsa`.
+For the `WycheProof`, it seems to be the case that the more abstract testsuites include all the primitive tests, plus some new tests corresponding to the abstraction. As an example, `ecdh_ecpoint` and `ecdh` contain the same tests, while `ecdh` contains additional tests concerning the DER public key deserialization. As we do not care about the abstract functionality, we aim to execute the most primitive available test suite per curve. Concretely, we prefer `ecdh_ecpoint`, if not available then `ecdh`, if not available `ecdsa`.
 
 The `Rooterberg` testset is used for the curves that did not have tests in the Wycheproof. Its file format is not yet stable, hence this is potentially a maintenance burden.  
 

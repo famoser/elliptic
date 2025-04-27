@@ -21,8 +21,20 @@ class MathConsistencyTest extends TestCase
             [new SW_ANeg3_Math(SEC2CurveFactory::secp256r1())],
             [new SW_ANeg3_Math(SEC2CurveFactory::secp384r1())],
             [new SW_ANeg3_Math(SEC2CurveFactory::secp521r1())],
+            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p160r1(), BrainpoolCurveFactory::p160r1TwistToP160t1())],
+            [new SW_ANeg3_Math(BrainpoolCurveFactory::p160t1())],
+            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p192r1(), BrainpoolCurveFactory::p192r1TwistToP192t1())],
+            [new SW_ANeg3_Math(BrainpoolCurveFactory::p192t1())],
+            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p224r1(), BrainpoolCurveFactory::p224r1TwistToP224t1())],
+            [new SW_ANeg3_Math(BrainpoolCurveFactory::p224t1())],
             [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p256r1(), BrainpoolCurveFactory::p256r1TwistToP256t1())],
-            [new SW_ANeg3_Math(BrainpoolCurveFactory::p256t1())]
+            [new SW_ANeg3_Math(BrainpoolCurveFactory::p256t1())],
+            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p320r1(), BrainpoolCurveFactory::p320r1TwistToP320t1())],
+            [new SW_ANeg3_Math(BrainpoolCurveFactory::p320t1())],
+            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p384r1(), BrainpoolCurveFactory::p384r1TwistToP384t1())],
+            [new SW_ANeg3_Math(BrainpoolCurveFactory::p384t1())],
+            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p512r1(), BrainpoolCurveFactory::p512r1TwistToP512t1())],
+            [new SW_ANeg3_Math(BrainpoolCurveFactory::p512t1())]
         ];
     }
 

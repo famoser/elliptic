@@ -12,7 +12,7 @@ use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 use PHPUnit\Framework\TestCase;
 
-class EcdsaSepkTest extends TestCase
+class EcdsaTest extends TestCase
 {
     public static function provideSecp192r1(): array
     {

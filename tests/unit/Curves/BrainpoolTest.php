@@ -3,8 +3,6 @@
 namespace Famoser\Elliptic\Tests\Curves;
 
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
-use Famoser\Elliptic\Curves\CurveRepository;
-use Famoser\Elliptic\Integration\WycheProof\FixturesRepository;
 use Famoser\Elliptic\Math\Twister\QuadraticTwister;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\QuadraticTwist;
@@ -15,7 +13,12 @@ class BrainpoolTest extends TestCase
     public static function provideTwistedCurves(): array
     {
         return [
-            [BrainpoolCurveFactory::p256r1(), BrainpoolCurveFactory::p256r1TwistToP256t1(), BrainpoolCurveFactory::p256t1()]
+            [BrainpoolCurveFactory::p160r1(), BrainpoolCurveFactory::p160r1TwistToP160t1(), BrainpoolCurveFactory::p160t1()],
+            [BrainpoolCurveFactory::p192r1(), BrainpoolCurveFactory::p192r1TwistToP192t1(), BrainpoolCurveFactory::p192t1()],
+            [BrainpoolCurveFactory::p224r1(), BrainpoolCurveFactory::p224r1TwistToP224t1(), BrainpoolCurveFactory::p224t1()],
+            [BrainpoolCurveFactory::p320r1(), BrainpoolCurveFactory::p320r1TwistToP320t1(), BrainpoolCurveFactory::p320t1()],
+            [BrainpoolCurveFactory::p384r1(), BrainpoolCurveFactory::p384r1TwistToP384t1(), BrainpoolCurveFactory::p384t1()],
+            [BrainpoolCurveFactory::p512r1(), BrainpoolCurveFactory::p512r1TwistToP512t1(), BrainpoolCurveFactory::p512t1()]
         ];
     }
 
