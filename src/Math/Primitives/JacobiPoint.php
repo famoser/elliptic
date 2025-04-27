@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Math\Calculator\Primitives;
+namespace Famoser\Elliptic\Math\Primitives;
 
 class JacobiPoint
 {

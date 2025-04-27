@@ -1,10 +1,10 @@
 <?php
 
-namespace Famoser\Elliptic\Math\Utils;
+namespace Famoser\Elliptic\Math\Calculator\Swapper;
 
-class ConstSwapper implements SwapperInterface
+trait ScalarSwapper
 {
-    public function conditionalSwap(\GMP &$a, \GMP &$b, int $swapBit, int $maxBitLength): void
+    public function conditionalSwapScalar(\GMP &$a, \GMP &$b, int $swapBit, int $maxBitLength): void
     {
         // create a mask (note how it inverts the maskbit)
         $mask = gmp_init(str_repeat((string)(1 - $swapBit), $maxBitLength), 2);

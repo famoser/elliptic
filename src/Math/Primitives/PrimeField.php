@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Math\Calculator\Primitives;
+namespace Famoser\Elliptic\Math\Primitives;
 
 /**
  * Math inside a prime field; hence always (mod p)
@@ -45,5 +45,10 @@ class PrimeField
     public function invert(\GMP $z): \GMP|false
     {
         return gmp_invert($z, $this->prime);
+    }
+
+    public function pow(\GMP $z, int $factor): \GMP
+    {
+        return gmp_powm($z, $factor, $this->prime);
     }
 }

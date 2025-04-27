@@ -2,16 +2,9 @@
 
 /** @noinspection DuplicatedCode */
 
-namespace Famoser\Elliptic\Math\Calculator;
+namespace Famoser\Elliptic\Math\Calculator\Adder;
 
-use Famoser\Elliptic\Math\Calculator\Base\AbstractJacobiCalculator;
-use Famoser\Elliptic\Math\Calculator\Base\AddAffineCalculatorInterface;
-use Famoser\Elliptic\Math\Calculator\Base\CalculatorInterface;
-use Famoser\Elliptic\Math\Calculator\Primitives\JacobiPoint;
-use Famoser\Elliptic\Math\Calculator\Primitives\PrimeField;
-use Famoser\Elliptic\Math\Utils\SwapperInterface;
-use Famoser\Elliptic\Primitives\Curve;
-use Famoser\Elliptic\Primitives\CurveType;
+use Famoser\Elliptic\Math\Primitives\JacobiPoint;
 use Famoser\Elliptic\Primitives\Point;
 
 /**
@@ -21,32 +14,14 @@ use Famoser\Elliptic\Primitives\Point;
  * Algorithms taken directly from original publication: https://eprint.iacr.org/2015/1060
  * Chosen as it is the best strongly unified variant from: https://www.hyperelliptic.org/EFD/g1p/auto-shortw-projective-3.html
  * Strongly unified is important as it supports points regardless of whether they are at 0, are the same or different.
- *
- * @implements CalculatorInterface<JacobiPoint>
- * @implements AddAffineCalculatorInterface<JacobiPoint>
  */
-class SW_ANeg3_Jacobi_Calculator extends AbstractJacobiCalculator implements CalculatorInterface, AddAffineCalculatorInterface
+trait SW_ANeg3_Jacobi_Adder
 {
-    private readonly PrimeField $field;
-
-    public function __construct(private readonly Curve $curve, private readonly SwapperInterface $swapper)
-    {
-        $this->field = new PrimeField($curve->getP());
-        parent::__construct($this->curve, $this->swapper, $this->field);
-
-        // check allowed to use this calculator
-        $check = $curve->getType() === CurveType::ShortWeierstrass;
-        $check &= gmp_cmp($curve->getA(), gmp_sub($curve->getP(), 3)) === 0;
-        if (!$check) {
-            throw new \AssertionError('Cannot use this calculator with the chosen curve.');
-        }
-    }
-
     /**
      * Algorithm 4: Complete, projective point addition
      * Cost: 12M + 2mb + 29a (for M multiplication, mb multiplication by b, a additions)
      */
-    public function add(mixed $a, mixed $b): JacobiPoint
+    public function add(JacobiPoint $a, JacobiPoint $b): JacobiPoint
     {
         $X1 = $a->X;
         $Y1 = $a->Y;
@@ -108,7 +83,7 @@ class SW_ANeg3_Jacobi_Calculator extends AbstractJacobiCalculator implements Cal
      * Algorithm 6: Exception-free point doubling
      * Cost: 8M + 3S + 2mb + 21a (for M multiplication, S subtraction, mb multiplication by b, a additions)
      */
-    public function double(mixed $a): JacobiPoint
+    public function double(JacobiPoint $a): JacobiPoint
     {
         $X = $a->X;
         $Y = $a->Y;
@@ -158,7 +133,7 @@ class SW_ANeg3_Jacobi_Calculator extends AbstractJacobiCalculator implements Cal
      * Algorithm 5: Complete, mixed point addition
      * Cost: 11M + 2mb + 23a (for M multiplication, mb multiplication by b, a additions)
      */
-    public function addAffine(mixed $a, Point $b): JacobiPoint
+    public function addAffine(JacobiPoint $a, Point $b): JacobiPoint
     {
         $X1 = $a->X;
         $Y1 = $a->Y;
