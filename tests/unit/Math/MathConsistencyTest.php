@@ -2,9 +2,11 @@
 
 namespace Famoser\Elliptic\Tests\Math;
 
+use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
+use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
 use Famoser\Elliptic\Math\UnsafePrimeCurveMath;
 use Famoser\Elliptic\Primitives\Point;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +20,9 @@ class MathConsistencyTest extends TestCase
             [new SW_ANeg3_Math(SEC2CurveFactory::secp224r1())],
             [new SW_ANeg3_Math(SEC2CurveFactory::secp256r1())],
             [new SW_ANeg3_Math(SEC2CurveFactory::secp384r1())],
-            [new SW_ANeg3_Math(SEC2CurveFactory::secp521r1())]
+            [new SW_ANeg3_Math(SEC2CurveFactory::secp521r1())],
+            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p256r1(), BrainpoolCurveFactory::p256r1TwistToP256t1())],
+            [new SW_ANeg3_Math(BrainpoolCurveFactory::p256t1())]
         ];
     }
 
