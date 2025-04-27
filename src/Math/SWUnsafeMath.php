@@ -2,7 +2,7 @@
 
 namespace Famoser\Elliptic\Math;
 
-use Famoser\Elliptic\Math\Calculator\UnsafePrimeCurveCalculator;
+use Famoser\Elliptic\Math\Calculator\SWUnsafeCalculator;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
@@ -10,15 +10,15 @@ use Famoser\Elliptic\Primitives\Point;
  * Supports all prime curves by implementing their default calculation rules.
  * This is in general unsafe, as not hardened against side-channels.
  */
-class UnsafePrimeCurveMath extends AbstractMath implements MathInterface
+class SWUnsafeMath extends AbstractMath implements MathInterface
 {
-    private readonly UnsafePrimeCurveCalculator $calculator;
+    private readonly SWUnsafeCalculator $calculator;
 
     public function __construct(Curve $curve)
     {
         parent::__construct($curve);
 
-        $this->calculator = new UnsafePrimeCurveCalculator($curve);
+        $this->calculator = new SWUnsafeCalculator($curve);
     }
 
     public function mul(Point $point, \GMP $factor): Point

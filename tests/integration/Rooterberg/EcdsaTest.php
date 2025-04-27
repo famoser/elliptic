@@ -9,7 +9,7 @@ use Famoser\Elliptic\Integration\Utils\ECDSASigner;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
-use Famoser\Elliptic\Math\UnsafePrimeCurveMath;
+use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoderException;
@@ -31,7 +31,7 @@ class EcdsaTest extends TestCase
      */
     public function testSecp224k1(Curve $curve, Point $publicKey, string $message, string $signature, string $comment, bool $valid, array $flags): void
     {
-        $math = new UnsafePrimeCurveMath($curve);
+        $math = new SWUnsafeMath($curve);
         $this->testCurve($math, 224, $publicKey, $message, $signature, $comment, $valid, $flags);
     }
 
