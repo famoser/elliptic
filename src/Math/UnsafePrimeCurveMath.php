@@ -2,33 +2,37 @@
 
 namespace Famoser\Elliptic\Math;
 
-use Famoser\Elliptic\Math\Algorithm\DoubleAndAddAlways;
 use Famoser\Elliptic\Math\Calculator\UnsafePrimeCurveCalculator;
-use Famoser\Elliptic\Math\Utils\ConstSwapper;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
 /**
  * Supports all prime curves by implementing their default calculation rules.
- * This is in general unsafe, as hardening towards side-channels is out of scope.
- *
- * @extends BaseMath<Point>
+ * This is in general unsafe, as not hardened against side-channels.
  */
-class UnsafePrimeCurveMath extends BaseMath implements MathInterface
+class UnsafePrimeCurveMath extends AbstractMath implements MathInterface
 {
-    /** @var DoubleAndAddAlways<Point>  */
-    private readonly DoubleAndAddAlways $doubleAndAddAlways;
+    private readonly UnsafePrimeCurveCalculator $calculator;
 
     public function __construct(Curve $curve)
     {
-        $calculator = new UnsafePrimeCurveCalculator($curve, new ConstSwapper());
-        parent::__construct($calculator);
+        parent::__construct($curve);
 
-        $this->doubleAndAddAlways = new DoubleAndAddAlways($calculator);
+        $this->calculator = new UnsafePrimeCurveCalculator($curve);
     }
 
     public function mul(Point $point, \GMP $factor): Point
     {
-        return $this->doubleAndAddAlways->mul($point, $factor);
+        return $this->calculator->mul($point, $factor);
+    }
+
+    public function double(Point $a): Point
+    {
+        return $this->calculator->double($a);
+    }
+
+    public function add(Point $a, Point $b): Point
+    {
+        return $this->calculator->add($a, $b);
     }
 }

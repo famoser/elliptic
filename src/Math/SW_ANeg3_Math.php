@@ -2,10 +2,7 @@
 
 namespace Famoser\Elliptic\Math;
 
-use Famoser\Elliptic\Math\Algorithm\DoubleAndAddAlways;
-use Famoser\Elliptic\Math\Calculator\Primitives\JacobiPoint;
-use Famoser\Elliptic\Math\Calculator\SW_ANeg3_Jacobi_Calculator;
-use Famoser\Elliptic\Math\Utils\ConstSwapper;
+use Famoser\Elliptic\Math\Calculator\SW_ANeg3_Calculator;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
@@ -14,39 +11,43 @@ use Famoser\Elliptic\Primitives\Point;
  * Hence of the form y^2 = x^3 + ax + b for a = -3 mod p
  *
  * Some hardening against side-channels has been done.
- *
- * @extends BaseMath<JacobiPoint>
  */
-class SW_ANeg3_Math extends BaseMath implements MathInterface
+class SW_ANeg3_Math extends AbstractMath implements MathInterface
 {
-    /** @var DoubleAndAddAlways<JacobiPoint> */
-    private readonly DoubleAndAddAlways $doubleAndAddAlways;
+    private readonly SW_ANeg3_Calculator $calculator;
 
     public function __construct(Curve $curve)
     {
-        $calculator = new SW_ANeg3_Jacobi_Calculator($curve, new ConstSwapper());
-        parent::__construct($calculator);
+        parent::__construct($curve);
 
-        $this->doubleAndAddAlways = new DoubleAndAddAlways($calculator);
+        $this->calculator = new SW_ANeg3_Calculator($curve);
+    }
+
+    public function add(Point $a, Point $b): Point
+    {
+        $nativeA = $this->calculator->affineToNative($a);
+        $nativeB = $this->calculator->affineToNative($b);
+
+        $nativeResult = $this->calculator->add($nativeA, $nativeB);
+
+        return $this->calculator->nativeToAffine($nativeResult);
+    }
+
+    public function double(Point $a): Point
+    {
+        $nativeA = $this->calculator->affineToNative($a);
+
+        $nativeResult = $this->calculator->double($nativeA);
+
+        return $this->calculator->nativeToAffine($nativeResult);
     }
 
     public function mul(Point $point, \GMP $factor): Point
     {
-        return $this->doubleAndAddAlways->mul($point, $factor);
-    }
+        $native = $this->calculator->affineToNative($point);
 
-    public function mulG(\GMP $factor): Point
-    {
-        /**
-         * Optimization potential here:
-         * - For window (e.g. of size 4 bits), precompute G into table t. Then, Q <- 2Q; Q <- Q + t[window]
-         * - Generalize above method, precompute full table (to also avoid doubling)
-         *
-         * But needs to be measured whether actually some advantage, as:
-         * - Table needs to be fully traversed, else private key imprinted in cache
-         * - Especially costly as above implied swapping two values (x,y) repeatedly
-         * - Maybe faster by encoding table as string, and only generating chosen gmp afterwards?
-         */
-        return parent::mulG($factor);
+        $nativeResult = $this->calculator->mul($native, $factor);
+
+        return $this->calculator->nativeToAffine($nativeResult);
     }
 }
