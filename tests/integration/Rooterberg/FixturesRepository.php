@@ -5,6 +5,7 @@ namespace Famoser\Elliptic\Integration\Rooterberg;
 use Famoser\Elliptic\Curves\CurveRepository;
 use Famoser\Elliptic\Serializer\PointDecoderException;
 use Famoser\Elliptic\Serializer\PointSerializer;
+use Famoser\Elliptic\Serializer\PointSerializerException;
 
 class FixturesRepository
 {
@@ -20,9 +21,9 @@ class FixturesRepository
     }
 
     /**
-     * @throws PointDecoderException
+     * @throws PointDecoderException|PointSerializerException
      */
-    private static function parseEcdsaSha224Testvectors(array $testvectors): array
+    private static function parseEcdsaTestvectors(array $testvectors): array
     {
         $results = [];
 
@@ -51,12 +52,12 @@ class FixturesRepository
     }
 
     /**
-     * @throws PointDecoderException
+     * @throws PointDecoderException|PointSerializerException
      */
-    public static function createEcdsaSha224Fixtures(string $curve): array
+    public static function createEcdsaFixtures(string $curve, int $shaSize): array
     {
-        $testvectors = FixturesRepository::readTestvectors("ecdsa", "{$curve}_sha_224_p1363");
+        $testvectors = FixturesRepository::readTestvectors("ecdsa", "{$curve}_sha_{$shaSize}_p1363");
 
-        return FixturesRepository::parseEcdsaSha224Testvectors($testvectors);
+        return FixturesRepository::parseEcdsaTestvectors($testvectors);
     }
 }
