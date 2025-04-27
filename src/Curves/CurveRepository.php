@@ -21,7 +21,11 @@ class CurveRepository
         '1.3.132.0.10' => 'secp256k1',
         '1.2.840.10045.3.1.7' => 'secp256r1',
         '1.3.132.0.34' => 'secp384r1',
-        '1.3.132.0.35' => 'secp521r1'
+        '1.3.132.0.35' => 'secp521r1',
+
+        /* source: https://datatracker.ietf.org/doc/html/rfc5639 */
+        '1.3.36.3.3.2.8.1.1.7' => 'brainpoolP256r1',
+        '1.3.36.3.3.2.8.1.1.8' => 'brainpoolP256t1',
     ];
 
     /**
@@ -57,6 +61,9 @@ class CurveRepository
         'secp256r1' => [SEC2CurveFactory::class, 'secp256r1'],
         'secp384r1' => [SEC2CurveFactory::class, 'secp384r1'],
         'secp521r1' => [SEC2CurveFactory::class, 'secp521r1'],
+
+        'brainpoolP256r1' => [BrainpoolCurveFactory::class, 'p256r1'],
+        'brainpoolP256t1' => [BrainpoolCurveFactory::class, 'p256t1'],
     ];
 
     /**
