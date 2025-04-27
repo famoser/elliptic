@@ -11,8 +11,11 @@
     </rule>
     <!-- whitelist some awkward class names, as else they would become very long and hard to read -->
     <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
-        <exclude-pattern>SW_ANeg3_Jacobi_Calculator</exclude-pattern>
+        <exclude-pattern>SW_ANeg3_Calculator</exclude-pattern>
+        <exclude-pattern>SW_QT_ANeg3_Calculator</exclude-pattern>
         <exclude-pattern>SW_ANeg3_Math</exclude-pattern>
+        <exclude-pattern>SW_QT_ANeg3_Math</exclude-pattern>
+        <exclude-pattern>SW_ANeg3_Jacobi_Adder</exclude-pattern>
     </rule>
 
     <arg name="colors"/> <!-- use colors in output -->
