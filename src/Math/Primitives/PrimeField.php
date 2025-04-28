@@ -42,12 +42,9 @@ class PrimeField
         return gmp_mod($a, $this->prime);
     }
 
-    public function invert(\GMP $z): \GMP
+    public function invert(\GMP $z): \GMP|false
     {
-        $res = gmp_invert($z, $this->prime);
-
-        // if inversion fails, represent by 0 (which has also no inverse)
-        return $res === false ? gmp_init(0) : $res;
+        return gmp_invert($z, $this->prime);
     }
 
     public function pow(\GMP $z, int $factor): \GMP
