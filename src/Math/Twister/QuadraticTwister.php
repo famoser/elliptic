@@ -44,7 +44,9 @@ class QuadraticTwister
         $Z2 = $this->field->pow($this->twist->getZ(), 2);
         $Z3 = $this->field->pow($this->twist->getZ(), 3);
 
+        /** @var \GMP $Z2inv we know this is invertible */
         $Z2inv = $this->field->invert($Z2);
+        /** @var \GMP $Z3inv we know this is invertible */
         $Z3inv = $this->field->invert($Z3);
 
         $x = $this->field->mul($point->x, $Z2inv);
