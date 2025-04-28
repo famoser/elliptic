@@ -19,7 +19,8 @@ trait JacobiCoordinator
     public function nativeToAffine(JacobiPoint $nativePoint): Point
     {
         // to get x, need to calculate X/Z; same for y
-        $zInverse = $this->field->invert($nativePoint->Z) ?: gmp_init(0);
+        $zInverse = $this->field->invert($nativePoint->Z);
+
         $x = $this->field->mul($nativePoint->X, $zInverse);
         $y = $this->field->mul($nativePoint->Y, $zInverse);
 
