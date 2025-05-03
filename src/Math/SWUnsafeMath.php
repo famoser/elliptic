@@ -7,7 +7,8 @@ use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
 /**
- * Supports all prime curves by implementing their default calculation rules.
+ * Supports all Short Weierstrass curves by implementing their default calculation rules.
+ *
  * This is in general unsafe, as not hardened against side-channels.
  */
 class SWUnsafeMath extends AbstractMath implements MathInterface
