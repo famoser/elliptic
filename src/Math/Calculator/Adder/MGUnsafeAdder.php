@@ -7,13 +7,11 @@ namespace Famoser\Elliptic\Math\Calculator\Adder;
 use Famoser\Elliptic\Primitives\Point;
 
 /**
- * Implements algorithms proposed in https://www.secg.org/SEC1-Ver-1.0.pdf (2.2.1)
+ * Implements algorithms proposed in https://www.hyperelliptic.org/EFD/g1p/auto-montgom.html
+ * Merged with rules for edge-cases from https://www.secg.org/SEC1-Ver-1.0.pdf (2.2.1)
  */
-trait SWUnsafeAdder
+trait MGUnsafeAdder
 {
-    /**
-     * rules from https://www.secg.org/SEC1-Ver-1.0.pdf (2.2.1)
-     */
     public function add(Point $a, Point $b): Point
     {
         // rule 1 & 2
@@ -42,7 +40,13 @@ trait SWUnsafeAdder
 
         $x = $this->field->sub(
             gmp_sub(
-                gmp_pow($lambda, 2),
+                gmp_sub(
+                    gmp_mul(
+                        $this->curve->getB(),
+                        gmp_pow($lambda, 2)
+                    ),
+                    $this->curve->getA()
+                ),
                 $a->x
             ),
             $b->x
@@ -50,7 +54,10 @@ trait SWUnsafeAdder
 
         $y = $this->field->sub(
             gmp_mul(
-                $lambda,
+                gmp_mul(
+                    $this->curve->getB(),
+                    $lambda,
+                ),
                 gmp_sub($a->x, $x)
             ),
             $a->y
@@ -68,26 +75,44 @@ trait SWUnsafeAdder
         // rule 5 (note that a / b = a * b^-1)
         $lambda = $this->field->mul(
             gmp_add(
-                gmp_mul(
-                    gmp_init(3),
-                    gmp_pow($a->x, 2)
+                gmp_add(
+                    gmp_mul(
+                        gmp_init(3),
+                        gmp_pow($a->x, 2)
+                    ),
+                    gmp_add(
+                        gmp_mul(2, $this->curve->getA()),
+                        $a->x
+                    )
                 ),
-                $this->curve->getA()
+                1
             ),
             /** @phpstan-ignore-next-line invert may return false; then this will crash (which is OK, because cannot recover anyway) */
             $this->field->invert(
-                gmp_mul(2, $a->y)
+                gmp_mul(
+                    gmp_mul(2, $this->curve->getB()),
+                    $a->y
+                )
             )
         );
 
         $x = $this->field->sub(
-            gmp_pow($lambda, 2),
+            gmp_sub(
+                gmp_mul(
+                    $this->curve->getB(),
+                    gmp_pow($lambda, 2)
+                ),
+                $this->curve->getA()
+            ),
             gmp_mul(2, $a->x)
         );
 
         $y = $this->field->sub(
             gmp_mul(
-                $lambda,
+                gmp_mul(
+                    $this->curve->getB(),
+                    $lambda,
+                ),
                 gmp_sub($a->x, $x)
             ),
             $a->y
