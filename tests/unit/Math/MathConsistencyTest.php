@@ -3,8 +3,10 @@
 namespace Famoser\Elliptic\Tests\Math;
 
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
+use Famoser\Elliptic\Curves\MontgomeryCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Math\MathInterface;
+use Famoser\Elliptic\Math\MGUnsafeMath;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;
@@ -15,36 +17,60 @@ class MathConsistencyTest extends TestCase
 {
     public static function mathToCompareTo(): array
     {
-        return [
-            [new SW_ANeg3_Math(SEC2CurveFactory::secp192r1())],
-            [new SW_ANeg3_Math(SEC2CurveFactory::secp224r1())],
-            [new SW_ANeg3_Math(SEC2CurveFactory::secp256r1())],
-            [new SW_ANeg3_Math(SEC2CurveFactory::secp384r1())],
-            [new SW_ANeg3_Math(SEC2CurveFactory::secp521r1())],
-            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p160r1(), BrainpoolCurveFactory::p160r1TwistToP160t1())],
-            [new SW_ANeg3_Math(BrainpoolCurveFactory::p160t1())],
-            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p192r1(), BrainpoolCurveFactory::p192r1TwistToP192t1())],
-            [new SW_ANeg3_Math(BrainpoolCurveFactory::p192t1())],
-            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p224r1(), BrainpoolCurveFactory::p224r1TwistToP224t1())],
-            [new SW_ANeg3_Math(BrainpoolCurveFactory::p224t1())],
-            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p256r1(), BrainpoolCurveFactory::p256r1TwistToP256t1())],
-            [new SW_ANeg3_Math(BrainpoolCurveFactory::p256t1())],
-            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p320r1(), BrainpoolCurveFactory::p320r1TwistToP320t1())],
-            [new SW_ANeg3_Math(BrainpoolCurveFactory::p320t1())],
-            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p384r1(), BrainpoolCurveFactory::p384r1TwistToP384t1())],
-            [new SW_ANeg3_Math(BrainpoolCurveFactory::p384t1())],
-            [new SW_QT_ANeg3_Math(BrainpoolCurveFactory::p512r1(), BrainpoolCurveFactory::p512r1TwistToP512t1())],
-            [new SW_ANeg3_Math(BrainpoolCurveFactory::p512t1())]
+        $secpCurves = [
+            SEC2CurveFactory::secp192r1(),
+            SEC2CurveFactory::secp224r1(),
+            SEC2CurveFactory::secp256r1(),
+            SEC2CurveFactory::secp384r1(),
+            SEC2CurveFactory::secp521r1(),
         ];
+
+        $brainpoolCurves = [
+            BrainpoolCurveFactory::p160t1(),
+            BrainpoolCurveFactory::p192t1(),
+            BrainpoolCurveFactory::p224t1(),
+            BrainpoolCurveFactory::p256t1(),
+            BrainpoolCurveFactory::p320t1(),
+            BrainpoolCurveFactory::p384t1(),
+            BrainpoolCurveFactory::p512t1(),
+        ];
+
+        $brainpoolTwistedCurves = [
+            [BrainpoolCurveFactory::p160r1(), BrainpoolCurveFactory::p160r1TwistToP160t1()],
+            [BrainpoolCurveFactory::p192r1(), BrainpoolCurveFactory::p192r1TwistToP192t1()],
+            [BrainpoolCurveFactory::p224r1(), BrainpoolCurveFactory::p224r1TwistToP224t1()],
+            [BrainpoolCurveFactory::p256r1(), BrainpoolCurveFactory::p256r1TwistToP256t1()],
+            [BrainpoolCurveFactory::p320r1(), BrainpoolCurveFactory::p320r1TwistToP320t1()],
+            [BrainpoolCurveFactory::p384r1(), BrainpoolCurveFactory::p384r1TwistToP384t1()],
+            [BrainpoolCurveFactory::p512r1(), BrainpoolCurveFactory::p512r1TwistToP512t1()],
+        ];
+
+        $montgomeryCurves = [
+            MontgomeryCurveFactory::curve25519(),
+            MontgomeryCurveFactory::curve448()
+        ];
+
+        $testsets = [];
+        foreach (array_merge($secpCurves, $brainpoolCurves) as $curve) {
+            $testsets[] = [new SW_ANeg3_Math($curve), new SWUnsafeMath($curve)];
+        }
+        foreach ($brainpoolTwistedCurves as $curveAndTwist) {
+            $math = new SW_QT_ANeg3_Math(...$curveAndTwist);
+            $testsets[] = [$math, new SWUnsafeMath($math->getCurve())];
+        }
+        foreach ($montgomeryCurves as $curve) {
+            $testsets[] = [new MGUnsafeMath($curve), new MGUnsafeMath($curve)];
+        }
+
+        return $testsets;
     }
 
     /**
      * @dataProvider mathToCompareTo
      */
-    public function testAdd(MathInterface $math): void
+    public function testAdd(MathInterface $math, MathInterface $groundTruth): void
     {
         $curve = $math->getCurve();
-        $groundTruth = new SWUnsafeMath($curve);
 
         $expected = $groundTruth->add($curve->getG(), $curve->getG());
         $actual = $math->add($curve->getG(), $curve->getG());
@@ -55,13 +81,12 @@ class MathConsistencyTest extends TestCase
     /**
      * @dataProvider mathToCompareTo
      */
-    public function testAddInfinity(MathInterface $math): void
+    public function testAddInfinity(MathInterface $math, MathInterface $groundTruth): void
     {
         $this->markTestSkipped("Adding the point at infinity is undefined behavior; and as it turns out not all calculators handle the case equally.");
 
         /** @phpstan-ignore deadCode.unreachable */
         $curve = $math->getCurve();
-        $groundTruth = new SWUnsafeMath($curve);
 
         $expected = $groundTruth->add($curve->getG(), Point::createInfinity());
         $actual = $math->add($curve->getG(), Point::createInfinity());
@@ -72,10 +97,9 @@ class MathConsistencyTest extends TestCase
     /**
      * @dataProvider mathToCompareTo
      */
-    public function testDouble(MathInterface $math): void
+    public function testDouble(MathInterface $math, MathInterface $groundTruth): void
     {
         $curve = $math->getCurve();
-        $groundTruth = new SWUnsafeMath($curve);
 
         $expected = $groundTruth->double($curve->getG());
         $actual = $math->double($curve->getG());
@@ -99,10 +123,9 @@ class MathConsistencyTest extends TestCase
     /**
      * @dataProvider mathToCompareTo
      */
-    public function testMulG(MathInterface $math): void
+    public function testMulG(MathInterface $math, MathInterface $groundTruth): void
     {
         $curve = $math->getCurve();
-        $groundTruth = new SWUnsafeMath($curve);
 
         $factor = gmp_init(5);
         $expected = $groundTruth->mulG($factor);
@@ -128,10 +151,9 @@ class MathConsistencyTest extends TestCase
     /**
      * @dataProvider mathToCompareTo
      */
-    public function testMulSameResult(MathInterface $math): void
+    public function testMulSameResult(MathInterface $math, MathInterface $groundTruth): void
     {
         $curve = $math->getCurve();
-        $groundTruth = new SWUnsafeMath($curve);
 
         $factor = gmp_init(5);
         $expected = $groundTruth->mul($curve->getG(), $factor);
