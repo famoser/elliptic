@@ -8,7 +8,6 @@ use Famoser\Elliptic\Primitives\Point;
 
 /**
  * Assumes Short Weierstrass curve with a=-3
- * Hence of the form y^2 = x^3 + ax + b for a = -3 mod p
  *
  * Some hardening against side-channels has been done.
  */

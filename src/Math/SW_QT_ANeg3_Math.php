@@ -7,6 +7,11 @@ use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Primitives\QuadraticTwist;
 
+/**
+ * Assumes Short Weierstrass curve which can be transformed by a quadratic twist to a Short Weierstrass curve with a=-3.
+ *
+ * Some hardening against side-channels has been done.
+ */
 class SW_QT_ANeg3_Math extends AbstractMath implements MathInterface
 {
     private readonly QuadraticTwister $twister;
