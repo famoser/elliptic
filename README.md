@@ -2,7 +2,7 @@
 
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Test](https://github.com/famoser/elliptic/actions/workflows/integration.yml/badge.svg)](https://github.com/famoser/elliptic/actions/workflows/integration.yml)
-[![Coverage Status](https://coveralls.io/repos/github/famoser/elliptic/badge.svg?branch=safe-math)](https://coveralls.io/github/famoser/elliptic)
+[![Coverage Status](https://coveralls.io/repos/github/famoser/elliptic/badge.svg?branch=main)](https://coveralls.io/github/famoser/elliptic)
 
 This library provides low-level access to elliptic curve group computations.
 
