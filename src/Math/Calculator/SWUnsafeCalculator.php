@@ -6,7 +6,6 @@ use Famoser\Elliptic\Math\Calculator\Adder\SWUnsafeAdder;
 use Famoser\Elliptic\Math\Calculator\Coordinator\PointCoordinator;
 use Famoser\Elliptic\Math\Calculator\Multiplicator\DoubleAndAddAlwaysMultiplicator;
 use Famoser\Elliptic\Math\Calculator\Swapper\PointSwapper;
-use Famoser\Elliptic\Math\Primitives\JacobiPoint;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
 use Famoser\Elliptic\Primitives\Point;

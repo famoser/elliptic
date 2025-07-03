@@ -3,7 +3,6 @@
 namespace Famoser\Elliptic\Math;
 
 use Famoser\Elliptic\Math\Calculator\MGUnsafeCalculator;
-use Famoser\Elliptic\Math\Calculator\SWUnsafeCalculator;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 

@@ -2,9 +2,7 @@
 
 namespace Famoser\Elliptic\Math\Calculator\Coordinator;
 
-use Famoser\Elliptic\Math\Primitives\JacobiPoint;
 use Famoser\Elliptic\Math\Primitives\XZPoint;
-use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Primitives\XPoint;
 
 /**

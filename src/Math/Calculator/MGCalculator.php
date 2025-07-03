@@ -2,23 +2,19 @@
 
 namespace Famoser\Elliptic\Math\Calculator;
 
-use Famoser\Elliptic\Math\Calculator\Adder\MGUnsafeAdder;
-use Famoser\Elliptic\Math\Calculator\Coordinator\PointCoordinator;
 use Famoser\Elliptic\Math\Calculator\Coordinator\XZCoordinator;
 use Famoser\Elliptic\Math\Calculator\Multiplicator\DoubleAndAddAlwaysMultiplicator;
-use Famoser\Elliptic\Math\Calculator\Swapper\PointSwapper;
+use Famoser\Elliptic\Math\Primitives\XZPoint;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
-use Famoser\Elliptic\Primitives\Point;
 
 /**
- * Calculator for montgomery curves (adder not implemented yet)
+ * Calculator for montgomery curves (adder, point swapper not implemented yet)
  */
 abstract class MGCalculator extends AbstractCalculator
 {
     use XZCoordinator;
-    use PointSwapper;
-    /** @use DoubleAndAddAlwaysMultiplicator<Point> */
+    /** @use DoubleAndAddAlwaysMultiplicator<XZPoint> */
     use DoubleAndAddAlwaysMultiplicator;
 
     public function __construct(Curve $curve)
