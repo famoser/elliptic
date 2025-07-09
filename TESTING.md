@@ -41,7 +41,16 @@ For the `WycheProof`, it seems to be the case that the more abstract testsuites 
 The `Rooterberg` testset is used for the curves that did not have tests in the Wycheproof. Its file format is not yet stable, hence this is potentially a maintenance burden.  
 
 
+## Timing tests
+
+To test for side channels, we check whether the following distributions are equal: a) multiplying with a constant value and b) multiplying with always a different random value. The details are documented in the jupiter lab file at `tests/consttime/analyse.ipynb`. 
+
+The results are as follows:
+- `SWUnsafeMath` is not const time (as expected)
+- `SW_ANeg3_Math` is const time for a reasonable same size (tested with 1000 samples)
+- `SW_QT_ANeg3_Math` cannot be shown to be const time, likely because the inversion operation of GMP is not const time (inversion is needed when applying the twist)
+
 ## Open Questions
 
 Const time:
-- In the JacobiCoordinator, how to handle a non-invertable Z properly?
+- In the JacobiCoordinator, how to handle a non-invertible Z properly?

@@ -7,9 +7,10 @@
 This library provides low-level access to elliptic curve group computations.
 
 This is a work in progress. Targets:
-- [done] Expose elliptic curves and primitive math operations
-- Add hardened implementations for some selected curves
-- Add brainpool & ed25519 curves
+- [done] Design low-level API for operations on elliptic curves
+- [done] Add nist curves, including a const-time implementation
+- [done] Add brainpool, including a const-time implementation
+- Add ed25519
 
 This is part of a larger effort:
 - Provide low-level library that executes math on elliptic curves (this project)
