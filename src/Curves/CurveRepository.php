@@ -128,6 +128,11 @@ class CurveRepository
         return $this->findByCanonicalName($canonicalName);
     }
 
+    public function getCanonicalName(Curve $curve): ?string
+    {
+        return array_search($curve, $this->curveCache, true);
+    }
+
     private function findByCanonicalName(string $canonicalName): ?Curve
     {
         if (!array_key_exists($canonicalName, $this->canonicalNameCurveConstructors)) {
