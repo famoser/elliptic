@@ -54,10 +54,7 @@ trait MGUnsafeAdder
 
         $y = $this->field->sub(
             gmp_mul(
-                gmp_mul(
-                    $this->curve->getB(),
-                    $lambda,
-                ),
+                $lambda,
                 gmp_sub($a->x, $x)
             ),
             $a->y
@@ -80,7 +77,7 @@ trait MGUnsafeAdder
                         gmp_init(3),
                         gmp_pow($a->x, 2)
                     ),
-                    gmp_add(
+                    gmp_mul(
                         gmp_mul(2, $this->curve->getA()),
                         $a->x
                     )
@@ -109,10 +106,7 @@ trait MGUnsafeAdder
 
         $y = $this->field->sub(
             gmp_mul(
-                gmp_mul(
-                    $this->curve->getB(),
-                    $lambda,
-                ),
+                $lambda,
                 gmp_sub($a->x, $x)
             ),
             $a->y
