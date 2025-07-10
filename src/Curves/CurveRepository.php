@@ -128,7 +128,7 @@ class CurveRepository
         return $this->findByCanonicalName($canonicalName);
     }
 
-    public function getCanonicalName(Curve $curve): ?string
+    public function getCanonicalName(Curve $curve): string|false
     {
         return array_search($curve, $this->curveCache, true);
     }

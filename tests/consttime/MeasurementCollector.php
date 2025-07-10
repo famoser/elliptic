@@ -2,7 +2,6 @@
 
 namespace Famoser\Elliptic\ConstTime;
 
-
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\CurveRepository;
 use Famoser\Elliptic\Math\MathInterface;
@@ -32,7 +31,8 @@ class MeasurementCollector
     {
         [$baseline, $measurement] = $this->measureBaselineAgainstRandomPoint($math, $sampleCount);
         $payload = ["baseline" => $baseline, "measurement" => $measurement];
-        $this->storeMeasurement("baseline_random", $math, $sampleCount, $payload);;
+        $this->storeMeasurement("baseline_random", $math, $sampleCount, $payload);
+        ;
     }
 
     private static ?CurveRepository $curveRepository = null;
@@ -86,6 +86,5 @@ class MeasurementCollector
         ];
 
         file_put_contents($path, json_encode($payload));
-
     }
 }
