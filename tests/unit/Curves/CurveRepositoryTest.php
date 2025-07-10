@@ -25,6 +25,14 @@ class CurveRepositoryTest extends TestCase
         }
     }
 
+    public function testCanonicalNameReturned(): void
+    {
+        $curveRepository = new CurveRepository();
+        $name = 'secp256k1';
+        $curve = $curveRepository->findByName($name);
+        $this->assertEquals($name, $curveRepository->getCanonicalName($curve));
+    }
+
     public function testNonSenseReturnsNull(): void
     {
         $curveRepository = new CurveRepository();
