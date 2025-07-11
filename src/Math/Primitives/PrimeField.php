@@ -51,4 +51,9 @@ class PrimeField
     {
         return gmp_powm($z, $factor, $this->prime);
     }
+
+    public function sqrt(\GMP $a): \GMP
+    {
+        return gmp_sqrt($a);
+    }
 }
