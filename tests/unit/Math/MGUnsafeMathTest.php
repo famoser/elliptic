@@ -2,7 +2,7 @@
 
 namespace Famoser\Elliptic\Tests\Math;
 
-use Famoser\Elliptic\Curves\MontgomeryCurveFactory;
+use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Math\MGUnsafeMath;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
@@ -13,11 +13,11 @@ class MGUnsafeMathTest extends TestCase
 {
     public static function invalidCurves(): array
     {
-        $curve = MontgomeryCurveFactory::curve25519();
+        $curve = BernsteinCurveFactory::curve25519();
 
         return [
-            // wrong because not short weierstrass
-            [(new CurveBuilder($curve))->withType(CurveType::ShortWeierstrass)->build()]
+            // wrong because not montgomery
+            [(new CurveBuilder($curve))->withType(CurveType::ShortWeierstrass)->build()],
         ];
     }
 
