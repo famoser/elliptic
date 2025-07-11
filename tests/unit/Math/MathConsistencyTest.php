@@ -3,9 +3,10 @@
 namespace Famoser\Elliptic\Tests\Math;
 
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
-use Famoser\Elliptic\Curves\MontgomeryCurveFactory;
+use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Math\MathInterface;
+use Famoser\Elliptic\Math\MG_TE_Math;
 use Famoser\Elliptic\Math\MGUnsafeMath;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
@@ -45,9 +46,8 @@ class MathConsistencyTest extends TestCase
             [BrainpoolCurveFactory::p512r1(), BrainpoolCurveFactory::p512r1TwistToP512t1()],
         ];
 
-        $montgomeryCurves = [
-            MontgomeryCurveFactory::curve25519(),
-            MontgomeryCurveFactory::curve448()
+        $bernsteinCurves = [
+            [BernsteinCurveFactory::curve25519(), BernsteinCurveFactory::curve25519ToEdwards25519(), BernsteinCurveFactory::edwards25519()]
         ];
 
         $testsets = [];
@@ -58,8 +58,9 @@ class MathConsistencyTest extends TestCase
             $math = new SW_QT_ANeg3_Math(...$curveAndTwist);
             $testsets[] = [$math, new SWUnsafeMath($math->getCurve())];
         }
-        foreach ($montgomeryCurves as $curve) {
-            $testsets[] = [new MGUnsafeMath($curve), new MGUnsafeMath($curve)];
+        foreach ($bernsteinCurves as $curveAndMapping) {
+            $math = new MG_TE_Math(...$curveAndMapping);
+            $testsets[] = [$math, new MGUnsafeMath($math->getCurve())];
         }
 
         return $testsets;
@@ -125,8 +126,6 @@ class MathConsistencyTest extends TestCase
      */
     public function testMulG(MathInterface $math, MathInterface $groundTruth): void
     {
-        $curve = $math->getCurve();
-
         $factor = gmp_init(5);
         $expected = $groundTruth->mulG($factor);
         $actual = $math->mulG($factor);
