@@ -6,13 +6,21 @@ namespace Famoser\Elliptic\Integration\WycheProof;
 
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
+use Famoser\Elliptic\Integration\Utils\AsnEncoder;
+use Famoser\Elliptic\Integration\WycheProof\Traits\DiffieHellmanTrait;
+use Famoser\Elliptic\Integration\WycheProof\Traits\EncodedPointTrait;
+use Famoser\Elliptic\Integration\WycheProof\Utils\FixturesRepository;
+use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;
-use Sop\ASN1\Type\UnspecifiedType;
+use PHPUnit\Framework\TestCase;
 
-class EcdhTest extends AbstractEcdhTestCase
+class EcdhAsnTest extends TestCase
 {
+    use EncodedPointTrait;
+    use DiffieHellmanTrait;
+
     public static function provideSecp256k1(): array
     {
         return FixturesRepository::createFilteredEcdhFixtures('secp256k1');
@@ -28,7 +36,7 @@ class EcdhTest extends AbstractEcdhTestCase
         }
 
         if (str_contains($comment, 'using secp224r1') || str_contains($comment, 'using secp256r1')) {
-            $comment = parent::POINT_NOT_ON_CURVE_COMMENT_WHITELIST[0];
+            $comment = WycheProofConstants::POINT_DECODING_FAIL_COMMENT_WHITELIST[0];
         }
 
         $curve = SEC2CurveFactory::secp256k1();
@@ -52,7 +60,7 @@ class EcdhTest extends AbstractEcdhTestCase
         }
 
         if (str_contains($comment, 'using secp224r1') || str_contains($comment, 'using secp224k1') || str_contains($comment, 'public key on isomorphic curve brainpoolP224t1')) {
-            $comment = parent::POINT_NOT_ON_CURVE_COMMENT_WHITELIST[0];
+            $comment = WycheProofConstants::POINT_DECODING_FAIL_COMMENT_WHITELIST[0];
         }
 
         $curve = BrainpoolCurveFactory::p224r1();
@@ -77,7 +85,7 @@ class EcdhTest extends AbstractEcdhTestCase
         }
 
         if (str_contains($comment, 'using secp256r1') || str_contains($comment, 'using secp256k1') || str_contains($comment, 'public key on isomorphic curve brainpoolP256t1')) {
-            $comment = parent::POINT_NOT_ON_CURVE_COMMENT_WHITELIST[0];
+            $comment = WycheProofConstants::POINT_DECODING_FAIL_COMMENT_WHITELIST[0];
         }
 
         $curve = BrainpoolCurveFactory::p256r1();
@@ -102,7 +110,7 @@ class EcdhTest extends AbstractEcdhTestCase
         }
 
         if (str_contains($comment, 'public key on isomorphic curve brainpoolP320t1')) {
-            $comment = parent::POINT_NOT_ON_CURVE_COMMENT_WHITELIST[0];
+            $comment = WycheProofConstants::POINT_DECODING_FAIL_COMMENT_WHITELIST[0];
         }
 
         $curve = BrainpoolCurveFactory::p320r1();
@@ -127,7 +135,7 @@ class EcdhTest extends AbstractEcdhTestCase
         }
 
         if (str_contains($comment, 'public key on isomorphic curve brainpoolP384t1')) {
-            $comment = parent::POINT_NOT_ON_CURVE_COMMENT_WHITELIST[0];
+            $comment = WycheProofConstants::POINT_DECODING_FAIL_COMMENT_WHITELIST[0];
         }
 
         $curve = BrainpoolCurveFactory::p384r1();
@@ -152,7 +160,7 @@ class EcdhTest extends AbstractEcdhTestCase
         }
 
         if (str_contains($comment, 'public key on isomorphic curve brainpoolP512t1')) {
-            $comment = parent::POINT_NOT_ON_CURVE_COMMENT_WHITELIST[0];
+            $comment = WycheProofConstants::POINT_DECODING_FAIL_COMMENT_WHITELIST[0];
         }
 
         $curve = BrainpoolCurveFactory::p512r1();
@@ -163,11 +171,10 @@ class EcdhTest extends AbstractEcdhTestCase
 
     protected function testCurve(MathInterface $math, string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
-        // unserialize public key from DER format
-        $asnObject = UnspecifiedType::fromDER(hex2bin($public));
-        $encodedKey = $asnObject->asSequence()->at(1)->asBitString();
-        $publicKey = bin2hex($encodedKey->string());
+        $asnEncoder = new AsnEncoder();
+        $publicKey = $asnEncoder->decodePublicKey($public);
 
-        parent::testCurve($math, $comment, $publicKey, $private, $shared, $result, $flags);
+        $this->assertPublicKeyPointDecodes($math, $comment, $publicKey, $result, $flags, $publicKeyPoint);
+        $this->assertDHCorrect($math, $publicKeyPoint, $private, $shared, $result);
     }
 }
