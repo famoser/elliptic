@@ -5,10 +5,18 @@ declare(strict_types=1);
 namespace Famoser\Elliptic\Integration\WycheProof;
 
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
+use Famoser\Elliptic\Integration\WycheProof\Traits\DiffieHellmanTrait;
+use Famoser\Elliptic\Integration\WycheProof\Traits\EncodedPointTrait;
+use Famoser\Elliptic\Integration\WycheProof\Utils\FixturesRepository;
+use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
+use PHPUnit\Framework\TestCase;
 
-class EcdhEcpointTest extends AbstractEcdhTestCase
+class EcdhEcpointTest extends TestCase
 {
+    use EncodedPointTrait;
+    use DiffieHellmanTrait;
+
     public static function provideSecp256r1(): array
     {
         return FixturesRepository::createEcdhEcpointFixtures('secp256r1');
@@ -52,5 +60,11 @@ class EcdhEcpointTest extends AbstractEcdhTestCase
         $curve = SEC2CurveFactory::secp521r1();
         $math = new SW_ANeg3_Math($curve);
         $this->testCurve($math, $comment, $public, $private, $shared, $result, $flags);
+    }
+
+    private function testCurve(MathInterface $math, string $comment, string $public, string $private, string $shared, string $result, array $flags): void
+    {
+        $this->assertPublicKeyPointDecodes($math, $comment, $public, $result, $flags, $publicKeyPoint);
+        $this->assertDHCorrect($math, $publicKeyPoint, $private, $shared, $result);
     }
 }

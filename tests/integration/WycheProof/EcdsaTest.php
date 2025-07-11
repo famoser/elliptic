@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Famoser\Elliptic\Integration\WycheProof;
 
 use Famoser\Elliptic\Integration\Utils\ECDSASigner;
+use Famoser\Elliptic\Integration\WycheProof\Utils\FixturesRepository;
+use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Integration\WycheProof;
+namespace Famoser\Elliptic\Integration\WycheProof\Utils;
 
 use Famoser\Elliptic\Curves\CurveRepository;
 use Famoser\Elliptic\Primitives\Point;
@@ -9,7 +9,7 @@ class FixturesRepository
 {
     private static function readTestvectors(string $testvectorsName): array
     {
-        $path = __DIR__ . "/fixtures/testvectors/{$testvectorsName}_test.json";
+        $path = __DIR__ . "/../fixtures/testvectors/{$testvectorsName}_test.json";
         $testvectorsJson = file_get_contents($path);
         if (!$testvectorsJson) {
             throw new \InvalidArgumentException("Failed to read test fixture file $path");
@@ -103,6 +103,14 @@ class FixturesRepository
     public static function createFilteredEcdhFixtures(string $curve): array
     {
         $testvectors = FixturesRepository::readTestvectors("ecdh_{$curve}");
+        $fixtures = FixturesRepository::parseEcdhTestvectors($testvectors);
+
+        return self::filterEcdhFixtures($fixtures);
+    }
+
+    public static function createFilteredXdhFixtures(string $curve): array
+    {
+        $testvectors = FixturesRepository::readTestvectors($curve);
         $fixtures = FixturesRepository::parseEcdhTestvectors($testvectors);
 
         return self::filterEcdhFixtures($fixtures);
