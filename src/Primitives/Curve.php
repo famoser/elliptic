@@ -8,6 +8,8 @@ namespace Famoser\Elliptic\Primitives;
  * forming a group over addition.
  *
  * A base point G of order n and cofactor h is picked in this group.
+ *
+ * For twisted edwards, we reuse B as D
  */
 class Curve
 {
