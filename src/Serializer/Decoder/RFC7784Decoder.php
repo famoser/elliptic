@@ -22,7 +22,7 @@ class RFC7784Decoder
             throw new \InvalidArgumentException('Invalid hex string');
         }
 
-        return $list;
+        return array_values($list);
     }
 
     /**
