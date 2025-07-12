@@ -8,6 +8,7 @@ use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Integration\WycheProof\Traits\DiffieHellmanTrait;
 use Famoser\Elliptic\Integration\WycheProof\Utils\FixturesRepository;
 use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
+use Famoser\Elliptic\Math\MG_TE_Math;
 use Famoser\Elliptic\Math\MGUnsafeMath;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
 use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
@@ -93,6 +94,34 @@ class XdhTest extends TestCase
         }
         $curve = BernsteinCurveFactory::curve25519();
         $math = new MGUnsafeMath($curve);
+
+        $encoder = new RFC7784Decoder();
+        $publicU = $encoder->decodeUCoordinate($public, 255);
+
+        $pointDecoder = new MGPointDecoder($curve);
+        $publicPoint = $pointDecoder->fromXCoordinate($publicU);
+
+        $decodedPrivate = $encoder->decodeScalar25519($private);
+        $decodedShared = $encoder->decodeScalar25519($shared);
+
+        $this->assertDHCorrect($math, $publicPoint, $decodedPrivate, $decodedShared, $result);
+    }
+
+    /**
+     * @dataProvider provideCurve25519
+     */
+    public function testCurve25519TwistedEdwards(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
+    {
+        if (in_array(WycheProofConstants::FLAG_TWIST, $flags, true)) {
+            $this->markTestSkipped("Public key on twist; not supported.");
+        }
+        if (in_array($public, ['ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', 'ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f'], true)) {
+            $this->markTestSkipped("Cannot recover y coordinate of point (Jacobi symbol of alpha = -1).");
+        }
+        $curve = BernsteinCurveFactory::curve25519();
+        $map = BernsteinCurveFactory::curve25519ToEdwards25519();
+        $targetCurve = BernsteinCurveFactory::edwards25519();
+        $math = new MG_TE_Math($curve, $map, $targetCurve);
 
         $encoder = new RFC7784Decoder();
         $publicU = $encoder->decodeUCoordinate($public, 255);
