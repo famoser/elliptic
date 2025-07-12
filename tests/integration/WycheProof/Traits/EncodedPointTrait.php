@@ -12,7 +12,10 @@ use Famoser\Elliptic\Serializer\SerializerException;
 
 trait EncodedPointTrait
 {
-    protected function assertSWPublicKeyDeserializes(MathInterface $math, string $comment, string $public, string $result, array $flags, Point &$publicKey = null): void
+    /**
+     * @param-out Point $publicKey
+     */
+    protected function assertSWPublicKeyDeserializes(MathInterface $math, string $comment, string $public, string $result, array $flags, ?Point &$publicKey = null): void
     {
         // unserialize public key
         try {
