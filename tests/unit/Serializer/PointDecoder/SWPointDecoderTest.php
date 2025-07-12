@@ -23,7 +23,7 @@ class SWPointDecoderTest extends TestCase
         $expectedPoint = $curve->getG();
         $actualPoint = $decoder->fromCoordinates($expectedPoint->x, $expectedPoint->y);
 
-        $this->assertEquals($expectedPoint, $actualPoint);
+        $this->assertTrue($expectedPoint->equals($actualPoint));
     }
 
     public static function invalidXYPoints(): array
@@ -32,12 +32,10 @@ class SWPointDecoderTest extends TestCase
         $expectedPoint = $curve->getG();
 
         $one = gmp_init(1);
-        $unsupportedCurve = (new CurveBuilder($curve))->withType(CurveType::Montgomery)->build();
         return [
             [$curve, $one, $expectedPoint->y],
             [$curve, $expectedPoint->x, $one],
             [$curve, $one, $one],
-            [$unsupportedCurve, $expectedPoint->x, $expectedPoint->y]
         ];
     }
 
@@ -53,6 +51,16 @@ class SWPointDecoderTest extends TestCase
         $decoder->fromCoordinates($x, $y);
     }
 
+    public function testFromCoordinatesChecksCurveType(): void
+    {
+        $curve = SEC2CurveFactory::secp192r1();
+        $unsupportedCurve = (new CurveBuilder($curve))->withType(CurveType::Montgomery)->build();
+
+        $this->expectException(\AssertionError::class);
+
+        new SWPointDecoder($unsupportedCurve);
+    }
+
     /**
      * @throws PointDecoderException
      */
@@ -65,7 +73,7 @@ class SWPointDecoderTest extends TestCase
         $isEvenY = gmp_cmp(gmp_mod($expectedPoint->y, 2), 0) === 0;
         $actualPoint = $decoder->fromXCoordinate($expectedPoint->x, $isEvenY);
 
-        $this->assertEquals($expectedPoint, $actualPoint);
+        $this->assertTrue($expectedPoint->equals($actualPoint));
     }
 
     /**
