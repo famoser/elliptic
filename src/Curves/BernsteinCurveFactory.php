@@ -48,10 +48,12 @@ class BernsteinCurveFactory
         $map = static function (Point $point) use ($field, $squareRootOfMinus486664) {
             $x = $field->mul(
                 $field->mul($squareRootOfMinus486664, $point->x),
+                /** @phpstan-ignore-next-line */
                 $field->invert($point->y)
             );
             $y = $field->mul(
                 $field->sub($point->x, gmp_init(1)),
+                /** @phpstan-ignore-next-line */
                 $field->invert(
                     $field->add($point->x, gmp_init(1))
                 )
@@ -64,6 +66,7 @@ class BernsteinCurveFactory
         $reverse = static function (Point $point) use ($field, $squareRootOfMinus486664) {
             $u = $field->mul(
                 $field->add(gmp_init(1), $point->y),
+                /** @phpstan-ignore-next-line */
                 $field->invert(
                     $field->sub(gmp_init(1), $point->y)
                 )
@@ -71,6 +74,7 @@ class BernsteinCurveFactory
 
             $v = $field->mul(
                 $field->mul($squareRootOfMinus486664, $u),
+                /** @phpstan-ignore-next-line */
                 $field->invert($point->x)
             );
 

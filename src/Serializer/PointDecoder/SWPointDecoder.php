@@ -25,7 +25,7 @@ class SWPointDecoder implements SECPointDecoderInterface
     {
         $point = new Point($x, $y);
 
-        if (!$this->fulfillsDefiningEquation($point)) {;
+        if (!$this->fulfillsDefiningEquation($point)) {
             throw new PointDecoderException('Point not on curve.');
         }
 
