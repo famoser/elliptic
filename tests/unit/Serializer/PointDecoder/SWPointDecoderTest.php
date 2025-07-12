@@ -1,16 +1,16 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\Serializer;
+namespace Famoser\Elliptic\Tests\Serializer\PointDecoder;
 
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
-use Famoser\Elliptic\Serializer\PointDecoder;
-use Famoser\Elliptic\Serializer\PointDecoderException;
+use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
+use Famoser\Elliptic\Serializer\PointDecoder\SWPointDecoder;
 use Famoser\Elliptic\Tests\TestUtils\CurveBuilder;
 use PHPUnit\Framework\TestCase;
 
-class PointDecoderTest extends TestCase
+class SWPointDecoderTest extends TestCase
 {
     /**
      * @throws PointDecoderException
@@ -18,7 +18,7 @@ class PointDecoderTest extends TestCase
     public function testFromCoordinatesCreatesPoint(): void
     {
         $curve = SEC2CurveFactory::secp192r1();
-        $decoder = new PointDecoder($curve);
+        $decoder = new SWPointDecoder($curve);
 
         $expectedPoint = $curve->getG();
         $actualPoint = $decoder->fromCoordinates($expectedPoint->x, $expectedPoint->y);
@@ -48,7 +48,7 @@ class PointDecoderTest extends TestCase
     {
         $this->expectException(PointDecoderException::class);
 
-        $decoder = new PointDecoder($curve);
+        $decoder = new SWPointDecoder($curve);
 
         $decoder->fromCoordinates($x, $y);
     }
@@ -59,7 +59,7 @@ class PointDecoderTest extends TestCase
     public function testFromXCoordinatesCreatesPoint(): void
     {
         $curve = SEC2CurveFactory::secp192r1();
-        $decoder = new PointDecoder($curve);
+        $decoder = new SWPointDecoder($curve);
 
         $expectedPoint = $curve->getG();
         $isEvenY = gmp_cmp(gmp_mod($expectedPoint->y, 2), 0) === 0;
@@ -74,7 +74,7 @@ class PointDecoderTest extends TestCase
     public function testFromXCoordinatesRespectsSignBit(): void
     {
         $curve = SEC2CurveFactory::secp192r1();
-        $decoder = new PointDecoder($curve);
+        $decoder = new SWPointDecoder($curve);
 
         $expectedPoint = $curve->getG();
         $isEvenY = gmp_cmp(gmp_mod($expectedPoint->y, 2), 0) === 0;
@@ -91,7 +91,7 @@ class PointDecoderTest extends TestCase
         $this->expectException(PointDecoderException::class);
 
         $curve = SEC2CurveFactory::secp192r1();
-        $decoder = new PointDecoder($curve);
+        $decoder = new SWPointDecoder($curve);
 
         $decoder->fromXCoordinate(gmp_init(1), true);
     }
@@ -111,7 +111,7 @@ class PointDecoderTest extends TestCase
     {
         $this->expectException(PointDecoderException::class);
 
-        $decoder = new PointDecoder($curve);
+        $decoder = new SWPointDecoder($curve);
 
         $decoder->fromXCoordinate(gmp_init(1), true);
     }

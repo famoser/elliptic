@@ -1,8 +1,11 @@
 <?php
 
-namespace Famoser\Elliptic\Integration\Utils;
+namespace Famoser\Elliptic\Serializer\Decoder;
 
-class RFC7784Encoder
+/**
+ * implements the decoding described in RFC 7784
+ */
+class RFC7784Decoder
 {
     private function decodeHexToBytes(string $hex): array
     {

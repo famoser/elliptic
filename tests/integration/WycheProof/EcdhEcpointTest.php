@@ -64,7 +64,7 @@ class EcdhEcpointTest extends TestCase
 
     private function testCurve(MathInterface $math, string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
-        $this->assertPublicKeyPointDecodes($math, $comment, $public, $result, $flags, $publicKeyPoint);
+        $this->assertSWPublicKeyDeserializes($math, $comment, $public, $result, $flags, $publicKeyPoint);
         $this->assertDHCorrect($math, $publicKeyPoint, gmp_init($private, 16), gmp_init($shared, 16), $result);
     }
 }

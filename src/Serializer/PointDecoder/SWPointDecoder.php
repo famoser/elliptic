@@ -1,15 +1,21 @@
 <?php
 
-namespace Famoser\Elliptic\Serializer;
+namespace Famoser\Elliptic\Serializer\PointDecoder;
 
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
 use Famoser\Elliptic\Primitives\Point;
+use Famoser\Elliptic\Serializer\SEC\SECPointDecoderInterface;
 
-class PointDecoder
+class SWPointDecoder implements SECPointDecoderInterface
 {
     public function __construct(private readonly Curve $curve)
     {
+        // check allowed to use this decoder
+        $check = $curve->getType() === CurveType::ShortWeierstrass;
+        if (!$check) {
+            throw new \AssertionError('Cannot use this decoder with the chosen curve.');
+        }
     }
 
     /**
@@ -18,7 +24,8 @@ class PointDecoder
     public function fromCoordinates(\GMP $x, \GMP $y): Point
     {
         $point = new Point($x, $y);
-        if (!$this->fulfillsDefiningEquationOfCurve($point)) {
+
+        if (!$this->fulfillsDefiningEquation($point)) {;
             throw new PointDecoderException('Point not on curve.');
         }
 
@@ -36,13 +43,7 @@ class PointDecoder
             throw new PointDecoderException('Point decoding for p mod 4 != 3 not implemented.');
         }
 
-        $alpha = gmp_add(
-            gmp_add(
-                gmp_powm($x, gmp_init(3, 10), $p),
-                gmp_mul($this->curve->getA(), $x)
-            ),
-            $this->curve->getB()
-        );
+        $alpha = $this->calculateComparand($x);
 
         $jacobiSymbol = gmp_jacobi($alpha, $p);
         if ($jacobiSymbol !== 1) {
@@ -69,30 +70,12 @@ class PointDecoder
     }
 
     /**
-     * check fulfills defining equation of the curve
-     * @throws PointDecoderException
-     */
-    private function fulfillsDefiningEquationOfCurve(Point $point): bool
-    {
-        return match ($this->curve->getType()) {
-            CurveType::ShortWeierstrass => $this->fulfillsShortWeierstrassDefiningEquation($point),
-            CurveType::Montgomery => throw new PointDecoderException('Montgomery not yet supported.'),
-        };
-    }
-
-    /**
      * short weierstrass defined as y^2 = x^3 + ax + b
      */
-    private function fulfillsShortWeierstrassDefiningEquation(Point $point): bool
+    private function fulfillsDefiningEquation(Point $point): bool
     {
         $left = gmp_pow($point->y, 2);
-        $right = gmp_add(
-            gmp_add(
-                gmp_pow($point->x, 3),
-                gmp_mul($this->curve->getA(), $point->x)
-            ),
-            $this->curve->getB()
-        );
+        $right = $this->calculateComparand($point->x);
 
         $comparison = gmp_mod(
             gmp_sub($left, $right),
@@ -100,5 +83,19 @@ class PointDecoder
         );
 
         return gmp_cmp($comparison, 0) == 0;
+    }
+
+    /**
+     * calculate x^3 + ax + b
+     */
+    private function calculateComparand(\GMP $x): \GMP
+    {
+        return gmp_add(
+            gmp_add(
+                gmp_powm($x, gmp_init(3, 10), $this->curve->getP()),
+                gmp_mul($this->curve->getA(), $x)
+            ),
+            $this->curve->getB()
+        );
     }
 }

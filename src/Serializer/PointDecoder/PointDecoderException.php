@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Serializer;
+namespace Famoser\Elliptic\Serializer\PointDecoder;
 
 class PointDecoderException extends \Exception
 {

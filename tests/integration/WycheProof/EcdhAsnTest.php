@@ -174,7 +174,7 @@ class EcdhAsnTest extends TestCase
         $asnEncoder = new AsnEncoder();
         $publicKey = $asnEncoder->decodePublicKey($public);
 
-        $this->assertPublicKeyPointDecodes($math, $comment, $publicKey, $result, $flags, $publicKeyPoint);
+        $this->assertSWPublicKeyDeserializes($math, $comment, $publicKey, $result, $flags, $publicKeyPoint);
         $this->assertDHCorrect($math, $publicKeyPoint, gmp_init($private, 16), gmp_init($shared, 16), $result);
     }
 }
