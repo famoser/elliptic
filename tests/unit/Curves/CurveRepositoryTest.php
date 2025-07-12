@@ -48,6 +48,6 @@ class CurveRepositoryTest extends TestCase
         $curve1 = $curveRepository->findByOID($someCurveOID);
         $curve2 = $curveRepository->findByOID($someCurveOID);
 
-        $this->assertEquals($curve1, $curve2);
+        $this->assertSame($curve1, $curve2);
     }
 }

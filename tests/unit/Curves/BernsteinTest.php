@@ -29,7 +29,7 @@ class BernsteinTest extends TestCase
         $this->assertEquals(0, gmp_cmp($order, $curve->getN()));
 
         $aNeg1 = gmp_mod(-1, $curve->getP());
-        $this->assertEquals($aNeg1, $curve->getA());
+        $this->assertEquals(0, gmp_cmp($aNeg1, $curve->getA()));
     }
 
     public function testBirationalMappingOf25519(): void
@@ -39,10 +39,10 @@ class BernsteinTest extends TestCase
         $targetCurve = BernsteinCurveFactory::edwards25519();
 
         $actualG = $mapping->map($curve->getG());
-        $this->assertEquals($targetCurve->getG(), $actualG);
+        $this->assertTrue($targetCurve->getG()->equals($actualG));
 
         $actualG = $mapping->reverse($targetCurve->getG());
-        $this->assertEquals($curve->getG(), $actualG);
+        $this->assertTrue($curve->getG()->equals($actualG));
     }
 
     public function testEvaluatedParametersCurve448(): void
