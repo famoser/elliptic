@@ -2,6 +2,6 @@
 
 namespace Famoser\Elliptic\Serializer;
 
-class PointSerializerException extends \Exception
+class SerializerException extends \Exception
 {
 }

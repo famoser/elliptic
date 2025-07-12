@@ -4,25 +4,26 @@ namespace Famoser\Elliptic\Serializer;
 
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
+use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
+use Famoser\Elliptic\Serializer\SEC\SECEncoding;
+use Famoser\Elliptic\Serializer\SEC\SECPointDecoderInterface;
 
 /**
- * TODO implement https://www.secg.org/SEC1-Ver-1.0.pdf
+ * implements serialization as described in https://www.secg.org/SEC1-Ver-1.0.pdf
  */
-class PointSerializer
+class SECSerializer
 {
     private readonly int $pointOctetLength;
-    private readonly PointDecoder $pointDecoder;
 
-    public function __construct(private readonly Curve $curve, private readonly PointEncoding $preferredEncoding = PointEncoding::ENCODING_COMPRESSED)
+    public function __construct(private readonly Curve $curve, private readonly SECPointDecoderInterface $pointDecoder, private readonly SECEncoding $preferredEncoding = SECEncoding::COMPRESSED)
     {
         $this->pointOctetLength = (int) ceil((float) strlen(gmp_strval($this->curve->getP(), 2)) / 8);
-        $this->pointDecoder = new PointDecoder($this->curve);
     }
 
     /**
-     * implements https://www.secg.org/SEC1-Ver-1.0.pdf 2.3.4
+     * implements https://wdecoderww.secg.org/SEC1-Ver-1.0.pdf 2.3.4
      *
-     * @throws PointDecoderException|PointSerializerException
+     * @throws PointDecoderException|SerializerException
      */
     public function deserialize(string $hex): Point
     {
@@ -47,7 +48,7 @@ class PointSerializer
             return $this->pointDecoder->fromCoordinates($x, $y);
         }
 
-        throw new PointSerializerException('Unknown deserialization format.');
+        throw new SerializerException('Unknown deserialization format.');
     }
 
     /**
@@ -60,8 +61,8 @@ class PointSerializer
         }
 
         return match ($this->preferredEncoding) {
-            PointEncoding::ENCODING_COMPRESSED => $this->serializeCompressed($point),
-            PointEncoding::ENCODING_UNCOMPRESSED => $this->serializeUncompressed($point)
+            SECEncoding::COMPRESSED => $this->serializeCompressed($point),
+            SECEncoding::UNCOMPRESSED => $this->serializeUncompressed($point)
         };
     }
 

@@ -5,17 +5,18 @@ namespace Famoser\Elliptic\Integration\WycheProof\Traits;
 use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Primitives\Point;
-use Famoser\Elliptic\Serializer\PointDecoderException;
-use Famoser\Elliptic\Serializer\PointSerializer;
-use Famoser\Elliptic\Serializer\PointSerializerException;
+use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
+use Famoser\Elliptic\Serializer\PointDecoder\SWPointDecoder;
+use Famoser\Elliptic\Serializer\SECSerializer;
+use Famoser\Elliptic\Serializer\SerializerException;
 
 trait EncodedPointTrait
 {
-    protected function assertPublicKeyPointDecodes(MathInterface $math, string $comment, string $public, string $result, array $flags, Point &$publicKey = null): void
+    protected function assertSWPublicKeyDeserializes(MathInterface $math, string $comment, string $public, string $result, array $flags, Point &$publicKey = null): void
     {
         // unserialize public key
         try {
-            $pointSerializer = new PointSerializer($math->getCurve());
+            $pointSerializer = new SECSerializer($math->getCurve(), new SWPointDecoder($math->getCurve()));
             $publicKey = $pointSerializer->deserialize($public);
         } catch (PointDecoderException) {
             $this->assertEquals($result, WycheProofConstants::RESULT_INVALID);
@@ -24,7 +25,7 @@ trait EncodedPointTrait
             }
 
             $this->fail('Test data considers other error: ' . $comment);
-        } catch (PointSerializerException) {
+        } catch (SerializerException) {
             $this->assertEquals($result, WycheProofConstants::RESULT_INVALID);
             if ($public === '' || in_array('InvalidPublic', $flags)) {
                 $this->markTestSkipped('Serialization failed (as expected)');

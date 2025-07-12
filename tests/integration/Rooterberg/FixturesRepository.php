@@ -3,9 +3,10 @@
 namespace Famoser\Elliptic\Integration\Rooterberg;
 
 use Famoser\Elliptic\Curves\CurveRepository;
-use Famoser\Elliptic\Serializer\PointDecoderException;
-use Famoser\Elliptic\Serializer\PointSerializer;
-use Famoser\Elliptic\Serializer\PointSerializerException;
+use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
+use Famoser\Elliptic\Serializer\PointDecoder\SWPointDecoder;
+use Famoser\Elliptic\Serializer\SECSerializer;
+use Famoser\Elliptic\Serializer\SerializerException;
 
 class FixturesRepository
 {
@@ -21,9 +22,9 @@ class FixturesRepository
     }
 
     /**
-     * @throws PointDecoderException|PointSerializerException
+     * @throws PointDecoderException|SerializerException
      */
-    private static function parseEcdsaTestvectors(array $testvectors): array
+    private static function parseSWEcdsaTestvectors(array $testvectors): array
     {
         $results = [];
 
@@ -31,7 +32,7 @@ class FixturesRepository
         $curveRepository = new CurveRepository();
         $curve = $curveRepository->findByName($algorithm['curve']);
 
-        $pointSerializer = new PointSerializer($curve);
+        $pointSerializer = new SECSerializer($curve, new SWPointDecoder($curve));
 
         foreach ($testvectors['tests'] as $testvector) {
             $publicKey = $pointSerializer->deserialize($testvector['publicKeyUncompressed']);
@@ -52,12 +53,12 @@ class FixturesRepository
     }
 
     /**
-     * @throws PointDecoderException|PointSerializerException
+     * @throws PointDecoderException|SerializerException
      */
-    public static function createEcdsaFixtures(string $curve, int $shaSize): array
+    public static function createSWEcdsaFixtures(string $curve, int $shaSize): array
     {
         $testvectors = FixturesRepository::readTestvectors("ecdsa", "{$curve}_sha_{$shaSize}_p1363");
 
-        return FixturesRepository::parseEcdsaTestvectors($testvectors);
+        return FixturesRepository::parseSWEcdsaTestvectors($testvectors);
     }
 }

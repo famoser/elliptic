@@ -12,18 +12,18 @@ use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
-use Famoser\Elliptic\Serializer\PointDecoderException;
-use Famoser\Elliptic\Serializer\PointSerializerException;
+use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
+use Famoser\Elliptic\Serializer\SerializerException;
 use PHPUnit\Framework\TestCase;
 
 class EcdsaTest extends TestCase
 {
     /**
-     * @throws PointDecoderException|PointSerializerException
+     * @throws PointDecoderException|SerializerException
      */
     public static function provideSecp224k1(): array
     {
-        return FixturesRepository::createEcdsaFixtures('secp224k1', 224);
+        return FixturesRepository::createSWEcdsaFixtures('secp224k1', 224);
     }
 
     /**
@@ -36,11 +36,11 @@ class EcdsaTest extends TestCase
     }
 
     /**
-     * @throws PointDecoderException|PointSerializerException
+     * @throws PointDecoderException|SerializerException
      */
     public static function provideSecp224r1(): array
     {
-        return FixturesRepository::createEcdsaFixtures('secp224r1', 224);
+        return FixturesRepository::createSWEcdsaFixtures('secp224r1', 224);
     }
 
     /**
@@ -53,11 +53,11 @@ class EcdsaTest extends TestCase
     }
 
     /**
-     * @throws PointDecoderException|PointSerializerException
+     * @throws PointDecoderException|SerializerException
      */
     public static function provideBrainpoolP192r1(): array
     {
-        return FixturesRepository::createEcdsaFixtures('brainpool_p192r1', 224);
+        return FixturesRepository::createSWEcdsaFixtures('brainpool_p192r1', 224);
     }
 
     /**
@@ -71,11 +71,11 @@ class EcdsaTest extends TestCase
 
 
     /**
-     * @throws PointDecoderException|PointSerializerException
+     * @throws PointDecoderException|SerializerException
      */
     public static function provideBrainpoolP192t1(): array
     {
-        return FixturesRepository::createEcdsaFixtures('brainpool_p192t1', 224);
+        return FixturesRepository::createSWEcdsaFixtures('brainpool_p192t1', 224);
     }
 
     /**
@@ -88,11 +88,11 @@ class EcdsaTest extends TestCase
     }
 
     /**
-     * @throws PointDecoderException|PointSerializerException
+     * @throws PointDecoderException|SerializerException
      */
     public static function provideBrainpoolP224t1(): array
     {
-        return FixturesRepository::createEcdsaFixtures('brainpool_p224t1', 224);
+        return FixturesRepository::createSWEcdsaFixtures('brainpool_p224t1', 224);
     }
 
     /**
@@ -105,11 +105,11 @@ class EcdsaTest extends TestCase
     }
 
     /**
-     * @throws PointDecoderException|PointSerializerException
+     * @throws PointDecoderException|SerializerException
      */
     public static function provideBrainpoolP256t1(): array
     {
-        return FixturesRepository::createEcdsaFixtures('brainpool_p256t1', 256);
+        return FixturesRepository::createSWEcdsaFixtures('brainpool_p256t1', 256);
     }
 
     /**
@@ -122,11 +122,11 @@ class EcdsaTest extends TestCase
     }
 
     /**
-     * @throws PointDecoderException|PointSerializerException
+     * @throws PointDecoderException|SerializerException
      */
     public static function provideBrainpoolP320t1(): array
     {
-        return FixturesRepository::createEcdsaFixtures('brainpool_p320t1', 384);
+        return FixturesRepository::createSWEcdsaFixtures('brainpool_p320t1', 384);
     }
 
     /**
@@ -139,11 +139,11 @@ class EcdsaTest extends TestCase
     }
 
     /**
-     * @throws PointDecoderException|PointSerializerException
+     * @throws PointDecoderException|SerializerException
      */
     public static function provideBrainpoolP384t1(): array
     {
-        return FixturesRepository::createEcdsaFixtures('brainpool_p384t1', 384);
+        return FixturesRepository::createSWEcdsaFixtures('brainpool_p384t1', 384);
     }
 
     /**
@@ -156,11 +156,11 @@ class EcdsaTest extends TestCase
     }
 
     /**
-     * @throws PointDecoderException|PointSerializerException
+     * @throws PointDecoderException|SerializerException
      */
     public static function provideBrainpoolP512t1(): array
     {
-        return FixturesRepository::createEcdsaFixtures('brainpool_p512t1', 512);
+        return FixturesRepository::createSWEcdsaFixtures('brainpool_p512t1', 512);
     }
 
     /**
