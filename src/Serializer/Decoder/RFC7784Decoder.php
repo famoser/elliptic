@@ -7,10 +7,17 @@ namespace Famoser\Elliptic\Serializer\Decoder;
  */
 class RFC7784Decoder
 {
+    /**
+     * @return int[]
+     */
     private function decodeHexToBytes(string $hex): array
     {
         $cleanedHex = preg_replace('/\s+/', '', $hex);
-        $list = array_values(unpack('C*', hex2bin($cleanedHex)));
+
+        /** @phpstan-ignore-next-line */
+        $list = unpack('C*', hex2bin($cleanedHex));
+
+        /** @var int[]|false $list */
         if (!$list) {
             throw new \InvalidArgumentException('Invalid hex string');
         }
@@ -18,6 +25,9 @@ class RFC7784Decoder
         return $list;
     }
 
+    /**
+     * @param int[] $b
+     */
     private function decodeLittleEndian(array $b, int $bits): \GMP
     {
         $sum = gmp_init(0);
