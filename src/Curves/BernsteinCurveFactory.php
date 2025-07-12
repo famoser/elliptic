@@ -41,8 +41,10 @@ class BernsteinCurveFactory
         $p = gmp_init('7FFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFED', 16);
         $field = new PrimeField($p);
 
-        $minus486664 = gmp_init('7FFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFF892E5', 16);
-        $squareRootOfMinus486664 = $field->sqrt($minus486664);
+        // sqrt(-486664)
+        // - calculated using sage: sqrt(GF(2^255-19)(-486664), all=True)
+        // - then chosen the second value as it correctly converts the base points
+        $squareRootOfMinus486664 = gmp_init('70D9120B 9F5FF944 2D84F723 FC03B081 3A5E2C2E B482E57D 3391FB55 00BA81E7', 16);
 
         // (x, y) = (sqrt(-486664)*u/v, (u-1)/(u+1))
         $map = static function (Point $point) use ($field, $squareRootOfMinus486664) {
