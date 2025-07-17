@@ -54,6 +54,9 @@ class RFC7784Decoder
         return $sum;
     }
 
+    /**
+     * @return int[]
+     */
     private function encodeLittleEndian(\GMP $b, int $bits): array
     {
         $result = [];
