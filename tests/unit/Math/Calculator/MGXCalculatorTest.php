@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class MGXCalculatorTest extends TestCase
 {
-    public static function testVectors25519()
+    public static function vectors25519()
     {
         return [
             [
@@ -28,7 +28,7 @@ class MGXCalculatorTest extends TestCase
     }
 
     /**
-     * @dataProvider testVectors25519
+     * @dataProvider vectors25519
      */
     public function testTestVectors25519(string $scalar, string $u, string $expectedResult): void
     {
@@ -44,7 +44,7 @@ class MGXCalculatorTest extends TestCase
         $this->assertEquals($expectedResult, $encodedResult);
     }
 
-    public static function testVectors448()
+    public static function vectors448()
     {
         return [
             [
@@ -63,7 +63,7 @@ class MGXCalculatorTest extends TestCase
     }
 
     /**
-     * @dataProvider testVectors448
+     * @dataProvider vectors448
      */
     public function testTestVectors448(string $scalar, string $u, string $expectedResult): void
     {
@@ -77,5 +77,24 @@ class MGXCalculatorTest extends TestCase
         $result = $calculator->mul($u, $scalar);
         $encodedResult = $decoder->encodeUCoordinate($result, 448);
         $this->assertEquals($expectedResult, $encodedResult);
+    }
+
+    public function testIteration25519(): void
+    {
+        $startValue = '0900000000000000000000000000000000000000000000000000000000000000';
+        $oneIteration = '422c8e7a6227d7bca1350b3e2bb7279f7897b87bb6854b783c60e80311ae3079';
+        $thousandIteration = '684cf59ba83309552800ef566f2f4d3c1c3887c49360e3875f2eb94d99532c51';
+        $millionIteration = '7c3911e0ab2586fd864497297e575e6f3bc601c0883c30df5f4dd2d24f665424';
+
+        $curve = BernsteinCurveFactory::curve25519();
+        $calculator = new MGXCalculator($curve);
+
+        $decoder = new RFC7784Decoder();
+        $scalar = $decoder->decodeScalar25519($startValue);
+        $u = $decoder->decodeUCoordinate($startValue, 255);
+
+        $result = $calculator->mul($u, $scalar);
+        $encodedResult = $decoder->encodeUCoordinate($result, 255);
+        $this->assertEquals($oneIteration, $encodedResult);
     }
 }
