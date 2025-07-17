@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class MGXCalculatorTest extends TestCase
 {
-    public static function vectors25519()
+    public static function vectors25519(): array
     {
         return [
             [
@@ -44,7 +44,7 @@ class MGXCalculatorTest extends TestCase
         $this->assertEquals($expectedResult, $encodedResult);
     }
 
-    public static function vectors448()
+    public static function vectors448(): array
     {
         return [
             [
@@ -95,6 +95,25 @@ class MGXCalculatorTest extends TestCase
 
         $result = $calculator->mul($u, $scalar);
         $encodedResult = $decoder->encodeUCoordinate($result, 255);
+        $this->assertEquals($oneIteration, $encodedResult);
+    }
+
+    public function testIteration448(): void
+    {
+        $startValue = '0500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
+        $oneIteration = '3f482c8a9f19b01e6c46ee9711d9dc14fd4bf67af30765c2ae2b846a4d23a8cd0db897086239492caf350b51f833868b9bc2b3bca9cf4113';
+        $thousandIteration = 'aa3b4749d55b9daf1e5b00288826c467274ce3ebbdd5c17b975e09d4af6c67cf10d087202db88286e2b79fceea3ec353ef54faa26e219f38';
+        $millionIteration = '077f453681caca3693198420bbe515cae0002472519b3e67661a7e89cab94695c8f4bcd66e61b9b9c946da8d524de3d69bd9d9d66b997e37';
+
+        $curve = BernsteinCurveFactory::curve448();
+        $calculator = new MGXCalculator($curve);
+
+        $decoder = new RFC7784Decoder();
+        $scalar = $decoder->decodeScalar448($startValue);
+        $u = $decoder->decodeUCoordinate($startValue, 448);
+
+        $result = $calculator->mul($u, $scalar);
+        $encodedResult = $decoder->encodeUCoordinate($result, 448);
         $this->assertEquals($oneIteration, $encodedResult);
     }
 }
