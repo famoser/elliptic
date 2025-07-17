@@ -25,8 +25,9 @@ class BernsteinCurveFactory
         $b = gmp_init(1);
 
         $u = gmp_init(9);
-        $v = gmp_init('147816194475895447910205935684099868872646061346164752889648818
-      37755586237401', 10);
+        // see https://www.rfc-editor.org/errata/eid4730; the v in the RFC is incorrect
+        $v = gmp_init('431144251710685529207648989359339670393703861982038067307639101
+66200978582548', 10);
         $P = new Point($u, $v);
 
         // order = 2^252 + 0x14def9dea2f79cd65812631a5cf5d3ed
@@ -44,7 +45,7 @@ class BernsteinCurveFactory
         // sqrt(-486664)
         // - calculated using sage: sqrt(GF(2^255-19)(-486664), all=True)
         // - then chosen the second value as it correctly converts the base points
-        $squareRootOfMinus486664 = gmp_init('70D9120B 9F5FF944 2D84F723 FC03B081 3A5E2C2E B482E57D 3391FB55 00BA81E7', 16);
+        $squareRootOfMinus486664 = gmp_init('F26EDF46 0A006BBD 27B08DC0 3FC4F7EC 5A1D3D14 B7D1A82C C6E04AAF F457E06', 16);
 
         // (x, y) = (sqrt(-486664)*u/v, (u-1)/(u+1))
         $map = static function (Point $point) use ($field, $squareRootOfMinus486664) {
