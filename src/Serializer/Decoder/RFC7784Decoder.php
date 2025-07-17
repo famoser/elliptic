@@ -28,6 +28,19 @@ class RFC7784Decoder
     /**
      * @param int[] $b
      */
+    private function encodeBytesToHex(array $b): string
+    {
+        $result = '';
+        foreach ($b as $entry) {
+            $result .= bin2hex(pack('C', $entry));
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param int[] $b
+     */
     private function decodeLittleEndian(array $b, int $bits): \GMP
     {
         $sum = gmp_init(0);
@@ -41,6 +54,21 @@ class RFC7784Decoder
         return $sum;
     }
 
+    private function encodeLittleEndian(\GMP $b, int $bits): array
+    {
+        $result = [];
+
+        $mask = gmp_init(0xFF);
+        $number = $b;
+        $bytes = intdiv($bits + 7, 8);
+        for ($i = 0; $i < $bytes; $i++) {
+            $result[] = gmp_intval(gmp_and($number, $mask));
+            $number = gmp_div($number, gmp_pow(2, 8));
+        }
+
+        return $result;
+    }
+
     public function decodeUCoordinate(string $uHex, int $bits): \GMP
     {
         $u_list = $this->decodeHexToBytes($uHex);
@@ -51,6 +79,18 @@ class RFC7784Decoder
         }
 
         return $this->decodeLittleEndian($u_list, $bits);
+    }
+
+    public function encodeUCoordinate(\GMP $b, int $bits): string
+    {
+        $u_list = $this->encodeLittleEndian($b, $bits);
+
+        // Ignore any unused bits
+        if ($bits % 8) {
+            $u_list[count($u_list) - 1] &= (1 << ($bits % 8)) - 1;
+        }
+
+        return $this->encodeBytesToHex($u_list);
     }
 
     public function decodeScalar25519(string $k): \GMP
