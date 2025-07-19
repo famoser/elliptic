@@ -3,25 +3,24 @@
 namespace Famoser\Elliptic\Math;
 
 use Famoser\Elliptic\Math\Calculator\SW_ANeg3_Calculator;
+use Famoser\Elliptic\Math\Calculator\TwED_ANeg1_Calculator;
 use Famoser\Elliptic\Math\Math\NativeMathTrait;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
 /**
- * Assumes Short Weierstrass curve with a=-3
- *
- * Some hardening against side-channels has been done.
+ * Twisted Edwards math for a=-1 mod p
  */
-class SW_ANeg3_Math extends AbstractMath implements MathInterface
+class TwED_ANeg1_Math extends AbstractMath implements MathInterface
 {
     use NativeMathTrait;
 
-    private readonly SW_ANeg3_Calculator $calculator;
+    private readonly TwED_ANeg1_Calculator $calculator;
 
     public function __construct(Curve $curve)
     {
         parent::__construct($curve);
 
-        $this->calculator = new SW_ANeg3_Calculator($curve);
+        $this->calculator = new TwED_ANeg1_Calculator($curve);
     }
 }

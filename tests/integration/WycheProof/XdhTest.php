@@ -8,7 +8,8 @@ use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Integration\WycheProof\Traits\DiffieHellmanTrait;
 use Famoser\Elliptic\Integration\WycheProof\Utils\FixturesRepository;
 use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
-use Famoser\Elliptic\Math\MG_TE_Math;
+use Famoser\Elliptic\Math\MG_ED_Math;
+use Famoser\Elliptic\Math\MG_TwED_Math;
 use Famoser\Elliptic\Math\MGUnsafeMath;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
 use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
@@ -77,7 +78,7 @@ class XdhTest extends TestCase
         $curve = BernsteinCurveFactory::curve25519();
         $map = BernsteinCurveFactory::curve25519ToEdwards25519();
         $targetCurve = BernsteinCurveFactory::edwards25519();
-        $math = new MG_TE_Math($curve, $map, $targetCurve);
+        $math = new MG_TwED_Math($curve, $map, $targetCurve);
 
         $encoder = new RFC7784Decoder();
         $publicU = $encoder->decodeUCoordinate($public, 255);

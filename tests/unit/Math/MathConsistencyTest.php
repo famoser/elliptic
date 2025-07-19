@@ -6,7 +6,8 @@ use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Math\MathInterface;
-use Famoser\Elliptic\Math\MG_TE_Math;
+use Famoser\Elliptic\Math\MG_ED_Math;
+use Famoser\Elliptic\Math\MG_TwED_Math;
 use Famoser\Elliptic\Math\MGUnsafeMath;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
@@ -59,7 +60,7 @@ class MathConsistencyTest extends TestCase
             $testsets[] = [$math, new SWUnsafeMath($math->getCurve())];
         }
         foreach ($bernsteinCurves as $curveAndMapping) {
-            $math = new MG_TE_Math(...$curveAndMapping);
+            $math = new MG_TwED_Math(...$curveAndMapping);
             $testsets[] = [$math, new MGUnsafeMath($math->getCurve())];
         }
 

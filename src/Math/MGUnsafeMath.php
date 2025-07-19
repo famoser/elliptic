@@ -3,6 +3,7 @@
 namespace Famoser\Elliptic\Math;
 
 use Famoser\Elliptic\Math\Calculator\MGUnsafeCalculator;
+use Famoser\Elliptic\Math\Math\MathTrait;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
@@ -13,6 +14,8 @@ use Famoser\Elliptic\Primitives\Point;
  */
 class MGUnsafeMath extends AbstractMath implements MathInterface
 {
+    use MathTrait;
+
     private readonly MGUnsafeCalculator $calculator;
 
     public function __construct(Curve $curve)
@@ -20,20 +23,5 @@ class MGUnsafeMath extends AbstractMath implements MathInterface
         parent::__construct($curve);
 
         $this->calculator = new MGUnsafeCalculator($curve);
-    }
-
-    public function mul(Point $point, \GMP $factor): Point
-    {
-        return $this->calculator->mul($point, $factor);
-    }
-
-    public function double(Point $a): Point
-    {
-        return $this->calculator->double($a);
-    }
-
-    public function add(Point $a, Point $b): Point
-    {
-        return $this->calculator->add($a, $b);
     }
 }

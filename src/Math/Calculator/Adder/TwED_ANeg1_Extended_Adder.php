@@ -17,7 +17,7 @@ use Famoser\Elliptic\Primitives\Point;
  * It is the best strongly unified variant according to: https://www.hyperelliptic.org/EFD/g1p/auto-twisted-extended-1.html#addition-add-2008-hwcd-3
  * Strongly unified is important as it supports points regardless of whether they are at 0, are the same or different.
  */
-trait TE_ANeg1_Extended_Adder
+trait TwED_ANeg1_Extended_Adder
 {
     /**
      * Algorithm 5.1.4: Complete point addition (rfc8032)

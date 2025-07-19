@@ -1,27 +1,11 @@
 <?php
 
-namespace Famoser\Elliptic\Math;
+namespace Famoser\Elliptic\Math\Math;
 
-use Famoser\Elliptic\Primitives\BirationalMap;
-use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
-/**
- * Assumes a montgomery curve with a birational map to a twisted edwards curve a=-1.
- *
- * Some hardening against side-channels has been done.
- */
-class MG_TE_Math extends AbstractMath implements MathInterface
+trait BirationalMathTrait
 {
-    private readonly TE_ANeg1_Math $math;
-
-    public function __construct(Curve $curve, private readonly BirationalMap $birationalMap, Curve $targetCurve)
-    {
-        parent::__construct($curve);
-
-        $this->math = new TE_ANeg1_Math($targetCurve);
-    }
-
     public function add(Point $a, Point $b): Point
     {
         $mappedA = $this->birationalMap->map($a);
