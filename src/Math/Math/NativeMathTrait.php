@@ -1,26 +1,11 @@
 <?php
 
-namespace Famoser\Elliptic\Math;
+namespace Famoser\Elliptic\Math\Math;
 
-use Famoser\Elliptic\Math\Calculator\SW_ANeg3_Calculator;
-use Famoser\Elliptic\Math\Calculator\TE_ANeg1_Calculator;
-use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
-/**
- * Twisted Edwards math for a=-1 mod p
- */
-class TE_ANeg1_Math extends AbstractMath implements MathInterface
+trait NativeMathTrait
 {
-    private readonly TE_ANeg1_Calculator $calculator;
-
-    public function __construct(Curve $curve)
-    {
-        parent::__construct($curve);
-
-        $this->calculator = new TE_ANeg1_Calculator($curve);
-    }
-
     public function add(Point $a, Point $b): Point
     {
         $nativeA = $this->calculator->affineToNative($a);

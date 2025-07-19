@@ -11,15 +11,19 @@
     </rule>
     <!-- whitelist some awkward class names, as else they would become very long and hard to read -->
     <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
-        <exclude-pattern>MG_TE_Math</exclude-pattern>
+        <exclude-pattern>MG_ED_Math</exclude-pattern>
+        <exclude-pattern>MG_TwED_Math</exclude-pattern>
+        <exclude-pattern>TwED_ANeg1_Math</exclude-pattern>
+        <exclude-pattern>ED_ANeg1_Math</exclude-pattern>
         <exclude-pattern>SW_ANeg3_Calculator</exclude-pattern>
         <exclude-pattern>SW_QT_ANeg3_Calculator</exclude-pattern>
         <exclude-pattern>SW_ANeg3_Math</exclude-pattern>
         <exclude-pattern>SW_QT_ANeg3_Math</exclude-pattern>
         <exclude-pattern>SW_ANeg3_Jacobi_Adder</exclude-pattern>
-        <exclude-pattern>TE_ANeg1_Math</exclude-pattern>
-        <exclude-pattern>TE_ANeg1_Calculator</exclude-pattern>
-        <exclude-pattern>TE_ANeg1_Extended_Adder</exclude-pattern>
+        <exclude-pattern>ED_ANeg1_Calculator</exclude-pattern>
+        <exclude-pattern>ED_ANeg1_Extended_Adder</exclude-pattern>
+        <exclude-pattern>TwED_ANeg1_Calculator</exclude-pattern>
+        <exclude-pattern>TwED_ANeg1_Extended_Adder</exclude-pattern>
     </rule>
 
     <arg name="colors"/> <!-- use colors in output -->
