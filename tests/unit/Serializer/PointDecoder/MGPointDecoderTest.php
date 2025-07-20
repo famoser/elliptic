@@ -71,7 +71,7 @@ class MGPointDecoderTest extends TestCase
 
         $actualPoint = $decoder->fromXCoordinate($curve->getG()->x);
 
-        $this->assertTrue(gmp_cmp($actualPoint->x, $curve->getG()->x) === 0);
+        $this->assertEquals(0, gmp_cmp($actualPoint->x, $curve->getG()->x));
     }
 
     /**
