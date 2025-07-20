@@ -2,7 +2,7 @@
 
 namespace Famoser\Elliptic\Math;
 
-use Famoser\Elliptic\Math\Math\TwistedMathTrait;
+use Famoser\Elliptic\Math\Traits\TwistedMathTrait;
 use Famoser\Elliptic\Math\Twister\QuadraticTwister;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;

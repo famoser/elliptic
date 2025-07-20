@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Math\Math;
+namespace Famoser\Elliptic\Math\Traits;
 
 use Famoser\Elliptic\Primitives\Point;
 

@@ -5,7 +5,7 @@ namespace Famoser\Elliptic\Math;
 use Famoser\Elliptic\Math\Calculator\ED_ANeg1_Calculator;
 use Famoser\Elliptic\Math\Calculator\SW_ANeg3_Calculator;
 use Famoser\Elliptic\Math\Calculator\TwED_ANeg1_Calculator;
-use Famoser\Elliptic\Math\Math\NativeMathTrait;
+use Famoser\Elliptic\Math\Traits\NativeMathTrait;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 
