@@ -44,10 +44,11 @@ trait ED_ANeg1_Extended_Adder
         $E = $this->field->mul($d, $this->field->mul($C, $D));
         $F = $this->field->sub($B, $E);
         $G = $this->field->add($B, $E);
-        $X31 = $this->field->add($X1, $Y1);
-        $X32 = $this->field->add($X2, $Y2);
-        $X33 = $this->field->sub($this->field->sub($this->field->mul($X31, $X32), $C), $D);
-        $X3 = $this->field->mul($A, $this->field->mul($F, $X33));
+        $H1 = $this->field->add($X1, $Y1);
+        $H2 = $this->field->add($X2, $Y2);
+        $H = $this->field->mul($H1, $H2);
+        $X31 = $this->field->sub($this->field->sub($H, $C), $D);
+        $X3 = $this->field->mul($A, $this->field->mul($F, $X31));
         $Y31 = $this->field->sub($D, $C);
         $Y3 = $this->field->mul($A, $this->field->mul($G, $Y31));
         $Z3 = $this->field->mul($F, $G);
