@@ -3,22 +3,22 @@
 namespace Famoser\Elliptic\Math\Calculator;
 
 use Famoser\Elliptic\Math\Calculator\Adder\ED_ANeg1_Extended_Adder;
-use Famoser\Elliptic\Math\Calculator\Coordinator\JacobiCoordinator;
+use Famoser\Elliptic\Math\Calculator\Coordinator\ProjectiveCoordinator;
 use Famoser\Elliptic\Math\Calculator\Multiplicator\DoubleAndAddAlwaysMultiplicator;
-use Famoser\Elliptic\Math\Calculator\Swapper\JacobiSwapper;
-use Famoser\Elliptic\Math\Primitives\JacobiPoint;
+use Famoser\Elliptic\Math\Calculator\Swapper\ProjectiveSwapper;
+use Famoser\Elliptic\Math\Primitives\ProjectiveCoordinates;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
 
 /**
- * Calculator for twisted edwards curves with A = -1 mod p
+ * Calculator for edwards curves with A = -1 mod p
  */
 class ED_ANeg1_Calculator extends AbstractCalculator
 {
-    use JacobiCoordinator;
+    use ProjectiveCoordinator;
     use ED_ANeg1_Extended_Adder;
-    use JacobiSwapper;
-    /** @use DoubleAndAddAlwaysMultiplicator<JacobiPoint> */
+    use ProjectiveSwapper;
+    /** @use DoubleAndAddAlwaysMultiplicator<ProjectiveCoordinates> */
     use DoubleAndAddAlwaysMultiplicator;
 
     public function __construct(Curve $curve)

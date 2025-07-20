@@ -1,0 +1,39 @@
+<?php
+
+namespace Famoser\Elliptic\Math\Calculator\Coordinator;
+
+use Famoser\Elliptic\Math\Primitives\JacobiPoint;
+use Famoser\Elliptic\Math\Primitives\ProjectiveCoordinates;
+use Famoser\Elliptic\Primitives\Point;
+
+/**
+ * Projective coordinates (X,Y,Z) chosen such that affine coordinates (x=X/Z, y=Y/Z).
+ */
+trait ProjectiveCoordinator
+{
+    public function affineToNative(Point $point): ProjectiveCoordinates
+    {
+        // for Z = 1, it holds that X = x and Y = y
+        return new ProjectiveCoordinates($point->x, $point->y, gmp_init(1));
+    }
+
+    public function nativeToAffine(ProjectiveCoordinates $nativePoint): Point
+    {
+        // to get x, need to calculate X/Z; same for y
+        $zInverse = $this->field->invert($nativePoint->Z);
+
+        // crafted inputs might be able to reach non-invertible Zs
+        // we return the point at infinity for these cases
+        $zInverse = $zInverse === false ? gmp_init(0) : $zInverse;
+
+        $x = $this->field->mul($nativePoint->X, $zInverse);
+        $y = $this->field->mul($nativePoint->Y, $zInverse);
+
+        return new Point($x, $y);
+    }
+
+    public function getInfinity(): ProjectiveCoordinates
+    {
+        return ProjectiveCoordinates::createInfinity();
+    }
+}
