@@ -2,7 +2,7 @@
 
 namespace Famoser\Elliptic\Math;
 
-use Famoser\Elliptic\Math\Math\BirationalMathTrait;
+use Famoser\Elliptic\Math\Traits\BirationalMathTrait;
 use Famoser\Elliptic\Primitives\BirationalMap;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
