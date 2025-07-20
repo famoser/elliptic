@@ -47,8 +47,12 @@ class MathConsistencyTest extends TestCase
             [BrainpoolCurveFactory::p512r1(), BrainpoolCurveFactory::p512r1TwistToP512t1()],
         ];
 
-        $bernsteinCurves = [
+        $bernsteinTwistedCurves = [
             [BernsteinCurveFactory::curve25519(), BernsteinCurveFactory::curve25519ToEdwards25519(), BernsteinCurveFactory::edwards25519()]
+        ];
+
+        $bernsteinCurves = [
+            [BernsteinCurveFactory::curve448(), BernsteinCurveFactory::curve448ToEdwards(), BernsteinCurveFactory::curve448Edwards()]
         ];
 
         $testsets = [];
@@ -59,8 +63,12 @@ class MathConsistencyTest extends TestCase
             $math = new SW_QT_ANeg3_Math(...$curveAndTwist);
             $testsets[] = [$math, new SWUnsafeMath($math->getCurve())];
         }
-        foreach ($bernsteinCurves as $curveAndMapping) {
+        foreach ($bernsteinTwistedCurves as $curveAndMapping) {
             $math = new MG_TwED_Math(...$curveAndMapping);
+            $testsets[] = [$math, new MGUnsafeMath($math->getCurve())];
+        }
+        foreach ($bernsteinCurves as $curveAndMapping) {
+            $math = new MG_ED_Math(...$curveAndMapping);
             $testsets[] = [$math, new MGUnsafeMath($math->getCurve())];
         }
 
