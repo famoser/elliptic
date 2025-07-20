@@ -4,9 +4,7 @@
 
 namespace Famoser\Elliptic\Math\Calculator\Adder;
 
-use Famoser\Elliptic\Math\Primitives\ExtendedCoordinates;
-use Famoser\Elliptic\Math\Primitives\JacobiPoint;
-use Famoser\Elliptic\Primitives\Point;
+use Famoser\Elliptic\Math\Primitives\ProjectiveCoordinates;
 
 /**
  * Assumes Untwisted Edwards curve with a=-1
@@ -26,7 +24,7 @@ trait ED_ANeg1_Extended_Adder
      * Equivalent to algorithm at the end of page 9 in https://eprint.iacr.org/2007/286.pdf
      * Cost: 10M + 1S + 1*d + 6add (for M multiplication, S squaring, d multiplication by d, add additions)
      */
-    public function add(JacobiPoint $a, JacobiPoint $b): JacobiPoint
+    public function add(ProjectiveCoordinates $a, ProjectiveCoordinates $b): ProjectiveCoordinates
     {
         $X1 = $a->X;
         $Y1 = $a->Y;
@@ -53,7 +51,7 @@ trait ED_ANeg1_Extended_Adder
         $Y3 = $this->field->mul($A, $this->field->mul($G, $Y31));
         $Z3 = $this->field->mul($F, $G);
 
-        return new JacobiPoint($X3, $Y3, $Z3);
+        return new ProjectiveCoordinates($X3, $Y3, $Z3);
     }
 
     /***
@@ -62,7 +60,7 @@ trait ED_ANeg1_Extended_Adder
      * Equivalent to https://eprint.iacr.org/2007/286.pdf first half of page 10 (doubling)
      * Cost: 3M + 4S + 5add + 1*2 (for M multiplication, S square, m2 multiplication by 2, add additions/subtractions)
      */
-    public function double(JacobiPoint $a): JacobiPoint
+    public function double(ProjectiveCoordinates $a): ProjectiveCoordinates
     {
         $X1 = $a->X;
         $Y1 = $a->Y;
@@ -81,6 +79,6 @@ trait ED_ANeg1_Extended_Adder
         $Y3 = $this->field->mul($E, $Y31);
         $Z3 = $this->field->mul($E, $J);
 
-        return new JacobiPoint($X3, $Y3, $Z3);
+        return new ProjectiveCoordinates($X3, $Y3, $Z3);
     }
 }
