@@ -14,7 +14,7 @@ trait DiffieHellmanTrait
         $sharedSecret = $math->mul($publicKey, $private);
 
         // check shared secret as expected
-        $this->assertEquals($expectedShared, $sharedSecret->x);
+        $this->assertTrue(gmp_cmp($expectedShared, $sharedSecret->x) === 0);
 
         // check congruent with Wyche proof expectation
         $this->assertNotEquals($result, WycheProofConstants::RESULT_INVALID);
