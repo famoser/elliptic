@@ -128,4 +128,79 @@ class BernsteinCurveFactory
 
         return new Curve(CurveType::Montgomery, $p, $a, $b, $P, $order, $cofactor);
     }
+
+    public static function curve448ToEdwards(): BirationalMap
+    {
+        $p = gmp_init('FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFE FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF', 16);
+        $field = new PrimeField($p);
+
+        // sqrt(156324)
+        // - calculated using sage: sqrt(GF(2^448-2^224-1)(156324), all=True)
+        // - then chosen the first value as it correctly converts the base points
+        $squareRootOf15634 = gmp_init('45B2C5F7 D649EED0 77ED1AE4 5F44D541 43E34F71 4B71AA96 C945AF01 2D182975 0734CDE9 FADDBDA4 C066F7ED 54419CA5 2C85DE1E 8AAE4E6C', 16);
+
+        // (x, y) = (sqrt(156324)*u/v, (1+u)/(1-u))
+        $map = static function (Point $point) use ($field, $squareRootOf15634) {
+            $x = $field->mul(
+                $field->mul($squareRootOf15634, $point->x),
+                /** @phpstan-ignore-next-line */
+                $field->invert($point->y)
+            );
+            $y = $field->mul(
+                $field->add(gmp_init(1), $point->x),
+                /** @phpstan-ignore-next-line */
+                $field->invert(
+                    $field->sub(gmp_init(1), $point->x)
+                )
+            );
+
+            return new Point($x, $y);
+        };
+
+        // (u, v) = ((y-1)/(y+1), sqrt(156324)*u/x)
+        $reverse = static function (Point $point) use ($field, $squareRootOf15634) {
+            $u = $field->mul(
+                $field->sub($point->y, gmp_init(1)),
+                /** @phpstan-ignore-next-line */
+                $field->invert(
+                    $field->add($point->y, gmp_init(1))
+                )
+            );
+
+            $v = $field->mul(
+                $field->mul($squareRootOf15634, $u),
+                /** @phpstan-ignore-next-line */
+                $field->invert($point->x)
+            );
+
+            return new Point($u, $v);
+        };
+
+        return new BirationalMap($map, $reverse);
+    }
+
+    public static function curve448Edwards(): Curve
+    {
+        // p = 2^448 - 2^224 - 1
+        $p = gmp_init('FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFE FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF', 16);
+        // a = -1 mod p
+        $a = gmp_init('FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFE FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFE', 16);
+        $d = gmp_init('611975850744529176160423220965553317543219696871016626328968936415
+      087860042636474891785599283666020414768678979989378147065462815545
+      017', 10);
+
+        $x = gmp_init('345397493039729516374008604150537410266655260075183290216406970
+      281645695073672344430481787759340633221708391583424041788924124567
+      700732');
+        $y = gmp_init('363419362147803445274661903944002267176820680343659030140745099
+      590306164083365386343198191849338272965044442230921818680526749009
+      182718', 10);
+        $P = new Point($x, $y);
+
+        // order = 2^446 - 0x8335dc163bb124b65129c96fde933d8d723a70aadc873d6d54a7bb0d
+        $order = gmp_init('3FFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF 7CCA23E9 C44EDB49 AED63690 216CC272 8DC58F55 2378C292 AB5844F3', 16);
+        $cofactor = gmp_init(4);
+
+        return new Curve(CurveType::Edwards, $p, $a, $d, $P, $order, $cofactor);
+    }
 }
