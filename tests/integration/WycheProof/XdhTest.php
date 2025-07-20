@@ -91,4 +91,41 @@ class XdhTest extends TestCase
 
         $this->assertDHCorrect($math, $publicPoint, $decodedPrivate, $decodedShared, $result);
     }
+
+    public static function provideCurve448(): array
+    {
+        return FixturesRepository::createFilteredXdhFixtures('x448');
+    }
+
+    /**
+     * @dataProvider provideCurve448
+     */
+    public function testCurve448Edwards(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
+    {
+        if (in_array(WycheProofConstants::FLAG_TWIST, $flags, true)) {
+            $this->markTestSkipped("Public key on twist; not supported.");
+        }
+        if (
+            in_array($public, ['0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000', '0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080', '0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080', 'fefffffffffffffffffffffffffffffffffffffffffffffffffffffffeffffffffffffffffffffffffffffffffffffffffffffffffffff7f', 'fffffffffffffffffffffffffffffffffffffffffffffffffffffffffeffffffffffffffffffffffffffffffffffffffffffffffffffffff', 'fefffffffffffffffffffffffffffffffffffffffffffffffffffffffdffffffffffffffffffffffffffffffffffffffffffffffffffffff01', '00000000000000000000000000000000000000000000000000000000feffffffffffffffffffffffffffffffffffffffffffffffffffffff01', '010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001', 'fefffffffffffffffffffffffffffffffffffffffffffffffffffffffeffffffffffffffffffffffffffffffffffffffffffffffffffffff'], true)
+            && $result !== WycheProofConstants::RESULT_VALID
+        ) {
+            $this->markTestSkipped("Cannot recover y coordinate of point (Jacobi symbol of alpha = -1).");
+        }
+
+        $curve = BernsteinCurveFactory::curve448();
+        $map = BernsteinCurveFactory::curve448ToEdwards();
+        $targetCurve = BernsteinCurveFactory::curve448Edwards();
+        $math = new MG_ED_Math($curve, $map, $targetCurve);
+
+        $encoder = new RFC7784Decoder();
+        $publicU = $encoder->decodeUCoordinate($public, 448);
+
+        $pointDecoder = new MGPointDecoder($curve);
+        $publicPoint = $pointDecoder->fromXCoordinate($publicU, true);
+
+        $decodedPrivate = $encoder->decodeScalar448($private);
+        $decodedShared = $encoder->decodeScalar448($shared);
+
+        $this->assertDHCorrect($math, $publicPoint, $decodedPrivate, $decodedShared, $result);
+    }
 }
