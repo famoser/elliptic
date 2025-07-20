@@ -23,7 +23,7 @@ trait PMod43RecoveryTrait
     protected function recoverXForPMod43(\GMP $x): \GMP
     {
         $p = $this->curve->getP();
-        $alpha = $this->calculateRightSide($x);
+        $alpha = $this->calculateAlpha($x);
 
         $jacobiSymbol = gmp_jacobi($alpha, $p);
         if ($jacobiSymbol !== 1) {

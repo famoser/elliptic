@@ -43,4 +43,12 @@ class SWPointDecoder implements SECPointDecoderInterface
             $this->curve->getB()
         );
     }
+
+    /**
+     * calculate x^3 + ax + b
+     */
+    private function calculateAlpha(\GMP $x): \GMP
+    {
+        return $this->calculateRightSide($x);
+    }
 }
