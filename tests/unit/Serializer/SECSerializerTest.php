@@ -21,7 +21,7 @@ class SECSerializerTest extends TestCase
         $serializedPoint = $serializer->serialize($expectedPoint);
         $actualPoint = $serializer->deserialize($serializedPoint);
 
-        $this->assertEquals($expectedPoint, $actualPoint);
+        $this->assertTrue($expectedPoint->equals($actualPoint));
     }
 
     public function testUncompressedPoint(): void
@@ -34,7 +34,7 @@ class SECSerializerTest extends TestCase
         $serializedPoint = $serializer->serialize($expectedPoint);
         $actualPoint = $serializer->deserialize($serializedPoint);
 
-        $this->assertEquals($expectedPoint, $actualPoint);
+        $this->assertTrue($expectedPoint->equals($actualPoint));
     }
 
     public function testInfinityPoint(): void
@@ -47,6 +47,6 @@ class SECSerializerTest extends TestCase
         $serializedPoint = $serializer->serialize($infinity);
         $actualPoint = $serializer->deserialize($serializedPoint);
 
-        $this->assertEquals($infinity, $actualPoint);
+        $this->assertTrue($actualPoint->equals($infinity));
     }
 }
