@@ -17,8 +17,8 @@ class RFC7784DecoderTest extends TestCase
         $expectedU1 = gmp_init('34426434033919594451155107781188821651
      316167215306631574996226621102155684838', 10);
         $encoder = new RFC7784Decoder();
-        $this->assertTrue(gmp_cmp($encoder->decodeScalar25519($scalarHex1), $expectedScalar1) === 0);
-        $this->assertTrue(gmp_cmp($encoder->decodeUCoordinate($uHex1, 255), $expectedU1) === 0);
+        $this->assertEquals(0, gmp_cmp($encoder->decodeScalar25519($scalarHex1), $expectedScalar1));
+        $this->assertEquals(0, gmp_cmp($encoder->decodeUCoordinate($uHex1, 255), $expectedU1));
 
         // values from https://datatracker.ietf.org/doc/html/rfc7748#section-5.2 (X25519, 2/2)
         $scalarHex2 = '4b66e9d4d1b4673c5ad22691957d6af5c11b6421e0ea01d42ca4169e7918ba0d';
@@ -28,8 +28,8 @@ class RFC7784DecoderTest extends TestCase
         $expectedU2 = gmp_init('88838573511839298940907593866106493194
      17338800022198945255395922347792736741', 10);
         $encoder = new RFC7784Decoder();
-        $this->assertTrue(gmp_cmp($encoder->decodeScalar25519($scalarHex2), $expectedScalar2) === 0);
-        $this->assertTrue(gmp_cmp($encoder->decodeUCoordinate($uHex2, 255), $expectedU2) === 0);
+        $this->assertEquals(0, gmp_cmp($encoder->decodeScalar25519($scalarHex2), $expectedScalar2));
+        $this->assertEquals(0, gmp_cmp($encoder->decodeUCoordinate($uHex2, 255), $expectedU2));
     }
 
     public function test25519Encode(): void
@@ -58,8 +58,8 @@ class RFC7784DecoderTest extends TestCase
      240571325148346555922438025162094455820962429
      142971339584360034337310079791515452463053830', 10);
         $encoder = new RFC7784Decoder();
-        $this->assertTrue(gmp_cmp($encoder->decodeScalar448($scalarHex1), $expectedScalar1) === 0);
-        $this->assertTrue(gmp_cmp($encoder->decodeUCoordinate($uHex1, 448), $expectedU1) === 0);
+        $this->assertEquals(0, gmp_cmp($encoder->decodeScalar448($scalarHex1), $expectedScalar1));
+        $this->assertEquals(0, gmp_cmp($encoder->decodeUCoordinate($uHex1, 448), $expectedU1));
 
         // values from https://datatracker.ietf.org/doc/html/rfc7748#section-5.2 (X448, 2/2)
         $scalarHex2 = '203d494428b8399352665ddca42f9de8fef600908e0d461cb021f8c5
@@ -73,8 +73,8 @@ class RFC7784DecoderTest extends TestCase
      024811299761625153767228042600197997696167956
      134770744996690267634159427999832340166786063', 10);
         $encoder = new RFC7784Decoder();
-        $this->assertTrue(gmp_cmp($encoder->decodeScalar448($scalarHex2), $expectedScalar2) === 0);
-        $this->assertTrue(gmp_cmp($encoder->decodeUCoordinate($uHex2, 448), $expectedU2) === 0);
+        $this->assertEquals(0, gmp_cmp($encoder->decodeScalar448($scalarHex2), $expectedScalar2));
+        $this->assertEquals(0, gmp_cmp($encoder->decodeUCoordinate($uHex2, 448), $expectedU2));
     }
 
     public function test448Encode(): void
