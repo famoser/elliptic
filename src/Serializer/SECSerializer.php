@@ -70,7 +70,7 @@ class SECSerializer
     {
         $x = str_pad(gmp_strval($point->x, 16), $this->pointOctetLength * 2, '0', STR_PAD_LEFT);
 
-        $isEven = gmp_cmp(gmp_mod($point->y, 2), 0);
+        $isEven = gmp_cmp(gmp_mod($point->y, 2), 0) === 0;
         $prefix = $isEven ? '02' : '03';
 
         return $prefix . $x;
