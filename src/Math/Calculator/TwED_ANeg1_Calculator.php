@@ -2,15 +2,11 @@
 
 namespace Famoser\Elliptic\Math\Calculator;
 
-use Famoser\Elliptic\Math\Calculator\Adder\SW_ANeg3_Jacobi_Adder;
 use Famoser\Elliptic\Math\Calculator\Adder\TwED_ANeg1_Extended_Adder;
 use Famoser\Elliptic\Math\Calculator\Coordinator\ExtendedCoordinator;
-use Famoser\Elliptic\Math\Calculator\Coordinator\JacobiCoordinator;
 use Famoser\Elliptic\Math\Calculator\Multiplicator\DoubleAndAddAlwaysMultiplicator;
 use Famoser\Elliptic\Math\Calculator\Swapper\ExtendedSwapper;
-use Famoser\Elliptic\Math\Calculator\Swapper\JacobiSwapper;
 use Famoser\Elliptic\Math\Primitives\ExtendedCoordinates;
-use Famoser\Elliptic\Math\Primitives\JacobiPoint;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
 

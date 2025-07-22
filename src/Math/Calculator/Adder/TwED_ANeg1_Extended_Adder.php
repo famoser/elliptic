@@ -5,8 +5,6 @@
 namespace Famoser\Elliptic\Math\Calculator\Adder;
 
 use Famoser\Elliptic\Math\Primitives\ExtendedCoordinates;
-use Famoser\Elliptic\Math\Primitives\JacobiPoint;
-use Famoser\Elliptic\Primitives\Point;
 
 /**
  * Assumes Twisted Edwards curve with a=-1

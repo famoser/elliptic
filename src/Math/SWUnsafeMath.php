@@ -5,7 +5,6 @@ namespace Famoser\Elliptic\Math;
 use Famoser\Elliptic\Math\Calculator\SWUnsafeCalculator;
 use Famoser\Elliptic\Math\Traits\MathTrait;
 use Famoser\Elliptic\Primitives\Curve;
-use Famoser\Elliptic\Primitives\Point;
 
 /**
  * Supports all Short Weierstrass curves by implementing their default calculation rules.

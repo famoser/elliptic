@@ -2,8 +2,8 @@
 
 namespace Famoser\Elliptic\Tests\Math;
 
-use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
+use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\MG_ED_Math;

@@ -3,7 +3,6 @@
 namespace Famoser\Elliptic\Tests\Math;
 
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
-use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
