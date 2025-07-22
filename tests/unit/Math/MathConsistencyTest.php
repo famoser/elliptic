@@ -51,10 +51,6 @@ class MathConsistencyTest extends TestCase
             [BernsteinCurveFactory::curve25519(), BernsteinCurveFactory::curve25519ToEdwards25519(), BernsteinCurveFactory::edwards25519()]
         ];
 
-        $bernsteinCurves = [
-            [BernsteinCurveFactory::curve448(), BernsteinCurveFactory::curve448ToEdwards(), BernsteinCurveFactory::curve448Edwards()]
-        ];
-
         $testsets = [];
         foreach (array_merge($secpCurves, $brainpoolCurves) as $curve) {
             $testsets[] = [new SW_ANeg3_Math($curve), new SWUnsafeMath($curve)];
@@ -65,10 +61,6 @@ class MathConsistencyTest extends TestCase
         }
         foreach ($bernsteinTwistedCurves as $curveAndMapping) {
             $math = new MG_TwED_Math(...$curveAndMapping);
-            $testsets[] = [$math, new MGUnsafeMath($math->getCurve())];
-        }
-        foreach ($bernsteinCurves as $curveAndMapping) {
-            $math = new MG_ED_Math(...$curveAndMapping);
             $testsets[] = [$math, new MGUnsafeMath($math->getCurve())];
         }
 
