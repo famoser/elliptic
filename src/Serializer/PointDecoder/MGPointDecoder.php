@@ -4,10 +4,8 @@ namespace Famoser\Elliptic\Serializer\PointDecoder;
 
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
-use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromCoordinatesTrait;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromXCoordinateTrait;
-use Famoser\Elliptic\Serializer\PointDecoder\Traits\PMod85RecoveryTrait;
 use Famoser\Elliptic\Serializer\SEC\SECPointDecoderInterface;
 
 class MGPointDecoder implements SECPointDecoderInterface
@@ -58,6 +56,10 @@ class MGPointDecoder implements SECPointDecoderInterface
     private function calculateAlpha(\GMP $x): \GMP
     {
         $right = $this->calculateRightSide($x);
-        return gmp_mul($right, gmp_invert($this->curve->getB(), $this->curve->getP()));
+        return gmp_mul(
+            $right,
+            /** @phpstan-ignore-next-line */
+            gmp_invert($this->curve->getB(), $this->curve->getP())
+        );
     }
 }

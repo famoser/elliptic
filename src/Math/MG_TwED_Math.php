@@ -5,7 +5,6 @@ namespace Famoser\Elliptic\Math;
 use Famoser\Elliptic\Math\Traits\BirationalMathTrait;
 use Famoser\Elliptic\Primitives\BirationalMap;
 use Famoser\Elliptic\Primitives\Curve;
-use Famoser\Elliptic\Primitives\Point;
 
 /**
  * Assumes a montgomery curve with a birational map to a twisted edwards curve a=-1.

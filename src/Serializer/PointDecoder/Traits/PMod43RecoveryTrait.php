@@ -2,7 +2,6 @@
 
 namespace Famoser\Elliptic\Serializer\PointDecoder\Traits;
 
-use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
 
 trait PMod43RecoveryTrait
