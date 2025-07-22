@@ -24,7 +24,7 @@ trait FromXCoordinateTrait
         $pMod4 = gmp_mod($pMod8, 4);
         if (gmp_cmp($pMod4, 3) === 0) {
             if ($isEvenY === null) {
-                throw new PointDecoderException('Point decoding for p mod 4 = 3 needs isEventY to be defined.');
+                throw new PointDecoderException('Point decoding for p mod 4 = 3 needs isEvenY to be defined.');
             }
 
             $beta = $this->recoverXForPMod43($x);
@@ -37,6 +37,6 @@ trait FromXCoordinateTrait
             }
         }
 
-        throw new PointDecoderException('Point decoding implemented only for p mod 8 = 5 or p mod 4 = 3. No implementation of the general Tonelli-Shanks algorithm is done as part of this library.');
+        throw new PointDecoderException('No general point decoding implemented (e.g. via Tonelli-Shanks), only for special cases p mod 8 = 5 and p mod 4 = 3.');
     }
 }
