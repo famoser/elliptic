@@ -21,6 +21,7 @@ class WycheProofConstants
     public const FLAG_WRONG_ORDER = 'WrongOrder';
 
     public const FLAG_TWIST = 'Twist';
+    public const FLAG_ZERO_SHARED_SECRET = 'ZeroSharedSecret';
 
     public const POINT_DECODING_FAIL_COMMENT_WHITELIST = [
         'public point not on curve',
