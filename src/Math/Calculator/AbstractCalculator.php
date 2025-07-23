@@ -13,6 +13,6 @@ abstract class AbstractCalculator
     public function __construct(protected readonly Curve $curve)
     {
         $this->field = new PrimeField($curve->getP());
-        $this->nField = new PrimeField($curve->getN());
+        $this->nField = new PrimeField(gmp_mul($curve->getN(), $curve->getH()));
     }
 }

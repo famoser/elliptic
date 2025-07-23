@@ -49,18 +49,13 @@ class XdhTest extends TestCase
         if (in_array(WycheProofConstants::FLAG_TWIST, $flags, true)) {
             $this->markTestSkipped("Public key on twist; not supported.");
         }
-        if (in_array(WycheProofConstants::FLAG_ZERO_SHARED_SECRET, $flags, true)) {
-            $this->markTestSkipped("Different behaviors of math for zero shared secret.");
-        }
-        if ($private === 'a023cdd083ef5bb82f10d62e59e15a6800000000000000000000000000000050') {
-            $this->markTestSkipped("Different behaviors of math for private == -1 mod N.");
-        }
 
         $curve = BernsteinCurveFactory::curve25519();
         $map = BernsteinCurveFactory::curve25519ToEdwards25519();
         $targetCurve = BernsteinCurveFactory::edwards25519();
         $math = new MG_TwED_Math($curve, $map, $targetCurve);
         $unsafeMath = new MGUnsafeMath($curve);
+        $rfcMath = new MGXCalculator($curve);
 
         $encoder = new RFC7784Decoder();
         $publicU = $encoder->decodeUCoordinate($public, 255);
@@ -81,7 +76,9 @@ class XdhTest extends TestCase
             return;
         }
 
-        $this->assertTrue($sharedSecret->equals($sharedSecretBaseline));
+        $rfc = $rfcMath->mul($publicPoint->x, $decodedPrivate);
+        $this->assertEquals(0, gmp_cmp($rfc, $sharedSecretBaseline->x));
+        $this->assertTrue($sharedSecretBaseline->equals($sharedSecret));
     }
 
     public static function provideCurve448(): array
