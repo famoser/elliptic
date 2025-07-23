@@ -14,7 +14,7 @@ trait DoubleAndAddAlwaysMultiplicator
      */
     public function mul(mixed $point, \GMP $factor): mixed
     {
-        // reduce factor once to ensure it is within our curve N bit size (and reduce computational effort)
+        // reduce factor by order size
         $reducedFactor = $this->nField->mod($factor);
 
         // normalize to the element bit length to always execute the double-add loop a constant number of times
