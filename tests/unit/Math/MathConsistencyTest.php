@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 
 class MathConsistencyTest extends TestCase
 {
-    public static function mathToCompareTo(): array
+    public static function maths(): array
     {
         $secpCurves = [
             SEC2CurveFactory::secp192r1(),
@@ -47,123 +47,68 @@ class MathConsistencyTest extends TestCase
             [BrainpoolCurveFactory::p512r1(), BrainpoolCurveFactory::p512r1TwistToP512t1()],
         ];
 
-        $bernsteinTwistedCurves = [
+        $bernsteinTwistedEDCurves = [
             [BernsteinCurveFactory::curve25519(), BernsteinCurveFactory::curve25519ToEdwards25519(), BernsteinCurveFactory::edwards25519()]
+        ];
+
+        $bernsteinEDCurves = [
+            [BernsteinCurveFactory::curve448(), BernsteinCurveFactory::curve448ToEdwards(), BernsteinCurveFactory::curve448Edwards()]
         ];
 
         $testsets = [];
         foreach (array_merge($secpCurves, $brainpoolCurves) as $curve) {
-            $testsets[] = [new SW_ANeg3_Math($curve), new SWUnsafeMath($curve)];
+            $testsets[] = [new SW_ANeg3_Math($curve)];
+            $testsets[] = [new SWUnsafeMath($curve)];
         }
         foreach ($brainpoolTwistedCurves as $curveAndTwist) {
-            $math = new SW_QT_ANeg3_Math(...$curveAndTwist);
-            $testsets[] = [$math, new SWUnsafeMath($math->getCurve())];
+            $testsets[] = [new SW_QT_ANeg3_Math(...$curveAndTwist)];
+            $testsets[] = [new SWUnsafeMath($curveAndTwist[0])];
         }
-        foreach ($bernsteinTwistedCurves as $curveAndMapping) {
-            $math = new MG_TwED_Math(...$curveAndMapping);
-            $testsets[] = [$math, new MGUnsafeMath($math->getCurve())];
+        foreach ($bernsteinTwistedEDCurves as $curveAndMapping) {
+            $testsets[] = [new MG_TwED_Math(...$curveAndMapping)];
+            $testsets[] = [new MGUnsafeMath($curveAndMapping[0])];
+        }
+        foreach ($bernsteinEDCurves as $curveAndMapping) {
+            $testsets[] = [new MG_ED_Math(...$curveAndMapping)];
+            $testsets[] = [new MGUnsafeMath($curveAndMapping[0])];
         }
 
         return $testsets;
     }
 
     /**
-     * @dataProvider mathToCompareTo
+     * @dataProvider maths
      */
-    public function testAdd(MathInterface $math, MathInterface $groundTruth): void
+    public function testAddAndDoubleConsistency(MathInterface $math): void
     {
         $curve = $math->getCurve();
 
-        $expected = $groundTruth->add($curve->getG(), $curve->getG());
-        $actual = $math->add($curve->getG(), $curve->getG());
+        $addDouble = $math->add($curve->getG(), $curve->getG());
+        $doubleDouble = $math->double($curve->getG());
+        $this->assertTrue($addDouble->equals($doubleDouble));
 
+        $actual = $math->double($addDouble);
+        $expected = $math->add($doubleDouble, $doubleDouble);
         $this->assertObjectEquals($expected, $actual);
     }
 
     /**
-     * @dataProvider mathToCompareTo
-     */
-    public function testAddInfinity(MathInterface $math, MathInterface $groundTruth): void
-    {
-        $this->markTestSkipped("Adding the point at infinity is undefined behavior; and as it turns out not all calculators handle the case equally.");
-
-        /** @phpstan-ignore deadCode.unreachable */
-        $curve = $math->getCurve();
-
-        $expected = $groundTruth->add($curve->getG(), Point::createInfinity());
-        $actual = $math->add($curve->getG(), Point::createInfinity());
-
-        $this->assertObjectEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider mathToCompareTo
-     */
-    public function testDouble(MathInterface $math, MathInterface $groundTruth): void
-    {
-        $curve = $math->getCurve();
-
-        $expected = $groundTruth->double($curve->getG());
-        $actual = $math->double($curve->getG());
-
-        $this->assertObjectEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider mathToCompareTo
-     */
-    public function testDoubleEqualsAddSelf(MathInterface $math): void
-    {
-        $curve = $math->getCurve();
-
-        $expected = $math->add($curve->getG(), $curve->getG());
-        $actual = $math->double($curve->getG());
-
-        $this->assertObjectEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider mathToCompareTo
-     */
-    public function testMulG(MathInterface $math, MathInterface $groundTruth): void
-    {
-        $factor = gmp_init(5);
-        $expected = $groundTruth->mulG($factor);
-        $actual = $math->mulG($factor);
-
-        $this->assertObjectEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider mathToCompareTo
+     * @dataProvider maths
      */
     public function testMulGEqualsMul(MathInterface $math): void
     {
         $curve = $math->getCurve();
 
-        $factor = gmp_init(5);
-        $expected = $math->mul($curve->getG(), $factor);
-        $actual = $math->mulG($factor);
-
-        $this->assertObjectEquals($expected, $actual);
+        for ($i = 1; $i < 5; $i++) {
+            $factor = gmp_init($i);
+            $expected = $math->mul($curve->getG(), $factor);
+            $actual = $math->mulG($factor);
+            $this->assertObjectEquals($expected, $actual);
+        }
     }
 
     /**
-     * @dataProvider mathToCompareTo
-     */
-    public function testMulSameResult(MathInterface $math, MathInterface $groundTruth): void
-    {
-        $curve = $math->getCurve();
-
-        $factor = gmp_init(5);
-        $expected = $groundTruth->mul($curve->getG(), $factor);
-        $actual = $math->mul($curve->getG(), $factor);
-
-        $this->assertObjectEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider mathToCompareTo
+     * @dataProvider maths
      */
     public function testMulEqualsDoubleAdd(MathInterface $math): void
     {
@@ -178,5 +123,37 @@ class MathConsistencyTest extends TestCase
         $actual = $math->mul($curve->getG(), $factor);
 
         $this->assertObjectEquals($expected, $actual);
+    }
+
+    /**
+     * @dataProvider maths
+     */
+    public function testMulCycle(MathInterface $math): void
+    {
+        $curve = $math->getCurve();
+
+        $nhPlusOne = gmp_add(gmp_mul($curve->getN(), $curve->getH()), 1);
+        $actual = $math->mul($curve->getG(), $nhPlusOne);
+        $this->assertObjectEquals($curve->getG(), $actual);
+
+        $nPlusOne = gmp_add($curve->getN(), 1);
+        $actual = $math->mul($curve->getG(), $nPlusOne);
+        $this->assertObjectEquals($curve->getG(), $actual);
+
+        $actual = $math->mul($curve->getG(), $curve->getN());
+        $this->assertObjectEquals(Point::createInfinity(), $actual);
+    }
+
+    /**
+     * @dataProvider maths
+     */
+    public function testInfinity(MathInterface $math): void
+    {
+        $curve = $math->getCurve();
+
+        $orderMinusOne = gmp_sub($curve->getN(), 1);
+        $nMinusOne = $math->mul($curve->getG(), $orderMinusOne);
+        $actual = $math->add($nMinusOne, $curve->getG());
+        $this->assertObjectEquals($actual, Point::createInfinity());
     }
 }
