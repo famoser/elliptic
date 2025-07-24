@@ -3,22 +3,24 @@
 namespace Famoser\Elliptic\Math;
 
 use Famoser\Elliptic\Math\Calculator\EDCalculator;
+use Famoser\Elliptic\Math\Calculator\EDUnsafeCalculator;
+use Famoser\Elliptic\Math\Traits\MathTrait;
 use Famoser\Elliptic\Math\Traits\NativeMathTrait;
 use Famoser\Elliptic\Primitives\Curve;
 
 /**
  * (Untwisted) Edwards math
  */
-class ED_Math extends AbstractMath implements MathInterface
+class EDUnsafeMath extends AbstractMath implements MathInterface
 {
-    use NativeMathTrait;
+    use MathTrait;
 
-    private readonly EDCalculator $calculator;
+    private readonly EDUnsafeCalculator $calculator;
 
     public function __construct(Curve $curve)
     {
         parent::__construct($curve);
 
-        $this->calculator = new EDCalculator($curve);
+        $this->calculator = new EDUnsafeCalculator($curve);
     }
 }
