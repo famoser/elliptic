@@ -59,6 +59,7 @@ class CurveRepository
         'nistp384' => 'secp384r1',
         'NIST P-521' => 'secp521r1',
         'nistp521' => 'secp521r1',
+        'golilocks' => 'edwards448',
     ];
 
     /**
@@ -88,6 +89,11 @@ class CurveRepository
         'brainpoolP384t1' => [BrainpoolCurveFactory::class, 'p384t1'],
         'brainpoolP512r1' => [BrainpoolCurveFactory::class, 'p512r1'],
         'brainpoolP512t1' => [BrainpoolCurveFactory::class, 'p512t1'],
+
+        'curve25519' => [BernsteinCurveFactory::class, 'curve25519'],
+        'curve448' => [BernsteinCurveFactory::class, 'curve448'],
+        'edwards25519' => [BernsteinCurveFactory::class, 'edwards25519'],
+        'edwards448' => [BernsteinCurveFactory::class, 'edwards448'],
     ];
 
     /**
