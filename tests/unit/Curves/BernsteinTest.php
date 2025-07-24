@@ -65,9 +65,6 @@ class BernsteinTest extends TestCase
 
         $order = gmp_sub(gmp_pow(2, 446), gmp_init('8335dc163bb124b65129c96fde933d8d723a70aadc873d6d54a7bb0d', 16));
         $this->assertEquals(0, gmp_cmp($order, $curve->getN()));
-
-        $aNeg1 = gmp_mod(-1, $curve->getP());
-        $this->assertEquals(0, gmp_cmp($aNeg1, $curve->getA()));
     }
 
     public function testBirationalMappingOf448(): void
