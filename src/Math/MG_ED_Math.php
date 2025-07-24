@@ -15,12 +15,12 @@ class MG_ED_Math extends AbstractMath implements MathInterface
 {
     use BirationalMathTrait;
 
-    private readonly ED_Math $math;
+    private readonly EDMath $math;
 
     public function __construct(Curve $curve, private readonly BirationalMap $birationalMap, Curve $targetCurve)
     {
         parent::__construct($curve);
 
-        $this->math = new ED_Math($targetCurve);
+        $this->math = new EDMath($targetCurve);
     }
 }

@@ -5,7 +5,7 @@ namespace Famoser\Elliptic\Tests\Math;
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
-use Famoser\Elliptic\Math\ED_Math;
+use Famoser\Elliptic\Math\EDMath;
 use Famoser\Elliptic\Math\EDUnsafeMath;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\MG_ED_Math;
@@ -80,7 +80,7 @@ class MathConsistencyTest extends TestCase
             $testsets[] = [new MGUnsafeMath($curveAndMapping[0])];
         }
         foreach ($edwardsCurves as $curve) {
-            $testsets[] = [new ED_Math($curve)];
+            $testsets[] = [new EDMath($curve)];
             $testsets[] = [new EDUnsafeMath($curve)];
         }
 
