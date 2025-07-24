@@ -67,6 +67,10 @@ class BernsteinCurveFactory
 
         // (u, v) = ((1+y)/(1-y), sqrt(-486664)*u/x)
         $reverse = static function (Point $point) use ($field, $squareRootOfMinus486664) {
+            if (gmp_cmp($point->y, gmp_init(1)) === 0) {
+                return Point::createInfinity();
+            }
+
             $u = $field->mul(
                 $field->add(gmp_init(1), $point->y),
                 /** @phpstan-ignore-next-line */
@@ -159,6 +163,10 @@ class BernsteinCurveFactory
 
         // (u, v) = ((y-1)/(y+1), sqrt(156324)*u/x)
         $reverse = static function (Point $point) use ($field, $squareRootOf15634) {
+            if (gmp_cmp($point->y, gmp_init(1)) === 0) {
+                return Point::createInfinity();
+            }
+
             $u = $field->mul(
                 $field->sub($point->y, gmp_init(1)),
                 /** @phpstan-ignore-next-line */
