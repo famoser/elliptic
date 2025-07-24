@@ -107,7 +107,7 @@ class XdhTest extends TestCase
     /**
      * @dataProvider provideCurve448
      */
-    public function skipTestCurve448MathComparison(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
+    public function testCurve448MathComparison(string $comment, string $public, string $private, string $shared, string $result, array $flags): void
     {
         if (in_array(WycheProofConstants::FLAG_TWIST, $flags, true)) {
             $this->markTestSkipped("Public key on twist; not supported.");
@@ -118,6 +118,7 @@ class XdhTest extends TestCase
         $targetCurve = BernsteinCurveFactory::curve448Edwards();
         $unsafeMath = new MGUnsafeMath($curve);
         $math = new MG_ED_Math($curve, $map, $targetCurve);
+        $rfcMath = new MGXCalculator($curve);
 
         $encoder = new RFC7784Decoder();
         $publicU = $encoder->decodeUCoordinate($public, 448);
@@ -138,6 +139,8 @@ class XdhTest extends TestCase
             return;
         }
 
-        $this->assertTrue($sharedSecret->equals($sharedSecretBaseline));
+        $rfc = $rfcMath->mul($publicPoint->x, $decodedPrivate);
+        $this->assertEquals(0, gmp_cmp($rfc, $sharedSecretBaseline->x));
+        $this->assertTrue($sharedSecretBaseline->equals($sharedSecret));
     }
 }
