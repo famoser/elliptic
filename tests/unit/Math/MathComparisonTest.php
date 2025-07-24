@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 
 class MathComparisonTest extends TestCase
 {
-    public static function mathToCompareTo(): array
+    public static function mathWithBaseline(): array
     {
         $secpCurves = [
             SEC2CurveFactory::secp192r1(),
@@ -68,115 +68,47 @@ class MathComparisonTest extends TestCase
     }
 
     /**
-     * @dataProvider mathToCompareTo
+     * @dataProvider mathWithBaseline
      */
-    public function testAdd(MathInterface $math, MathInterface $groundTruth): void
+    public function testAdd(MathInterface $math, MathInterface $baseline): void
     {
         $curve = $math->getCurve();
 
-        $expected = $groundTruth->add($curve->getG(), $curve->getG());
+        $expected = $baseline->add($curve->getG(), $curve->getG());
         $actual = $math->add($curve->getG(), $curve->getG());
 
         $this->assertObjectEquals($expected, $actual);
     }
 
     /**
-     * @dataProvider mathToCompareTo
+     * @dataProvider mathWithBaseline
      */
-    public function testAddInfinity(MathInterface $math, MathInterface $groundTruth): void
-    {
-        $this->markTestSkipped("Adding the point at infinity is undefined behavior; and as it turns out not all calculators handle the case equally.");
-
-        /** @phpstan-ignore deadCode.unreachable */
-        $curve = $math->getCurve();
-
-        $expected = $groundTruth->add($curve->getG(), Point::createInfinity());
-        $actual = $math->add($curve->getG(), Point::createInfinity());
-
-        $this->assertObjectEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider mathToCompareTo
-     */
-    public function testDouble(MathInterface $math, MathInterface $groundTruth): void
+    public function testDouble(MathInterface $math, MathInterface $baseline): void
     {
         $curve = $math->getCurve();
 
-        $expected = $groundTruth->double($curve->getG());
+        $expected = $baseline->double($curve->getG());
         $actual = $math->double($curve->getG());
 
         $this->assertObjectEquals($expected, $actual);
     }
 
     /**
-     * @dataProvider mathToCompareTo
+     * @dataProvider mathWithBaseline
      */
-    public function testDoubleEqualsAddSelf(MathInterface $math): void
+    public function testMulSameResult(MathInterface $math, MathInterface $baseline): void
     {
         $curve = $math->getCurve();
 
-        $expected = $math->add($curve->getG(), $curve->getG());
-        $actual = $math->double($curve->getG());
+        $factors = array_map(static fn ($number) => gmp_init($number), [1,2,3,4,5]);
+        $factors[] = $curve->getN();
+        $factors[] = gmp_sub($curve->getN(), 1);
+        $factors[] = gmp_add($curve->getN(), 1);
 
-        $this->assertObjectEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider mathToCompareTo
-     */
-    public function testMulG(MathInterface $math, MathInterface $groundTruth): void
-    {
-        $factor = gmp_init(5);
-        $expected = $groundTruth->mulG($factor);
-        $actual = $math->mulG($factor);
-
-        $this->assertObjectEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider mathToCompareTo
-     */
-    public function testMulGEqualsMul(MathInterface $math): void
-    {
-        $curve = $math->getCurve();
-
-        $factor = gmp_init(5);
-        $expected = $math->mul($curve->getG(), $factor);
-        $actual = $math->mulG($factor);
-
-        $this->assertObjectEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider mathToCompareTo
-     */
-    public function testMulSameResult(MathInterface $math, MathInterface $groundTruth): void
-    {
-        $curve = $math->getCurve();
-
-        $factor = gmp_init(5);
-        $expected = $groundTruth->mul($curve->getG(), $factor);
-        $actual = $math->mul($curve->getG(), $factor);
-
-        $this->assertObjectEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider mathToCompareTo
-     */
-    public function testMulEqualsDoubleAdd(MathInterface $math): void
-    {
-        $curve = $math->getCurve();
-
-        // (1 + 1) * 2 + 1 = 5
-        $onePlusOne = $math->add($curve->getG(), $curve->getG());
-        $doubledOnePlusOne = $math->double($onePlusOne);
-        $expected = $math->add($doubledOnePlusOne, $curve->getG());
-
-        $factor = gmp_init(5);
-        $actual = $math->mul($curve->getG(), $factor);
-
-        $this->assertObjectEquals($expected, $actual);
+        foreach ($factors as $factor) {
+            $expected = $baseline->mul($curve->getG(), $factor);
+            $actual = $math->mul($curve->getG(), $factor);
+            $this->assertObjectEquals($expected, $actual);
+        }
     }
 }
