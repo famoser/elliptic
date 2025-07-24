@@ -45,6 +45,7 @@ trait EDUnsafeAdder
                 $this->field->mul($a->x, $b->y),
                 $this->field->mul($a->y, $b->x),
             ),
+            /** @phpstan-ignore-next-line  */
             $this->field->invert(gmp_add(1, $lambda)),
         );
 
@@ -53,6 +54,7 @@ trait EDUnsafeAdder
                 $this->field->mul($a->y, $b->y),
                 $this->field->mul($a->x, $b->x),
             ),
+            /** @phpstan-ignore-next-line  */
             $this->field->invert(gmp_sub(1, $lambda)),
         );
 
@@ -79,6 +81,7 @@ trait EDUnsafeAdder
                 $this->field->mul($a->x, $a->y),
                 $this->field->mul($a->y, $a->x),
             ),
+            /** @phpstan-ignore-next-line  */
             $this->field->invert(gmp_add(1, $lambda)),
         );
 
@@ -87,6 +90,7 @@ trait EDUnsafeAdder
                 $this->field->mul($a->y, $a->y),
                 $this->field->mul($a->x, $a->x),
             ),
+            /** @phpstan-ignore-next-line  */
             $this->field->invert(gmp_sub(1, $lambda)),
         );
 
