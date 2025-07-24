@@ -53,4 +53,6 @@ The results are as follows:
 ## Open Questions
 
 Const time:
-- In the JacobiCoordinator, how to handle a non-invertible Z properly?
+- In the JacobiCoordinator, how to handle a non-invertible Z properly? (and in the bilinear mappings)
+- Reducing factors before montgomery ladder; correct to reduce by N*h?
+- Behaviour around infinity: Is it correct that complete sum formulas cannot handle Y + 0 = Y?
