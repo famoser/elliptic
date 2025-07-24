@@ -19,6 +19,13 @@ class BernsteinCurveFactory
 {
     public static function curve25519(): Curve
     {
+        /**
+         * sage:
+         * F = GF(2^255 - 19)
+         * e = EllipticCurve(F, [0, 486662, 0, 1, 0])
+         * u = e(9, 43114425171068552920764898935933967039370386198203806730763910166200978582548)
+         */
+
         // p = 2^255 - 19
         $p = gmp_init('7FFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFED', 16);
         $a = gmp_init(486662);
@@ -67,16 +74,15 @@ class BernsteinCurveFactory
 
         // (u, v) = ((1+y)/(1-y), sqrt(-486664)*u/x)
         $reverse = static function (Point $point) use ($field, $squareRootOfMinus486664) {
-            if (gmp_cmp($point->y, gmp_init(1)) === 0) {
+            $divisor = $field->sub(gmp_init(1), $point->y);
+            if (gmp_cmp($divisor, gmp_init(0)) === 0) {
                 return Point::createInfinity();
             }
 
             $u = $field->mul(
                 $field->add(gmp_init(1), $point->y),
                 /** @phpstan-ignore-next-line */
-                $field->invert(
-                    $field->sub(gmp_init(1), $point->y)
-                )
+                $field->invert($divisor)
             );
 
             $v = $field->mul(
@@ -115,6 +121,13 @@ class BernsteinCurveFactory
 
     public static function curve448(): Curve
     {
+        /**
+         * sage:
+         * F = GF(2^448 - 2^224 - 1)
+         * e = EllipticCurve(F, [0, 156326, 0, 1, 0])
+         * u = e(5, 355293926785568175264127502063783334808976399387714271831880898435169088786967410002932673765864550910142774147268105838985595290606362)
+         */
+
         // p = 2^448 - 2^224 - 1
         $p = gmp_init('FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFE FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF', 16);
         $a = gmp_init(156326);
@@ -163,16 +176,15 @@ class BernsteinCurveFactory
 
         // (u, v) = ((y-1)/(y+1), sqrt(156324)*u/x)
         $reverse = static function (Point $point) use ($field, $squareRootOf15634) {
-            if (gmp_cmp($point->y, gmp_init(1)) === 0) {
+            $divisor = $field->add($point->y, gmp_init(1));
+            if (gmp_cmp($divisor, gmp_init(0)) === 0) {
                 return Point::createInfinity();
             }
 
             $u = $field->mul(
                 $field->sub($point->y, gmp_init(1)),
                 /** @phpstan-ignore-next-line */
-                $field->invert(
-                    $field->add($point->y, gmp_init(1))
-                )
+                $field->invert($divisor)
             );
 
             $v = $field->mul(
