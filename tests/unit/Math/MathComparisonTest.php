@@ -5,7 +5,7 @@ namespace Famoser\Elliptic\Tests\Math;
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
-use Famoser\Elliptic\Math\ED_Math;
+use Famoser\Elliptic\Math\EDMath;
 use Famoser\Elliptic\Math\EDUnsafeMath;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\MG_ED_Math;
@@ -79,7 +79,7 @@ class MathComparisonTest extends TestCase
             $testsets[] = [$math, new MGUnsafeMath($math->getCurve())];
         }
         foreach ($edwardsCurves as $curve) {
-            $testsets[] = [new ED_Math($curve), new EDUnsafeMath($curve)];
+            $testsets[] = [new EDMath($curve), new EDUnsafeMath($curve)];
         }
 
         return $testsets;
