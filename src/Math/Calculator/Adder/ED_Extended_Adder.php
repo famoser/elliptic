@@ -7,8 +7,8 @@ namespace Famoser\Elliptic\Math\Calculator\Adder;
 use Famoser\Elliptic\Math\Primitives\ProjectiveCoordinates;
 
 /**
- * Assumes Untwisted Edwards curve with a=-1
- * Hence of the form ax^2 + y^2 = 1 + d*x^2*y^2 for a = -1 mod p.
+ * Assumes Untwisted Edwards curve
+ * Hence of the form ax^2 + y^2 = 1 + d*x^2*y^2
  *
  * Algorithms taken from RFC: https://datatracker.ietf.org/doc/html/rfc8032#section-5.2
  * RFC references https://eprint.iacr.org/2007/286.pdf as source
@@ -17,7 +17,7 @@ use Famoser\Elliptic\Math\Primitives\ProjectiveCoordinates;
  *
  * For our curves it holds that c = 1
  */
-trait ED_ANeg1_Extended_Adder
+trait ED_Extended_Adder
 {
     /**
      * Algorithm 5.2.4: Complete point addition (rfc8032)
