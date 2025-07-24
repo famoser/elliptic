@@ -14,7 +14,6 @@ use Famoser\Elliptic\Math\MGUnsafeMath;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;
-use Famoser\Elliptic\Primitives\Point;
 use PHPUnit\Framework\TestCase;
 
 class MathComparisonTest extends TestCase

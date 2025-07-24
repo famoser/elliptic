@@ -2,16 +2,13 @@
 
 namespace Famoser\Elliptic\Math\Calculator;
 
-use Famoser\Elliptic\Math\Calculator\Adder\EDAdder;
 use Famoser\Elliptic\Math\Calculator\Adder\EDUnsafeAdder;
 use Famoser\Elliptic\Math\Calculator\Coordinator\PointCoordinator;
-use Famoser\Elliptic\Math\Calculator\Coordinator\ProjectiveCoordinator;
 use Famoser\Elliptic\Math\Calculator\Multiplicator\DoubleAndAddAlwaysMultiplicator;
 use Famoser\Elliptic\Math\Calculator\Swapper\PointSwapper;
-use Famoser\Elliptic\Math\Calculator\Swapper\ProjectiveSwapper;
-use Famoser\Elliptic\Math\Primitives\ProjectiveCoordinates;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
+use Famoser\Elliptic\Primitives\Point;
 
 /**
  * Calculator for edwards curves
@@ -21,7 +18,7 @@ class EDUnsafeCalculator extends AbstractCalculator
     use PointCoordinator;
     use EDUnsafeAdder;
     use PointSwapper;
-    /** @use DoubleAndAddAlwaysMultiplicator<ProjectiveCoordinates> */
+    /** @use DoubleAndAddAlwaysMultiplicator<Point> */
     use DoubleAndAddAlwaysMultiplicator;
 
     public function __construct(Curve $curve)
