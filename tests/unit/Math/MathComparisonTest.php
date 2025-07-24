@@ -5,6 +5,8 @@ namespace Famoser\Elliptic\Tests\Math;
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
+use Famoser\Elliptic\Math\ED_Math;
+use Famoser\Elliptic\Math\EDUnsafeMath;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\MG_ED_Math;
 use Famoser\Elliptic\Math\MG_TwED_Math;
@@ -51,6 +53,15 @@ class MathComparisonTest extends TestCase
             [BernsteinCurveFactory::curve25519(), BernsteinCurveFactory::curve25519ToEdwards25519(), BernsteinCurveFactory::edwards25519()]
         ];
 
+        $bernsteinEdCurves = [
+            [BernsteinCurveFactory::curve448(), BernsteinCurveFactory::curve448ToEdwards(), BernsteinCurveFactory::curve448Edwards()]
+        ];
+
+        $edwardsCurves = [
+            BernsteinCurveFactory::edwards448(),
+            BernsteinCurveFactory::curve448Edwards()
+        ];
+
         $testsets = [];
         foreach (array_merge($secpCurves, $brainpoolCurves) as $curve) {
             $testsets[] = [new SW_ANeg3_Math($curve), new SWUnsafeMath($curve)];
@@ -62,6 +73,13 @@ class MathComparisonTest extends TestCase
         foreach ($bernsteinTwistedCurves as $curveAndMapping) {
             $math = new MG_TwED_Math(...$curveAndMapping);
             $testsets[] = [$math, new MGUnsafeMath($math->getCurve())];
+        }
+        foreach ($bernsteinEdCurves as $curveAndMapping) {
+            $math = new MG_ED_Math(...$curveAndMapping);
+            $testsets[] = [$math, new MGUnsafeMath($math->getCurve())];
+        }
+        foreach ($edwardsCurves as $curve) {
+            $testsets[] = [new ED_Math($curve), new EDUnsafeMath($curve)];
         }
 
         return $testsets;

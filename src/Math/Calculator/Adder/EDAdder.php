@@ -17,7 +17,7 @@ use Famoser\Elliptic\Math\Primitives\ProjectiveCoordinates;
  *
  * For our curves it holds that c = 1
  */
-trait ED_Extended_Adder
+trait EDAdder
 {
     /**
      * Algorithm 5.2.4: Complete point addition (rfc8032)
