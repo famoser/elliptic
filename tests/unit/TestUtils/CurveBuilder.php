@@ -23,6 +23,21 @@ class CurveBuilder
         return $this;
     }
 
+    /**
+     * @param CurveType $type
+     * @return \Iterator<CurveBuilder>
+     */
+    public function allButType(CurveType $type): \Iterator
+    {
+        foreach (CurveType::cases() as $case) {
+            if ($case === $type) {
+                continue;
+            }
+
+            yield (new CurveBuilder($this->build()))->withType($case);
+        }
+    }
+
     public function withA(\GMP $a): CurveBuilder
     {
         $this->a = $a;
