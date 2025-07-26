@@ -109,6 +109,20 @@ class MathComparisonTest extends TestCase
     /**
      * @dataProvider mathWithBaseline
      */
+    public function testAddG2(MathInterface $math, MathInterface $baseline): void
+    {
+        $curve = $math->getCurve();
+
+        $G2 = $baseline->double($curve->getG());
+        $expected = $math->add($curve->getG(), $G2);
+        $actual = $math->add($curve->getG(), $G2);
+
+        $this->assertObjectEquals($expected, $actual);
+    }
+
+    /**
+     * @dataProvider mathWithBaseline
+     */
     public function testDouble(MathInterface $math, MathInterface $baseline): void
     {
         $curve = $math->getCurve();
