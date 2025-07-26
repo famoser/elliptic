@@ -91,9 +91,9 @@ trait SW_ANeg3_Jacobi_Adder
 
         $b = $this->curve->getB();
 
-        $t0 = $this->field->mul($X, $X);
-        $t1 = $this->field->mul($Y, $Y);
-        $t2 = $this->field->mul($Z, $Z);
+        $t0 = $this->field->sq($X);
+        $t1 = $this->field->sq($Y);
+        $t2 = $this->field->sq($Z);
         $t3 = $this->field->mul($X, $Y);
         $t3 = $this->field->add($t3, $t3);
         $Z3 = $this->field->mul($X, $Z);

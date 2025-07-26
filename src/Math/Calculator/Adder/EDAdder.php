@@ -36,7 +36,7 @@ trait EDAdder
         $d = $this->curve->getB(); // we store d in B
 
         $A = $this->field->mul($Z1, $Z2);
-        $B = $this->field->pow($A, 2);
+        $B = $this->field->sq($A);
         $C = $this->field->mul($X1, $X2);
         $D = $this->field->mul($Y1, $Y2);
         $E = $this->field->mul($d, $this->field->mul($C, $D));
@@ -67,11 +67,11 @@ trait EDAdder
         $Z1 = $a->Z;
 
         $B1 = $this->field->add($X1, $Y1);
-        $B = $this->field->pow($B1, 2);
-        $C = $this->field->pow($X1, 2);
-        $D = $this->field->pow($Y1, 2);
+        $B = $this->field->sq($B1);
+        $C = $this->field->sq($X1);
+        $D = $this->field->sq($Y1);
         $E = $this->field->add($C, $D);
-        $H = $this->field->pow($Z1, 2);
+        $H = $this->field->sq($Z1);
         $J = $this->field->sub($E, $this->field->mul(gmp_init(2), $H));
         $X31 = $this->field->sub($B, $E);
         $X3 = $this->field->mul($X31, $J);
