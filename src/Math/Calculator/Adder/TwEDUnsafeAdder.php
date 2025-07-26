@@ -7,10 +7,10 @@ namespace Famoser\Elliptic\Math\Calculator\Adder;
 use Famoser\Elliptic\Primitives\Point;
 
 /**
- * Implements algorithms proposed in https://www.hyperelliptic.org/EFD/g1p/auto-edwards.html
+ * Implements algorithms proposed in https://www.hyperelliptic.org/EFD/g1p/auto-twisted.html
  * Merged with rules for edge-cases from https://www.secg.org/SEC1-Ver-1.0.pdf (2.2.1)
  */
-trait EDUnsafeAdder
+trait TwEDUnsafeAdder
 {
     public function add(Point $a, Point $b): Point
     {
@@ -52,7 +52,10 @@ trait EDUnsafeAdder
         $y = $this->field->mul(
             gmp_sub(
                 $this->field->mul($a->y, $b->y),
-                $this->field->mul($a->x, $b->x),
+                $this->field->mul(
+                    $this->curve->getA(),
+                    $this->field->mul($a->x, $b->x)
+                )
             ),
             /** @phpstan-ignore-next-line  */
             $this->field->invert(gmp_sub(1, $lambda)),
@@ -87,8 +90,11 @@ trait EDUnsafeAdder
 
         $y = $this->field->mul(
             gmp_sub(
-                $this->field->sq($a->y),
-                $this->field->sq($a->x),
+                $this->field->mul($a->y, $a->y),
+                $this->field->mul(
+                    $this->curve->getA(),
+                    $this->field->mul($a->x, $a->x),
+                )
             ),
             /** @phpstan-ignore-next-line  */
             $this->field->invert(gmp_sub(1, $lambda)),

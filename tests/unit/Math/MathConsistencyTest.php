@@ -9,11 +9,13 @@ use Famoser\Elliptic\Math\EDMath;
 use Famoser\Elliptic\Math\EDUnsafeMath;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\MG_ED_Math;
-use Famoser\Elliptic\Math\MG_TwED_Math;
+use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
 use Famoser\Elliptic\Math\MGUnsafeMath;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;
+use Famoser\Elliptic\Math\TwED_ANeg1_Math;
+use Famoser\Elliptic\Math\TwEDUnsafeMath;
 use Famoser\Elliptic\Primitives\Point;
 use PHPUnit\Framework\TestCase;
 
@@ -57,6 +59,10 @@ class MathConsistencyTest extends TestCase
             [BernsteinCurveFactory::curve448(), BernsteinCurveFactory::curve448ToEdwards(), BernsteinCurveFactory::curve448Edwards()]
         ];
 
+        $twistedEdwardsCurves = [
+            BernsteinCurveFactory::edwards25519(),
+        ];
+
         $edwardsCurves = [
             BernsteinCurveFactory::edwards448(),
             BernsteinCurveFactory::curve448Edwards()
@@ -72,12 +78,16 @@ class MathConsistencyTest extends TestCase
             $testsets[] = [new SWUnsafeMath($curveAndTwist[0])];
         }
         foreach ($bernsteinTwistedEDCurves as $curveAndMapping) {
-            $testsets[] = [new MG_TwED_Math(...$curveAndMapping)];
+            $testsets[] = [new MG_TwED_ANeg1_Math(...$curveAndMapping)];
             $testsets[] = [new MGUnsafeMath($curveAndMapping[0])];
         }
         foreach ($bernsteinEDCurves as $curveAndMapping) {
             $testsets[] = [new MG_ED_Math(...$curveAndMapping)];
             $testsets[] = [new MGUnsafeMath($curveAndMapping[0])];
+        }
+        foreach ($twistedEdwardsCurves as $curve) {
+            $testsets[] = [new TwED_ANeg1_Math($curve)];
+            $testsets[] = [new TwEDUnsafeMath($curve)];
         }
         foreach ($edwardsCurves as $curve) {
             $testsets[] = [new EDMath($curve)];
@@ -143,15 +153,16 @@ class MathConsistencyTest extends TestCase
     {
         $curve = $math->getCurve();
 
-        $nhPlusOne = gmp_add(gmp_mul($curve->getN(), $curve->getH()), 1);
-        $actual = $math->mul($curve->getG(), $nhPlusOne);
+        $bigOrder = gmp_mul($curve->getN(), $curve->getH());
+        $actual = $math->mul($curve->getG(), $bigOrder);
+        $this->assertObjectEquals(Point::createInfinity(), $actual);
+
+        $bigOrderPlusOne = gmp_add(gmp_mul($curve->getN(), $curve->getH()), 1);
+        $actual = $math->mul($curve->getG(), $bigOrderPlusOne);
         $this->assertObjectEquals($curve->getG(), $actual);
 
-        $nPlusOne = gmp_add($curve->getN(), 1);
-        $actual = $math->mul($curve->getG(), $nPlusOne);
-        $this->assertObjectEquals($curve->getG(), $actual);
-
-        $actual = $math->mul($curve->getG(), $curve->getN());
+        $bigOrderMinusOne = gmp_sub(gmp_mul($curve->getN(), $curve->getH()), 1);
+        $actual = $math->add($math->mul($curve->getG(), $bigOrderMinusOne), $curve->getG());
         $this->assertObjectEquals(Point::createInfinity(), $actual);
     }
 
@@ -162,9 +173,19 @@ class MathConsistencyTest extends TestCase
     {
         $curve = $math->getCurve();
 
-        $orderMinusOne = gmp_sub($curve->getN(), 1);
-        $nMinusOne = $math->mul($curve->getG(), $orderMinusOne);
-        $actual = $math->add($nMinusOne, $curve->getG());
-        $this->assertObjectEquals($actual, Point::createInfinity());
+        $actual = $math->add($curve->getG(), Point::createInfinity());
+        $this->assertObjectEquals($curve->getG(), $actual);
+
+        $actual = $math->add(Point::createInfinity(), $curve->getG());
+        $this->assertObjectEquals($curve->getG(), $actual);
+
+        $actual = $math->add(Point::createInfinity(), Point::createInfinity());
+        $this->assertObjectEquals(Point::createInfinity(), $actual);
+
+        $actual = $math->double(Point::createInfinity());
+        $this->assertObjectEquals(Point::createInfinity(), $actual);
+
+        $actual = $math->mul(Point::createInfinity(), gmp_init(5));
+        $this->assertObjectEquals(Point::createInfinity(), $actual);
     }
 }
