@@ -31,6 +31,12 @@ class PrimeField
         return gmp_mod($r, $this->prime);
     }
 
+    public function sq(\GMP $a): \GMP
+    {
+        $r = gmp_mul($a, $a);
+        return gmp_mod($r, $this->prime);
+    }
+
     public function sub(\GMP $a, \GMP $b): \GMP
     {
         $r = gmp_sub($a, $b);

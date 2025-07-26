@@ -71,8 +71,8 @@ trait EDUnsafeAdder
         $lambda = $this->field->mul(
             $this->curve->getB(),
             $this->field->mul(
-                $this->field->pow($a->x, 2),
-                $this->field->pow($a->y, 2),
+                $this->field->sq($a->x),
+                $this->field->sq($a->y),
             )
         );
 
@@ -87,8 +87,8 @@ trait EDUnsafeAdder
 
         $y = $this->field->mul(
             gmp_sub(
-                $this->field->mul($a->y, $a->y),
-                $this->field->mul($a->x, $a->x),
+                $this->field->sq($a->y),
+                $this->field->sq($a->x),
             ),
             /** @phpstan-ignore-next-line  */
             $this->field->invert(gmp_sub(1, $lambda)),

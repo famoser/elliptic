@@ -34,16 +34,16 @@ class MGXCalculator extends AbstractCalculator
             $swap = (int)$normalizedFactorBits[$i];
 
             $A = $this->field->add($x2, $z2);
-            $AA = $this->field->pow($A, 2);
+            $AA = $this->field->sq($A);
             $B = $this->field->sub($x2, $z2);
-            $BB = $this->field->pow($B, 2);
+            $BB = $this->field->sq($B);
             $E = $this->field->sub($AA, $BB);
             $C = $this->field->add($x3, $z3);
             $D = $this->field->sub($x3, $z3);
             $DA = $this->field->mul($D, $A);
             $CB = $this->field->mul($C, $B);
-            $x3 = $this->field->pow(gmp_add($DA, $CB), 2);
-            $z3 = $this->field->mul($x1, $this->field->pow($this->field->sub($DA, $CB), 2));
+            $x3 = $this->field->sq(gmp_add($DA, $CB));
+            $z3 = $this->field->mul($x1, $this->field->sq($this->field->sub($DA, $CB)));
             $x2 = $this->field->mul($AA, $BB);
             $z2 = $this->field->mul($E, $this->field->add($AA, $this->field->mul($a24, $E)));
         }

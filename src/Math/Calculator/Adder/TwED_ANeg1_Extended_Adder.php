@@ -70,13 +70,13 @@ trait TwED_ANeg1_Extended_Adder
         $Y1 = $a->Y;
         $Z1 = $a->Z;
 
-        $A = $this->field->pow($X1, 2);
-        $B = $this->field->pow($Y1, 2);
-        $C1 = $this->field->pow($Z1, 2);
+        $A = $this->field->sq($X1);
+        $B = $this->field->sq($Y1);
+        $C1 = $this->field->sq($Z1);
         $C = $this->field->mul(gmp_init(2), $C1);
         $H = $this->field->add($A, $B);
         $E1 = $this->field->add($X1, $Y1);
-        $E2 = $this->field->pow($E1, 2);
+        $E2 = $this->field->sq($E1);
         $E = $this->field->sub($H, $E2);
         $G = $this->field->sub($A, $B);
         $F = $this->field->add($C, $G);
