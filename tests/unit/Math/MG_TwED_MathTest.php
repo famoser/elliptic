@@ -3,7 +3,8 @@
 namespace Famoser\Elliptic\Tests\Math;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
-use Famoser\Elliptic\Math\MG_TwED_Math;
+use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
+use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
 use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
@@ -22,7 +23,7 @@ class MG_TwED_MathTest extends TestCase
         $curve = BernsteinCurveFactory::curve25519();
         $birationalMapping = BernsteinCurveFactory::curve25519ToEdwards25519();
         $twistedEdwardsCurve = BernsteinCurveFactory::edwards25519();
-        $calculator = new MG_TwED_Math($curve, $birationalMapping, $twistedEdwardsCurve);
+        $calculator = new MG_TwED_ANeg1_Math($curve, $birationalMapping, $twistedEdwardsCurve);
 
         $decoder = new RFC7784Decoder();
         $scalar = $decoder->decodeScalar25519($scalar);
