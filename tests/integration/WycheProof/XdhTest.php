@@ -9,7 +9,7 @@ use Famoser\Elliptic\Integration\WycheProof\Utils\FixturesRepository;
 use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\Calculator\MGXCalculator;
 use Famoser\Elliptic\Math\MG_ED_Math;
-use Famoser\Elliptic\Math\MG_TwED_Math;
+use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
 use Famoser\Elliptic\Math\MGUnsafeMath;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
 use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
@@ -53,7 +53,7 @@ class XdhTest extends TestCase
         $curve = BernsteinCurveFactory::curve25519();
         $map = BernsteinCurveFactory::curve25519ToEdwards25519();
         $targetCurve = BernsteinCurveFactory::edwards25519();
-        $math = new MG_TwED_Math($curve, $map, $targetCurve);
+        $math = new MG_TwED_ANeg1_Math($curve, $map, $targetCurve);
         $unsafeMath = new MGUnsafeMath($curve);
         $rfcMath = new MGXCalculator($curve);
 

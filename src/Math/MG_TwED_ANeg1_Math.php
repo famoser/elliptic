@@ -11,7 +11,7 @@ use Famoser\Elliptic\Primitives\Curve;
  *
  * Some hardening against side-channels has been done.
  */
-class MG_TwED_Math extends AbstractMath implements MathInterface
+class MG_TwED_ANeg1_Math extends AbstractMath implements MathInterface
 {
     use BirationalMathTrait;
 
