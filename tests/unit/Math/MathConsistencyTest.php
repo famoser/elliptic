@@ -24,74 +24,74 @@ class MathConsistencyTest extends TestCase
     public static function maths(): array
     {
         $secpCurves = [
-            SEC2CurveFactory::secp192r1(),
-            SEC2CurveFactory::secp224r1(),
-            SEC2CurveFactory::secp256r1(),
-            SEC2CurveFactory::secp384r1(),
-            SEC2CurveFactory::secp521r1(),
+            'secp192r1' => SEC2CurveFactory::secp192r1(),
+            'secp224r1' => SEC2CurveFactory::secp224r1(),
+            'secp256r1' => SEC2CurveFactory::secp256r1(),
+            'secp384r1' => SEC2CurveFactory::secp384r1(),
+            'secp521r1' => SEC2CurveFactory::secp521r1(),
         ];
 
         $brainpoolCurves = [
-            BrainpoolCurveFactory::p160t1(),
-            BrainpoolCurveFactory::p192t1(),
-            BrainpoolCurveFactory::p224t1(),
-            BrainpoolCurveFactory::p256t1(),
-            BrainpoolCurveFactory::p320t1(),
-            BrainpoolCurveFactory::p384t1(),
-            BrainpoolCurveFactory::p512t1(),
+            'p160t1' => BrainpoolCurveFactory::p160t1(),
+            'p192t1' => BrainpoolCurveFactory::p192t1(),
+            'p224t1' => BrainpoolCurveFactory::p224t1(),
+            'p256t1' => BrainpoolCurveFactory::p256t1(),
+            'p320t1' => BrainpoolCurveFactory::p320t1(),
+            'p384t1' => BrainpoolCurveFactory::p384t1(),
+            'p512t1' => BrainpoolCurveFactory::p512t1(),
         ];
 
         $brainpoolTwistedCurves = [
-            [BrainpoolCurveFactory::p160r1(), BrainpoolCurveFactory::p160r1TwistToP160t1()],
-            [BrainpoolCurveFactory::p192r1(), BrainpoolCurveFactory::p192r1TwistToP192t1()],
-            [BrainpoolCurveFactory::p224r1(), BrainpoolCurveFactory::p224r1TwistToP224t1()],
-            [BrainpoolCurveFactory::p256r1(), BrainpoolCurveFactory::p256r1TwistToP256t1()],
-            [BrainpoolCurveFactory::p320r1(), BrainpoolCurveFactory::p320r1TwistToP320t1()],
-            [BrainpoolCurveFactory::p384r1(), BrainpoolCurveFactory::p384r1TwistToP384t1()],
-            [BrainpoolCurveFactory::p512r1(), BrainpoolCurveFactory::p512r1TwistToP512t1()],
+            'p160r1' => [BrainpoolCurveFactory::p160r1(), BrainpoolCurveFactory::p160r1TwistToP160t1()],
+            'p192r1' => [BrainpoolCurveFactory::p192r1(), BrainpoolCurveFactory::p192r1TwistToP192t1()],
+            'p224r1' => [BrainpoolCurveFactory::p224r1(), BrainpoolCurveFactory::p224r1TwistToP224t1()],
+            'p256r1' => [BrainpoolCurveFactory::p256r1(), BrainpoolCurveFactory::p256r1TwistToP256t1()],
+            'p320r1' => [BrainpoolCurveFactory::p320r1(), BrainpoolCurveFactory::p320r1TwistToP320t1()],
+            'p384r1' => [BrainpoolCurveFactory::p384r1(), BrainpoolCurveFactory::p384r1TwistToP384t1()],
+            'p512r1' => [BrainpoolCurveFactory::p512r1(), BrainpoolCurveFactory::p512r1TwistToP512t1()],
         ];
 
-        $bernsteinTwistedEDCurves = [
-            [BernsteinCurveFactory::curve25519(), BernsteinCurveFactory::curve25519ToEdwards25519(), BernsteinCurveFactory::edwards25519()]
+        $bernsteinTwistedCurves = [
+            'curve25519ToEdwards25519' => [BernsteinCurveFactory::curve25519(), BernsteinCurveFactory::curve25519ToEdwards25519(), BernsteinCurveFactory::edwards25519()]
         ];
 
-        $bernsteinEDCurves = [
-            [BernsteinCurveFactory::curve448(), BernsteinCurveFactory::curve448ToEdwards(), BernsteinCurveFactory::curve448Edwards()]
+        $bernsteinEdCurves = [
+            'curve448ToEdwards' => [BernsteinCurveFactory::curve448(), BernsteinCurveFactory::curve448ToEdwards(), BernsteinCurveFactory::curve448Edwards()]
         ];
 
         $twistedEdwardsCurves = [
-            BernsteinCurveFactory::edwards25519(),
+            'edwards25519' => BernsteinCurveFactory::edwards25519(),
         ];
 
         $edwardsCurves = [
-            BernsteinCurveFactory::edwards448(),
-            BernsteinCurveFactory::curve448Edwards()
+            'edwards448' => BernsteinCurveFactory::edwards448(),
+            'curve448Edwards' => BernsteinCurveFactory::curve448Edwards()
         ];
 
         $testsets = [];
-        foreach (array_merge($secpCurves, $brainpoolCurves) as $curve) {
-            $testsets[] = [new SW_ANeg3_Math($curve)];
-            $testsets[] = [new SWUnsafeMath($curve)];
+        foreach (array_merge($secpCurves, $brainpoolCurves) as $name => $curve) {
+            $testsets[$name . "_" . SW_ANeg3_Math::class] = [new SW_ANeg3_Math($curve)];
+            $testsets[$name . "_" . SWUnsafeMath::class] = [new SWUnsafeMath($curve)];
         }
-        foreach ($brainpoolTwistedCurves as $curveAndTwist) {
-            $testsets[] = [new SW_QT_ANeg3_Math(...$curveAndTwist)];
-            $testsets[] = [new SWUnsafeMath($curveAndTwist[0])];
+        foreach ($brainpoolTwistedCurves as $name => $curveAndTwist) {
+            $testsets[$name . "_" . SW_QT_ANeg3_Math::class] = [new SW_QT_ANeg3_Math(...$curveAndTwist)];
+            $testsets[$name . "_" . SWUnsafeMath::class] = [new SWUnsafeMath($curveAndTwist[0])];
         }
-        foreach ($bernsteinTwistedEDCurves as $curveAndMapping) {
-            $testsets[] = [new MG_TwED_ANeg1_Math(...$curveAndMapping)];
-            $testsets[] = [new MGUnsafeMath($curveAndMapping[0])];
+        foreach ($bernsteinTwistedCurves as $name => $curveAndMapping) {
+            $testsets[$name . "_" . MG_TwED_ANeg1_Math::class] = [new MG_TwED_ANeg1_Math(...$curveAndMapping)];
+            $testsets[$name . "_" . MGUnsafeMath::class] = [new MGUnsafeMath($curveAndMapping[0])];
         }
-        foreach ($bernsteinEDCurves as $curveAndMapping) {
-            $testsets[] = [new MG_ED_Math(...$curveAndMapping)];
-            $testsets[] = [new MGUnsafeMath($curveAndMapping[0])];
+        foreach ($bernsteinEdCurves as $name => $curveAndMapping) {
+            $testsets[$name . "_" . MG_ED_Math::class] = [new MG_ED_Math(...$curveAndMapping)];
+            $testsets[$name . "_" . MGUnsafeMath::class] = [new MGUnsafeMath($curveAndMapping[0])];
         }
-        foreach ($twistedEdwardsCurves as $curve) {
-            $testsets[] = [new TwED_ANeg1_Math($curve)];
-            $testsets[] = [new TwEDUnsafeMath($curve)];
+        foreach ($twistedEdwardsCurves as $name => $curve) {
+            $testsets[$name . "_" . TwED_ANeg1_Math::class] = [new TwED_ANeg1_Math($curve)];
+            $testsets[$name . "_" . TwEDUnsafeMath::class] = [new TwEDUnsafeMath($curve)];
         }
-        foreach ($edwardsCurves as $curve) {
-            $testsets[] = [new EDMath($curve)];
-            $testsets[] = [new EDUnsafeMath($curve)];
+        foreach ($edwardsCurves as $name => $curve) {
+            $testsets[$name . "_" . EDMath::class] = [new EDMath($curve)];
+            $testsets[$name . "_" . EDUnsafeMath::class] = [new EDUnsafeMath($curve)];
         }
 
         return $testsets;
