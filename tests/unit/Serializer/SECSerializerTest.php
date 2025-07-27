@@ -3,6 +3,7 @@
 namespace Famoser\Elliptic\Tests\Serializer;
 
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
+use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoder\SWPointDecoder;
 use Famoser\Elliptic\Serializer\SEC\SECEncoding;
@@ -14,8 +15,9 @@ class SECSerializerTest extends TestCase
     public function testCompressedPoint(): void
     {
         $curve = SEC2CurveFactory::secp192r1();
+        $math = new SWUnsafeMath($curve);
         $decoder = new SWPointDecoder($curve);
-        $serializer = new SECSerializer($curve, $decoder, SECEncoding::COMPRESSED);
+        $serializer = new SECSerializer($math, $decoder, SECEncoding::COMPRESSED);
 
         $expectedPoint = $curve->getG();
         $serializedPoint = $serializer->serialize($expectedPoint);
@@ -27,8 +29,9 @@ class SECSerializerTest extends TestCase
     public function testUncompressedPoint(): void
     {
         $curve = SEC2CurveFactory::secp192r1();
+        $math = new SWUnsafeMath($curve);
         $decoder = new SWPointDecoder($curve);
-        $serializer = new SECSerializer($curve, $decoder, SECEncoding::UNCOMPRESSED);
+        $serializer = new SECSerializer($math, $decoder, SECEncoding::UNCOMPRESSED);
 
         $expectedPoint = $curve->getG();
         $serializedPoint = $serializer->serialize($expectedPoint);
@@ -40,10 +43,11 @@ class SECSerializerTest extends TestCase
     public function testInfinityPoint(): void
     {
         $curve = SEC2CurveFactory::secp192r1();
+        $math = new SWUnsafeMath($curve);
         $decoder = new SWPointDecoder($curve);
-        $serializer = new SECSerializer($curve, $decoder);
+        $serializer = new SECSerializer($math, $decoder);
 
-        $infinity = Point::createInfinity();
+        $infinity = $math->getInfinity();
         $serializedPoint = $serializer->serialize($infinity);
         $actualPoint = $serializer->deserialize($serializedPoint);
 

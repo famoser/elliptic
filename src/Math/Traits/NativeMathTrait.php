@@ -6,6 +6,20 @@ use Famoser\Elliptic\Primitives\Point;
 
 trait NativeMathTrait
 {
+    public function isInfinity(Point $point): bool
+    {
+        $native = $this->calculator->affineToNative($point);
+
+        return $this->calculator->isInfinity($native);
+    }
+
+    public function getInfinity(): Point
+    {
+        $native = $this->calculator->getInfinity();
+
+        return $this->calculator->nativeToAffine($native);
+    }
+
     public function add(Point $a, Point $b): Point
     {
         $nativeA = $this->calculator->affineToNative($a);

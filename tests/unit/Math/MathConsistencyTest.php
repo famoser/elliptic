@@ -155,7 +155,7 @@ class MathConsistencyTest extends TestCase
 
         $bigOrder = gmp_mul($curve->getN(), $curve->getH());
         $actual = $math->mul($curve->getG(), $bigOrder);
-        $this->assertObjectEquals(Point::createInfinity(), $actual);
+        $this->assertObjectEquals($math->getInfinity(), $actual);
 
         $bigOrderPlusOne = gmp_add(gmp_mul($curve->getN(), $curve->getH()), 1);
         $actual = $math->mul($curve->getG(), $bigOrderPlusOne);
@@ -163,7 +163,7 @@ class MathConsistencyTest extends TestCase
 
         $bigOrderMinusOne = gmp_sub(gmp_mul($curve->getN(), $curve->getH()), 1);
         $actual = $math->add($math->mul($curve->getG(), $bigOrderMinusOne), $curve->getG());
-        $this->assertObjectEquals(Point::createInfinity(), $actual);
+        $this->assertObjectEquals($math->getInfinity(), $actual);
     }
 
     /**
@@ -173,19 +173,19 @@ class MathConsistencyTest extends TestCase
     {
         $curve = $math->getCurve();
 
-        $actual = $math->add($curve->getG(), Point::createInfinity());
+        $actual = $math->add($curve->getG(), $math->getInfinity());
         $this->assertObjectEquals($curve->getG(), $actual);
 
-        $actual = $math->add(Point::createInfinity(), $curve->getG());
+        $actual = $math->add($math->getInfinity(), $curve->getG());
         $this->assertObjectEquals($curve->getG(), $actual);
 
-        $actual = $math->add(Point::createInfinity(), Point::createInfinity());
-        $this->assertObjectEquals(Point::createInfinity(), $actual);
+        $actual = $math->add($math->getInfinity(), $math->getInfinity());
+        $this->assertObjectEquals($math->getInfinity(), $actual);
 
-        $actual = $math->double(Point::createInfinity());
-        $this->assertObjectEquals(Point::createInfinity(), $actual);
+        $actual = $math->double($math->getInfinity());
+        $this->assertObjectEquals($math->getInfinity(), $actual);
 
-        $actual = $math->mul(Point::createInfinity(), gmp_init(5));
-        $this->assertObjectEquals(Point::createInfinity(), $actual);
+        $actual = $math->mul($math->getInfinity(), gmp_init(5));
+        $this->assertObjectEquals($math->getInfinity(), $actual);
     }
 }

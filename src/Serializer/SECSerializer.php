@@ -2,6 +2,7 @@
 
 namespace Famoser\Elliptic\Serializer;
 
+use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
@@ -15,9 +16,9 @@ class SECSerializer
 {
     private readonly int $pointOctetLength;
 
-    public function __construct(private readonly Curve $curve, private readonly SECPointDecoderInterface $pointDecoder, private readonly SECEncoding $preferredEncoding = SECEncoding::COMPRESSED)
+    public function __construct(private readonly MathInterface $math, private readonly SECPointDecoderInterface $pointDecoder, private readonly SECEncoding $preferredEncoding = SECEncoding::COMPRESSED)
     {
-        $this->pointOctetLength = (int) ceil((float) strlen(gmp_strval($this->curve->getP(), 2)) / 8);
+        $this->pointOctetLength = (int) ceil((float) strlen(gmp_strval($this->math->getCurve()->getP(), 2)) / 8);
     }
 
     /**
@@ -28,7 +29,7 @@ class SECSerializer
     public function deserialize(string $hex): Point
     {
         if ($hex === '00') {
-            return Point::createInfinity();
+            return $this->math->getInfinity();
         }
 
         $compressedFormatOctetLength = 1 + $this->pointOctetLength;
@@ -56,7 +57,7 @@ class SECSerializer
      */
     public function serialize(Point $point): string
     {
-        if ($point->isInfinity()) {
+        if ($this->math->isInfinity($point)) {
             return '00';
         }
 

@@ -2,6 +2,7 @@
 
 namespace Famoser\Elliptic\Curves;
 
+use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\Primitives\PrimeField;
 use Famoser\Elliptic\Primitives\BirationalMap;
 use Famoser\Elliptic\Primitives\Curve;
@@ -55,7 +56,7 @@ class BernsteinCurveFactory
         $squareRootOfMinus486664 = gmp_init('F26EDF46 0A006BBD 27B08DC0 3FC4F7EC 5A1D3D14 B7D1A82C C6E04AAF F457E06', 16);
 
         // (x, y) = (sqrt(-486664)*u/v, (u-1)/(u+1))
-        $map = static function (Point $point) use ($field, $squareRootOfMinus486664) {
+        $map = static function (MathInterface $math, Point $point) use ($field, $squareRootOfMinus486664) {
             $x = $field->mul(
                 $field->mul($squareRootOfMinus486664, $point->x),
                 /** @phpstan-ignore-next-line */
@@ -73,13 +74,13 @@ class BernsteinCurveFactory
         };
 
         // (u, v) = ((1+y)/(1-y), sqrt(-486664)*u/x)
-        $reverse = static function (Point $point) use ($field, $squareRootOfMinus486664) {
+        $reverse = static function (MathInterface $math, Point $point) use ($field, $squareRootOfMinus486664) {
             $divisor = $field->sub(gmp_init(1), $point->y);
             if (gmp_cmp($divisor, 0) === 0) {
-                return Point::createInfinity();
+                return $math->getInfinity();
             }
             if (gmp_cmp($point->x, 0) === 0) {
-                return Point::createInfinity();
+                return $math->getInfinity();
             }
 
             $u = $field->mul(
@@ -160,7 +161,7 @@ class BernsteinCurveFactory
         $squareRootOf15634 = gmp_init('45B2C5F7 D649EED0 77ED1AE4 5F44D541 43E34F71 4B71AA96 C945AF01 2D182975 0734CDE9 FADDBDA4 C066F7ED 54419CA5 2C85DE1E 8AAE4E6C', 16);
 
         // (x, y) = (sqrt(156324)*u/v, (1+u)/(1-u))
-        $map = static function (Point $point) use ($field, $squareRootOf15634) {
+        $map = static function (MathInterface $math, Point $point) use ($field, $squareRootOf15634) {
             $x = $field->mul(
                 $field->mul($squareRootOf15634, $point->x),
                 /** @phpstan-ignore-next-line */
@@ -178,13 +179,13 @@ class BernsteinCurveFactory
         };
 
         // (u, v) = ((y-1)/(y+1), sqrt(156324)*u/x)
-        $reverse = static function (Point $point) use ($field, $squareRootOf15634) {
+        $reverse = static function (MathInterface $math, Point $point) use ($field, $squareRootOf15634) {
             $divisor = $field->add($point->y, gmp_init(1));
             if (gmp_cmp($divisor, 0) === 0) {
-                return Point::createInfinity();
+                return $math->getInfinity();
             }
             if (gmp_cmp($point->x, 0) === 0) {
-                return Point::createInfinity();
+                return $math->getInfinity();
             }
 
             $u = $field->mul(

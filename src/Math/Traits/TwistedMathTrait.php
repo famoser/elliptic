@@ -6,6 +6,8 @@ use Famoser\Elliptic\Primitives\Point;
 
 trait TwistedMathTrait
 {
+    use InfinityPointMathTrait;
+
     public function add(Point $a, Point $b): Point
     {
         $twistedA = $this->twister->twistPoint($a);

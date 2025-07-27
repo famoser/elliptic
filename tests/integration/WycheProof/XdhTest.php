@@ -78,7 +78,11 @@ class XdhTest extends TestCase
 
         $rfc = $rfcMath->mul($publicPoint->x, $decodedPrivate);
         $this->assertEquals(0, gmp_cmp($rfc, $sharedSecretBaseline->x));
-        $this->assertTrue($sharedSecretBaseline->equals($sharedSecret));
+        if (gmp_cmp($rfc, 0) === 0) {
+            $this->assertTrue($math->isInfinity($sharedSecret));
+        } else {
+            $this->assertTrue($sharedSecretBaseline->equals($sharedSecret));
+        }
     }
 
     public static function provideCurve448(): array
@@ -141,6 +145,10 @@ class XdhTest extends TestCase
 
         $rfc = $rfcMath->mul($publicPoint->x, $decodedPrivate);
         $this->assertEquals(0, gmp_cmp($rfc, $sharedSecretBaseline->x));
-        $this->assertTrue($sharedSecretBaseline->equals($sharedSecret));
+        if (gmp_cmp($rfc, 0) === 0) {
+            $this->assertTrue($math->isInfinity($sharedSecret));
+        } else {
+            $this->assertTrue($sharedSecretBaseline->equals($sharedSecret));
+        }
     }
 }

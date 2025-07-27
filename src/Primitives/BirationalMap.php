@@ -2,23 +2,25 @@
 
 namespace Famoser\Elliptic\Primitives;
 
+use Famoser\Elliptic\Math\MathInterface;
+
 class BirationalMap
 {
     /**
-     * @param \Closure(Point): Point $map
-     * @param \Closure(Point): Point $reverse
+     * @param \Closure(MathInterface, Point): Point $map
+     * @param \Closure(MathInterface, Point): Point $reverse
      */
     public function __construct(private readonly \Closure $map, private readonly \Closure $reverse)
     {
     }
 
-    public function map(Point $point): Point
+    public function map(MathInterface $math, Point $point): Point
     {
-        return ($this->map)($point);
+        return ($this->map)($math, $point);
     }
 
-    public function reverse(Point $point): Point
+    public function reverse(MathInterface $math, Point $point): Point
     {
-        return ($this->reverse)($point);
+        return ($this->reverse)($math, $point);
     }
 }

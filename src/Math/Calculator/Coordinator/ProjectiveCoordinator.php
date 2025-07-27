@@ -26,6 +26,11 @@ trait ProjectiveCoordinator
 
     public function getInfinity(): ProjectiveCoordinates
     {
-        return ProjectiveCoordinates::createInfinity();
+        return new ProjectiveCoordinates(gmp_init(0), gmp_init(1), gmp_init(1));
+    }
+
+    public function isInfinity(ProjectiveCoordinates $point): bool
+    {
+        return gmp_cmp($point->Y, $point->Z) === 0 && gmp_cmp($point->Y, 0) !== 0;
     }
 }
