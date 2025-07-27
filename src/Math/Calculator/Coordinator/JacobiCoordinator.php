@@ -26,6 +26,11 @@ trait JacobiCoordinator
 
     public function getInfinity(): JacobiPoint
     {
-        return JacobiPoint::createInfinity();
+        return new JacobiPoint(gmp_init(0), gmp_init(1), gmp_init(0));
+    }
+
+    public function isInfinity(JacobiPoint $point): bool
+    {
+        return gmp_cmp($point->Z, 0) === 0;
     }
 }

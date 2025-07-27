@@ -28,6 +28,11 @@ trait ExtendedCoordinator
 
     public function getInfinity(): ExtendedCoordinates
     {
-        return ExtendedCoordinates::createInfinity();
+        return new ExtendedCoordinates(gmp_init(0), gmp_init(1), gmp_init(1), gmp_init(0));
+    }
+
+    public function isInfinity(ExtendedCoordinates $point): bool
+    {
+        return gmp_cmp($point->Y, $point->Z) === 0 && gmp_cmp($point->Y, 0) !== 0;
     }
 }

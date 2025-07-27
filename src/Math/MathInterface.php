@@ -7,6 +7,9 @@ use Famoser\Elliptic\Primitives\Point;
 
 interface MathInterface
 {
+    public function isInfinity(Point $point): bool;
+    public function getInfinity(): Point;
+
     public function double(Point $a): Point;
     public function add(Point $a, Point $b): Point;
     public function mulG(\GMP $factor): Point;

@@ -3,6 +3,8 @@
 namespace Famoser\Elliptic\Tests\Curves;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
+use Famoser\Elliptic\Math\MG_ED_Math;
+use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
 use PHPUnit\Framework\TestCase;
 
 class BernsteinTest extends TestCase
@@ -37,11 +39,12 @@ class BernsteinTest extends TestCase
         $curve = BernsteinCurveFactory::curve25519();
         $mapping = BernsteinCurveFactory::curve25519ToEdwards25519();
         $targetCurve = BernsteinCurveFactory::edwards25519();
+        $math = new MG_TwED_ANeg1_Math($curve, $mapping, $targetCurve);
 
-        $actualG = $mapping->map($curve->getG());
+        $actualG = $mapping->map($math, $curve->getG());
         $this->assertTrue($targetCurve->getG()->equals($actualG));
 
-        $actualG = $mapping->reverse($targetCurve->getG());
+        $actualG = $mapping->reverse($math, $targetCurve->getG());
         $this->assertTrue($curve->getG()->equals($actualG));
     }
 
@@ -72,11 +75,12 @@ class BernsteinTest extends TestCase
         $curve = BernsteinCurveFactory::curve448();
         $mapping = BernsteinCurveFactory::curve448ToEdwards();
         $targetCurve = BernsteinCurveFactory::curve448Edwards();
+        $math = new MG_ED_Math($curve, $mapping, $targetCurve);
 
-        $actualG = $mapping->map($curve->getG());
+        $actualG = $mapping->map($math, $curve->getG());
         $this->assertTrue($targetCurve->getG()->equals($actualG));
 
-        $actualG = $mapping->reverse($targetCurve->getG());
+        $actualG = $mapping->reverse($math, $targetCurve->getG());
         $this->assertTrue($curve->getG()->equals($actualG));
     }
 }

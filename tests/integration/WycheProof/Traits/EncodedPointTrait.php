@@ -19,7 +19,7 @@ trait EncodedPointTrait
     {
         // unserialize public key
         try {
-            $pointSerializer = new SECSerializer($math->getCurve(), new SWPointDecoder($math->getCurve()));
+            $pointSerializer = new SECSerializer($math, new SWPointDecoder($math->getCurve()));
             $publicKey = $pointSerializer->deserialize($public);
         } catch (PointDecoderException) {
             $this->assertEquals($result, WycheProofConstants::RESULT_INVALID);
