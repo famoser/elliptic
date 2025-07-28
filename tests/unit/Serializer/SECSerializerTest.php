@@ -57,13 +57,14 @@ class SECSerializerTest extends TestCase
 
         $this->assertTrue($actualPoint->equals($infinity));
     }
-    
+
     public function testInvalidInput(): void
     {
         $curve = SEC2CurveFactory::secp192r1();
         $serializer = self::createSerializer($curve, SECEncoding::UNCOMPRESSED);
 
-        $this->expectException(SerializerException::class);;
+        $this->expectException(SerializerException::class);
+        ;
         $serializer->deserialize('0900023');
     }
 }
