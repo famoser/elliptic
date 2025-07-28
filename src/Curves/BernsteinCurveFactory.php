@@ -85,9 +85,7 @@ class BernsteinCurveFactory
             if (gmp_cmp($divisor, 0) === 0) {
                 return $math->getInfinity();
             }
-            if (gmp_cmp($point->x, 0) === 0) {
-                return $math->getInfinity();
-            }
+            // note: if y != 1, then x != 0
 
             $u = $field->mul(
                 $field->add(gmp_init(1), $point->y),
@@ -187,18 +185,15 @@ class BernsteinCurveFactory
 
         // (u, v) = ((y-1)/(y+1), sqrt(156324)*u/x)
         $reverse = static function (MathInterface $math, Point $point) use ($field, $squareRootOf15634) {
-            $divisor = $field->add($point->y, gmp_init(1));
-            if (gmp_cmp($divisor, 0) === 0) {
-                return $math->getInfinity();
-            }
             if (gmp_cmp($point->x, 0) === 0) {
                 return $math->getInfinity();
             }
+            // note: if x != 0, then y != -1
 
             $u = $field->mul(
                 $field->sub($point->y, gmp_init(1)),
                 /** @phpstan-ignore-next-line */
-                $field->invert($divisor)
+                $field->invert($field->add($point->y, gmp_init(1)))
             );
 
             $v = $field->mul(
