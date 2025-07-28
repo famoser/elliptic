@@ -59,6 +59,8 @@ class CurveRepository
         'nistp384' => 'secp384r1',
         'NIST P-521' => 'secp521r1',
         'nistp521' => 'secp521r1',
+
+        /** source: https://www.rfc-editor.org/rfc/rfc7748.html */
         'golilocks' => 'edwards448',
     ];
 
@@ -93,6 +95,7 @@ class CurveRepository
         'curve25519' => [BernsteinCurveFactory::class, 'curve25519'],
         'curve448' => [BernsteinCurveFactory::class, 'curve448'],
         'edwards25519' => [BernsteinCurveFactory::class, 'edwards25519'],
+        'curve448Edwards' => [BernsteinCurveFactory::class, 'curve448Edwards'],
         'edwards448' => [BernsteinCurveFactory::class, 'edwards448'],
     ];
 
