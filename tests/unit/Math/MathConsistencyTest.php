@@ -154,7 +154,7 @@ class MathConsistencyTest extends TestCase
 
         $bigOrder = gmp_mul($curve->getN(), $curve->getH());
         $actual = $math->mul($curve->getG(), $bigOrder);
-        $this->assertObjectEquals($math->getInfinity(), $actual);
+        $this->assertTrue($math->isInfinity($actual));
 
         $orderPlusH = gmp_add(gmp_mul($curve->getN(), $curve->getH()), $curve->getH());
         $actual = $math->mul($curve->getG(), $orderPlusH);
@@ -163,7 +163,7 @@ class MathConsistencyTest extends TestCase
 
         $orderMinusH = gmp_sub(gmp_mul($curve->getN(), $curve->getH()), $curve->getH());
         $actual = $math->add($math->mul($curve->getG(), $orderMinusH), $Gh);
-        $this->assertObjectEquals($math->getInfinity(), $actual);
+        $this->assertTrue($math->isInfinity($actual));
     }
 
     /**
@@ -180,13 +180,13 @@ class MathConsistencyTest extends TestCase
         $this->assertObjectEquals($curve->getG(), $actual);
 
         $actual = $math->add($math->getInfinity(), $math->getInfinity());
-        $this->assertObjectEquals($math->getInfinity(), $actual);
+        $this->assertTrue($math->isInfinity($actual));
 
         $actual = $math->double($math->getInfinity());
-        $this->assertObjectEquals($math->getInfinity(), $actual);
+        $this->assertTrue($math->isInfinity($actual));
 
         $actual = $math->mul($math->getInfinity(), gmp_init(5));
-        $this->assertObjectEquals($math->getInfinity(), $actual);
+        $this->assertTrue($math->isInfinity($actual));
     }
 
     /**
