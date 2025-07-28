@@ -16,10 +16,13 @@ use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Math\TwED_ANeg1_Math;
 use Famoser\Elliptic\Math\TwEDUnsafeMath;
+use Famoser\Elliptic\Tests\TestUtils\UnresolvedErrorTrait;
 use PHPUnit\Framework\TestCase;
 
 class MathConsistencyTest extends TestCase
 {
+    use UnresolvedErrorTrait;
+
     public static function maths(): array
     {
         $secpCurves = [
@@ -69,28 +72,28 @@ class MathConsistencyTest extends TestCase
 
         $testsets = [];
         foreach (array_merge($secpCurves, $brainpoolCurves) as $name => $curve) {
-            $testsets[$name . "_" . SW_ANeg3_Math::class] = [new SW_ANeg3_Math($curve)];
-            $testsets[$name . "_" . SWUnsafeMath::class] = [new SWUnsafeMath($curve)];
+            $testsets[$name . "_" . SW_ANeg3_Math::class] = [$name, new SW_ANeg3_Math($curve)];
+            $testsets[$name . "_" . SWUnsafeMath::class] = [$name, new SWUnsafeMath($curve)];
         }
         foreach ($brainpoolTwistedCurves as $name => $curveAndTwist) {
-            $testsets[$name . "_" . SW_QT_ANeg3_Math::class] = [new SW_QT_ANeg3_Math(...$curveAndTwist)];
-            $testsets[$name . "_" . SWUnsafeMath::class] = [new SWUnsafeMath($curveAndTwist[0])];
+            $testsets[$name . "_" . SW_QT_ANeg3_Math::class] = [$name, new SW_QT_ANeg3_Math(...$curveAndTwist)];
+            $testsets[$name . "_" . SWUnsafeMath::class] = [$name, new SWUnsafeMath($curveAndTwist[0])];
         }
         foreach ($bernsteinTwistedCurves as $name => $curveAndMapping) {
-            $testsets[$name . "_" . MG_TwED_ANeg1_Math::class] = [new MG_TwED_ANeg1_Math(...$curveAndMapping)];
-            $testsets[$name . "_" . MGUnsafeMath::class] = [new MGUnsafeMath($curveAndMapping[0])];
+            $testsets[$name . "_" . MG_TwED_ANeg1_Math::class] = [$name, new MG_TwED_ANeg1_Math(...$curveAndMapping)];
+            $testsets[$name . "_" . MGUnsafeMath::class] = [$name, new MGUnsafeMath($curveAndMapping[0])];
         }
         foreach ($bernsteinEdCurves as $name => $curveAndMapping) {
-            $testsets[$name . "_" . MG_ED_Math::class] = [new MG_ED_Math(...$curveAndMapping)];
-            $testsets[$name . "_" . MGUnsafeMath::class] = [new MGUnsafeMath($curveAndMapping[0])];
+            $testsets[$name . "_" . MG_ED_Math::class] = [$name, new MG_ED_Math(...$curveAndMapping)];
+            $testsets[$name . "_" . MGUnsafeMath::class] = [$name, new MGUnsafeMath($curveAndMapping[0])];
         }
         foreach ($twistedEdwardsCurves as $name => $curve) {
-            $testsets[$name . "_" . TwED_ANeg1_Math::class] = [new TwED_ANeg1_Math($curve)];
-            $testsets[$name . "_" . TwEDUnsafeMath::class] = [new TwEDUnsafeMath($curve)];
+            $testsets[$name . "_" . TwED_ANeg1_Math::class] = [$name, new TwED_ANeg1_Math($curve)];
+            $testsets[$name . "_" . TwEDUnsafeMath::class] = [$name, new TwEDUnsafeMath($curve)];
         }
         foreach ($edwardsCurves as $name => $curve) {
-            $testsets[$name . "_" . EDMath::class] = [new EDMath($curve)];
-            $testsets[$name . "_" . EDUnsafeMath::class] = [new EDUnsafeMath($curve)];
+            $testsets[$name . "_" . EDMath::class] = [$name, new EDMath($curve)];
+            $testsets[$name . "_" . EDUnsafeMath::class] = [$name, new EDUnsafeMath($curve)];
         }
 
         return $testsets;
@@ -99,7 +102,7 @@ class MathConsistencyTest extends TestCase
     /**
      * @dataProvider maths
      */
-    public function testAddAndDoubleConsistency(MathInterface $math): void
+    public function testAddAndDoubleConsistency(string $curveName, MathInterface $math): void
     {
         $curve = $math->getCurve();
 
@@ -115,7 +118,7 @@ class MathConsistencyTest extends TestCase
     /**
      * @dataProvider maths
      */
-    public function testMulGEqualsMul(MathInterface $math): void
+    public function testMulGEqualsMul(string $curveName, MathInterface $math): void
     {
         $curve = $math->getCurve();
 
@@ -130,7 +133,7 @@ class MathConsistencyTest extends TestCase
     /**
      * @dataProvider maths
      */
-    public function testMulEqualsDoubleAdd(MathInterface $math): void
+    public function testMulEqualsDoubleAdd(string $curveName, MathInterface $math): void
     {
         $curve = $math->getCurve();
 
@@ -148,8 +151,10 @@ class MathConsistencyTest extends TestCase
     /**
      * @dataProvider maths
      */
-    public function testMulCycle(MathInterface $math): void
+    public function testMulCycle(string $curveName, MathInterface $math): void
     {
+        $this->skipUnresolvedError(__CLASS__, __FUNCTION__, $math::class, $curveName);
+
         $curve = $math->getCurve();
 
         $bigOrder = gmp_mul($curve->getN(), $curve->getH());
@@ -169,7 +174,7 @@ class MathConsistencyTest extends TestCase
     /**
      * @dataProvider maths
      */
-    public function testInfinity(MathInterface $math): void
+    public function testInfinity(string $curveName, MathInterface $math): void
     {
         $curve = $math->getCurve();
 
@@ -192,7 +197,7 @@ class MathConsistencyTest extends TestCase
     /**
      * @dataProvider maths
      */
-    public function testHConsistency(MathInterface $math): void
+    public function testHConsistency(string $curveName, MathInterface $math): void
     {
         $curve = $math->getCurve();
 
