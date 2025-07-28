@@ -151,7 +151,7 @@ class BernsteinCurveFactory
 
         // order = 2^446 - 0x8335dc163bb124b65129c96fde933d8d723a70aadc873d6d54a7bb0d
         $order = gmp_init('3FFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF 7CCA23E9 C44EDB49 AED63690 216CC272 8DC58F55 2378C292 AB5844F3', 16);
-        $cofactor = gmp_init(8);
+        $cofactor = gmp_init(4);
 
         return new Curve(CurveType::Montgomery, $p, $a, $b, $P, $order, $cofactor);
     }
