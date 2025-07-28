@@ -149,12 +149,12 @@ class MathComparisonTest extends TestCase
     {
         $curve = $math->getCurve();
 
-        $factors = array_map(static fn ($number) => gmp_init($number), [0,1,2,3]);
+        $factors = array_map(static fn ($number) => gmp_mul($number, $curve->getH()), [0,1,2,3]);
         $order = gmp_mul($curve->getN(), $curve->getH());
         $factors[4] = $order;
-        $factors[5] = gmp_sub($order, 1);
-        $factors[6] = gmp_add($order, 1);
-        $factors[7] = gmp_sub($order, 612391940123); // random number close to group order
+        $factors[5] = gmp_sub($order, $curve->getH());
+        $factors[6] = gmp_add($order, $curve->getH());
+        $factors[7] = gmp_sub($order, gmp_mul(2312312, $curve->getH())); // random number close to group order
 
         foreach ($factors as $i => $factor) {
             $expected = $baseline->mul($curve->getG(), $factor);

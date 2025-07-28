@@ -3,6 +3,7 @@
 namespace Famoser\Elliptic\Math\Calculator;
 
 use Famoser\Elliptic\Math\Calculator\Adder\TwEDUnsafeAdder;
+use Famoser\Elliptic\Math\Calculator\Coordinator\Point01Coordinator;
 use Famoser\Elliptic\Math\Calculator\Coordinator\PointCoordinator;
 use Famoser\Elliptic\Math\Calculator\Multiplicator\DoubleAndAddAlwaysMultiplicator;
 use Famoser\Elliptic\Math\Calculator\Swapper\PointSwapper;
@@ -15,7 +16,7 @@ use Famoser\Elliptic\Primitives\Point;
  */
 class TwEDUnsafeCalculator extends AbstractCalculator
 {
-    use PointCoordinator;
+    use Point01Coordinator;
     use TwEDUnsafeAdder;
     use PointSwapper;
     /** @use DoubleAndAddAlwaysMultiplicator<Point> */
