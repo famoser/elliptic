@@ -2,7 +2,6 @@
 
 namespace Famoser\Elliptic\Integration\ExpensiveMath;
 
-
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
