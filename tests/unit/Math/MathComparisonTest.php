@@ -159,7 +159,12 @@ class MathComparisonTest extends TestCase
         foreach ($factors as $i => $factor) {
             $expected = $baseline->mul($curve->getG(), $factor);
             $actual = $math->mul($curve->getG(), $factor);
-            $this->assertObjectEquals($expected, $actual, message: "Failed for factor ".$i." (".gmp_strval($factor, 16).")");
+            if (gmp_cmp($factor, 0) === 0 || gmp_cmp($factor, $order) === 0) {
+                $this->assertTrue($baseline->isInfinity($expected));
+                $this->assertTrue($math->isInfinity($actual));
+            } else {
+                $this->assertObjectEquals($expected, $actual, message: "Failed for factor " . $i . " (" . gmp_strval($factor, 16) . ")");
+            }
         }
     }
 }
