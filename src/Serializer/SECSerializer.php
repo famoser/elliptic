@@ -3,7 +3,6 @@
 namespace Famoser\Elliptic\Serializer;
 
 use Famoser\Elliptic\Math\MathInterface;
-use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
 use Famoser\Elliptic\Serializer\SEC\SECEncoding;

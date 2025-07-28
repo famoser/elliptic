@@ -4,8 +4,6 @@ namespace Famoser\Elliptic\Tests\Math;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Math\MG_ED_Math;
-use Famoser\Elliptic\Math\MGUnsafeMath;
-use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
 use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;

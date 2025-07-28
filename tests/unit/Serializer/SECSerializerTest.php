@@ -4,7 +4,6 @@ namespace Famoser\Elliptic\Tests\Serializer;
 
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Math\SWUnsafeMath;
-use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoder\SWPointDecoder;
 use Famoser\Elliptic\Serializer\SEC\SECEncoding;
 use Famoser\Elliptic\Serializer\SECSerializer;

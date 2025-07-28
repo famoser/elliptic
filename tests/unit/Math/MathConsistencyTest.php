@@ -16,7 +16,6 @@ use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Math\TwED_ANeg1_Math;
 use Famoser\Elliptic\Math\TwEDUnsafeMath;
-use Famoser\Elliptic\Primitives\Point;
 use PHPUnit\Framework\TestCase;
 
 class MathConsistencyTest extends TestCase

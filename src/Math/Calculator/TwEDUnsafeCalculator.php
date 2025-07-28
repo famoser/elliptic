@@ -2,7 +2,6 @@
 
 namespace Famoser\Elliptic\Math\Calculator;
 
-use Famoser\Elliptic\Math\Calculator\Adder\EDUnsafeAdder;
 use Famoser\Elliptic\Math\Calculator\Adder\TwEDUnsafeAdder;
 use Famoser\Elliptic\Math\Calculator\Coordinator\PointCoordinator;
 use Famoser\Elliptic\Math\Calculator\Multiplicator\DoubleAndAddAlwaysMultiplicator;
