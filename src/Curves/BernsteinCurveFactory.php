@@ -173,6 +173,7 @@ class BernsteinCurveFactory
                 /** @phpstan-ignore-next-line */
                 $field->invert($point->y)
             );
+            // note: if x === 0, then y === 1 (as opposed to the other map from curve25519 to edwards25519
             $y = $field->mul(
                 $field->add(gmp_init(1), $point->x),
                 /** @phpstan-ignore-next-line */
