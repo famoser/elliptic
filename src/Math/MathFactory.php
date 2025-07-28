@@ -42,7 +42,9 @@ class MathFactory
             'brainpoolP384r1' => new SW_QT_ANeg3_Math($curve, BrainpoolCurveFactory::p384r1TwistToP384t1()),
             'brainpoolP512r1' => new SW_QT_ANeg3_Math($curve, BrainpoolCurveFactory::p512r1TwistToP512t1()),
 
+            /** @phpstan-ignore-next-line */
             'curve25519' => new MG_TwED_ANeg1_Math($curve, BernsteinCurveFactory::curve25519ToEdwards25519(), $this->curveRepository->findByName('edwards25519')),
+            /** @phpstan-ignore-next-line */
             'curve448' => new MG_ED_Math($curve, BernsteinCurveFactory::curve448ToEdwards(), $this->curveRepository->findByName('curve448Edwards')),
             'edwards25519' => new TwED_ANeg1_Math($curve),
             'edwards448', 'curve448Edwards' => new EDMath($curve),

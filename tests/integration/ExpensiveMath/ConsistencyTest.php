@@ -31,7 +31,7 @@ class ConsistencyTest extends \Famoser\Elliptic\Tests\Math\ConsistencyTest
     {
         $curve = $math->getCurve();
 
-        $factor = gmp_init(gmp_mul($math->getCurve()->getH(), 25));
+        $factor = gmp_mul($math->getCurve()->getH(), 25);
         $expected = $math->mul($curve->getG(), $factor);
         $actual = $math->mulG($factor);
         $this->assertObjectEquals($expected, $actual);

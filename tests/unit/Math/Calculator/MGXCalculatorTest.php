@@ -14,7 +14,7 @@ class MGXCalculatorTest extends TestCase
     {
         // https://datatracker.ietf.org/doc/html/rfc7748#section-5.2 X25519 (1/2)
         $scalar = 'a546e36bf0527c9d3b16154b82465edd62144c0ac1fc5a18506a2244ba449ac4';
-        $u ='e6db6867583030db3594c1a424b15f7c726624ec26b3353b10a903a6d0ab1c4c';
+        $u = 'e6db6867583030db3594c1a424b15f7c726624ec26b3353b10a903a6d0ab1c4c';
         $expectedResult = 'c3da55379de9c6908e94ea4df28d084f32eccf03491c71f754b4075577a28552';
 
         $curve = BernsteinCurveFactory::curve25519();
