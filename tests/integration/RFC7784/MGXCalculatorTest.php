@@ -1,14 +1,53 @@
 <?php
 
-namespace Famoser\Elliptic\Integration\Other;
+namespace Famoser\Elliptic\Integration\RFC7784;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Math\Calculator\MGXCalculator;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
 use PHPUnit\Framework\TestCase;
 
-class MGXCalculatorIterationTest extends TestCase
+/**
+ * values from https://datatracker.ietf.org/doc/html/rfc7748
+ */
+class MGXCalculatorTest extends TestCase
 {
+    use RFC7784TestVectorsTrait;
+
+    /**
+     * @dataProvider vectors25519
+     */
+    public function testTestVectors25519(string $scalar, string $u, string $expectedResult): void
+    {
+        $curve = BernsteinCurveFactory::curve25519();
+        $calculator = new MGXCalculator($curve);
+
+        $decoder = new RFC7784Decoder();
+        $scalar = $decoder->decodeScalar25519($scalar);
+        $u = $decoder->decodeUCoordinate($u, 255);
+
+        $result = $calculator->mul($u, $scalar);
+        $encodedResult = $decoder->encodeUCoordinate($result, 255);
+        $this->assertEquals($expectedResult, $encodedResult);
+    }
+
+    /**
+     * @dataProvider vectors448
+     */
+    public function testTestVectors448(string $scalar, string $u, string $expectedResult): void
+    {
+        $curve = BernsteinCurveFactory::curve448();
+        $calculator = new MGXCalculator($curve);
+
+        $decoder = new RFC7784Decoder();
+        $scalar = $decoder->decodeScalar448($scalar);
+        $u = $decoder->decodeUCoordinate($u, 448);
+
+        $result = $calculator->mul($u, $scalar);
+        $encodedResult = $decoder->encodeUCoordinate($result, 448);
+        $this->assertEquals($expectedResult, $encodedResult);
+    }
+
     public function testIteration25519(): void
     {
         // https://datatracker.ietf.org/doc/html/rfc7748#section-5.2 X25519 iteration test

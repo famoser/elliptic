@@ -20,7 +20,7 @@ use Famoser\Elliptic\Primitives\CurveType;
 use Famoser\Elliptic\Tests\TestUtils\CurveBuilder;
 use PHPUnit\Framework\TestCase;
 
-class MathInitializationTest extends TestCase
+class InitializationTest extends TestCase
 {
     public static function invalid_ED_Curves(): array
     {

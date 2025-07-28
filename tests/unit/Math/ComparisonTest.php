@@ -19,7 +19,7 @@ use Famoser\Elliptic\Math\TwEDUnsafeMath;
 use Famoser\Elliptic\Tests\TestUtils\UnresolvedErrorTrait;
 use PHPUnit\Framework\TestCase;
 
-class MathComparisonTest extends TestCase
+class ComparisonTest extends TestCase
 {
     use UnresolvedErrorTrait;
 

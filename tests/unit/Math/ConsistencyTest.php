@@ -19,7 +19,7 @@ use Famoser\Elliptic\Math\TwEDUnsafeMath;
 use Famoser\Elliptic\Tests\TestUtils\UnresolvedErrorTrait;
 use PHPUnit\Framework\TestCase;
 
-class MathConsistencyTest extends TestCase
+class ConsistencyTest extends TestCase
 {
     use UnresolvedErrorTrait;
 
@@ -206,13 +206,13 @@ class MathConsistencyTest extends TestCase
         $hDouble = $curve->getG();
         $hNumber = (int)gmp_strval($curve->getH());
         $hLog = log($hNumber, 2);
-        $this->assertEquals(2**$hLog, $hNumber); // sanity check: log2 well-defined
+        $this->assertEquals(2 ** $hLog, $hNumber); // sanity check: log2 well-defined
         for ($i = 0; $i < $hLog; ++$i) {
             $hDouble = $math->double($hDouble);
         }
 
         $hAdd = $curve->getG();
-        for ($i = 0; $i < $curve->getH()-1; ++$i) {
+        for ($i = 0; $i < $curve->getH() - 1; ++$i) {
             $hAdd = $math->add($hAdd, $curve->getG());
         }
 
