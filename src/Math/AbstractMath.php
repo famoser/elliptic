@@ -27,6 +27,7 @@ abstract class AbstractMath implements MathInterface
          * - Table needs to be fully traversed, else private key imprinted in cache
          * - Especially costly as above implied swapping two values (x,y) repeatedly
          * - Maybe faster by encoding table as string, and only generating chosen gmp afterwards?
+         * - Might introduce additional side-channels
          */
         return $this->mul($this->curve->getG(), $factor);
     }

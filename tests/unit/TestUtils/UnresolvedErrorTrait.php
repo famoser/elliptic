@@ -2,23 +2,23 @@
 
 namespace Famoser\Elliptic\Tests\TestUtils;
 
+use Famoser\Elliptic\Integration\ExpensiveMath\ComparisonTest;
+use Famoser\Elliptic\Integration\ExpensiveMath\ConsistencyTest;
 use Famoser\Elliptic\Integration\RFC7784\MG_ED_MathTest;
 use Famoser\Elliptic\Math\MG_ED_Math;
 use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
 use Famoser\Elliptic\Math\TwED_ANeg1_Math;
-use Famoser\Elliptic\Tests\Math\ComparisonTest;
-use Famoser\Elliptic\Tests\Math\ConsistencyTest;
 
 trait UnresolvedErrorTrait
 {
-    private function skipUnresolvedError(string $class, string $function): void
+    protected function skipUnresolvedError(string $class, string $function): void
     {
         $args = func_get_args();
 
         // MG_ED_Math is incorrect in relation to the baseline
         if (
             ($class === MG_ED_MathTest::class) ||
-            ($class === ComparisonTest::class && $function === 'testDouble' && $args[2] === 'curve448ToEdwards') ||
+            ($class === \Famoser\Elliptic\Tests\Math\ComparisonTest::class && $function === 'testDouble' && $args[2] === 'curve448ToEdwards') ||
             ($class === ComparisonTest::class && $function === 'testMulSameResult' && $args[2] === MG_ED_Math::class && $args[3] === 'curve448ToEdwards')
         ) {
             $this->markTestSkipped('MG_ED_Math is incorrect in relation to the baseline.');

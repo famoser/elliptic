@@ -122,12 +122,10 @@ class ConsistencyTest extends TestCase
     {
         $curve = $math->getCurve();
 
-        for ($i = 1; $i < 5; $i++) {
-            $factor = gmp_init($i);
-            $expected = $math->mul($curve->getG(), $factor);
-            $actual = $math->mulG($factor);
-            $this->assertObjectEquals($expected, $actual);
-        }
+        $factor = gmp_init(gmp_mul($math->getCurve()->getH(), 25));
+        $expected = $math->mul($curve->getG(), $factor);
+        $actual = $math->mulG($factor);
+        $this->assertObjectEquals($expected, $actual);
     }
 
     /**
@@ -146,29 +144,6 @@ class ConsistencyTest extends TestCase
         $actual = $math->mul($curve->getG(), $factor);
 
         $this->assertObjectEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider maths
-     */
-    public function testMulCycle(string $curveName, MathInterface $math): void
-    {
-        $this->skipUnresolvedError(__CLASS__, __FUNCTION__, $math::class, $curveName);
-
-        $curve = $math->getCurve();
-
-        $bigOrder = gmp_mul($curve->getN(), $curve->getH());
-        $actual = $math->mul($curve->getG(), $bigOrder);
-        $this->assertTrue($math->isInfinity($actual));
-
-        $orderPlusH = gmp_add(gmp_mul($curve->getN(), $curve->getH()), $curve->getH());
-        $actual = $math->mul($curve->getG(), $orderPlusH);
-        $Gh = $math->mul($curve->getG(), $curve->getH());
-        $this->assertObjectEquals($Gh, $actual);
-
-        $orderMinusH = gmp_sub(gmp_mul($curve->getN(), $curve->getH()), $curve->getH());
-        $actual = $math->add($math->mul($curve->getG(), $orderMinusH), $Gh);
-        $this->assertTrue($math->isInfinity($actual));
     }
 
     /**
