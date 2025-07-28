@@ -16,6 +16,10 @@ trait ProjectiveCoordinator
     public function affineToNative(Point $point): ProjectiveCoordinates
     {
         // for Z = 1, it holds that X = x and Y = y
+        if (gmp_cmp($point->x, 0) === 0) {
+            return $this->getInfinity();
+        }
+
         return new ProjectiveCoordinates($point->x, $point->y, gmp_init(1));
     }
 

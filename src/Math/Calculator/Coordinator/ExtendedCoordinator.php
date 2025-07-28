@@ -18,6 +18,10 @@ trait ExtendedCoordinator
     public function affineToNative(Point $point): ExtendedCoordinates
     {
         // for Z = 1, it holds that X = x, Y = y, T = x*y
+        if (gmp_cmp($point->x, 0) === 0) {
+            return $this->getInfinity();
+        }
+
         return new ExtendedCoordinates($point->x, $point->y, gmp_init(1), gmp_mul($point->x, $point->y));
     }
 

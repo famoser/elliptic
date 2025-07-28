@@ -54,5 +54,7 @@ The results are as follows:
 
 Correctness:
 - In the JacobiCoordinator, how to handle a non-invertible Z properly? (and in the bilinear mappings)
+- In the Coordinators, how to detect/handle infinity?
 - Reducing factors before montgomery ladder; correct to reduce by N*h?
 - MG_ED math is wrong; "better" if cofactor is set to 1. Why & what could be the problem?
+

@@ -5,6 +5,7 @@ namespace Famoser\Elliptic\Tests\Math;
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
+use Famoser\Elliptic\Integration\ExpensiveMath\UnresolvedErrorTrait;
 use Famoser\Elliptic\Math\EDMath;
 use Famoser\Elliptic\Math\EDUnsafeMath;
 use Famoser\Elliptic\Math\MathInterface;
@@ -16,10 +17,13 @@ use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Math\TwED_ANeg1_Math;
 use Famoser\Elliptic\Math\TwEDUnsafeMath;
+use Famoser\Elliptic\Primitives\Point;
 use PHPUnit\Framework\TestCase;
 
 class ConsistencyTest extends TestCase
 {
+    use UnresolvedErrorTrait;
+
     public static function maths(): array
     {
         $secpCurves = [
@@ -112,5 +116,18 @@ class ConsistencyTest extends TestCase
         $actual = $math->mulG($factor);
 
         $this->assertObjectEquals($expected, $actual);
+    }
+
+    /**
+     * @dataProvider maths
+     */
+    public function testNegation(string $curveName, MathInterface $math): void
+    {
+        $curve = $math->getCurve();
+
+        $negativeG = new Point($curve->getG()->x, gmp_mod(gmp_neg($curve->getG()->y), $curve->getP()));
+        $actual = $math->add($curve->getG(), $negativeG);
+
+        $this->assertTrue($math->isInfinity($actual));
     }
 }
