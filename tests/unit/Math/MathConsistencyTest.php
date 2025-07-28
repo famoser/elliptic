@@ -188,4 +188,30 @@ class MathConsistencyTest extends TestCase
         $actual = $math->mul($math->getInfinity(), gmp_init(5));
         $this->assertObjectEquals($math->getInfinity(), $actual);
     }
+
+    /**
+     * @dataProvider maths
+     */
+    public function testHConsistency(MathInterface $math): void
+    {
+        $curve = $math->getCurve();
+
+        $hMul = $math->mul($curve->getG(), $curve->getH());
+
+        $hDouble = $curve->getG();
+        $hNumber = (int)gmp_strval($curve->getH());
+        $hLog = log($hNumber, 2);
+        $this->assertEquals(2**$hLog, $hNumber); // sanity check: log2 well-defined
+        for ($i = 0; $i < $hLog; ++$i) {
+            $hDouble = $math->double($hDouble);
+        }
+
+        $hAdd = $curve->getG();
+        for ($i = 0; $i < $curve->getH()-1; ++$i) {
+            $hAdd = $math->add($hAdd, $curve->getG());
+        }
+
+        $this->assertObjectEquals($hMul, $hDouble);
+        $this->assertObjectEquals($hAdd, $hDouble);
+    }
 }

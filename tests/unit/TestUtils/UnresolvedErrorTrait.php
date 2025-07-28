@@ -9,7 +9,7 @@ trait UnresolvedErrorTrait
     private function skipUnresolvedError(string $class, string $method): void
     {
         $args = func_get_args();
-        if ($class === MathComparisonTest::class && $args[2] === 'curve448ToEdwards') {
+        if ($class === MathComparisonTest::class && $method === 'testDouble' && $args[2] === 'curve448ToEdwards') {
             $this->markTestSkipped('MG_ED_Math and MGUnsafeMath have different add/double results.');
         }
     }

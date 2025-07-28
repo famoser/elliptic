@@ -101,12 +101,14 @@ class MathComparisonTest extends TestCase
      */
     public function testAdd(string $curveName, MathInterface $math, MathInterface $baseline): void
     {
-        $this->skipUnresolvedError(__CLASS__, __FUNCTION__, $curveName);
-
         $curve = $math->getCurve();
 
-        $expected = $baseline->add($curve->getG(), $curve->getG());
-        $actual = $math->add($curve->getG(), $curve->getG());
+        $expected = $curve->getG();
+        $actual = $curve->getG();
+        for ($i = 0; $i < $math->getCurve()->getH(); ++$i) {
+            $expected = $baseline->add($expected, $curve->getG());
+            $actual = $math->add($actual, $curve->getG());
+        }
 
         $this->assertObjectEquals($expected, $actual);
     }
@@ -116,13 +118,15 @@ class MathComparisonTest extends TestCase
      */
     public function testAddG2(string $curveName, MathInterface $math, MathInterface $baseline): void
     {
-        $this->skipUnresolvedError(__CLASS__, __FUNCTION__, $curveName);
-
         $curve = $math->getCurve();
 
         $G2 = $baseline->double($curve->getG());
-        $expected = $baseline->add($curve->getG(), $G2);
-        $actual = $math->add($curve->getG(), $G2);
+        $expected = $curve->getG();
+        $actual = $curve->getG();
+        for ($i = 0; $i < $math->getCurve()->getH(); ++$i) {
+            $expected = $baseline->add($expected, $G2);
+            $actual = $math->add($actual, $G2);
+        }
 
         $this->assertObjectEquals($expected, $actual);
     }
@@ -136,8 +140,21 @@ class MathComparisonTest extends TestCase
 
         $curve = $math->getCurve();
 
-        $expected = $baseline->double($curve->getG());
-        $actual = $math->double($curve->getG());
+        $expected = $curve->getG();
+        $actual = $curve->getG();
+        $hNumber = (int)gmp_strval($math->getCurve()->getH());
+        $hLog = log($hNumber, 2);
+        $this->assertEquals(2 ** $hLog, $hNumber); // sanity check: log2 well-defined
+        for ($i = 0; $i < $hLog; ++$i) {
+            $expected = $baseline->double($expected);
+            $actual = $math->double($actual);
+        }
+        $expectedAdd = $curve->getG();
+        $actualAdd = $curve->getG();
+        for ($i = 0; $i < $hNumber - 1; ++$i) {
+            $expectedAdd = $baseline->add($expectedAdd, $curve->getG());
+            $actualAdd = $math->add($actualAdd, $curve->getG());
+        }
 
         $this->assertObjectEquals($expected, $actual);
     }
@@ -149,7 +166,7 @@ class MathComparisonTest extends TestCase
     {
         $curve = $math->getCurve();
 
-        $factors = array_map(static fn ($number) => gmp_mul($number, $curve->getH()), [0,1,2,3]);
+        $factors = array_map(static fn($number) => gmp_mul($number, $curve->getH()), [0, 1, 2, 3]);
         $order = gmp_mul($curve->getN(), $curve->getH());
         $factors[4] = $order;
         $factors[5] = gmp_sub($order, $curve->getH());
