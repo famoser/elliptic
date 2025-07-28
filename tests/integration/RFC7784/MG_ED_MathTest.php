@@ -1,13 +1,12 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\Math;
+namespace Famoser\Elliptic\Integration\RFC7784;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Math\MG_ED_Math;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
 use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
-use Famoser\Elliptic\Tests\Math\Calculator\RFC7784TestVectorsTrait;
 use Famoser\Elliptic\Tests\TestUtils\UnresolvedErrorTrait;
 use PHPUnit\Framework\TestCase;
 

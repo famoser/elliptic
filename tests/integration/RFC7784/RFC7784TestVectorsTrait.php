@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\Math\Calculator;
+namespace Famoser\Elliptic\Integration\RFC7784;
 
 trait RFC7784TestVectorsTrait
 {

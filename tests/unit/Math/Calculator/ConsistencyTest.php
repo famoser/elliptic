@@ -15,7 +15,7 @@ use Famoser\Elliptic\Math\Calculator\TwEDUnsafeCalculator;
 use Famoser\Elliptic\Math\SWUnsafeMath;
 use PHPUnit\Framework\TestCase;
 
-class CalculatorConsistencyTest extends TestCase
+class ConsistencyTest extends TestCase
 {
     public static function calculators(): array
     {
