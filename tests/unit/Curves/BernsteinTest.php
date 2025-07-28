@@ -3,8 +3,11 @@
 namespace Famoser\Elliptic\Tests\Curves;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
+use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\MG_ED_Math;
 use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
+use Famoser\Elliptic\Primitives\BirationalMap;
+use Famoser\Elliptic\Primitives\Curve;
 use PHPUnit\Framework\TestCase;
 
 class BernsteinTest extends TestCase
@@ -34,20 +37,6 @@ class BernsteinTest extends TestCase
         $this->assertEquals(0, gmp_cmp($aNeg1, $curve->getA()));
     }
 
-    public function testBirationalMappingOf25519(): void
-    {
-        $curve = BernsteinCurveFactory::curve25519();
-        $mapping = BernsteinCurveFactory::curve25519ToEdwards25519();
-        $targetCurve = BernsteinCurveFactory::edwards25519();
-        $math = new MG_TwED_ANeg1_Math($curve, $mapping, $targetCurve);
-
-        $actualG = $mapping->map($math, $curve->getG());
-        $this->assertTrue($targetCurve->getG()->equals($actualG));
-
-        $actualG = $mapping->reverse($math, $targetCurve->getG());
-        $this->assertTrue($curve->getG()->equals($actualG));
-    }
-
     public function testEvaluatedParametersCurve448(): void
     {
         $curve = BernsteinCurveFactory::curve448();
@@ -70,17 +59,38 @@ class BernsteinTest extends TestCase
         $this->assertEquals(0, gmp_cmp($order, $curve->getN()));
     }
 
-    public function testBirationalMappingOf448(): void
+    public static function provideBirationalMaps(): \Generator
     {
+        $curve = BernsteinCurveFactory::curve25519();
+        $mapping = BernsteinCurveFactory::curve25519ToEdwards25519();
+        $targetCurve = BernsteinCurveFactory::edwards25519();
+        $math = new MG_TwED_ANeg1_Math($curve, $mapping, $targetCurve);
+        yield [$math, $curve, $mapping, $targetCurve];
+
         $curve = BernsteinCurveFactory::curve448();
         $mapping = BernsteinCurveFactory::curve448ToEdwards();
         $targetCurve = BernsteinCurveFactory::curve448Edwards();
         $math = new MG_ED_Math($curve, $mapping, $targetCurve);
+        yield [$math, $curve, $mapping, $targetCurve];
+    }
 
+    /**
+     * @dataProvider provideBirationalMaps
+     */
+    public function testBirationalMappings(MathInterface $math, Curve $curve, BirationalMap $mapping, Curve $targetCurve): void
+    {
         $actualG = $mapping->map($math, $curve->getG());
         $this->assertTrue($targetCurve->getG()->equals($actualG));
 
         $actualG = $mapping->reverse($math, $targetCurve->getG());
         $this->assertTrue($curve->getG()->equals($actualG));
+
+        $actualInfinity = $mapping->map($math, $math->getInfinity());
+        ;
+        $this->assertTrue($math->isInfinity($actualInfinity));
+
+        $actualInfinity = $mapping->reverse($math, $math->getInfinity());
+        ;
+        $this->assertTrue($math->isInfinity($actualInfinity));
     }
 }
