@@ -62,6 +62,12 @@ class BernsteinCurveFactory
                 /** @phpstan-ignore-next-line */
                 $field->invert($point->y)
             );
+
+            // if x is 0, short-cut to resolve y = 1 (following the normal flow would choose the other y^2 root)
+            if (gmp_cmp($x, 0) === 0) {
+                return $math->getInfinity();
+            }
+
             $y = $field->mul(
                 $field->sub($point->x, gmp_init(1)),
                 /** @phpstan-ignore-next-line */
