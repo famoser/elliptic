@@ -3,6 +3,7 @@
 namespace Famoser\Elliptic\Integration\Rooterberg;
 
 use Famoser\Elliptic\Curves\CurveRepository;
+use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
 use Famoser\Elliptic\Serializer\PointDecoder\SWPointDecoder;
 use Famoser\Elliptic\Serializer\SECSerializer;
@@ -32,7 +33,8 @@ class FixturesRepository
         $curveRepository = new CurveRepository();
         $curve = $curveRepository->findByName($algorithm['curve']);
 
-        $pointSerializer = new SECSerializer($curve, new SWPointDecoder($curve));
+        $math = new SWUnsafeMath($curve);
+        $pointSerializer = new SECSerializer($math, new SWPointDecoder($curve));
 
         foreach ($testvectors['tests'] as $testvector) {
             $publicKey = $pointSerializer->deserialize($testvector['publicKeyUncompressed']);

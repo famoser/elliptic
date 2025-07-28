@@ -4,6 +4,7 @@ namespace Famoser\Elliptic\Tests\Math\Calculator;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
+use Famoser\Elliptic\Math\Calculator\AbstractCalculator;
 use Famoser\Elliptic\Math\Calculator\EDCalculator;
 use Famoser\Elliptic\Math\Calculator\EDUnsafeCalculator;
 use Famoser\Elliptic\Math\Calculator\MGUnsafeCalculator;
@@ -35,20 +36,20 @@ class ConsistencyTest extends TestCase
     /**
      * @dataProvider calculators
      */
-    public function testInfinity($calculator): void
+    public function testInfinity(AbstractCalculator $calculator): void
     {
-        if (!method_exists($calculator, 'getInfinity')) {
-            $this->markTestSkipped();
-        }
+        if (method_exists($calculator, 'getInfinity') && method_exists($calculator, 'isInfinity')) {
+            $actual = $calculator->getInfinity();
+            if (method_exists($calculator, 'nativeToAffine') && method_exists($calculator, 'affineToNative')) {
+                $infinity = $actual;
+                $native = $calculator->nativeToAffine($actual);
+                $actual = $calculator->affineToNative($native);
+                $this->assertTrue($infinity->equals($actual));
+            }
 
-        $actual = $calculator->getInfinity();
-        if (method_exists($calculator, 'nativeToAffine')) {
-            $infinity = $actual;
-            $native = $calculator->nativeToAffine($actual);
-            $actual = $calculator->affineToNative($native);
-            $this->assertTrue($infinity->equals($actual));
+            $this->assertTrue($calculator->isInfinity($actual));
+        } else {
+            $this->markTestSkipped("No infinity handling.");
         }
-
-        $this->assertTrue($calculator->isInfinity($actual));
     }
 }
