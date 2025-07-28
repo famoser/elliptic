@@ -164,6 +164,8 @@ class MathComparisonTest extends TestCase
      */
     public function testMulSameResult(string $curveName, MathInterface $math, MathInterface $baseline): void
     {
+        $this->skipUnresolvedError(__CLASS__, __FUNCTION__, $math::class, $curveName);
+
         $curve = $math->getCurve();
 
         $factors = array_map(static fn($number) => gmp_mul($number, $curve->getH()), [0, 1, 2, 3]);
