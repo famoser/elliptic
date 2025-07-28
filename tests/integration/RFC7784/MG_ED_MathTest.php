@@ -3,11 +3,11 @@
 namespace Famoser\Elliptic\Integration\RFC7784;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
+use Famoser\Elliptic\Integration\ExpensiveMath\UnresolvedErrorTrait;
 use Famoser\Elliptic\Math\MG_ED_Math;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
 use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
-use Famoser\Elliptic\Tests\TestUtils\UnresolvedErrorTrait;
 use PHPUnit\Framework\TestCase;
 
 class MG_ED_MathTest extends TestCase
