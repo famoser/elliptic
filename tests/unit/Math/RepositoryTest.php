@@ -39,7 +39,7 @@ class RepositoryTest extends TestCase
             }
 
             $math = $mathFactory->createHardenedMath($curve);
-            $this->assertInstanceOf(AbstractMath::class, $math, 'math for curve ' . $curveName . ' is missing');;
+            $this->assertInstanceOf(AbstractMath::class, $math, 'math for curve ' . $curveName . ' is missing');
         }
     }
 }
