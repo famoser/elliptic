@@ -16,7 +16,7 @@ trait JacobiCoordinator
     public function affineToNative(Point $point): JacobiPoint
     {
         // for Z = 1, it holds that X = x and Y = y
-        if (gmp_cmp($point->x, 0) === 0) {
+        if (gmp_cmp($point->x, 0) === 0 && gmp_cmp($point->y, 0) === 0) {
             return $this->getInfinity();
         }
 
