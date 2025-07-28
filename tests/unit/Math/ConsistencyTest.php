@@ -212,7 +212,7 @@ class ConsistencyTest extends TestCase
         }
 
         $hAdd = $curve->getG();
-        for ($i = 0; $i < $curve->getH() - 1; ++$i) {
+        for ($i = 0; gmp_cmp($i, gmp_sub($curve->getH(), 1)) < 0; ++$i) {
             $hAdd = $math->add($hAdd, $curve->getG());
         }
 

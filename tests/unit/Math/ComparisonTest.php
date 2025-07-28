@@ -105,7 +105,7 @@ class ComparisonTest extends TestCase
 
         $expected = $curve->getG();
         $actual = $curve->getG();
-        for ($i = 0; $i < $math->getCurve()->getH(); ++$i) {
+        for ($i = 0; gmp_cmp($i, $math->getCurve()->getH()) < 0; ++$i) {
             $expected = $baseline->add($expected, $curve->getG());
             $actual = $math->add($actual, $curve->getG());
         }
@@ -123,7 +123,7 @@ class ComparisonTest extends TestCase
         $G2 = $baseline->double($curve->getG());
         $expected = $curve->getG();
         $actual = $curve->getG();
-        for ($i = 0; $i < $math->getCurve()->getH(); ++$i) {
+        for ($i = 0; gmp_cmp($i, $math->getCurve()->getH()) < 0; ++$i) {
             $expected = $baseline->add($expected, $G2);
             $actual = $math->add($actual, $G2);
         }
@@ -182,7 +182,7 @@ class ComparisonTest extends TestCase
                 $this->assertTrue($baseline->isInfinity($expected));
                 $this->assertTrue($math->isInfinity($actual));
             } else {
-                $this->assertObjectEquals($expected, $actual, message: "Failed for factor " . $i . " (" . gmp_strval($factor, 16) . ")");
+                $this->assertObjectEquals($expected, $actual, 'equals', "Failed for factor " . $i . " (" . gmp_strval($factor, 16) . ")");
             }
         }
     }
