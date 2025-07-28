@@ -2,25 +2,108 @@
 
 namespace Famoser\Elliptic\Integration\ExpensiveMath;
 
-use Famoser\Elliptic\Curves\BernsteinCurveFactory;
-use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
-use Famoser\Elliptic\Curves\SEC2CurveFactory;
-use Famoser\Elliptic\Math\EDMath;
-use Famoser\Elliptic\Math\EDUnsafeMath;
 use Famoser\Elliptic\Math\MathInterface;
-use Famoser\Elliptic\Math\MG_ED_Math;
-use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
-use Famoser\Elliptic\Math\MGUnsafeMath;
-use Famoser\Elliptic\Math\SW_ANeg3_Math;
-use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
-use Famoser\Elliptic\Math\SWUnsafeMath;
-use Famoser\Elliptic\Math\TwED_ANeg1_Math;
-use Famoser\Elliptic\Math\TwEDUnsafeMath;
-use Famoser\Elliptic\Tests\TestUtils\UnresolvedErrorTrait;
-use PHPUnit\Framework\TestCase;
 
 class ConsistencyTest extends \Famoser\Elliptic\Tests\Math\ConsistencyTest
 {
+    use UnresolvedErrorTrait;
+
+    /**
+     * @dataProvider maths
+     */
+    public function testAddAndDoubleConsistency(string $curveName, MathInterface $math): void
+    {
+        $curve = $math->getCurve();
+
+        $addDouble = $math->add($curve->getG(), $curve->getG());
+        $doubleDouble = $math->double($curve->getG());
+        $this->assertTrue($addDouble->equals($doubleDouble));
+
+        $actual = $math->double($addDouble);
+        $expected = $math->add($doubleDouble, $doubleDouble);
+        $this->assertObjectEquals($expected, $actual);
+    }
+
+    /**
+     * @dataProvider maths
+     */
+    public function testMulGEqualsMul(string $curveName, MathInterface $math): void
+    {
+        $curve = $math->getCurve();
+
+        $factor = gmp_init(gmp_mul($math->getCurve()->getH(), 25));
+        $expected = $math->mul($curve->getG(), $factor);
+        $actual = $math->mulG($factor);
+        $this->assertObjectEquals($expected, $actual);
+    }
+
+    /**
+     * @dataProvider maths
+     */
+    public function testMulEqualsDoubleAdd(string $curveName, MathInterface $math): void
+    {
+        $curve = $math->getCurve();
+
+        // (1 + 1) * 2 + 1 = 5
+        $onePlusOne = $math->add($curve->getG(), $curve->getG());
+        $doubledOnePlusOne = $math->double($onePlusOne);
+        $expected = $math->add($doubledOnePlusOne, $curve->getG());
+
+        $factor = gmp_init(5);
+        $actual = $math->mul($curve->getG(), $factor);
+
+        $this->assertObjectEquals($expected, $actual);
+    }
+
+    /**
+     * @dataProvider maths
+     */
+    public function testInfinity(string $curveName, MathInterface $math): void
+    {
+        $curve = $math->getCurve();
+
+        $actual = $math->add($curve->getG(), $math->getInfinity());
+        $this->assertObjectEquals($curve->getG(), $actual);
+
+        $actual = $math->add($math->getInfinity(), $curve->getG());
+        $this->assertObjectEquals($curve->getG(), $actual);
+
+        $actual = $math->add($math->getInfinity(), $math->getInfinity());
+        $this->assertTrue($math->isInfinity($actual));
+
+        $actual = $math->double($math->getInfinity());
+        $this->assertTrue($math->isInfinity($actual));
+
+        $actual = $math->mul($math->getInfinity(), gmp_init(5));
+        $this->assertTrue($math->isInfinity($actual));
+    }
+
+    /**
+     * @dataProvider maths
+     */
+    public function testHConsistency(string $curveName, MathInterface $math): void
+    {
+        $curve = $math->getCurve();
+
+        $hMul = $math->mul($curve->getG(), $curve->getH());
+
+        $hDouble = $curve->getG();
+        $hNumber = (int)gmp_strval($curve->getH());
+        $hLog = log($hNumber, 2);
+        $this->assertEquals(2 ** $hLog, $hNumber); // sanity check: log2 well-defined
+        for ($i = 0; $i < $hLog; ++$i) {
+            $hDouble = $math->double($hDouble);
+        }
+
+        $hAdd = $curve->getG();
+        for ($i = 0; gmp_cmp($i, gmp_sub($curve->getH(), 1)) < 0; ++$i) {
+            $hAdd = $math->add($hAdd, $curve->getG());
+        }
+
+        $this->assertObjectEquals($hMul, $hDouble);
+        $this->assertObjectEquals($hAdd, $hDouble);
+    }
+
     /**
      * @dataProvider maths
      */
