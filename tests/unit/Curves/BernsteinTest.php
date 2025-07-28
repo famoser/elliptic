@@ -8,6 +8,7 @@ use Famoser\Elliptic\Math\MG_ED_Math;
 use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
 use Famoser\Elliptic\Primitives\BirationalMap;
 use Famoser\Elliptic\Primitives\Curve;
+use Famoser\Elliptic\Primitives\Point;
 use PHPUnit\Framework\TestCase;
 
 class BernsteinTest extends TestCase
@@ -86,11 +87,9 @@ class BernsteinTest extends TestCase
         $this->assertTrue($curve->getG()->equals($actualG));
 
         $actualInfinity = $mapping->map($math, $math->getInfinity());
-        ;
         $this->assertTrue($math->isInfinity($actualInfinity));
 
         $actualInfinity = $mapping->reverse($math, $math->getInfinity());
-        ;
         $this->assertTrue($math->isInfinity($actualInfinity));
     }
 }
