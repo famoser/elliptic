@@ -21,6 +21,27 @@ $G3_ = $math->add($curve->getG(), $G2);
 $G3 = $math->mul($curve->getG(), gmp_init(3));
 if ($G3->equals($G3_)) { echo "success"; }
 ```
+
+## Math overview
+
+| Hardened Math        | Supported Curves                | Correctness        | Speed | Hardened |
+|----------------------|---------------------------------|--------------------|-------|----------|
+| `SW_ANeg3_Math`      | `secp*r1`, `brainpool*t1`       | :white_check_mark: |       |          |
+| `SW_QT_ANeg3_Math`   | `brainpool*r1`                  | :white_check_mark: |       |          |
+| `MG_TwED_ANeg1_Math` | `curve25519`                    | :warning:          |       |          |
+| `MG_ED_Math`         | `curve448`                      | :x:                |       |          |
+| `TwED_ANeg1_Math`    | `edwards25519`                  | :question:         |       |          |
+| `EDMath`             | `edwards448`, `curve448Edwards` | :question:         |       |          |
+
+Correctness:
+- `MG_TwED_ANeg1_Math` perform correctly based on third-party testcases, but math sanity checks fail (e.g. G*order != 0)
+- `MG_ED_Math` pass math sanity checks, but performs incorrectly in relation to baselines (e.g. third party testcases)
+- `TwED_ANeg1_Math` and `EDMath` are not yet properly tested (but `TwED_ANeg1_Math` fails same math sanity checks as `MG_TwED_ANeg1_Math`)
+
+
+## Project context
+
+This library is part of a larger effort:
 - Provide low-level library that executes math on elliptic curves (this project)
 - Provide elliptic-crypto library which exposes general cryptographic primitives (signatures, encryptions and zero-knowledge proofs)
 - Provide more specialized libraries for more exotic cryptographic primitives (verifiable shuffle)

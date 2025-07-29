@@ -1,44 +1,68 @@
 # Testing
 
 Testing Targets:
-- Third-party integration tests for all curves [done]
-- 100% branch coverage for the crypto code using unit tests [in progress]
+- Correctness: Third-party integration tests for all curves
+- 100% branch coverage for the crypto code using unit tests
 - Timing tests for all curves (e.g. see [here](https://github.com/bleichenbacher-daniel/Rooterberg/issues/2)).
 
-## Integration tests
+## Correctness
 
-For the integration tests, we aim for a broad set of test vectors from different sources. While this libraries' target is to provide elliptic curve math, not crypto primitives, we nonetheless use integration tests from the crypto domain, as there are plenty available.
+Status:
+- 100% branch coverage
+- Math soundness tests (e.g. G*order = 0)
+- Third-party integration tests
+
+Correctness exceptions:
+- `MG_ED_MathTest` outputs different results than the baseline (i.e. is wrong)
+- `TwED_ANeg1_Math` and `MG_TwED_ANeg1_Math` do not cycle as expected (i.e. G*order != 0)
+
+### Integration tests
 
 There are two kind of integration tests at the moment:
 - The `WycheProof` integration tests from [C2SP/wycheproof](https://github.com/C2SP/wycheproof). It aims to explore edge cases in implementations, both on the crypto primitive layer (which we do not care about), but also on the elliptic curve math layer (which we do care about). The project seems to be [abandoned)(https://github.com/C2SP/wycheproof/issues/113#issuecomment-2610184843), and the original maintainer started a new project called [Rooterberg](https://github.com/bleichenbacher-daniel/Rooterberg).
 - The `Rooterberg` integration tests from [bleichenbacher-daniel/Rooterberg](https://github.com/bleichenbacher-daniel/Rooterberg). Same target as `WycheProof` by the same original maintainer.
 
-| Curve            | WycheProof        | Rooterberg |
-|------------------|-------------------|------------|
-| `secp192k1`      | ecdsa(190)        |            |
-| `secp192r1`      | ecdsa(192)        |            |
-| `secp224k1`      |                   | ecdsa(384) |
-| `secp224r1`      |                   | ecdsa(384) |
-| `secp256k1`      | ecdh(238)         |            |
-| `secp256r1`      | ecdh_ecpoint(216) |            |
-| `secp384r1`      | ecdh_ecpoint(182) |            |
-| `secp521r1`      | ecdh_ecpoint(237) |            |
-| `brainpool192r1` |                   | ecdsa(375) |
-| `brainpool192t1` |                   | ecdsa(377) |
-| `brainpool224r1` | ecdh(241)         |            |
-| `brainpool224t1` |                   | ecdsa(406) |
-| `brainpool256r1` | ecdh(288)         |            |
-| `brainpool256t1` |                   | ecdsa(534) |
-| `brainpool320r1` | ecdh(189)         |            |
-| `brainpool320t1` |                   | ecdsa(431) |
-| `brainpool384r1` | ecdh(128)         |            |
-| `brainpool384t1` |                   | ecdsa(428) |
-| `brainpool512r1` | ecdh(184)         |            |
-| `brainpool512t1` |                   | ecdsa(741) |
+We choose which testset to execute as follows, mainly to ease maintenance:
+- We prefer `WycheProof` over `Rooterberg`, as the latter is still experimental, and its file format might change. 
+- We prefer the testset as closest to the elliptic curve as possible (i.e. we prefer `ecdh_ecpoint` over `ecdh` over `ecdsa`)
 
-For the `WycheProof`, it seems to be the case that the more abstract testsuites include all the primitive tests, plus some new tests corresponding to the abstraction. As an example, `ecdh_ecpoint` and `ecdh` contain the same tests, while `ecdh` contains additional tests concerning the DER public key deserialization. As we do not care about the abstract functionality, we aim to execute the most primitive available test suite per curve. Concretely, we prefer `ecdh_ecpoint`, if not available then `ecdh`, if not available `ecdsa`.
+It holds that:
+- Over every curve, at least one testset is executed
+- Over every math, at least one testset is executed (unless noted otherwise)
 
-The `Rooterberg` testset is used for the curves that did not have tests in the Wycheproof. Its file format is not yet stable, hence this is potentially a maintenance burden.  
+Exceptions:
+- No direct test of `edwards25519` (but tested implicitly by `MG_TwED_ANeg1_Math`)
+- No tests for `curve448Edwards` and `edwards448`
+- No tests for `EDMath`, `EDUnsafeMath` and `TwEDUnsafeMath`, `TwED_ANeg1_Math` 
+- Test of `MG_ED_Math` fails
+
+| Curve            | Math                 | WycheProof        | Rooterberg |
+|------------------|----------------------|-------------------|------------|
+| `secp192k1`      | `SWUnsafeMath`       | ecdsa(190)        |            |
+| `secp192r1`      | `SW_ANeg3_Math`      | ecdsa(192)        |            |
+| `secp224k1`      | `SWUnsafeMath`       |                   | ecdsa(384) |
+| `secp224r1`      | `SW_ANeg3_Math`      |                   | ecdsa(384) |
+| `secp256k1`      | `SWUnsafeMath`       | ecdh(238)         |            |
+| `secp256r1`      | `SW_ANeg3_Math`      | ecdh_ecpoint(216) |            |
+| `secp384r1`      | `SW_ANeg3_Math`      | ecdh_ecpoint(182) |            |
+| `secp521r1`      | `SW_ANeg3_Math`      | ecdh_ecpoint(237) |            |
+| `brainpool192r1` | `SW_QT_ANeg3_Math`   |                   | ecdsa(375) |
+| `brainpool192t1` | `SW_ANeg3_Math`      |                   | ecdsa(377) |
+| `brainpool224r1` | `SW_QT_ANeg3_Math`   | ecdh(241)         |            |
+| `brainpool224t1` | `SW_ANeg3_Math`      |                   | ecdsa(406) |
+| `brainpool256r1` | `SW_QT_ANeg3_Math`   | ecdh(288)         |            |
+| `brainpool256t1` | `SW_ANeg3_Math`      |                   | ecdsa(534) |
+| `brainpool320r1` | `SW_QT_ANeg3_Math`   | ecdh(189)         |            |
+| `brainpool320t1` | `SW_ANeg3_Math`      |                   | ecdsa(431) |
+| `brainpool384r1` | `SW_QT_ANeg3_Math`   | ecdh(128)         |            |
+| `brainpool384t1` | `SW_ANeg3_Math`      |                   | ecdsa(428) |
+| `brainpool512r1` | `SW_QT_ANeg3_Math`   | ecdh(184)         |            |
+| `brainpool512t1` | `SW_ANeg3_Math`      |                   | ecdsa(741) |
+| `curve25519`     | `MG_TwED_ANeg1_Math` | x25519(294)       |            |
+| `curve25519`     | `MGUnsafeMath`       | x25519(294)       |            |
+| `curve25519`     | `MGXCalculator`      | x25519(518)       |            |
+| `curve448`       | `MGUnsafeMath`       | x25519(264)       |            |
+| `curve448`       | `MGXCalculator`      | x25519(510)       |            |
 
 
 ## Timing tests
