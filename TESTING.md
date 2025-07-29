@@ -1,9 +1,10 @@
 # Testing
 
-Testing Targets:
-- Correctness: Third-party integration tests for all curves
-- 100% branch coverage for the crypto code using unit tests
-- Timing tests for all curves (e.g. see [here](https://github.com/bleichenbacher-daniel/Rooterberg/issues/2)).
+The testing is done across multiple dimensions:
+- Correctness: Ensure the implementation is correct, notably in relation to third-party test vectors.
+- Side-channels: Check for side-channels, and estimate whether the implementation leaks the private key to a "realistic" attacker. 
+- Speed: Compare the speed of the individual implementations. The target is not to optimize the code further (if performance is of prime concern, use an implementation closer to the metal, not PHP); but to show the performance / safety trade-off between the different curve and math choices.
+
 
 ## Correctness
 
@@ -73,6 +74,8 @@ The results are as follows:
 - `SWUnsafeMath` is not const time (as expected)
 - `SW_ANeg3_Math` is const time for a reasonable same size (tested with 1000 samples)
 - `SW_QT_ANeg3_Math` cannot be shown to be const time, likely because the inversion operation of GMP is not const time (inversion is needed when applying the twist)
+
+There are more tests pending, see [here](https://github.com/bleichenbacher-daniel/Rooterberg/issues/2) for a discussion on the topic.
 
 ## Open Questions
 
