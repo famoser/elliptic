@@ -6,13 +6,21 @@
 
 This library provides low-level access to elliptic curve group computations.
 
-This is a work in progress. Targets:
-- [done] Design low-level API for operations on elliptic curves
-- [done] Add nist curves, including a const-time implementation
-- [done] Add brainpool, including a const-time implementation
-- Add ed25519
+```php
+// get curves from SEC, brainpool and bernstein
+$repository = new CurveRepository();
+$curve = $repository->findByName('secp256r1');
 
-This is part of a larger effort:
+// hardened (against side-channels) math for most curves
+$mathFactory = new MathFactory($repository);
+$math = $mathFactory->createHardenedMath($curve);
+
+// can do double, add and mul
+$G2 = $math->double($curve->getG());
+$G3_ = $math->add($curve->getG(), $G2);
+$G3 = $math->mul($curve->getG(), gmp_init(3));
+if ($G3->equals($G3_)) { echo "success"; }
+```
 - Provide low-level library that executes math on elliptic curves (this project)
 - Provide elliptic-crypto library which exposes general cryptographic primitives (signatures, encryptions and zero-knowledge proofs)
 - Provide more specialized libraries for more exotic cryptographic primitives (verifiable shuffle)
