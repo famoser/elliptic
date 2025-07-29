@@ -24,14 +24,15 @@ if ($G3->equals($G3_)) { echo "success"; }
 
 ## Math overview
 
-| Hardened Math        | Supported Curves                | Correctness        | Speed | Hardened |
-|----------------------|---------------------------------|--------------------|-------|----------|
-| `SW_ANeg3_Math`      | `secp*r1`, `brainpool*t1`       | :white_check_mark: |       |          |
-| `SW_QT_ANeg3_Math`   | `brainpool*r1`                  | :white_check_mark: |       |          |
-| `MG_TwED_ANeg1_Math` | `curve25519`                    | :warning:          |       |          |
-| `MG_ED_Math`         | `curve448`                      | :x:                |       |          |
-| `TwED_ANeg1_Math`    | `edwards25519`                  | :question:         |       |          |
-| `EDMath`             | `edwards448`, `curve448Edwards` | :question:         |       |          |
+| Hardened Math                | Supported Curves                                       | Correctness        | Speed | Hardened |
+|------------------------------|--------------------------------------------------------|--------------------|-------|----------|
+| `SW_ANeg3_Math`              | `secp*r1`, `brainpool*t1`                              | :white_check_mark: |       |          |
+| `SW_QT_ANeg3_Math`           | `brainpool*r1`                                         | :white_check_mark: |       |          |
+| `MGXCalculator` (`mul` only) | `curve25519`, `curve448`, `edwards25519`, `edwards448` | :white_check_mark: |       |          |
+| `MG_TwED_ANeg1_Math`         | `curve25519`                                           | :warning:          |       |          |
+| `MG_ED_Math`                 | `curve448`                                             | :x:                |       |          |
+| `TwED_ANeg1_Math`            | `edwards25519`                                         | :question:         |       |          |
+| `EDMath`                     | `edwards448`, `curve448Edwards`                        | :question:         |       |          |
 
 Correctness:
 - `MG_TwED_ANeg1_Math` perform correctly based on third-party testcases, but math sanity checks fail (e.g. G*order != 0)
