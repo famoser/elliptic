@@ -2,8 +2,6 @@
 
 namespace Famoser\Elliptic\Serializer\PointDecoder\Traits;
 
-use Famoser\Elliptic\Primitives\Curve;
-use Famoser\Elliptic\Primitives\CurveType;
 use Famoser\Elliptic\Primitives\Point;
 
 trait EdwardsPointDecoderTrait

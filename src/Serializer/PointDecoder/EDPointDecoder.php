@@ -4,11 +4,7 @@ namespace Famoser\Elliptic\Serializer\PointDecoder;
 
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
-use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\EdwardsPointDecoderTrait;
-use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromCoordinatesTrait;
-use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromXCoordinateTrait;
-use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromYCoordinateTrait;
 
 class EDPointDecoder extends AbstractPointDecoder implements PointYDecoderInterface
 {

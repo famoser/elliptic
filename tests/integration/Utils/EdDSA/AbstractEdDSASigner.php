@@ -8,8 +8,7 @@ use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\Decoder\BinaryDecoder;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
-use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderInterface;
-use Famoser\Elliptic\Serializer\PointDecoder\TwEDPointDecoder;
+use Famoser\Elliptic\Serializer\PointDecoder\PointYDecoderInterface;
 
 /**
  * implements EdDSA according to RFC8032
@@ -18,7 +17,7 @@ use Famoser\Elliptic\Serializer\PointDecoder\TwEDPointDecoder;
  */
 abstract class AbstractEdDSASigner
 {
-    public function __construct(private readonly MathInterface $math, private readonly PointDecoderInterface $decoder, private readonly int $byteSize)
+    public function __construct(private readonly MathInterface $math, private readonly PointYDecoderInterface $decoder, private readonly int $byteSize)
     {
     }
 
@@ -85,8 +84,8 @@ abstract class AbstractEdDSASigner
 
         $decoder = new BinaryDecoder();
         $b = $decoder->decodeHexToByteArray($digestHex);
-        return $decoder->decodeLittleEndian($b, $this->byteSize*16);
+        return $decoder->decodeLittleEndian($b, $this->byteSize * 16);
     }
 
-    protected abstract function hash(string $hex): string;
+    abstract protected function hash(string $hex): string;
 }

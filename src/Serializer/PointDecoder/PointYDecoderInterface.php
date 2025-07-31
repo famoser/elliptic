@@ -7,5 +7,7 @@ use Famoser\Elliptic\Primitives\Point;
 
 interface PointYDecoderInterface
 {
+    public function getCurve(): Curve;
+
     public function fromYCoordinate(\GMP $y, ?bool $isEvenX = null): Point;
 }
