@@ -14,9 +14,6 @@ use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Math\TwED_ANeg1_Math;
 use Famoser\Elliptic\Math\TwEDUnsafeMath;
-use Famoser\Elliptic\Primitives\Curve;
-use Famoser\Elliptic\Primitives\Point;
-use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
 use PHPUnit\Framework\TestCase;
 
 class EddsaTest extends TestCase
@@ -33,7 +30,7 @@ class EddsaTest extends TestCase
     {
         $math = new TwEDUnsafeMath(BernsteinCurveFactory::edwards25519());
 
-        $this->testEd25519($math, $public, $signature, $message, $result);
+        $this->verifyEd25519Signature($math, $public, $signature, $message, $result);
     }
 
     /**
@@ -43,16 +40,10 @@ class EddsaTest extends TestCase
     {
         $math = new TwED_ANeg1_Math(BernsteinCurveFactory::edwards25519());
 
-        $signer = new EDDSASigner($math);
-        $verified = $signer->verify($public, $signature, $message);
-        if ($verified) {
-            $this->assertEquals($result, WycheProofConstants::RESULT_VALID);
-        } else {
-            $this->assertNotEquals($result, WycheProofConstants::RESULT_VALID);
-        }
+        $this->verifyEd25519Signature($math, $public, $signature, $message, $result);
     }
 
-    public function testEd25519(MathInterface $math, string $public, string $signature, string $message, string $result): void
+    public function verifyEd25519Signature(MathInterface $math, string $public, string $signature, string $message, string $result): void
     {
         $signer = new EDDSASigner($math);
         $verified = $signer->verify($public, $signature, $message);
