@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Famoser\Elliptic\Integration\WycheProof;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
-use Famoser\Elliptic\Integration\Utils\EDDSASigner;
+use Famoser\Elliptic\Integration\Utils\EdDSA\EdDSASignerEd25519;
 use Famoser\Elliptic\Integration\WycheProof\Utils\FixturesRepository;
 use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
@@ -42,7 +42,7 @@ class EddsaTest extends TestCase
 
     public function verifyEd25519Signature(MathInterface $math, string $public, string $signature, string $message, string $result): void
     {
-        $signer = new EDDSASigner($math);
+        $signer = new EdDSASignerEd25519($math);
         $verified = $signer->verify($public, $signature, $message);
         if ($verified) {
             $this->assertEquals($result, WycheProofConstants::RESULT_VALID);
