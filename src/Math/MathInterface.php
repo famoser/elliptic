@@ -7,6 +7,8 @@ use Famoser\Elliptic\Primitives\Point;
 
 interface MathInterface
 {
+    public function getCurve(): Curve;
+
     public function isInfinity(Point $point): bool;
     public function getInfinity(): Point;
 
@@ -14,5 +16,4 @@ interface MathInterface
     public function add(Point $a, Point $b): Point;
     public function mulG(\GMP $factor): Point;
     public function mul(Point $point, \GMP $factor): Point;
-    public function getCurve(): Curve;
 }
