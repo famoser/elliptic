@@ -18,7 +18,7 @@ trait PMod85RecoveryTrait
     protected function recoverXForPMod85(\GMP $x): Point
     {
         $p = $this->curve->getP();
-        $alpha = gmp_mod($this->calculateRightSide($x), $p);
+        $alpha = gmp_mod($this->calculateAlpha($x), $p);
 
         $const = gmp_div(gmp_add($p, 3), 8);
         $candidate = gmp_powm($alpha, $const, $p);
