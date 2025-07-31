@@ -5,7 +5,6 @@ namespace Famoser\Elliptic\Tests\Math;
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
-use Famoser\Elliptic\Integration\ExpensiveMath\UnresolvedErrorTrait;
 use Famoser\Elliptic\Math\EDMath;
 use Famoser\Elliptic\Math\EDUnsafeMath;
 use Famoser\Elliptic\Math\MathInterface;
@@ -22,8 +21,6 @@ use PHPUnit\Framework\TestCase;
 
 class ConsistencyTest extends TestCase
 {
-    use UnresolvedErrorTrait;
-
     public static function maths(): array
     {
         $secpCurves = [
