@@ -28,7 +28,7 @@ if ($G3->equals($G3_)) { echo "success"; }
 |------------------------------|--------------------------------------------------------|---------------------|-------|----------|
 | `SW_ANeg3_Math`              | `secp*r1`, `brainpool*t1`                              | :white_check_mark:  |       |          |
 | `SW_QT_ANeg3_Math`           | `brainpool*r1`                                         | :white_check_mark:  |       |          |
-| `MGXCalculator` (`mul` only) | `curve25519`, `curve448`, `edwards25519`, `edwards448` | :white_check_mark:  |       |          |
+| `MGXCalculator` (`mul` only) | `curve25519`, `curve448`                               | :white_check_mark:  |       |          |
 | `MG_TwED_ANeg1_Math`         | `curve25519`                                           | :warning:           |       |          |
 | `MG_ED_Math`                 | `curve448`                                             | :x:                 |       |          |
 | `TwED_ANeg1_Math`            | `edwards25519`                                         | :warning:           |       |          |
