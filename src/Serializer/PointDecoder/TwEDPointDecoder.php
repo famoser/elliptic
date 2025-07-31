@@ -6,7 +6,7 @@ use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\EdwardsPointDecoderTrait;
 
-class TwEDPointDecoder extends AbstractPointDecoder
+class TwEDPointDecoder extends AbstractPointDecoder implements PointYDecoderInterface
 {
     use EdwardsPointDecoderTrait;
 
