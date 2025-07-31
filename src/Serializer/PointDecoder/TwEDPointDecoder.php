@@ -6,12 +6,14 @@ use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromCoordinatesTrait;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromXCoordinateTrait;
+use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromYCoordinateTrait;
 use Famoser\Elliptic\Serializer\SEC\SECPointDecoderInterface;
 
 class TwEDPointDecoder implements SECPointDecoderInterface
 {
     use FromCoordinatesTrait;
     use FromXCoordinateTrait;
+    use FromYCoordinateTrait;
 
     public function __construct(private readonly Curve $curve)
     {
@@ -56,11 +58,27 @@ class TwEDPointDecoder implements SECPointDecoderInterface
     /**
      * calculate (1 - ax²) / (1 - dx²)
      */
-    private function calculateAlpha(\GMP $x): \GMP
+    private function calculateYSquare(\GMP $x): \GMP
     {
         $xSquare = gmp_powm($x, 2, $this->curve->getP());
         $num = gmp_mod(gmp_sub(1, gmp_mul($this->curve->getA(), $xSquare)), $this->curve->getP());
         $den = gmp_mod(gmp_sub(1, gmp_mul($this->curve->getB(), $xSquare)), $this->curve->getP());
+
+        return gmp_mul(
+            $num,
+            /** @phpstan-ignore-next-line */
+            gmp_invert($den, $this->curve->getP())
+        );
+    }
+
+    /**
+     * calculate (1 - y²) / (a - dy²)
+     */
+    private function calculateXSquare(\GMP $y): \GMP
+    {
+        $ySquare = gmp_powm($y, 2, $this->curve->getP());
+        $num = gmp_mod(gmp_sub(1, $ySquare), $this->curve->getP());
+        $den = gmp_mod(gmp_sub($this->curve->getA(), gmp_mul($this->curve->getB(), $ySquare)), $this->curve->getP());
 
         return gmp_mul(
             $num,
