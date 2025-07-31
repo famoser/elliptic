@@ -3,6 +3,7 @@
 namespace Famoser\Elliptic\Tests\Serializer\PointDecoder;
 
 use Famoser\Elliptic\Primitives\Curve;
+use Famoser\Elliptic\Serializer\PointDecoder\EDPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\SWPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\TwEDPointDecoder;
@@ -31,6 +32,16 @@ class InitializationTest extends TestCase
         $this->expectException(\AssertionError::class);
 
         new SWPointDecoder($curve);
+    }
+
+    /**
+     * @dataProvider invalid_ED_Curves
+     */
+    public function testEDPointDecoder(Curve $curve): void
+    {
+        $this->expectException(\AssertionError::class);
+
+        new EDPointDecoder($curve);
     }
 
     /**

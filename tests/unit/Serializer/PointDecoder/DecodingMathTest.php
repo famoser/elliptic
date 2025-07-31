@@ -4,6 +4,7 @@ namespace Famoser\Elliptic\Tests\Serializer\PointDecoder;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
+use Famoser\Elliptic\Serializer\PointDecoder\EDPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderInterface;
 use Famoser\Elliptic\Serializer\PointDecoder\SWPointDecoder;
@@ -18,6 +19,7 @@ class DecodingMathTest extends TestCase
             [new MGPointDecoder(BernsteinCurveFactory::curve25519())],
             [new SWPointDecoder(SEC2CurveFactory::secp192r1())],
             [new TwEDPointDecoder(BernsteinCurveFactory::edwards25519())],
+            [new EDPointDecoder(BernsteinCurveFactory::edwards448())],
         ];
     }
 
@@ -62,28 +64,42 @@ class DecodingMathTest extends TestCase
         $this->assertTrue($actualPoint->equals($actualSomePoint) || $actualNegatedPoint->equals($actualSomePoint));
     }
 
-    public function testFromYCoordinatesCreatesPoint(): void
+    public static function yCoordinatePointDecoders(): array
     {
-        $decoder = new TwEDPointDecoder(BernsteinCurveFactory::edwards25519());
-
-        $expectedPoint = $decoder->getCurve()->getG();
-        $isEvenX = gmp_cmp(gmp_mod($expectedPoint->x, 2), 0) === 0;
-        $actualPoint = $decoder->fromYCoordinate($expectedPoint->y, $isEvenX);
-
-        $this->assertTrue($expectedPoint->equals($actualPoint));
+        return [
+            [new TwEDPointDecoder(BernsteinCurveFactory::edwards25519())],
+            [new EDPointDecoder(BernsteinCurveFactory::edwards448())],
+        ];
     }
 
-    public function testFromYCoordinatesRespectsSignBit(): void
+    /**
+     * @dataProvider yCoordinatePointDecoders
+     */
+    public function testFromYCoordinatesCreatesPoint(PointDecoderInterface $decoder): void
     {
-        $decoder = new TwEDPointDecoder(BernsteinCurveFactory::edwards25519());
+        if (method_exists($decoder, 'fromYCoordinate')) {
+            $expectedPoint = $decoder->getCurve()->getG();
+            $isEvenX = gmp_cmp(gmp_mod($expectedPoint->x, 2), 0) === 0;
+            $actualPoint = $decoder->fromYCoordinate($expectedPoint->y, $isEvenX);
 
-        $expectedPoint = $decoder->getCurve()->getG();
-        $isEvenX = gmp_cmp(gmp_mod($expectedPoint->x, 2), 0) === 0;
+            $this->assertTrue($expectedPoint->equals($actualPoint));
+        }
+    }
 
-        $actualPoint = $decoder->fromYCoordinate($expectedPoint->y, $isEvenX);
-        $this->assertTrue($expectedPoint->equals($actualPoint));
+    /**
+     * @dataProvider yCoordinatePointDecoders
+     */
+    public function testFromYCoordinatesRespectsSignBit(PointDecoderInterface $decoder): void
+    {
+        if (method_exists($decoder, 'fromYCoordinate')) {
+            $expectedPoint = $decoder->getCurve()->getG();
+            $isEvenX = gmp_cmp(gmp_mod($expectedPoint->x, 2), 0) === 0;
 
-        $actualPoint = $decoder->fromYCoordinate($expectedPoint->y, !$isEvenX);
-        $this->assertFalse($expectedPoint->equals($actualPoint));
+            $actualPoint = $decoder->fromYCoordinate($expectedPoint->y, $isEvenX);
+            $this->assertTrue($expectedPoint->equals($actualPoint));
+
+            $actualPoint = $decoder->fromYCoordinate($expectedPoint->y, !$isEvenX);
+            $this->assertFalse($expectedPoint->equals($actualPoint));
+        }
     }
 }
