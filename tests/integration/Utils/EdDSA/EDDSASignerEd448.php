@@ -23,9 +23,9 @@ class EDDSASignerEd448 extends AbstractEdDSASigner
     protected function hash(string $hex): string
     {
         // hardcode that there is no context and no flag
-        $dompfx = bin2hex("SigEd448")."00"."00";
+        $dompfx = bin2hex("SigEd448") . "00" . "00";
 
-        $content = hex2bin($dompfx.$hex);
-        return SHA3Shake::shake256($content, 114*2);
+        $content = hex2bin($dompfx . $hex);
+        return SHA3Shake::shake256($content, 114 * 2);
     }
 }
