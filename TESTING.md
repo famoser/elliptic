@@ -32,9 +32,8 @@ It holds that:
 - Over every math, at least one testset is executed (unless noted otherwise)
 
 Exceptions:
-- No direct test of `edwards25519` (but tested implicitly by `MG_TwED_ANeg1_Math`)
 - No tests for `curve448Edwards` and `edwards448`
-- No tests for `EDMath`, `EDUnsafeMath` and `TwEDUnsafeMath`, `TwED_ANeg1_Math` 
+- No tests for `EDMath`, `EDUnsafeMath`
 - Test of `MG_ED_Math` fails
 
 | Curve            | Math                 | WycheProof        | Rooterberg |
@@ -64,6 +63,8 @@ Exceptions:
 | `curve25519`     | `MGXCalculator`      | x25519(518)       |            |
 | `curve448`       | `MGUnsafeMath`       | x25519(264)       |            |
 | `curve448`       | `MGXCalculator`      | x25519(510)       |            |
+| `ed25519`        | `TwEDUnsafeMath`     | eddsa(145)        |            |
+| `ed25519`        | `TwED_ANeg1_Math`    | eddsa(145)        |            |
 
 
 ## Timing tests
@@ -84,4 +85,5 @@ Correctness:
 - In the Coordinators, how to detect/handle infinity?
 - Reducing factors before montgomery ladder; correct to reduce by N*h?
 - MG_ED math is wrong; "better" if cofactor is set to 1. Why & what could be the problem?
+- When recovering a point, use jacobi symbol to check for square root (beforehand), or check x² = alpha (afterwards)?
 

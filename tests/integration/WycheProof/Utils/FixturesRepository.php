@@ -68,6 +68,30 @@ class FixturesRepository
         return $results;
     }
 
+    private static function parseEddsaTestvectors(array $testvectors): array
+    {
+        $results = [];
+
+        foreach ($testvectors['testGroups'] as $testGroup) {
+            $key = $testGroup['key']['pk'];
+
+            foreach ($testGroup['tests'] as $testvector) {
+                $tcId = "tcId: " . $testvector['tcId'];
+
+                $results[$tcId] = [
+                    'public' => $key,
+                    'message' => $testvector['msg'],
+                    'sig' => $testvector['sig'],
+                    'comment' => $testvector['comment'],
+                    'result' => $testvector['result'],
+                    'flags' => $testvector['flags'] ?? [],
+                ];
+            }
+        }
+
+        return $results;
+    }
+
     private static function filterEcdhFixtures(array $testvectors): array
     {
         $result = [];
@@ -121,5 +145,12 @@ class FixturesRepository
         $testvectors = FixturesRepository::readTestvectors("ecdsa_{$curve}_sha256_p1363");
 
         return FixturesRepository::parseEcdsaSha256Testvectors($testvectors);
+    }
+
+    public static function createEddsaFixtures(string $name): array
+    {
+        $testvectors = FixturesRepository::readTestvectors($name);
+
+        return FixturesRepository::parseEddsaTestvectors($testvectors);
     }
 }

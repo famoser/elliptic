@@ -31,13 +31,13 @@ if ($G3->equals($G3_)) { echo "success"; }
 | `MGXCalculator` (`mul` only) | `curve25519`, `curve448`, `edwards25519`, `edwards448` | :white_check_mark: |       |          |
 | `MG_TwED_ANeg1_Math`         | `curve25519`                                           | :warning:          |       |          |
 | `MG_ED_Math`                 | `curve448`                                             | :x:                |       |          |
-| `TwED_ANeg1_Math`            | `edwards25519`                                         | :question:         |       |          |
+| `TwED_ANeg1_Math`            | `edwards25519`                                         | :warning:         |       |          |
 | `EDMath`                     | `edwards448`, `curve448Edwards`                        | :question:         |       |          |
 
 Correctness:
-- `MG_TwED_ANeg1_Math` perform correctly based on third-party testcases, but math sanity checks fail (e.g. G*order != 0)
+- `MG_TwED_ANeg1_Math` and `TwED_ANeg1_Math` perform correctly based on third-party testcases, but math sanity checks fail (e.g. G*order != 0)
 - `MG_ED_Math` pass math sanity checks, but performs incorrectly in relation to baselines (e.g. third party testcases)
-- `TwED_ANeg1_Math` and `EDMath` are not yet properly tested (but `TwED_ANeg1_Math` fails same math sanity checks as `MG_TwED_ANeg1_Math`)
+- `EDMath` is not yet properly tested
 
 
 ## Project context
