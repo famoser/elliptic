@@ -5,8 +5,8 @@ namespace Famoser\Elliptic\Serializer;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
+use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderInterface;
 use Famoser\Elliptic\Serializer\SEC\SECEncoding;
-use Famoser\Elliptic\Serializer\SEC\SECPointDecoderInterface;
 
 /**
  * implements serialization as described in https://www.secg.org/SEC1-Ver-1.0.pdf
@@ -15,7 +15,7 @@ class SECSerializer
 {
     private readonly int $pointOctetLength;
 
-    public function __construct(private readonly MathInterface $math, private readonly SECPointDecoderInterface $pointDecoder, private readonly SECEncoding $preferredEncoding = SECEncoding::COMPRESSED)
+    public function __construct(private readonly MathInterface $math, private readonly PointDecoderInterface $pointDecoder, private readonly SECEncoding $preferredEncoding = SECEncoding::COMPRESSED)
     {
         $this->pointOctetLength = (int) ceil((float) strlen(gmp_strval($this->math->getCurve()->getP(), 2)) / 8);
     }

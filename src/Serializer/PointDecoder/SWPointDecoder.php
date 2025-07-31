@@ -6,15 +6,16 @@ use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromCoordinatesTrait;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromXCoordinateTrait;
-use Famoser\Elliptic\Serializer\SEC\SECPointDecoderInterface;
 
-class SWPointDecoder implements SECPointDecoderInterface
+class SWPointDecoder extends AbstractPointDecoder
 {
     use FromCoordinatesTrait;
     use FromXCoordinateTrait;
 
     public function __construct(private readonly Curve $curve)
     {
+        parent::__construct($curve);
+
         // check allowed to use this decoder
         $check = $curve->getType() === CurveType::ShortWeierstrass;
         if (!$check) {

@@ -7,9 +7,8 @@ use Famoser\Elliptic\Primitives\CurveType;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromCoordinatesTrait;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromXCoordinateTrait;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromYCoordinateTrait;
-use Famoser\Elliptic\Serializer\SEC\SECPointDecoderInterface;
 
-class TwEDPointDecoder implements SECPointDecoderInterface
+class TwEDPointDecoder extends AbstractPointDecoder
 {
     use FromCoordinatesTrait;
     use FromXCoordinateTrait;
@@ -17,6 +16,8 @@ class TwEDPointDecoder implements SECPointDecoderInterface
 
     public function __construct(private readonly Curve $curve)
     {
+        parent::__construct($curve);
+
         // check allowed to use this decoder
         $check = $curve->getType() === CurveType::TwistedEdwards;
         if (!$check) {
