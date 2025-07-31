@@ -10,7 +10,7 @@ use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromCoordinatesTrait;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromXCoordinateTrait;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromYCoordinateTrait;
 
-class EDPointDecoder extends AbstractPointDecoder
+class EDPointDecoder extends AbstractPointDecoder implements PointYDecoderInterface
 {
     use EdwardsPointDecoderTrait;
 
