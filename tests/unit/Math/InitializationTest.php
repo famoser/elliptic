@@ -17,21 +17,13 @@ use Famoser\Elliptic\Math\TwED_ANeg1_Math;
 use Famoser\Elliptic\Math\TwEDUnsafeMath;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
+use Famoser\Elliptic\Tests\Math\Traits\InvalidCurveProviderTrait;
 use Famoser\Elliptic\Tests\TestUtils\CurveBuilder;
 use PHPUnit\Framework\TestCase;
 
 class InitializationTest extends TestCase
 {
-    public static function invalid_ED_Curves(): array
-    {
-        $curve = BernsteinCurveFactory::edwards448();
-        $builder = new CurveBuilder($curve);
-
-        return [
-            // wrong because not montgomery
-            ...array_map(static fn(CurveBuilder $builder) => [$builder->build()], iterator_to_array($builder->allButType(CurveType::Edwards)))
-        ];
-    }
+    use InvalidCurveProviderTrait;
 
     /**
      * @dataProvider invalid_ED_Curves
@@ -51,17 +43,6 @@ class InitializationTest extends TestCase
         $this->expectException(\AssertionError::class);
 
         new EDUnsafeMath($curve);
-    }
-
-    public static function invalid_MG_Curves(): array
-    {
-        $curve = BernsteinCurveFactory::curve25519();
-        $builder = new CurveBuilder($curve);
-
-        return [
-            // wrong because not montgomery
-            ...array_map(static fn(CurveBuilder $builder) => [$builder->build()], iterator_to_array($builder->allButType(CurveType::Montgomery)))
-        ];
     }
 
     /**
@@ -98,22 +79,6 @@ class InitializationTest extends TestCase
         new MGUnsafeMath($curve);
     }
 
-    public static function invalid_SW_ANeg3_Curves(): array
-    {
-        $curve = SEC2CurveFactory::secp192r1();
-        $builder = new CurveBuilder($curve);
-        $aPlusOne = gmp_add($curve->getA(), 1);
-
-        return [
-            // wrong because a != -3
-            [$builder->withA($aPlusOne)->build()],
-            // wrong because not montgomery
-            ...array_map(static fn(CurveBuilder $builder) => [$builder->build()], iterator_to_array($builder->allButType(CurveType::ShortWeierstrass))),
-            // wrong because both untrue
-            ...array_map(static fn(CurveBuilder $builder) => [$builder->withA($aPlusOne)->build()], iterator_to_array($builder->allButType(CurveType::ShortWeierstrass)))
-        ];
-    }
-
     /**
      * @dataProvider invalid_SW_ANeg3_Curves
      */
@@ -135,17 +100,6 @@ class InitializationTest extends TestCase
         new SW_QT_ANeg3_Math($curve, $twist);
     }
 
-    public static function invalid_SW_Curves(): array
-    {
-        $curve = SEC2CurveFactory::secp384r1();
-        $builder = new CurveBuilder($curve);
-
-        return [
-            // wrong because not montgomery
-            ...array_map(static fn(CurveBuilder $builder) => [$builder->build()], iterator_to_array($builder->allButType(CurveType::ShortWeierstrass)))
-        ];
-    }
-
     /**
      * @dataProvider invalid_SW_Curves
      */
@@ -156,22 +110,6 @@ class InitializationTest extends TestCase
         new SWUnsafeMath($curve);
     }
 
-    public static function invalid_TwED_ANeg1_Curves(): array
-    {
-        $curve = BernsteinCurveFactory::curve25519();
-        $builder = new CurveBuilder($curve);
-        $aPlusOne = gmp_add($curve->getA(), 1);
-
-        return [
-            // wrong because a != -1
-            [$builder->withA($aPlusOne)->build()],
-            // wrong because not montgomery
-            ...array_map(static fn(CurveBuilder $builder) => [$builder->build()], iterator_to_array($builder->allButType(CurveType::Edwards))),
-            // wrong because both untrue
-            ...array_map(static fn(CurveBuilder $builder) => [$builder->withA($aPlusOne)->build()], iterator_to_array($builder->allButType(CurveType::Edwards)))
-        ];
-    }
-
     /**
      * @dataProvider invalid_TwED_ANeg1_Curves
      */
@@ -180,17 +118,6 @@ class InitializationTest extends TestCase
         $this->expectException(\AssertionError::class);
 
         new TwED_ANeg1_Math($curve);
-    }
-
-    public static function invalid_TwED_Curves(): array
-    {
-        $curve = BernsteinCurveFactory::edwards25519();
-        $builder = new CurveBuilder($curve);
-
-        return [
-            // wrong because not montgomery
-            ...array_map(static fn(CurveBuilder $builder) => [$builder->build()], iterator_to_array($builder->allButType(CurveType::TwistedEdwards)))
-        ];
     }
 
     /**
