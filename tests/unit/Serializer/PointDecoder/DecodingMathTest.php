@@ -55,8 +55,11 @@ class DecodingMathTest extends TestCase
         $actualPoint = $decoder->fromXCoordinate($expectedPoint->x, $isEvenY);
         $this->assertTrue($expectedPoint->equals($actualPoint));
 
-        $actualPoint = $decoder->fromXCoordinate($expectedPoint->x, !$isEvenY);
-        $this->assertFalse($expectedPoint->equals($actualPoint));
+        $actualNegatedPoint = $decoder->fromXCoordinate($expectedPoint->x, !$isEvenY);
+        $this->assertFalse($expectedPoint->equals($actualNegatedPoint));
+
+        $actualSomePoint = $decoder->fromXCoordinate($expectedPoint->x);
+        $this->assertTrue($actualPoint->equals($actualSomePoint) || $actualNegatedPoint->equals($actualSomePoint));
     }
 
     public function testFromYCoordinatesCreatesPoint(): void
