@@ -42,7 +42,7 @@ class MGPointDecoderTest extends TestCase
         $expectedPoint = $curve->getG();
         $actualPoint = $decoder->fromXCoordinate($expectedPoint->x);
 
-        $this->assertNotNull($decoder->fromCoordinates($actualPoint->x, $actualPoint->y));
+        $decoder->fromCoordinates($actualPoint->x, $actualPoint->y);
         $this->assertEquals(0, gmp_cmp($actualPoint->x, $expectedPoint->x));
 
         $squareActualY = gmp_mod(gmp_mul($actualPoint->y, $actualPoint->y), $curve->getP());
@@ -58,6 +58,9 @@ class MGPointDecoderTest extends TestCase
         $expectedPoint = $curve->getG();
         $actualPoint = $decoder->fromXCoordinate($expectedPoint->x, true);
         $actualPointInverted = $decoder->fromXCoordinate($expectedPoint->x, false);
+
+        $decoder->fromCoordinates($actualPoint->x, $actualPoint->y);
+        $decoder->fromCoordinates($actualPointInverted->x, $actualPointInverted->y);
 
         $this->assertEquals(0, gmp_cmp($actualPoint->x, $expectedPoint->x));
         $this->assertEquals(0, gmp_cmp($actualPointInverted->x, $expectedPoint->x));
