@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class EDDSASignerTest extends TestCase
 {
-    public function testVerify()
+    public function testVerify(): void
     {
         $public = '3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c';
         $msg = '72';

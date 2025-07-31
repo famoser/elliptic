@@ -4,6 +4,7 @@ namespace Famoser\Elliptic\Serializer\PointDecoder;
 
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
+use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromCoordinatesTrait;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromXCoordinateTrait;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromYCoordinateTrait;
@@ -28,29 +29,29 @@ class TwEDPointDecoder extends AbstractPointDecoder
     /**
      * calculate ax² + y²
      */
-    private function calculateLeftSide(\GMP $y, \GMP $x): \GMP
+    private function calculateLeftSide(Point $p): \GMP
     {
         return gmp_add(
             gmp_mul(
                 $this->curve->getA(),
-                gmp_pow($x, 2)
+                gmp_pow($p->x, 2)
             ),
-            gmp_pow($y, 2)
+            gmp_pow($p->y, 2)
         );
     }
 
     /**
      * calculate 1 + d*x²*y²
      */
-    private function calculateRightSide(\GMP $x, \GMP $y): \GMP
+    private function calculateRightSide(Point $p): \GMP
     {
         return gmp_add(
             gmp_init(1),
             gmp_mul(
                 $this->curve->getB(),
                 gmp_mul(
-                    gmp_powm($x, 2, $this->curve->getP()),
-                    gmp_powm($y, 2, $this->curve->getP()),
+                    gmp_powm($p->x, 2, $this->curve->getP()),
+                    gmp_powm($p->y, 2, $this->curve->getP()),
                 )
             )
         );

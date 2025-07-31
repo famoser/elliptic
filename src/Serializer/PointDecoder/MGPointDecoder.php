@@ -4,6 +4,7 @@ namespace Famoser\Elliptic\Serializer\PointDecoder;
 
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
+use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromCoordinatesTrait;
 use Famoser\Elliptic\Serializer\PointDecoder\Traits\FromXCoordinateTrait;
 
@@ -26,18 +27,39 @@ class MGPointDecoder extends AbstractPointDecoder
     /**
      * calculate b * y^2
      */
-    private function calculateLeftSide(\GMP $y): \GMP
+    private function calculateLeftSide(Point $p): \GMP
     {
         return gmp_mul(
             $this->curve->getB(),
-            gmp_pow($y, 2)
+            gmp_pow($p->y, 2)
         );
     }
 
     /**
      * calculate x^3 + ax^2 + x
      */
-    private function calculateRightSide(\GMP $x): \GMP
+    private function calculateRightSide(Point $p): \GMP
+    {
+        return $this->calculateRightSideInternal($p->x);
+    }
+
+    /**
+     * calculate (x^3 + ax^2 + x) / b
+     */
+    private function calculateYSquare(\GMP $x): \GMP
+    {
+        $right = $this->calculateRightSideInternal($x);
+        return gmp_mul(
+            $right,
+            /** @phpstan-ignore-next-line */
+            gmp_invert($this->curve->getB(), $this->curve->getP())
+        );
+    }
+
+    /**
+     * calculate x^3 + ax^2 + x
+     */
+    private function calculateRightSideInternal(\GMP $x): \GMP
     {
         return gmp_add(
             gmp_add(
@@ -48,19 +70,6 @@ class MGPointDecoder extends AbstractPointDecoder
                 )
             ),
             $x
-        );
-    }
-
-    /**
-     * calculate (x^3 + ax^2 + x) / b
-     */
-    private function calculateYSquare(\GMP $x): \GMP
-    {
-        $right = $this->calculateRightSide($x);
-        return gmp_mul(
-            $right,
-            /** @phpstan-ignore-next-line */
-            gmp_invert($this->curve->getB(), $this->curve->getP())
         );
     }
 }

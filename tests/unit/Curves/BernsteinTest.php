@@ -8,7 +8,6 @@ use Famoser\Elliptic\Math\MG_ED_Math;
 use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
 use Famoser\Elliptic\Primitives\BirationalMap;
 use Famoser\Elliptic\Primitives\Curve;
-use Famoser\Elliptic\Primitives\Point;
 use PHPUnit\Framework\TestCase;
 
 class BernsteinTest extends TestCase

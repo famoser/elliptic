@@ -3,7 +3,6 @@
 namespace Famoser\Elliptic\Tests\Math\Calculator;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
-use Famoser\Elliptic\Integration\RFC7784\RFC7784TestVectorsTrait;
 use Famoser\Elliptic\Math\Calculator\MGXCalculator;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
 use PHPUnit\Framework\TestCase;
