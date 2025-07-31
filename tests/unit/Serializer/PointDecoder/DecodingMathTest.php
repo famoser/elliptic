@@ -19,7 +19,6 @@ class DecodingMathTest extends TestCase
             [new SWPointDecoder(SEC2CurveFactory::secp192r1())],
             [new TwEDPointDecoder(BernsteinCurveFactory::edwards25519())],
         ];
-
     }
 
     /**

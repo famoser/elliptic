@@ -9,7 +9,8 @@ class RFC7784Decoder
 {
     private readonly BinaryDecoder $decoder;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->decoder = new BinaryDecoder();
     }
 

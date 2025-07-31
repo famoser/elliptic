@@ -5,7 +5,6 @@ namespace Famoser\Elliptic\Math;
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\CurveRepository;
-use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
 

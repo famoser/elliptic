@@ -23,8 +23,8 @@ trait FromCoordinatesTrait
 
     private function fulfillsDefiningEquation(Point $point): bool
     {
-        $left = $this->calculateLeftSide($point->y, $point->x);
-        $right = $this->calculateRightSide($point->x, $point->y);
+        $left = $this->calculateLeftSide($point);
+        $right = $this->calculateRightSide($point);
 
         $comparison = gmp_mod(
             gmp_sub($left, $right),
