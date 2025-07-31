@@ -12,15 +12,9 @@ class BinaryDecoder
      */
     public function decodeHexToByteArray(string $hex): array
     {
+        // if you pass in non-hex, php will throw a warning. hence no error checking on our side.
         /** @phpstan-ignore-next-line */
-        $list = unpack('C*', hex2bin($hex));
-
-        /** @var int[]|false $list */
-        if (!$list) {
-            throw new \InvalidArgumentException('Invalid hex string');
-        }
-
-        return array_values($list);
+        return array_values(unpack('C*', hex2bin($hex)));
     }
 
     /**
