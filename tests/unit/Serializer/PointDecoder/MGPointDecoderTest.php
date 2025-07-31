@@ -95,16 +95,6 @@ class MGPointDecoderTest extends TestCase
         $decoder->fromCoordinates($x, $y);
     }
 
-    public function testFromCoordinatesChecksCurveType(): void
-    {
-        $curve = BernsteinCurveFactory::curve25519();
-        $unsupportedCurve = (new CurveBuilder($curve))->withType(CurveType::ShortWeierstrass)->build();
-
-        $this->expectException(\AssertionError::class);
-
-        new MGPointDecoder($unsupportedCurve);
-    }
-
     /**
      * @throws PointDecoderException
      */

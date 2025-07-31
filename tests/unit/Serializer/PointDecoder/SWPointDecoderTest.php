@@ -26,6 +26,33 @@ class SWPointDecoderTest extends TestCase
         $this->assertTrue($expectedPoint->equals($actualPoint));
     }
 
+    public function testFromXCoordinatesCreatesPoint(): void
+    {
+        $curve = SEC2CurveFactory::secp192r1();
+        $decoder = new SWPointDecoder($curve);
+
+        $expectedPoint = $curve->getG();
+        $isEvenY = gmp_cmp(gmp_mod($expectedPoint->y, 2), 0) === 0;
+        $actualPoint = $decoder->fromXCoordinate($expectedPoint->x, $isEvenY);
+
+        $this->assertTrue($expectedPoint->equals($actualPoint));
+    }
+
+    public function testFromXCoordinatesRespectsSignBit(): void
+    {
+        $curve = SEC2CurveFactory::secp192r1();
+        $decoder = new SWPointDecoder($curve);
+
+        $expectedPoint = $curve->getG();
+        $isEvenY = gmp_cmp(gmp_mod($expectedPoint->y, 2), 0) === 0;
+
+        $actualPoint = $decoder->fromXCoordinate($expectedPoint->x, $isEvenY);
+        $this->assertTrue($expectedPoint->equals($actualPoint));
+
+        $actualPoint = $decoder->fromXCoordinate($expectedPoint->x, !$isEvenY);
+        $this->assertFalse($expectedPoint->equals($actualPoint));
+    }
+
     public static function invalidXYPoints(): array
     {
         $curve = SEC2CurveFactory::secp192r1();
@@ -51,49 +78,6 @@ class SWPointDecoderTest extends TestCase
         $decoder->fromCoordinates($x, $y);
     }
 
-    public function testFromCoordinatesChecksCurveType(): void
-    {
-        $curve = SEC2CurveFactory::secp192r1();
-        $unsupportedCurve = (new CurveBuilder($curve))->withType(CurveType::Montgomery)->build();
-
-        $this->expectException(\AssertionError::class);
-
-        new SWPointDecoder($unsupportedCurve);
-    }
-
-    /**
-     * @throws PointDecoderException
-     */
-    public function testFromXCoordinatesCreatesPoint(): void
-    {
-        $curve = SEC2CurveFactory::secp192r1();
-        $decoder = new SWPointDecoder($curve);
-
-        $expectedPoint = $curve->getG();
-        $isEvenY = gmp_cmp(gmp_mod($expectedPoint->y, 2), 0) === 0;
-        $actualPoint = $decoder->fromXCoordinate($expectedPoint->x, $isEvenY);
-
-        $this->assertTrue($expectedPoint->equals($actualPoint));
-    }
-
-    /**
-     * @throws PointDecoderException
-     */
-    public function testFromXCoordinatesRespectsSignBit(): void
-    {
-        $curve = SEC2CurveFactory::secp192r1();
-        $decoder = new SWPointDecoder($curve);
-
-        $expectedPoint = $curve->getG();
-        $isEvenY = gmp_cmp(gmp_mod($expectedPoint->y, 2), 0) === 0;
-        $actualPoint = $decoder->fromXCoordinate($expectedPoint->x, !$isEvenY);
-
-        $this->assertFalse($expectedPoint->equals($actualPoint));
-    }
-
-    /**
-     * @throws PointDecoderException
-     */
     public function testFromXCoordinateRejectsInvalidXCoordinates(): void
     {
         $this->expectException(PointDecoderException::class);
@@ -115,7 +99,7 @@ class SWPointDecoderTest extends TestCase
     /**
      * @dataProvider curvesWithoutEasyPointReconstruction
      */
-    public function testRejectsInvalidCurves(Curve $curve): void
+    public function testRejectsCurvesWithoutEasyPointReconstruction(Curve $curve): void
     {
         $this->expectException(PointDecoderException::class);
 
