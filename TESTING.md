@@ -32,9 +32,7 @@ It holds that:
 - Over every math, at least one testset is executed (unless noted otherwise)
 
 Exceptions:
-- No tests for `curve448Edwards` and `edwards448`
-- No tests for `EDMath`, `EDUnsafeMath`
-- Test of `MG_ED_Math` fails
+- Test of `MG_ED_Math` fails (hence also `curve448Edwards` remains untested)
 
 | Curve            | Math                 | WycheProof        | Rooterberg |
 |------------------|----------------------|-------------------|------------|
@@ -65,6 +63,8 @@ Exceptions:
 | `curve448`       | `MGXCalculator`      | x25519(510)       |            |
 | `ed25519`        | `TwEDUnsafeMath`     | eddsa(145)        |            |
 | `ed25519`        | `TwED_ANeg1_Math`    | eddsa(145)        |            |
+| `ed448`          | `EDUnsafeMath`       | 448(86)           |            |
+| `ed448`          | `EDMath`             | 448(86)           |            |
 
 
 ## Timing tests
