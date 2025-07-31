@@ -19,6 +19,7 @@ use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
 use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\SWPointDecoder;
+use Famoser\Elliptic\Serializer\PointDecoder\TwEDPointDecoder;
 use Famoser\Elliptic\Tests\Math\Traits\InvalidCurveProviderTrait;
 use Famoser\Elliptic\Tests\TestUtils\CurveBuilder;
 use PHPUnit\Framework\TestCase;
@@ -45,5 +46,15 @@ class InitializationTest extends TestCase
         $this->expectException(\AssertionError::class);
 
         new SWPointDecoder($curve);
+    }
+
+    /**
+     * @dataProvider invalid_TwED_Curves
+     */
+    public function testTwEDPointDecoder(Curve $curve): void
+    {
+        $this->expectException(\AssertionError::class);
+
+        new TwEDPointDecoder($curve);
     }
 }
