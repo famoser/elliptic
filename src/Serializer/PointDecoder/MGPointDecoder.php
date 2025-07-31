@@ -53,7 +53,7 @@ class MGPointDecoder implements SECPointDecoderInterface
     /**
      * calculate (x^3 + ax^2 + x) / b
      */
-    private function calculateAlpha(\GMP $x): \GMP
+    private function calculateYSquare(\GMP $x): \GMP
     {
         $right = $this->calculateRightSide($x);
         return gmp_mul(
