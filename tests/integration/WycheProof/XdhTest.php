@@ -77,6 +77,9 @@ class XdhTest extends TestCase
         }
 
         $rfc = $rfcMath->mul($publicPoint->x, $decodedPrivate);
+        $actualSharedSecret = $encoder->encodeUCoordinate($rfc, 255);
+        $this->assertEquals($shared, $actualSharedSecret);
+
         $this->assertEquals(0, gmp_cmp($rfc, $sharedSecretBaseline->x));
         if (gmp_cmp($rfc, 0) === 0) {
             $this->assertTrue($math->isInfinity($sharedSecret));
