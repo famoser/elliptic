@@ -59,4 +59,29 @@ class DecodingMathTest extends TestCase
         $actualPoint = $decoder->fromXCoordinate($expectedPoint->x, !$isEvenY);
         $this->assertFalse($expectedPoint->equals($actualPoint));
     }
+
+    public function testFromYCoordinatesCreatesPoint(): void
+    {
+        $decoder = new TwEDPointDecoder(BernsteinCurveFactory::edwards25519());
+
+        $expectedPoint = $decoder->getCurve()->getG();
+        $isEvenX = gmp_cmp(gmp_mod($expectedPoint->x, 2), 0) === 0;
+        $actualPoint = $decoder->fromYCoordinate($expectedPoint->y, $isEvenX);
+
+        $this->assertTrue($expectedPoint->equals($actualPoint));
+    }
+
+    public function testFromYCoordinatesRespectsSignBit(): void
+    {
+        $decoder = new TwEDPointDecoder(BernsteinCurveFactory::edwards25519());
+
+        $expectedPoint = $decoder->getCurve()->getG();
+        $isEvenX = gmp_cmp(gmp_mod($expectedPoint->x, 2), 0) === 0;
+
+        $actualPoint = $decoder->fromYCoordinate($expectedPoint->y, $isEvenX);
+        $this->assertTrue($expectedPoint->equals($actualPoint));
+
+        $actualPoint = $decoder->fromYCoordinate($expectedPoint->y, !$isEvenX);
+        $this->assertFalse($expectedPoint->equals($actualPoint));
+    }
 }
