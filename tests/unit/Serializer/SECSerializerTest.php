@@ -5,6 +5,7 @@ namespace Famoser\Elliptic\Tests\Serializer;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Primitives\Curve;
+use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoder\SWPointDecoder;
 use Famoser\Elliptic\Serializer\SEC\SECEncoding;
 use Famoser\Elliptic\Serializer\SECSerializer;
@@ -28,8 +29,13 @@ class SECSerializerTest extends TestCase
         $expectedPoint = $curve->getG();
         $serializedPoint = $serializer->serialize($expectedPoint);
         $actualPoint = $serializer->deserialize($serializedPoint);
-
         $this->assertTrue($expectedPoint->equals($actualPoint));
+
+        $this->assertTrue(str_starts_with($serializedPoint, "03"));
+        $evenSerializedPoint = "02" . substr($serializedPoint, 2);
+        $evenPoint = $serializer->deserialize($evenSerializedPoint);
+        $actualEvenSerializedPoint = $serializer->serialize($evenPoint);
+        $this->assertEquals($evenSerializedPoint, $actualEvenSerializedPoint);
     }
 
     public function testUncompressedPoint(): void
@@ -58,13 +64,31 @@ class SECSerializerTest extends TestCase
         $this->assertTrue($actualPoint->equals($infinity));
     }
 
-    public function testInvalidInput(): void
+    public static function invalidPoints(): array
     {
         $curve = SEC2CurveFactory::secp192r1();
         $serializer = self::createSerializer($curve, SECEncoding::UNCOMPRESSED);
+        $compressedSerializer = self::createSerializer($curve, SECEncoding::COMPRESSED);
 
-        $this->expectException(SerializerException::class);
-        ;
-        $serializer->deserialize('0900023');
+        $expectedPoint = $curve->getG();
+        $serializedPoint = $serializer->serialize($expectedPoint);
+        $compressedSerializedPoint = $compressedSerializer->serialize($expectedPoint);
+
+        return [
+            [$serializer, ""], // empty
+            [$serializer, "kasdkjc"], // not hex
+            [$serializer, "aadd213aa"], // hex, incorrect length
+            [$serializer, "05" . substr($serializedPoint, 2)], // incorrect suffix
+            [$serializer, "05" . substr($compressedSerializedPoint, 2)], // incorrect suffix
+        ];
+    }
+
+    /**
+     * @dataProvider invalidPoints
+     */
+    public function testInvalidInput(SECSerializer $serializer, string $hex): void
+    {
+        $this->expectException(SerializerException::class);;
+        $serializer->deserialize($hex);
     }
 }
