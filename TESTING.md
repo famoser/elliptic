@@ -9,17 +9,19 @@ The testing is done across multiple dimensions:
 ## Correctness
 
 Status:
-- 100% branch coverage
+- 100% branch coverage (some exceptions apply around string functions and match statements)
 - Math soundness tests (e.g. G*order = 0)
+- Math baseline tests (i.e. comparing hardened math output to baseline math)
 - Third-party integration tests
 
 Correctness exceptions:
 - `MG_ED_MathTest` outputs different results than the baseline (i.e. is wrong)
 - `TwED_ANeg1_Math` and `MG_TwED_ANeg1_Math` do not cycle as expected (i.e. G*order != 0)
 
-### Integration tests
 
-There are two kind of integration tests at the moment:
+### Third-Party Integration tests
+
+There are two kinds of integration tests at the moment:
 - The `WycheProof` integration tests from [C2SP/wycheproof](https://github.com/C2SP/wycheproof). It aims to explore edge cases in implementations, both on the crypto primitive layer (which we do not care about), but also on the elliptic curve math layer (which we do care about). The project seems to be [abandoned)(https://github.com/C2SP/wycheproof/issues/113#issuecomment-2610184843), and the original maintainer started a new project called [Rooterberg](https://github.com/bleichenbacher-daniel/Rooterberg).
 - The `Rooterberg` integration tests from [bleichenbacher-daniel/Rooterberg](https://github.com/bleichenbacher-daniel/Rooterberg). Same target as `WycheProof` by the same original maintainer.
 
@@ -28,11 +30,8 @@ We choose which testset to execute as follows, mainly to ease maintenance:
 - We prefer the testset as closest to the elliptic curve as possible (i.e. we prefer `ecdh_ecpoint` over `ecdh` over `ecdsa`)
 
 It holds that:
-- Over every curve, at least one testset is executed
-- Over every math, at least one testset is executed (unless noted otherwise)
-
-Exceptions:
-- Test of `MG_ED_Math` fails (hence also `curve448Edwards` remains untested)
+- Over every curve and on every math, at least one full testset is executed
+- Exception: Test of `MG_ED_Math` fails (hence also `curve448Edwards` remains untested)
 
 | Curve            | Math                 | WycheProof        | Rooterberg |
 |------------------|----------------------|-------------------|------------|
