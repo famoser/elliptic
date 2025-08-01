@@ -88,7 +88,7 @@ class SECSerializerTest extends TestCase
      */
     public function testInvalidInput(SECSerializer $serializer, string $hex): void
     {
-        $this->expectException(SerializerException::class);;
+        $this->expectException(SerializerException::class);
         $serializer->deserialize($hex);
     }
 }
