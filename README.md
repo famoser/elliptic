@@ -5,6 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/famoser/elliptic/badge.svg?branch=main)](https://coveralls.io/github/famoser/elliptic)
 
 This library provides low-level access to elliptic curve group computations.
+Extensively tested (100% branch coverage, 9k third-party integration tests) and hardened against side-channels.
 
 ```php
 // get curves from SEC, brainpool and bernstein
@@ -17,12 +18,20 @@ $math = $mathFactory->createHardenedMath($curve);
 
 // can do double, add and mul
 $G2 = $math->double($curve->getG());
-$G3_ = $math->add($curve->getG(), $G2);
-$G3 = $math->mul($curve->getG(), gmp_init(3));
-if ($G3->equals($G3_)) { echo "success"; }
+$G3 = $math->add($curve->getG(), $G2);
+$GA = $math->mul($curve->getG(), gmp_init(3));
+if ($G3->equals($GA)) { echo "success"; }
 ```
 
+Functionality overview:
+- Curves: Use `SEC2`, `brainpool` and the bernstein curves (`curve25519` and `curve448`).
+- Math: Operate on the curves using `add`, `double` and `mul`.
+- Decoders: Decode according to SEC or bernstein. Recover points given only an x or y coordinate.
+
+
 ## Math overview
+
+All curves, except the `secp*k1` and the `brainpool*r1` variants, have hardened implementations available. The hardening aims to reduce the effectiveness of side-channels. Side-channels may allow an adversary to recover the private key indirectly, by observing the timing, the cache behaviour or the power consumption of the algorithm execution. Unless you have a good reason, you should use these hardened implementations.
 
 | Hardened Math                | Supported Curves                                       | Correctness         | Speed | Hardened |
 |------------------------------|--------------------------------------------------------|---------------------|-------|----------|
@@ -37,6 +46,7 @@ if ($G3->equals($G3_)) { echo "success"; }
 Correctness:
 - `MG_TwED_ANeg1_Math` and `TwED_ANeg1_Math` perform correctly based on third-party testcases, but math sanity checks fail (e.g. G*order != 0)
 - `MG_ED_Math` pass math sanity checks, but performs incorrectly in relation to baselines (e.g. third party testcases)
+
 
 
 ## Project context

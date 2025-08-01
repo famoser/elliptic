@@ -15,6 +15,6 @@ $math = $mathFactory->createHardenedMath($curve);
 
 // can do double, add and mul
 $G2 = $math->double($curve->getG());
-$G3_ = $math->add($curve->getG(), $G2);
-$G3 = $math->mul($curve->getG(), gmp_init(3));
-if ($G3->equals($G3_)) { echo "success"; }
+$G3 = $math->add($curve->getG(), $G2);
+$GA = $math->mul($curve->getG(), gmp_init(3));
+if ($G3->equals($GA)) { echo "success"; }
