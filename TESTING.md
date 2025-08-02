@@ -87,6 +87,83 @@ Results:
 
 ## Speed
 
+Overview:
+- The measurement is done on a ThinkPad X1 Gen11 (no turbo boost, CPU at 1900 Mhz).
+- Perfomed is `mul` over the basepoint using a random factor.
+- Outliers are removed.
+
+Results:
+- The Montgomery curves are 2x as fast than the Short Weiherstrass at the same security level.
+- Using the `MGXCalculator` (only supports `mul` but no `add` or `double`) it is 4x as fast.
+- For Short Weiherstrass, the hardened math is around 2x slower, worse for big curves.
+- For Montgomery and Twisted Edwards, the hardened maths is around 20% slower.
+- For Edwards, the hardened math is around 20% faster.
+
+### Short Weiherstrasse with A=-3
+
+|                   | `SWUnsafeMath` | `SW_ANeg3_Math` |
+|-------------------|----------------|-----------------|
+| `brainpoolP160t1` | 0.060          | 0.155           |
+| `brainpoolP192t1` | 0.074          | 0.187           |
+| `brainpoolP224t1` | 0.089          | 0.222           |
+| `brainpoolP256t1` | 0.103          | 0.251           |
+| `brainpoolP320t1` | 0.137          | 0.320           |
+| `brainpoolP384t1` | 0.172          | 0.389           |
+| `brainpoolP512t1` | 0.250          | 0.541           |
+| `secp192r1`       | 0.074          | 0.190           |
+| `secp224r1`       | 0.087          | 0.224           |
+| `secp256r1`       | 0.104          | 0.252           |
+| `secp384r1`       | 0.172          | 0.39            |
+| `secp521r1`       | 0.261          | 0.563           |
+
+### Quadratic Twist to Short Weiherstrass with A=-3
+
+|                   | `SWUnsafeMath` | `SW_QT_ANeg3_Math` |
+|-------------------|----------------|--------------------|
+| `brainpoolP160r1` | 0.060          | 0.156              |
+| `brainpoolP192r1` | 0.075          | 0.187              |
+| `brainpoolP224r1` | 0.088          | 0.222              |
+| `brainpoolP256r1` | 0.103          | 0.251              |
+| `brainpoolP320r1` | 0.136          | 0.322              |
+| `brainpoolP384r1` | 0.172          | 0.387              |
+| `brainpoolP512r1` | 0.249          | 0.537              |
+
+### Short Weiherstrass (general fallback)
+
+|             | `SWUnsafeMath` |
+|-------------|----------------|
+| `secp192k1` | 0.074          |
+| `secp224k1` | 0.088          |
+| `secp256k1` | 0.103          |
+
+
+## Montgomery with birational mapping to Twisted Edwards (A=-1)
+
+|              | `MGUnsafeMath` | `MGXCalculator` | `MG_TwED_ANeg1_Math` |
+|--------------|----------------|-----------------|----------------------|
+| `curve25519` | 0.118          | 0.063           | 0.167                |
+
+
+## Montgomery with birational mapping to Edwards (A=1)
+
+|            | `MGUnsafeMath` | `MGXCalculator` | `MG_ED_Math` |
+|------------|----------------|-----------------|--------------|
+| `curve448` | 0.237          | 0.117           | 0.269        |
+
+
+## Twisted Edwards (A=-1)
+
+|                | `TwEDUnsafeMath` | `TwED_ANeg1_Math` |
+|----------------|------------------|-------------------|
+| `edwards25519` | 0.147            | 0.168             |
+
+
+## Edwards
+
+|                   | `EDUnsafeMath` | `EDMath` |
+|-------------------|----------------|----------|
+| `curve448Edwards` | 0.293          | 0.269    |
+| `edwards448`      | 0.294          | 0.269    |
 
 
 
