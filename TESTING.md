@@ -1,22 +1,26 @@
 # Testing
 
 The testing is done across multiple dimensions:
-- Correctness: Ensure the implementation is correct, notably in relation to third-party test vectors.
-- Side-channels: Check for side-channels, and estimate whether the implementation leaks the private key to a "realistic" attacker. 
-- Speed: Compare the speed of the individual implementations. The target is not to optimize the code further (if performance is of prime concern, use an implementation closer to the metal, not PHP); but to show the performance / safety trade-off between the different curve and math choices.
+- Correctness: Check whether the implementation is correct, notably in relation to math sanity checks and third-party test vectors.
+- Hardened: Check whether the implementation might leak the private key to an adversary over side-channels, notably by assessing constant-time execution.
+- Speed: Check how fast the essential operations are executed on the curve.
+
+The implementation is in PHP, using the GMP extension for the big-number-math. This inherently limits what is possible in terms of hardening and performance. If these are of prime concern, switch to a mature implementation closer to the metal (e.g. `openssl`).
+
 
 
 ## Correctness
 
-Status:
+Overview:
 - 100% branch coverage (some exceptions apply around string functions and match statements)
 - Math soundness tests (e.g. G*order = 0)
 - Math baseline tests (i.e. comparing hardened math output to baseline math)
-- Third-party integration tests
+- Third-party integration tests 
 
-Correctness exceptions:
-- `MG_ED_MathTest` outputs different results than the baseline (i.e. is wrong)
-- `TwED_ANeg1_Math` and `MG_TwED_ANeg1_Math` do not cycle as expected (i.e. G*order != 0)
+Result:
+- Over every curve and on every math, all these tests are executed successfully
+- Exception: Math soundness tests of `TwED_ANeg1_Math` and `MG_TwED_ANeg1_Math` fail (but integration tests succeed)
+- Exception: Third-party integration tests of `MG_ED_Math` fail (hence `curve448Edwards` remains untested, too)
 
 
 ### Third-Party Integration tests
@@ -66,7 +70,27 @@ It holds that:
 | `ed448`          | `EDMath`             | 448(86)           |            |
 
 
-## Timing tests
+
+## Hardened
+
+Overview:
+- The implementation is written in PHP and uses GMP for the large-number math. **Neither give any side-channel-free guarantees.**
+- The implementation carefully follows RFCs and standards, and hence the algorithms themselves do not trivially introduce side-channels.
+- Constant time behaviour, notably corresponding to crafted inputs, is assessed using tests.
+- Besides constant time, no other side-channel is explicitly tested for (e.g. caching, power).
+
+Results:
+- The implementations are not constant time for crafted inputs (e.g., multiplying by the zero-point). This is likely due to GMP optimizations.
+- The hardened implementations perform better (i.e., adversary needs more accurate measurements to detect const-time violations).
+
+
+
+## Speed
+
+
+
+
+## Side-channels
 
 To test for side channels, we check whether the following distributions are equal: a) multiplying with a constant value and b) multiplying with always a different random value. The details are documented in the jupiter lab file at `tests/consttime/analyse.ipynb`. 
 
