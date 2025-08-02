@@ -10,7 +10,7 @@ use Famoser\Elliptic\Math\MathInterface;
 interface ProofCollectorInterface
 {
     public function getCurveName(): string;
-    public function getMath(): MathInterface;
+    public function getMathName(): string;
 
     public function collect(): void;
 
