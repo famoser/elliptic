@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Famoser\Elliptic\Integration\WycheProof;
+namespace Famoser\Elliptic\Tests\Integration\WycheProof;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
-use Famoser\Elliptic\Integration\Utils\EdDSA\EdDSASignerEd25519;
-use Famoser\Elliptic\Integration\Utils\EdDSA\EDDSASignerEd448;
-use Famoser\Elliptic\Integration\WycheProof\Utils\FixturesRepository;
-use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
+use Famoser\Elliptic\Tests\Integration\Utils\EdDSA\EdDSASignerEd25519;
+use Famoser\Elliptic\Tests\Integration\Utils\EdDSA\EDDSASignerEd448;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\FixturesRepository;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\EDMath;
 use Famoser\Elliptic\Math\EDUnsafeMath;
 use Famoser\Elliptic\Math\MathInterface;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Famoser\Elliptic\Integration\RFC7784;
+namespace Famoser\Elliptic\Tests\Integration\RFC7784;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
-use Famoser\Elliptic\Integration\ExpensiveMath\UnresolvedErrorTrait;
+use Famoser\Elliptic\Tests\Integration\ExpensiveMath\UnresolvedErrorTrait;
 use Famoser\Elliptic\Math\MG_ED_Math;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
 use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\Math\Calculator;
+namespace Famoser\Elliptic\Tests\Unit\Math\Calculator;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Math\Calculator\MGXCalculator;

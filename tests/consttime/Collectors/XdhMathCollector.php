@@ -1,9 +1,9 @@
 <?php
 
-namespace Famoser\Elliptic\ConstTime\Collectors;
+namespace Famoser\Elliptic\Tests\ConstTime\Collectors;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
-use Famoser\Elliptic\Integration\WycheProof\Utils\FixturesRepository;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\FixturesRepository;
 use Famoser\Elliptic\Math\Calculator\MGXCalculator;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;

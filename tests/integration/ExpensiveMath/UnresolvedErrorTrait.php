@@ -1,8 +1,8 @@
 <?php
 
-namespace Famoser\Elliptic\Integration\ExpensiveMath;
+namespace Famoser\Elliptic\Tests\Integration\ExpensiveMath;
 
-use Famoser\Elliptic\Integration\RFC7784\MG_ED_MathTest;
+use Famoser\Elliptic\Tests\Integration\RFC7784\MG_ED_MathTest;
 use Famoser\Elliptic\Math\MG_ED_Math;
 use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
 use Famoser\Elliptic\Math\TwED_ANeg1_Math;

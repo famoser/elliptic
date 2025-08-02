@@ -1,13 +1,13 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\Serializer\PointDecoder;
+namespace Famoser\Elliptic\Tests\Unit\Serializer\PointDecoder;
 
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Serializer\PointDecoder\EDPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\SWPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\TwEDPointDecoder;
-use Famoser\Elliptic\Tests\Math\Traits\InvalidCurveProviderTrait;
+use Famoser\Elliptic\Tests\Unit\Math\Traits\InvalidCurveProviderTrait;
 use PHPUnit\Framework\TestCase;
 
 class InitializationTest extends TestCase

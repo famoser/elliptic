@@ -33,9 +33,10 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Famoser\\Elliptic\\Tests\\": "tests/unit",
-            "Famoser\\Elliptic\\Integration\\": "tests/integration",
-            "Famoser\\Elliptic\\ConstTime\\": "tests/consttime"
+            "Famoser\\Elliptic\\Tests\\Unit\\": "tests/unit",
+            "Famoser\\Elliptic\\Tests\\Integration\\": "tests/integration",
+            "Famoser\\Elliptic\\Tests\\ConstTime\\": "tests/consttime",
+            "Famoser\\Elliptic\\Tests\\Performance\\": "tests/performance"
         }
     }
 }

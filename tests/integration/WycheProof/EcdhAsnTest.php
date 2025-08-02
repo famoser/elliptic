@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Famoser\Elliptic\Integration\WycheProof;
+namespace Famoser\Elliptic\Tests\Integration\WycheProof;
 
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
-use Famoser\Elliptic\Integration\Utils\AsnEncoder;
-use Famoser\Elliptic\Integration\WycheProof\Traits\DiffieHellmanTrait;
-use Famoser\Elliptic\Integration\WycheProof\Traits\EncodedPointTrait;
-use Famoser\Elliptic\Integration\WycheProof\Utils\FixturesRepository;
-use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
+use Famoser\Elliptic\Tests\Integration\Utils\AsnEncoder;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Traits\DiffieHellmanTrait;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Traits\EncodedPointTrait;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\FixturesRepository;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;

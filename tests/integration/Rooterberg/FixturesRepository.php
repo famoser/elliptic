@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Integration\Rooterberg;
+namespace Famoser\Elliptic\Tests\Integration\Rooterberg;
 
 use Famoser\Elliptic\Curves\CurveRepository;
 use Famoser\Elliptic\Math\SWUnsafeMath;

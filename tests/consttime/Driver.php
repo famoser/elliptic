@@ -1,12 +1,12 @@
 <?php
 
-namespace Famoser\Elliptic\ConstTime;
+namespace Famoser\Elliptic\Tests\ConstTime;
 
-use Famoser\Elliptic\ConstTime\Collectors\EcdsaShaCollector;
-use Famoser\Elliptic\ConstTime\Collectors\EddsaCollector;
-use Famoser\Elliptic\ConstTime\Collectors\CollectorInterface;
-use Famoser\Elliptic\ConstTime\Collectors\XdhCalculatorCollector;
-use Famoser\Elliptic\ConstTime\Collectors\XdhMathCollector;
+use Famoser\Elliptic\Tests\ConstTime\Collectors\EcdsaShaCollector;
+use Famoser\Elliptic\Tests\ConstTime\Collectors\EddsaCollector;
+use Famoser\Elliptic\Tests\ConstTime\Collectors\CollectorInterface;
+use Famoser\Elliptic\Tests\ConstTime\Collectors\XdhCalculatorCollector;
+use Famoser\Elliptic\Tests\ConstTime\Collectors\XdhMathCollector;
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\CurveRepository;

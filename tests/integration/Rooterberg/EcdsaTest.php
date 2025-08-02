@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Famoser\Elliptic\Integration\Rooterberg;
+namespace Famoser\Elliptic\Tests\Integration\Rooterberg;
 
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
-use Famoser\Elliptic\Integration\Utils\ECDSASigner;
+use Famoser\Elliptic\Tests\Integration\Utils\ECDSASigner;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;

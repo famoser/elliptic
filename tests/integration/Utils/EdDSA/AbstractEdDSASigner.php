@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Famoser\Elliptic\Integration\Utils\EdDSA;
+namespace Famoser\Elliptic\Tests\Integration\Utils\EdDSA;
 
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Primitives\Point;

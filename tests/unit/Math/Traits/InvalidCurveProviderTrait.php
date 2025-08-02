@@ -1,11 +1,11 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\Math\Traits;
+namespace Famoser\Elliptic\Tests\Unit\Math\Traits;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Primitives\CurveType;
-use Famoser\Elliptic\Tests\TestUtils\CurveBuilder;
+use Famoser\Elliptic\Tests\Unit\TestUtils\CurveBuilder;
 
 trait InvalidCurveProviderTrait
 {

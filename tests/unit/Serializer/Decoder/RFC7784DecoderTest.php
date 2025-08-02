@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\Serializer\Decoder;
+namespace Famoser\Elliptic\Tests\Unit\Serializer\Decoder;
 
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
 use PHPUnit\Framework\TestCase;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Famoser\Elliptic\Integration\Utils\EdDSA;
+namespace Famoser\Elliptic\Tests\Integration\Utils\EdDSA;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Math\EDUnsafeMath;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\Math\Calculator;
+namespace Famoser\Elliptic\Tests\Unit\Math\Calculator;
 
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Math\Calculator\SW_ANeg3_Calculator;

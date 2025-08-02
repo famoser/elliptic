@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Famoser\Elliptic\Integration\Utils;
+namespace Famoser\Elliptic\Tests\Integration\Utils;
 
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Primitives\Point;

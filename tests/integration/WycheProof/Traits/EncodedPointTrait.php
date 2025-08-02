@@ -1,8 +1,8 @@
 <?php
 
-namespace Famoser\Elliptic\Integration\WycheProof\Traits;
+namespace Famoser\Elliptic\Tests\Integration\WycheProof\Traits;
 
-use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;

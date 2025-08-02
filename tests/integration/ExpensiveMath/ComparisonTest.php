@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Integration\ExpensiveMath;
+namespace Famoser\Elliptic\Tests\Integration\ExpensiveMath;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
