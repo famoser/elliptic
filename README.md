@@ -33,15 +33,15 @@ Functionality overview:
 
 All curves, except the `secp*k1` and the `brainpool*r1` variants, have hardened implementations available. The hardening aims to reduce the effectiveness of side-channels. Side-channels may allow an adversary to recover the private key indirectly, by observing the timing, the cache behaviour or the power consumption of the algorithm execution. Unless you have a good reason, you should use these hardened implementations.
 
-| Hardened Math                | Supported Curves                                       | Correctness         | Speed | Hardened |
-|------------------------------|--------------------------------------------------------|---------------------|-------|----------|
-| `SW_ANeg3_Math`              | `secp*r1`, `brainpool*t1`                              | :white_check_mark:  |       |          |
-| `SW_QT_ANeg3_Math`           | `brainpool*r1`                                         | :white_check_mark:  |       |          |
-| `MGXCalculator` (`mul` only) | `curve25519`, `curve448`                               | :white_check_mark:  |       |          |
-| `MG_TwED_ANeg1_Math`         | `curve25519`                                           | :warning:           |       |          |
-| `MG_ED_Math`                 | `curve448`                                             | :x:                 |       |          |
-| `TwED_ANeg1_Math`            | `edwards25519`                                         | :warning:           |       |          |
-| `EDMath`                     | `edwards448`, `curve448Edwards`                        | :white_check_mark:  |       |          |
+| Hardened Math                | Supported Curves                                       | Correctness         | Hardened | Speed |
+|------------------------------|--------------------------------------------------------|---------------------|----------|-------|
+| `SW_ANeg3_Math`              | `secp*r1`, `brainpool*t1`                              | :white_check_mark:  |          |       |
+| `SW_QT_ANeg3_Math`           | `brainpool*r1`                                         | :white_check_mark:  |          |       |
+| `MGXCalculator` (`mul` only) | `curve25519`, `curve448`                               | :white_check_mark:  |          |       |
+| `MG_TwED_ANeg1_Math`         | `curve25519`                                           | :warning:           |          |       |
+| `MG_ED_Math`                 | `curve448`                                             | :x:                 |          |       |
+| `TwED_ANeg1_Math`            | `edwards25519`                                         | :warning:           |          |       |
+| `EDMath`                     | `edwards448`, `curve448Edwards`                        | :white_check_mark:  |          |       |
 
 Correctness:
 - `MG_TwED_ANeg1_Math` and `TwED_ANeg1_Math` perform correctly based on third-party testcases, but math sanity checks fail (e.g. G*order != 0)
