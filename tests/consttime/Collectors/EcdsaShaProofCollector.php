@@ -5,6 +5,7 @@ namespace Famoser\Elliptic\ConstTime\Collectors;
 use Famoser\Elliptic\Integration\Utils\ECDSASigner;
 use Famoser\Elliptic\Integration\WycheProof;
 use Famoser\Elliptic\Integration\Rooterberg;
+use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 
 class EcdsaShaProofCollector extends AbstractProofCollector
@@ -18,6 +19,7 @@ class EcdsaShaProofCollector extends AbstractProofCollector
     public static function createFromRooterberg(string $curveName, int $shaSize, MathInterface $math): self
     {
         $fixtures = Rooterberg\FixturesRepository::createSWEcdsaFixtures($curveName, $shaSize);
+        $fixtures = array_filter($fixtures, static fn (array $fixture) => $fixture['valid']);
         $signer = new ECDSASigner($math, 'sha' . $shaSize);
 
         return new self($curveName, $math, $fixtures, $signer);
@@ -26,6 +28,7 @@ class EcdsaShaProofCollector extends AbstractProofCollector
     public static function createFromWycheSha256(string $curveName, MathInterface $math): self
     {
         $fixtures = WycheProof\Utils\FixturesRepository::createEcdsaSha256Fixtures($curveName);
+        $fixtures = array_filter($fixtures, static fn (array $fixture) => $fixture['result'] === WycheProofConstants::RESULT_VALID);
         $signer = new ECDSASigner($math, 'sha256');
 
         return new self($curveName, $math, $fixtures, $signer);
