@@ -2,8 +2,7 @@
 
 namespace Famoser\Elliptic\ConstTime;
 
-use Famoser\Elliptic\ConstTime\Collectors\EcdsaSha256RooterbergProofCollector;
-use Famoser\Elliptic\ConstTime\Collectors\EcdsaSha256WycheProofCollector;
+use Famoser\Elliptic\ConstTime\Collectors\EcdsaSha256ProofCollector;
 use Famoser\Elliptic\ConstTime\Collectors\ProofCollectorInterface;
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\CurveRepository;
@@ -21,14 +20,11 @@ class MeasurementCollector
     {
         $repo = new CurveRepository();
 
+        $brainpoolP192r1Math = new SW_QT_ANeg3_Math($repo->findByName('brainpoolP192r1'), BrainpoolCurveFactory::p192r1TwistToP192t1());
         return [
-            new EcdsaSha256WycheProofCollector('secp192r1', new SWUnsafeMath($repo->findByName('secp192r1'))),
-            new EcdsaSha256WycheProofCollector('secp192r1', new SW_ANeg3_Math($repo->findByName('secp192r1'))),
-            new EcdsaSha256RooterbergProofCollector(
-                'brainpool_p192r1',
-                224,
-                new SW_QT_ANeg3_Math($repo->findByName('brainpoolP192r1'), BrainpoolCurveFactory::p192r1TwistToP192t1())
-            ),
+            EcdsaSha256ProofCollector::createFromWyche('secp192r1', new SWUnsafeMath($repo->findByName('secp192r1'))),
+            EcdsaSha256ProofCollector::createFromWyche('secp192r1', new SW_ANeg3_Math($repo->findByName('secp192r1'))),
+            EcdsaSha256ProofCollector::createFromRooterberg('brainpool_p192r1', 224, $brainpoolP192r1Math),
         ];
     }
 
