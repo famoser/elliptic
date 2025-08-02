@@ -2,11 +2,11 @@
 
 namespace Famoser\Elliptic\ConstTime;
 
-use Famoser\Elliptic\ConstTime\Collectors\EcdsaShaProofCollector;
-use Famoser\Elliptic\ConstTime\Collectors\EddsaProofCollector;
-use Famoser\Elliptic\ConstTime\Collectors\ProofCollectorInterface;
-use Famoser\Elliptic\ConstTime\Collectors\XdhCalculatorProofCollector;
-use Famoser\Elliptic\ConstTime\Collectors\XdhMathProofCollector;
+use Famoser\Elliptic\ConstTime\Collectors\EcdsaShaCollector;
+use Famoser\Elliptic\ConstTime\Collectors\EddsaCollector;
+use Famoser\Elliptic\ConstTime\Collectors\CollectorInterface;
+use Famoser\Elliptic\ConstTime\Collectors\XdhCalculatorCollector;
+use Famoser\Elliptic\ConstTime\Collectors\XdhMathCollector;
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\CurveRepository;
@@ -22,37 +22,36 @@ use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Math\TwED_ANeg1_Math;
 use Famoser\Elliptic\Math\TwEDUnsafeMath;
 
-class MeasurementCollector
+class Driver
 {
-    /**
-     * @return ProofCollectorInterface[]
-     */
-    private function proofCollectors(): array
+    private function createCollector(int $index): CollectorInterface
     {
         $repo = new CurveRepository();
 
         $brainpoolP192r1Math = new SW_QT_ANeg3_Math($repo->findByName('brainpoolP192r1'), BrainpoolCurveFactory::p192r1TwistToP192t1());
         $curve25519Math = new MG_TwED_ANeg1_Math($repo->findByName('curve25519'), BernsteinCurveFactory::curve25519ToEdwards25519(), $repo->findByName('edwards25519'));
-        return [
+        $collectors = [
             // hardened math test
-            EcdsaShaProofCollector::createFromWycheSha256('secp192r1', new SW_ANeg3_Math($repo->findByName('secp192r1'))),
-            EcdsaShaProofCollector::createFromRooterberg('brainpool_p192r1', 224, $brainpoolP192r1Math),
-            XdhCalculatorProofCollector::createForCurve25519(new MGXCalculator(BernsteinCurveFactory::curve25519())),
-            XdhMathProofCollector::createForCurve25519($curve25519Math),
-            EddsaProofCollector::createEd25519(new TwED_ANeg1_Math($repo->findByName('edwards25519'))),
-            EddsaProofCollector::createEd448(new EDMath($repo->findByName('edwards448'))),
+            EcdsaShaCollector::createFromWycheSha256('secp192r1', new SW_ANeg3_Math($repo->findByName('secp192r1'))),
+            EcdsaShaCollector::createFromRooterberg('brainpool_p192r1', 224, $brainpoolP192r1Math),
+            XdhCalculatorCollector::createForCurve25519(new MGXCalculator(BernsteinCurveFactory::curve25519())),
+            XdhMathCollector::createForCurve25519($curve25519Math),
+            EddsaCollector::createEd25519(new TwED_ANeg1_Math($repo->findByName('edwards25519'))),
+            EddsaCollector::createEd448(new EDMath($repo->findByName('edwards448'))),
 
             // unsafe math test
-            EcdsaShaProofCollector::createFromWycheSha256('secp192r1', new SWUnsafeMath($repo->findByName('secp192r1'))),
-            XdhMathProofCollector::createForCurve25519(new MGUnsafeMath($repo->findByName('curve25519'))),
-            EddsaProofCollector::createEd25519(new TwEDUnsafeMath($repo->findByName('edwards25519'))),
-            EddsaProofCollector::createEd448(new EDUnsafeMath($repo->findByName('edwards448'))),
+            EcdsaShaCollector::createFromWycheSha256('secp192r1', new SWUnsafeMath($repo->findByName('secp192r1'))),
+            XdhMathCollector::createForCurve25519(new MGUnsafeMath($repo->findByName('curve25519'))),
+            EddsaCollector::createEd25519(new TwEDUnsafeMath($repo->findByName('edwards25519'))),
+            EddsaCollector::createEd448(new EDUnsafeMath($repo->findByName('edwards448'))),
         ];
+
+        return $collectors[$index];
     }
 
-    public function collectMeasurements(int $collectorIndex): void
+    public function collectMeasurements(int $collectorIndex, ?int $maxIterations): void
     {
-        $proofCollector = $this->proofCollectors()[$collectorIndex];
+        $proofCollector = $this->createCollector($collectorIndex);
 
         echo "Starting measurement of collector with index " . $collectorIndex . ":\n";
         echo $proofCollector->getMathName() . " using " . $proofCollector->getCurveName() . "\n\n";
@@ -63,11 +62,17 @@ class MeasurementCollector
             $iteration++;
             echo "Iteration: " . $iteration . "\n";
 
-            if ($iteration % 100 === 0) {
+            $lastIteration = $maxIterations && $maxIterations <= $iteration;
+            if ($iteration % 100 === 0 || $lastIteration) {
                 $output = $proofCollector->store();
                 $this->storeMeasurement($proofCollector->getMathName(), $proofCollector->getCurveName(), $iteration, $output);
 
                 echo "Stored.\n";
+            }
+
+            if ($lastIteration) {
+                echo "Last iteration reached, stopping.\n";
+                break;
             }
         }
     }

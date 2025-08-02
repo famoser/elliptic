@@ -7,7 +7,7 @@ use Famoser\Elliptic\Integration\Utils\ECDSASigner;
 use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 
-interface ProofCollectorInterface
+interface CollectorInterface
 {
     public function getCurveName(): string;
     public function getMathName(): string;

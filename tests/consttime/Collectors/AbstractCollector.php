@@ -7,7 +7,7 @@ use Famoser\Elliptic\Integration\WycheProof;
 use Famoser\Elliptic\Integration\Rooterberg;
 use Famoser\Elliptic\Math\MathInterface;
 
-abstract class AbstractProofCollector implements ProofCollectorInterface
+abstract class AbstractCollector implements CollectorInterface
 {
     private array $results;
 
