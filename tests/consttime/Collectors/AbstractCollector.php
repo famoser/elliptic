@@ -2,11 +2,6 @@
 
 namespace Famoser\Elliptic\Tests\ConstTime\Collectors;
 
-use Famoser\Elliptic\Tests\Integration\Utils\ECDSASigner;
-use Famoser\Elliptic\Tests\Integration\WycheProof;
-use Famoser\Elliptic\Tests\Integration\Rooterberg;
-use Famoser\Elliptic\Math\MathInterface;
-
 abstract class AbstractCollector implements CollectorInterface
 {
     private array $results;

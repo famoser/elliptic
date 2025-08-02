@@ -3,12 +3,11 @@
 namespace Famoser\Elliptic\Tests\ConstTime\Collectors;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
-use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\FixturesRepository;
-use Famoser\Elliptic\Math\Calculator\MGXCalculator;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
 use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\FixturesRepository;
 use TypeError;
 
 class XdhMathCollector extends AbstractCollector
