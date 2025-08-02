@@ -8,7 +8,7 @@ use Famoser\Elliptic\Integration\Rooterberg;
 use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 
-class EcdsaShaProofCollector extends AbstractProofCollector
+class EcdsaShaCollector extends AbstractCollector
 {
     public function __construct(string $curveName, MathInterface $math, array $fixtures, private readonly ECDSASigner $signer)
     {

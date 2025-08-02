@@ -12,7 +12,7 @@ use Famoser\Elliptic\Integration\WycheProof\Utils\FixturesRepository;
 use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 
-class EddsaProofCollector extends AbstractProofCollector
+class EddsaCollector extends AbstractCollector
 {
     public function __construct(string $curveName, MathInterface $math, array $fixtures, private readonly AbstractEdDSASigner $signer)
     {

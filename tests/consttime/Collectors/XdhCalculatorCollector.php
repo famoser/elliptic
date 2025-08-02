@@ -7,7 +7,7 @@ use Famoser\Elliptic\Integration\WycheProof\Utils\FixturesRepository;
 use Famoser\Elliptic\Math\Calculator\MGXCalculator;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
 
-class XdhCalculatorProofCollector extends AbstractProofCollector
+class XdhCalculatorCollector extends AbstractCollector
 {
     public function __construct(string $curveName, array $fixtures, private readonly MGXCalculator $calculator)
     {

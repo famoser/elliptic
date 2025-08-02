@@ -11,7 +11,7 @@ use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
 use TypeError;
 
-class XdhMathProofCollector extends AbstractProofCollector
+class XdhMathCollector extends AbstractCollector
 {
     public function __construct(string $curveName, array $fixtures, private readonly MathInterface $math)
     {
