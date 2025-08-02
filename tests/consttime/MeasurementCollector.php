@@ -12,12 +12,15 @@ use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Curves\CurveRepository;
 use Famoser\Elliptic\Math\Calculator\MGXCalculator;
 use Famoser\Elliptic\Math\EDMath;
+use Famoser\Elliptic\Math\EDUnsafeMath;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
+use Famoser\Elliptic\Math\MGUnsafeMath;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Math\TwED_ANeg1_Math;
+use Famoser\Elliptic\Math\TwEDUnsafeMath;
 
 class MeasurementCollector
 {
@@ -31,13 +34,19 @@ class MeasurementCollector
         $brainpoolP192r1Math = new SW_QT_ANeg3_Math($repo->findByName('brainpoolP192r1'), BrainpoolCurveFactory::p192r1TwistToP192t1());
         $curve25519Math = new MG_TwED_ANeg1_Math($repo->findByName('curve25519'), BernsteinCurveFactory::curve25519ToEdwards25519(), $repo->findByName('edwards25519'));
         return [
-            EcdsaShaProofCollector::createFromWycheSha256('secp192r1', new SWUnsafeMath($repo->findByName('secp192r1'))),
+            // hardened math test
             EcdsaShaProofCollector::createFromWycheSha256('secp192r1', new SW_ANeg3_Math($repo->findByName('secp192r1'))),
             EcdsaShaProofCollector::createFromRooterberg('brainpool_p192r1', 224, $brainpoolP192r1Math),
             XdhCalculatorProofCollector::createForCurve25519(new MGXCalculator(BernsteinCurveFactory::curve25519())),
             XdhMathProofCollector::createForCurve25519($curve25519Math),
             EddsaProofCollector::createEd25519(new TwED_ANeg1_Math($repo->findByName('edwards25519'))),
             EddsaProofCollector::createEd448(new EDMath($repo->findByName('edwards448'))),
+
+            // unsafe math test
+            EcdsaShaProofCollector::createFromWycheSha256('secp192r1', new SWUnsafeMath($repo->findByName('secp192r1'))),
+            XdhMathProofCollector::createForCurve25519(new MGUnsafeMath($repo->findByName('curve25519'))),
+            EddsaProofCollector::createEd25519(new TwEDUnsafeMath($repo->findByName('edwards25519'))),
+            EddsaProofCollector::createEd448(new EDUnsafeMath($repo->findByName('edwards448'))),
         ];
     }
 
