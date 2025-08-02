@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\Math;
+namespace Famoser\Elliptic\Tests\Unit\Math;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;

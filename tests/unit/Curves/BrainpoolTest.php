@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\Curves;
+namespace Famoser\Elliptic\Tests\Unit\Curves;
 
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
 use Famoser\Elliptic\Math\Twister\QuadraticTwister;

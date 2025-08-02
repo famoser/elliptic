@@ -1,10 +1,10 @@
 <?php
 
-namespace Famoser\Elliptic\Integration\ExpensiveMath;
+namespace Famoser\Elliptic\Tests\Integration\ExpensiveMath;
 
 use Famoser\Elliptic\Math\MathInterface;
 
-class ConsistencyTest extends \Famoser\Elliptic\Tests\Math\ConsistencyTest
+class ConsistencyTest extends \Famoser\Elliptic\Tests\Unit\Math\ConsistencyTest
 {
     use UnresolvedErrorTrait;
 

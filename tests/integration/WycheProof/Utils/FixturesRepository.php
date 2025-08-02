@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Integration\WycheProof\Utils;
+namespace Famoser\Elliptic\Tests\Integration\WycheProof\Utils;
 
 use Famoser\Elliptic\Curves\CurveRepository;
 use Famoser\Elliptic\Primitives\Point;

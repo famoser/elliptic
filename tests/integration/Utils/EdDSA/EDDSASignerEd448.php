@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Famoser\Elliptic\Integration\Utils\EdDSA;
+namespace Famoser\Elliptic\Tests\Integration\Utils\EdDSA;
 
 use danielburger1337\SHA3Shake\SHA3Shake;
 use Famoser\Elliptic\Math\MathInterface;

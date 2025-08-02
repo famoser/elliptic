@@ -1,15 +1,15 @@
 <?php
 
-namespace Famoser\Elliptic\ConstTime\Collectors;
+namespace Famoser\Elliptic\Tests\ConstTime\Collectors;
 
-use Famoser\Elliptic\Integration\Utils\ECDSASigner;
-use Famoser\Elliptic\Integration\Utils\EdDSA\AbstractEdDSASigner;
-use Famoser\Elliptic\Integration\Utils\EdDSA\EdDSASignerEd25519;
-use Famoser\Elliptic\Integration\Utils\EdDSA\EDDSASignerEd448;
-use Famoser\Elliptic\Integration\WycheProof;
-use Famoser\Elliptic\Integration\Rooterberg;
-use Famoser\Elliptic\Integration\WycheProof\Utils\FixturesRepository;
-use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
+use Famoser\Elliptic\Tests\Integration\Utils\ECDSASigner;
+use Famoser\Elliptic\Tests\Integration\Utils\EdDSA\AbstractEdDSASigner;
+use Famoser\Elliptic\Tests\Integration\Utils\EdDSA\EdDSASignerEd25519;
+use Famoser\Elliptic\Tests\Integration\Utils\EdDSA\EDDSASignerEd448;
+use Famoser\Elliptic\Tests\Integration\WycheProof;
+use Famoser\Elliptic\Tests\Integration\Rooterberg;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\FixturesRepository;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 
 class EddsaCollector extends AbstractCollector

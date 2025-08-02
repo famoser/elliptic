@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\Math;
+namespace Famoser\Elliptic\Tests\Unit\Math;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
@@ -15,7 +15,7 @@ use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Math\TwED_ANeg1_Math;
 use Famoser\Elliptic\Math\TwEDUnsafeMath;
 use Famoser\Elliptic\Primitives\Curve;
-use Famoser\Elliptic\Tests\Math\Traits\InvalidCurveProviderTrait;
+use Famoser\Elliptic\Tests\Unit\Math\Traits\InvalidCurveProviderTrait;
 use PHPUnit\Framework\TestCase;
 
 class InitializationTest extends TestCase

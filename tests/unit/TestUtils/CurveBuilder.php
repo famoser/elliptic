@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\TestUtils;
+namespace Famoser\Elliptic\Tests\Unit\TestUtils;
 
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;

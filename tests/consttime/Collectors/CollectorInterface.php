@@ -1,10 +1,10 @@
 <?php
 
-namespace Famoser\Elliptic\ConstTime\Collectors;
+namespace Famoser\Elliptic\Tests\ConstTime\Collectors;
 
-use Famoser\Elliptic\Integration\Rooterberg\FixturesRepository;
-use Famoser\Elliptic\Integration\Utils\ECDSASigner;
-use Famoser\Elliptic\Integration\WycheProof\Utils\WycheProofConstants;
+use Famoser\Elliptic\Tests\Integration\Rooterberg\FixturesRepository;
+use Famoser\Elliptic\Tests\Integration\Utils\ECDSASigner;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 
 interface CollectorInterface

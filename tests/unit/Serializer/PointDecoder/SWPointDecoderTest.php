@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\Serializer\PointDecoder;
+namespace Famoser\Elliptic\Tests\Unit\Serializer\PointDecoder;
 
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
 use Famoser\Elliptic\Primitives\Curve;
