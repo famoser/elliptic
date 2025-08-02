@@ -7,11 +7,20 @@ use PHPUnit\Framework\TestCase;
 
 class CurveRepositoryTest extends TestCase
 {
-    public function testAllKnownNamesReturnCurves(): void
+    public function testAllCanonicalNamesReturnCurves(): void
     {
         $curveRepository = new CurveRepository();
 
-        foreach ($curveRepository->getKnownNames() as $knownName) {
+        foreach ($curveRepository->getCanonicalNames() as $knownName) {
+            $this->assertNotNull($curveRepository->findByName($knownName));
+        }
+    }
+
+    public function testAllNamesReturnCurves(): void
+    {
+        $curveRepository = new CurveRepository();
+
+        foreach ($curveRepository->getNames() as $knownName) {
             $this->assertNotNull($curveRepository->findByName($knownName));
         }
     }

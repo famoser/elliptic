@@ -14,7 +14,7 @@ class RepositoryTest extends TestCase
     {
         $curveRepository = new CurveRepository();
         $testSets = [];
-        foreach ($curveRepository->getKnownNames() as $knownName) {
+        foreach ($curveRepository->getNames() as $knownName) {
             $curve = $curveRepository->findByName($knownName);
             $canonicalName = $curveRepository->getCanonicalName($curve);
 

@@ -107,7 +107,15 @@ class CurveRepository
     /**
      * @return string[]
      */
-    public function getKnownNames(): array
+    public function getCanonicalNames(): array
+    {
+        return array_keys($this->canonicalNameCurveConstructors);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getNames(): array
     {
         return array_merge(array_keys($this->canonicalNameCurveConstructors), array_keys($this->nameAlias));
     }
