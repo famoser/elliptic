@@ -3,9 +3,11 @@
 namespace Famoser\Elliptic\Tests\Performance;
 
 use Famoser\Elliptic\Curves\CurveRepository;
+use Famoser\Elliptic\Math\Calculator\MGXCalculator;
 use Famoser\Elliptic\Math\MathFactory;
 use Famoser\Elliptic\Tests\Performance\Collectors\CollectorInterface;
 use Famoser\Elliptic\Tests\Performance\Collectors\MathMulGCollector;
+use Famoser\Elliptic\Tests\Performance\Collectors\MGXCalculatorMulGCollector;
 
 class Driver
 {
@@ -48,6 +50,9 @@ class Driver
                 $measurementTargets[] = new MathMulGCollector($canonicalName, $curve, $hardenedMath);
             }
         }
+
+        $measurementTargets[] = new MGXCalculatorMulGCollector('curve25519', $curveRepository->findByName('curve25519'));
+        $measurementTargets[] = new MGXCalculatorMulGCollector('curve448', $curveRepository->findByName('curve448'));
 
         return $measurementTargets;
     }
