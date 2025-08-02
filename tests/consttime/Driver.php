@@ -13,7 +13,6 @@ use Famoser\Elliptic\Curves\CurveRepository;
 use Famoser\Elliptic\Math\Calculator\MGXCalculator;
 use Famoser\Elliptic\Math\EDMath;
 use Famoser\Elliptic\Math\EDUnsafeMath;
-use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
 use Famoser\Elliptic\Math\MGUnsafeMath;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
@@ -24,31 +23,6 @@ use Famoser\Elliptic\Math\TwEDUnsafeMath;
 
 class Driver
 {
-    private function createCollector(int $index): CollectorInterface
-    {
-        $repo = new CurveRepository();
-
-        $brainpoolP192r1Math = new SW_QT_ANeg3_Math($repo->findByName('brainpoolP192r1'), BrainpoolCurveFactory::p192r1TwistToP192t1());
-        $curve25519Math = new MG_TwED_ANeg1_Math($repo->findByName('curve25519'), BernsteinCurveFactory::curve25519ToEdwards25519(), $repo->findByName('edwards25519'));
-        $collectors = [
-            // hardened math test
-            EcdsaShaCollector::createFromWycheSha256('secp192r1', new SW_ANeg3_Math($repo->findByName('secp192r1'))),
-            EcdsaShaCollector::createFromRooterberg('brainpool_p192r1', 224, $brainpoolP192r1Math),
-            XdhCalculatorCollector::createForCurve25519(new MGXCalculator(BernsteinCurveFactory::curve25519())),
-            XdhMathCollector::createForCurve25519($curve25519Math),
-            EddsaCollector::createEd25519(new TwED_ANeg1_Math($repo->findByName('edwards25519'))),
-            EddsaCollector::createEd448(new EDMath($repo->findByName('edwards448'))),
-
-            // unsafe math test
-            EcdsaShaCollector::createFromWycheSha256('secp192r1', new SWUnsafeMath($repo->findByName('secp192r1'))),
-            XdhMathCollector::createForCurve25519(new MGUnsafeMath($repo->findByName('curve25519'))),
-            EddsaCollector::createEd25519(new TwEDUnsafeMath($repo->findByName('edwards25519'))),
-            EddsaCollector::createEd448(new EDUnsafeMath($repo->findByName('edwards448'))),
-        ];
-
-        return $collectors[$index];
-    }
-
     public function collectMeasurements(int $collectorIndex, ?int $maxIterations): void
     {
         $proofCollector = $this->createCollector($collectorIndex);
@@ -75,6 +49,31 @@ class Driver
                 break;
             }
         }
+    }
+
+    private function createCollector(int $index): CollectorInterface
+    {
+        $repo = new CurveRepository();
+
+        $brainpoolP192r1Math = new SW_QT_ANeg3_Math($repo->findByName('brainpoolP192r1'), BrainpoolCurveFactory::p192r1TwistToP192t1());
+        $curve25519Math = new MG_TwED_ANeg1_Math($repo->findByName('curve25519'), BernsteinCurveFactory::curve25519ToEdwards25519(), $repo->findByName('edwards25519'));
+        $collectors = [
+            // hardened math test
+            EcdsaShaCollector::createFromWycheSha256('secp192r1', new SW_ANeg3_Math($repo->findByName('secp192r1'))),
+            EcdsaShaCollector::createFromRooterberg('brainpool_p192r1', 224, $brainpoolP192r1Math),
+            XdhCalculatorCollector::createForCurve25519(new MGXCalculator(BernsteinCurveFactory::curve25519())),
+            XdhMathCollector::createForCurve25519($curve25519Math),
+            EddsaCollector::createEd25519(new TwED_ANeg1_Math($repo->findByName('edwards25519'))),
+            EddsaCollector::createEd448(new EDMath($repo->findByName('edwards448'))),
+
+            // unsafe math test
+            EcdsaShaCollector::createFromWycheSha256('secp192r1', new SWUnsafeMath($repo->findByName('secp192r1'))),
+            XdhMathCollector::createForCurve25519(new MGUnsafeMath($repo->findByName('curve25519'))),
+            EddsaCollector::createEd25519(new TwEDUnsafeMath($repo->findByName('edwards25519'))),
+            EddsaCollector::createEd448(new EDUnsafeMath($repo->findByName('edwards448'))),
+        ];
+
+        return $collectors[$index];
     }
 
     private function storeMeasurement(string $mathName, string $curveName, int $iterationCount, array $payload): void

@@ -2,11 +2,11 @@
 
 namespace Famoser\Elliptic\Tests\ConstTime\Collectors;
 
+use Famoser\Elliptic\Math\MathInterface;
+use Famoser\Elliptic\Tests\Integration\Rooterberg;
 use Famoser\Elliptic\Tests\Integration\Utils\ECDSASigner;
 use Famoser\Elliptic\Tests\Integration\WycheProof;
-use Famoser\Elliptic\Tests\Integration\Rooterberg;
 use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\WycheProofConstants;
-use Famoser\Elliptic\Math\MathInterface;
 
 class EcdsaShaCollector extends AbstractCollector
 {
