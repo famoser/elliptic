@@ -11,7 +11,7 @@ abstract class AbstractProofCollector implements ProofCollectorInterface
 {
     private array $results;
 
-    public function __construct(private readonly string $curveName, private readonly MathInterface $math, private readonly array $fixtures)
+    public function __construct(private readonly string $curveName, private readonly string $mathName, private readonly array $fixtures)
     {
         $this->results = [];
         foreach ($this->fixtures as $key => $fixture) {
@@ -24,9 +24,9 @@ abstract class AbstractProofCollector implements ProofCollectorInterface
         return $this->curveName;
     }
 
-    public function getMath(): MathInterface
+    public function getMathName(): string
     {
-        return $this->math;
+        return $this->mathName;
     }
 
     public function collect(): void
@@ -85,7 +85,7 @@ abstract class AbstractProofCollector implements ProofCollectorInterface
         }
 
         return [
-            'math' => $this->math::class,
+            'math' => $this->mathName,
             'curve' => $this->curveName,
             'samples' => $samples
         ];

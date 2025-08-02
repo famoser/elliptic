@@ -7,11 +7,12 @@ use Famoser\Elliptic\Integration\WycheProof;
 use Famoser\Elliptic\Integration\Rooterberg;
 use Famoser\Elliptic\Math\MathInterface;
 
-class EcdsaSha256ProofCollector extends AbstractProofCollector
+class EcdsaShaProofCollector extends AbstractProofCollector
 {
     public function __construct(string $curveName, MathInterface $math, array $fixtures, private readonly ECDSASigner $signer)
     {
-        parent::__construct($curveName, $math, $fixtures);
+        $mathName = substr($math::class, strrpos($math::class, '\\') + 1);
+        parent::__construct($curveName, $mathName, $fixtures);
     }
 
     public static function createFromRooterberg(string $curveName, int $shaSize, MathInterface $math): self
@@ -22,7 +23,7 @@ class EcdsaSha256ProofCollector extends AbstractProofCollector
         return new self($curveName, $math, $fixtures, $signer);
     }
 
-    public static function createFromWyche(string $curveName, MathInterface $math): self
+    public static function createFromWycheSha256(string $curveName, MathInterface $math): self
     {
         $fixtures = WycheProof\Utils\FixturesRepository::createEcdsaSha256Fixtures($curveName);
         $signer = new ECDSASigner($math, 'sha256');
