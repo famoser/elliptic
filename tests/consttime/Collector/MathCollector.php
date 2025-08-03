@@ -2,14 +2,8 @@
 
 namespace Famoser\Elliptic\Tests\ConstTime\Collector;
 
-use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Math\MathInterface;
-use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
-use Famoser\Elliptic\Serializer\PointDecoder\MGPointDecoder;
-use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
-use Famoser\Elliptic\Tests\Integration\Utils\MathRecoder;
-use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\FixturesRepository;
-use TypeError;
+use Famoser\Elliptic\Tests\Integration\Utils\MathAdapter\MathRecoder;
 
 class MathCollector extends AbstractCollector
 {
