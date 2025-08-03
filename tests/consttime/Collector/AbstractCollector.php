@@ -86,5 +86,5 @@ abstract class AbstractCollector implements CollectorInterface
         ];
     }
 
-    protected abstract function runFixture(array $fixture): void;
+    abstract protected function runFixture(array $fixture): void;
 }

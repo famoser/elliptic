@@ -21,7 +21,7 @@ class Driver
             foreach ($collectors as $index => $target) {
                 $target->collect($iterationsPerRound);
                 $this->storeMeasurement($target->getMathName(), $target->getCurveName(), $target->getCollectorId(), $iterationsPerRound * ($round + 1), $target->store());
-                echo "Finished round for target " . ($index+1) . "/" . count($collectors) . ".\n";
+                echo "Finished round for target " . ($index + 1) . "/" . count($collectors) . ".\n";
             }
 
             if ($maxRounds && $round <= $maxRounds) {
