@@ -80,17 +80,74 @@ Overview:
 - Besides constant time, no other side-channel is explicitly tested for (e.g. caching, power).
 
 Results:
-- The implementations are not constant time for crafted inputs (e.g., multiplying by the zero-point). This is likely due to GMP optimizations.
+- The implementations are not constant time for crafted inputs (e.g., small points/factors, 2^n factors).
 - The hardened implementations perform better (i.e., adversary needs more accurate measurements to detect const-time violations).
 
+### Constant-time analysis
+
+Method:
+- Over each math, chosing one of the smaller curves available, we run the third-party test-cases.
+- We isolate the math operations (e.g. we do not measure hashing, point decoding, etc).
+- We do this multiple times, discarding the 50% slowest runs (we either keep all test-cases of a run, or discard it in its entirety).
+- We then cluster the test-cases according to their measured time, using the third-party test-cases to find reasons for non-const behaviour.
+- We assess visually the clusters, and document the resolution inside the cluster (i.e. what span a single test-case occupies)
+
+Result summary:
+- `UnsafeMath` implementations show clear and multiple clusters for small factors or 0-points
+- Hardened implementations show also different clusters for small factors, these are however closer to the main cluster
+- Inside the main cluster are also smaller clusters (i.e. the main cluster is also not const-time)
+
+`EDMath`:
+- 28.2 - 28.5 main cluster with resolution of 0.2
+- No other clusters, but likely because testset is too small / has no special cases
+
+`EDUnsafeMath`:
+- 30.5 - 31 main cluster with resolution of 0.1
+- No other clusters, but likely because testset is too small / has no special cases
+
+`MG_TwED_ANeg1_Math`:
+- 17.5 - 17.8 main cluster with resolution of 0.2
+- 17.3 for public key with low order / many zeros
+
+`MGUnsafeMath`:
+- resolution is very low
+- 12.5 main cluster
+- 5.2, 7, 9 clear clusters for low order u
+
+`MGXCalculator`:
+- 6.3 - 6.6 main cluster with resolution of 0.03
+- 5.5 for low order u
+
+`SW_ANeg3_Math`
+- 19.5 - 20 main cluster with resolution of 0.1
+- 19.4 for point = 0
+- 19 for factor = smallish
+- 18 for factor = 0
+
+`SW_QT_ANeg3_Math`:
+- 19.6 - 20.1 main cluster with resolution of 0.1
+- 19.4 for point with lots of zeros (e.g. 2^128)
+- 18.5 for factor = 32 bits
+- 17.8 for factor = 0
+
+`SWUnsafeMath`:
+- 7.5 - 8 main cluster with resolution 0.1
+- 6 for factor = smallish
+- 4.5 for factor = 1
+
+`TwED_ANeg3_Math`:
+- 17.4 - 17.7 main cluster with resolution of 0.1
+
+`TwEDUnsafeMath`:
+- 15 - 15.4 main cluster with resolution of 0.1
 
 
 ## Speed
 
-Overview:
+Method:
 - The measurement is done on a ThinkPad X1 Gen11 (no turbo boost, CPU at 1900 Mhz).
-- Perfomed is `mul` over the basepoint using a random factor.
-- Outliers are removed.
+- Performed is `mul` over the basepoint using a random factor.
+- Outliers are removed (i.e. 25% of the slowest, and 25% of the fastest runs).
 
 Results:
 - The Montgomery curves are 2x as fast than the Short Weiherstrass at the same security level.
@@ -166,17 +223,6 @@ Results:
 | `edwards448`      | 0.294          | 0.269    |
 
 
-
-## Side-channels
-
-To test for side channels, we check whether the following distributions are equal: a) multiplying with a constant value and b) multiplying with always a different random value. The details are documented in the jupiter lab file at `tests/consttime/analyse.ipynb`. 
-
-The results are as follows:
-- `SWUnsafeMath` is not const time (as expected)
-- `SW_ANeg3_Math` is const time for a reasonable same size (tested with 1000 samples)
-- `SW_QT_ANeg3_Math` cannot be shown to be const time, likely because the inversion operation of GMP is not const time (inversion is needed when applying the twist)
-
-There are more tests pending, see [here](https://github.com/bleichenbacher-daniel/Rooterberg/issues/2) for a discussion on the topic.
 
 ## Open Questions
 
