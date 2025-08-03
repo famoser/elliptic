@@ -1,6 +1,6 @@
 <?php
 
-namespace Famoser\Elliptic\Tests\ConstTime\Collectors;
+namespace Famoser\Elliptic\Tests\ConstTime\Collector;
 
 abstract class AbstractCollector implements CollectorInterface
 {
