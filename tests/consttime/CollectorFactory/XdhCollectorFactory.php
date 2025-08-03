@@ -20,12 +20,11 @@ class XdhCollectorFactory
         $decoder = new RFC7784Decoder();
         $fixtures = array_map(
             function (array $fixture) use ($decoder) {
-                $res = [];
-
-                $res['u'] = $decoder->decodeUCoordinate($fixture['public'], 255);
-                $res['factor'] = $decoder->decodeScalar25519($fixture['private']);
-
-                return $res;
+                return [
+                    'flags' => $fixture['flags'],
+                    'u' => $decoder->decodeUCoordinate($fixture['public'], 255),
+                    'factor' => $decoder->decodeScalar25519($fixture['private'])
+                ];
             },
             FixturesRepository::createFilteredXdhFixtures('x25519')
         );
@@ -45,9 +44,10 @@ class XdhCollectorFactory
                 function (array $fixture) use ($decoder, $pointDecoder, $math) {
                     $publicU = $decoder->decodeUCoordinate($fixture['public'], 255);
 
-                    $res = [];
-                    $res['factor'] = $decoder->decodeScalar25519($fixture['private']);
-
+                    $res = [
+                        'flags' => $fixture['flags'],
+                        'factor' => $decoder->decodeScalar25519($fixture['private'])
+                    ];
                     try {
                         $res['point'] = $pointDecoder->fromXCoordinate($publicU);
 
