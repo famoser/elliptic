@@ -70,6 +70,9 @@ class Driver
             fn () => XdhCollectorFactory::createForCurve25519Math(new MGUnsafeMath($repo->findByName('curve25519'))),
             fn () => EddsaCollectorFactory::createEd25519(new TwEDUnsafeMath($repo->findByName('edwards25519'))),
             fn () => EddsaCollectorFactory::createEd448(new EDUnsafeMath($repo->findByName('edwards448'))),
+
+            // comparison with phpecc
+            fn () => EcdsaShaCollectorFactory::createPhpeccBrainpool256r1($repo->findByName('brainpoolP256r1')),
         ];
 
         return $collectors[$index]();

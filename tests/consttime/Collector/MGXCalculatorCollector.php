@@ -3,8 +3,6 @@
 namespace Famoser\Elliptic\Tests\ConstTime\Collector;
 
 use Famoser\Elliptic\Math\Calculator\MGXCalculator;
-use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
-use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\FixturesRepository;
 
 class MGXCalculatorCollector extends AbstractCollector
 {

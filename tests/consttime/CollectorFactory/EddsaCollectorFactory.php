@@ -3,13 +3,11 @@
 namespace Famoser\Elliptic\Tests\ConstTime\CollectorFactory;
 
 use Famoser\Elliptic\Math\MathInterface;
-use Famoser\Elliptic\Tests\ConstTime\Collector\AbstractCollector;
 use Famoser\Elliptic\Tests\ConstTime\Collector\MathCollector;
-use Famoser\Elliptic\Tests\Integration\Utils\ECDSASigner;
 use Famoser\Elliptic\Tests\Integration\Utils\EdDSA\AbstractEdDSASigner;
 use Famoser\Elliptic\Tests\Integration\Utils\EdDSA\EdDSASignerEd25519;
 use Famoser\Elliptic\Tests\Integration\Utils\EdDSA\EDDSASignerEd448;
-use Famoser\Elliptic\Tests\Integration\Utils\MathRecoder;
+use Famoser\Elliptic\Tests\Integration\Utils\MathAdapter\MathRecoder;
 use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\FixturesRepository;
 use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\WycheProofConstants;
 
