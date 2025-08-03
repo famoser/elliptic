@@ -97,26 +97,7 @@ Result summary:
 - Hardened implementations show also different clusters for small factors, these are however closer to the main cluster
 - Inside the main cluster are also smaller clusters (i.e. the main cluster is also not const-time)
 
-`EDMath`:
-- 28.2 - 28.5 main cluster with resolution of 0.2
-- No other clusters, but likely because testset is too small / has no special cases
-
-`EDUnsafeMath`:
-- 30.5 - 31 main cluster with resolution of 0.1
-- No other clusters, but likely because testset is too small / has no special cases
-
-`MG_TwED_ANeg1_Math`:
-- 17.5 - 17.8 main cluster with resolution of 0.2
-- 17.3 for public key with low order / many zeros
-
-`MGUnsafeMath`:
-- resolution is very low
-- 12.5 main cluster
-- 5.2, 7, 9 clear clusters for low order u
-
-`MGXCalculator`:
-- 6.3 - 6.6 main cluster with resolution of 0.03
-- 5.5 for low order u
+#### Hardened Maths
 
 `SW_ANeg3_Math`
 - 19.5 - 20 main cluster with resolution of 0.1
@@ -130,16 +111,41 @@ Result summary:
 - 18.5 for factor = 32 bits
 - 17.8 for factor = 0
 
+`MGXCalculator`:
+- 6.3 - 6.6 main cluster with resolution of 0.03
+- 5.5 for low order u
+
+`MG_TwED_ANeg1_Math`:
+- 17.5 - 17.8 main cluster with resolution of 0.2
+- 17.3 for public key with low order / many zeros
+
+`TwED_ANeg3_Math`:
+- 17.4 - 17.7 main cluster with resolution of 0.1
+- No other clusters, but likely because testset is too small / has no special cases
+
+`EDMath`:
+- 28.2 - 28.5 main cluster with resolution of 0.2
+- No other clusters, but likely because testset is too small / has no special cases
+
+#### Unsafe maths
+
 `SWUnsafeMath`:
 - 7.5 - 8 main cluster with resolution 0.1
 - 6 for factor = smallish
 - 4.5 for factor = 1
 
-`TwED_ANeg3_Math`:
-- 17.4 - 17.7 main cluster with resolution of 0.1
+`MGUnsafeMath`:
+- resolution is very low
+- 12.5 main cluster
+- 5.2, 7, 9 clear clusters for low order u
 
 `TwEDUnsafeMath`:
 - 15 - 15.4 main cluster with resolution of 0.1
+- No other clusters, but likely because testset is too small / has no special cases
+
+`EDUnsafeMath`:
+- 30.5 - 31 main cluster with resolution of 0.1
+- No other clusters, but likely because testset is too small / has no special cases
 
 
 ## Speed
