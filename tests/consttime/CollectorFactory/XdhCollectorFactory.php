@@ -52,7 +52,7 @@ class XdhCollectorFactory
                         $res['point'] = $pointDecoder->fromXCoordinate($publicU);
 
                         $math->mul($res['point'], $res['factor']);
-                    } catch (PointDecoderException|TypeError) {
+                    } catch (PointDecoderException | TypeError) {
                         return null;
                     }
 

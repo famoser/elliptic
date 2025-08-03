@@ -64,5 +64,5 @@ abstract class MulGCollector implements CollectorInterface
         ];
     }
 
-    protected abstract function runMulG(\GMP $factor): void;
+    abstract protected function runMulG(\GMP $factor): void;
 }

@@ -28,7 +28,7 @@ class MathCollector extends AbstractCollector
                 $identifier = $context . "_" . $index;
                 if ($operation[0] == 'mul') {
                     $cleanFixtures[$identifier] = ['point' => $operation[1][0], 'factor' => $operation[1][1], 'flags' => $fixture['flags']];
-                } else if ($operation[0] == 'mulG') {
+                } elseif ($operation[0] == 'mulG') {
                     $cleanFixtures[$identifier] = ['point' => $recoder->getMath()->getCurve()->getG(), 'factor' => $operation[1][0], 'flags' => $fixture['flags']];
                 }
             }
