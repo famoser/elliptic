@@ -31,22 +31,35 @@ Functionality overview:
 
 ## Math overview
 
-All curves, except the `secp*k1` and the `brainpool*r1` variants, have hardened implementations available. The hardening aims to reduce the effectiveness of side-channels. Side-channels may allow an adversary to recover the private key indirectly, by observing the timing, the cache behaviour or the power consumption of the algorithm execution. Unless you have a good reason, you should use these hardened implementations.
+There are two types of math:
+- Unsafe implementations: Simply implement the addition and double formulas for the given curve type.
+- Hardened implementations: Follow specifications and RFC that aim to reduce the effectiveness of side-channels (side-channels may allow an adversary to recover the input to the algorithms, e.g. private key material, by observing the environment, e.g. time and power usage of the CPU).
 
-| Hardened Math                | Supported Curves                                       | Correctness         | Hardened | Speed |
-|------------------------------|--------------------------------------------------------|---------------------|----------|-------|
-| `SW_ANeg3_Math`              | `secp*r1`, `brainpool*t1`                              | :white_check_mark:  |          |       |
-| `SW_QT_ANeg3_Math`           | `brainpool*r1`                                         | :white_check_mark:  |          |       |
-| `MGXCalculator` (`mul` only) | `curve25519`, `curve448`                               | :white_check_mark:  |          |       |
-| `MG_TwED_ANeg1_Math`         | `curve25519`                                           | :warning:           |          |       |
-| `MG_ED_Math`                 | `curve448`                                             | :x:                 |          |       |
-| `TwED_ANeg1_Math`            | `edwards25519`                                         | :warning:           |          |       |
-| `EDMath`                     | `edwards448`, `curve448Edwards`                        | :white_check_mark:  |          |       |
+All curves, except the `secp*k1` and the `brainpool*r1` variants, have hardened implementations available. Unless you have a good reason, you should use these hardened implementations.
+
+| Hardened Math                | Supported Curves                                       | Correctness         | Hardened                    | Speed |
+|------------------------------|--------------------------------------------------------|---------------------|-----------------------------|-------|
+| `SW_ANeg3_Math`              | `secp*r1`, `brainpool*t1`                              | :white_check_mark:  | :warning::warning:          | 4     |
+| `SW_QT_ANeg3_Math`           | `brainpool*r1`                                         | :white_check_mark:  | :warning::warning:          | 4     |
+| `MGXCalculator` (`mul` only) | `curve25519`, `curve448`                               | :white_check_mark:  | :warning::warning::warning: | 1     |
+| `MG_TwED_ANeg1_Math`         | `curve25519`                                           | :warning:           | :warning:                   | 2.5   |
+| `MG_ED_Math`                 | `curve448`                                             | :x:                 | :grey_question:             | 2     |
+| `TwED_ANeg1_Math`            | `edwards25519`                                         | :warning:           | :grey_question:             | 2.5   |
+| `EDMath`                     | `edwards448`, `curve448Edwards`                        | :white_check_mark:  | :grey_question:             | 2     |
 
 Correctness:
-- `MG_TwED_ANeg1_Math` and `TwED_ANeg1_Math` perform correctly based on third-party testcases, but math sanity checks fail (e.g. G*order != 0)
-- `MG_ED_Math` pass math sanity checks, but performs incorrectly in relation to baselines (e.g. third party testcases)
+- `MG_TwED_ANeg1_Math` and `TwED_ANeg1_Math` perform correctly based on third-party testcases, but math sanity checks fail (e.g. G*order != 0).
+- `MG_ED_Math` pass math sanity checks, but performs incorrectly in relation to baselines (e.g. third party testcases).
 
+Hardened:
+- No implementation can be shown constant-time, and other side-channels are not quantitively assessed.
+- Implementations finish faster with adversarial input (0 very small points and factors) vs random input.
+- Unsafe implementations show 50% variance in execution time, hardened implementations between 3% and 15% (:warning: = 5%)
+
+Speed:
+- Denoted is execution time of mul in some unit; hence higher is worse.
+- `MGXCalculator` performs best, but is no full math implementation (no `double`, no `add`).
+- The unsafe variants of SW (use `$repository->createUnsafeMath()`) are 2x faster, the unsafe variant of MG 1.5x.
 
 
 ## Project context
