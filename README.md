@@ -28,6 +28,8 @@ Functionality overview:
 - Math: Operate on the curves using `add`, `double` and `mul`.
 - Decoders: Decode according to SEC or bernstein. Recover points given only an x or y coordinate.
 
+Compared to the popular `paragonie/phpecc`, this library focuses on the math on the elliptic curves directly, and does not implement any cryptographic primitives. 
+For this task, this library is around 100x [sic!] faster, while not performing significantly worse in terms of side-channels.
 
 ## Math overview
 
@@ -68,6 +70,4 @@ This library is part of a larger effort:
 - Provide low-level library that executes math on elliptic curves (this project)
 - Provide elliptic-crypto library which exposes general cryptographic primitives (signatures, encryptions and zero-knowledge proofs)
 - Provide more specialized libraries for more exotic cryptographic primitives (verifiable shuffle)
-
-If you are looking for a project that provides cryptographic primitives, you might want to look into `phpecc/phpecc` (resp. its recommended replacement by [packagist](https://github.com/phpecc/phpecc/issues/289#issuecomment-2075703542) at `paragonie/phpecc`). 
 
