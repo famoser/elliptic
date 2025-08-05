@@ -97,6 +97,11 @@ Result summary:
 - Hardened implementations show also different clusters for small factors, these are however closer to the main cluster
 - Inside the main cluster are also smaller clusters (i.e. the main cluster is also not const-time)
 
+Note: 
+`paragonie/phpecc` seems to leak less edge-cases (compared to `SW_QT_ANeg3_Math`).
+However, small points remain detectable, hence `paragonie/phpecc` is also not const-time.
+
+
 #### Hardened Maths
 
 `SW_ANeg3_Math`
@@ -126,6 +131,7 @@ Result summary:
 `EDMath`:
 - 28.2 - 28.5 main cluster with resolution of 0.2
 - No other clusters, but likely because testset is too small / has no special cases
+
 
 #### Unsafe maths
 
@@ -162,6 +168,12 @@ Results:
 - For Montgomery and Twisted Edwards, the hardened maths is around 20% slower.
 - For Edwards, the hardened math is around 20% faster.
 
+Note: 
+Compared to `paragonie/phpecc`, the performance is around 100x [sic!] faster. 
+The implementation strategy chosen by `phpecc` is more complex, and requires much more managing on the PHP side, and more GMP invocations.
+There is a slight positive effect towards hardening (see section before), but `phpecc` can still not be shown to be const-time.
+
+
 ### Short Weiherstrasse with A=-3
 
 |                   | `SWUnsafeMath` | `SW_ANeg3_Math` |
@@ -176,7 +188,7 @@ Results:
 | `secp192r1`       | 0.074          | 0.190           |
 | `secp224r1`       | 0.087          | 0.224           |
 | `secp256r1`       | 0.104          | 0.252           |
-| `secp384r1`       | 0.172          | 0.39            |
+| `secp384r1`       | 0.172          | 0.390           |
 | `secp521r1`       | 0.261          | 0.563           |
 
 ### Quadratic Twist to Short Weiherstrass with A=-3

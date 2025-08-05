@@ -55,6 +55,7 @@ class Driver
         $repo = new CurveRepository();
 
         $brainpoolP192r1Math = new SW_QT_ANeg3_Math($repo->findByName('brainpoolP192r1'), BrainpoolCurveFactory::p192r1TwistToP192t1());
+        $brainpoolP256r1Math = new SW_QT_ANeg3_Math($repo->findByName('brainpoolP256r1'), BrainpoolCurveFactory::p256r1TwistToP256t1());
         $curve25519Math = new MG_TwED_ANeg1_Math($repo->findByName('curve25519'), BernsteinCurveFactory::curve25519ToEdwards25519(), $repo->findByName('edwards25519'));
         $collectors = [
             // hardened math test
@@ -73,6 +74,7 @@ class Driver
 
             // comparison with phpecc
             fn () => EcdsaShaCollectorFactory::createPhpeccBrainpool256r1($repo->findByName('brainpoolP256r1')),
+            fn () => EcdsaShaCollectorFactory::createFromWycheSha256('brainpoolP256r1', $brainpoolP256r1Math),
         ];
 
         return $collectors[$index]();
