@@ -3,7 +3,7 @@
 The testing is done across multiple dimensions:
 - Correctness: Check whether the implementation is correct, notably in relation to math sanity checks and third-party test vectors.
 - Hardened: Check whether the implementation might leak the private key to an adversary over side-channels, notably by assessing constant-time execution.
-- Speed: Check how fast the essential operations are executed on the curve.
+- Runtime: Check how fast the essential operations are executed on the curve.
 
 The implementation is in PHP, using the GMP extension for the big-number-math. This inherently limits what is possible in terms of hardening and performance. If these are of prime concern, switch to a mature implementation closer to the metal (e.g. `openssl`).
 
@@ -154,7 +154,7 @@ However, small points remain detectable, hence `paragonie/phpecc` is also not co
 - No other clusters, but likely because testset is too small / has no special cases
 
 
-## Speed
+## Runtime
 
 Method:
 - The measurement is done on a ThinkPad X1 Gen11 (no turbo boost, CPU at 1900 Mhz).
