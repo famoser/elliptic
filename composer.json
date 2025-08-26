@@ -3,7 +3,7 @@
     "description": "PHP Elliptic Curve Cryptography library",
     "type": "library",
     "homepage": "https://github.com/famoser/elliptic",
-    "keywords": ["secp256k1", "secp256r1", "nistp192", "nistp224", "nistp256", "nistp384", "nistp521", "ECDSA", "diffie", "hellman", "ECDH", "elliptic", "curve", "phpecc"],
+    "keywords": ["NIST", "brainpool", "bernstein", "elliptic", "curve"],
     "license": "MIT",
     "authors": [
         {
@@ -25,7 +25,8 @@
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-phpunit": "^2.0",
         "danielburger1337/sha3-shake": "^1.1",
-        "paragonie/ecc": "^2.5"
+        "paragonie/ecc": "^2.5",
+        "famoser/agnes": "^4.3"
     },
     "autoload": {
         "psr-4": {
