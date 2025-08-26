@@ -3,7 +3,7 @@
     "description": "PHP Elliptic Curve Cryptography library",
     "type": "library",
     "homepage": "https://github.com/famoser/elliptic",
-    "keywords": ["NIST", "brainpool", "bernstein", "elliptic", "curve"],
+    "keywords": ["NIST", "brainpool", "bernstein", "weierstrass", "montgomery", "edwards", "elliptic", "curve"],
     "license": "MIT",
     "authors": [
         {
