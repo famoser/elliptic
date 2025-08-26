@@ -39,15 +39,15 @@ There are two types of math:
 
 All curves, except the `secp*k1` and the `brainpool*r1` variants, have hardened implementations available. Unless you have a good reason, you should use these hardened implementations.
 
-| Hardened Math                | Supported Curves                                       | Correctness         | Hardened                    | Speed |
-|------------------------------|--------------------------------------------------------|---------------------|-----------------------------|-------|
-| `SW_ANeg3_Math`              | `secp*r1`, `brainpool*t1`                              | :white_check_mark:  | :warning::warning:          | 4     |
-| `SW_QT_ANeg3_Math`           | `brainpool*r1`                                         | :white_check_mark:  | :warning::warning:          | 4     |
-| `MGXCalculator` (`mul` only) | `curve25519`, `curve448`                               | :white_check_mark:  | :warning::warning::warning: | 1     |
-| `MG_TwED_ANeg1_Math`         | `curve25519`                                           | :warning:           | :warning:                   | 2.5   |
-| `MG_ED_Math`                 | `curve448`                                             | :x:                 | :grey_question:             | 2     |
-| `TwED_ANeg1_Math`            | `edwards25519`                                         | :warning:           | :grey_question:             | 2.5   |
-| `EDMath`                     | `edwards448`, `curve448Edwards`                        | :white_check_mark:  | :grey_question:             | 2     |
+| Hardened Math                | Supported Curves                                       | Correctness         | Hardened                    | Runtime |
+|------------------------------|--------------------------------------------------------|---------------------|-----------------------------|---------|
+| `SW_ANeg3_Math`              | `secp*r1`, `brainpool*t1`                              | :white_check_mark:  | :warning::warning:          | 4       |
+| `SW_QT_ANeg3_Math`           | `brainpool*r1`                                         | :white_check_mark:  | :warning::warning:          | 4       |
+| `MGXCalculator` (`mul` only) | `curve25519`, `curve448`                               | :white_check_mark:  | :warning::warning::warning: | 1       |
+| `MG_TwED_ANeg1_Math`         | `curve25519`                                           | :warning:           | :warning:                   | 2.5     |
+| `MG_ED_Math`                 | `curve448`                                             | :x:                 | :grey_question:             | 2       |
+| `TwED_ANeg1_Math`            | `edwards25519`                                         | :warning:           | :grey_question:             | 2.5     |
+| `EDMath`                     | `edwards448`, `curve448Edwards`                        | :white_check_mark:  | :grey_question:             | 2       |
 
 Correctness:
 - `MG_ED_Math` passes math sanity, but performs incorrectly in relation to baselines (e.g. third party testcases).
@@ -58,8 +58,8 @@ Hardened:
 - Implementations finish faster with adversarial input (0 very small points and factors) vs random input.
 - Unsafe maths show 50% variance in execution time, hardened math between 3% (`MG_TwED_ANeg1_Math`) and 15% (`MGXCalculator`)
 
-Speed:
-- Denoted is execution time of mul in some unit; hence higher is worse.
+Runtime:
+- Denoted is execution time of mul in some unit; hence lower is better.
 - `MGXCalculator` performs best, but is no full math implementation (no `double`, no `add`).
 - The unsafe variants of SW are 2x faster, the unsafe variant of MG is 1.5x faster.
 
