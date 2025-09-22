@@ -250,4 +250,4 @@ Correctness:
 - Reducing factors before montgomery ladder; correct to reduce by N*h?
 - MG_ED math is wrong; "better" if cofactor is set to 1. Why & what could be the problem?
 - When recovering a point, use jacobi symbol to check for square root (beforehand), or check x² = alpha (afterwards)?
-
+- Measure power side channels by reading core voltage (e.g. `MSR_PERF_STATUS` on Intel); read from `/dev/cpu/0/msr` with `while true; do sleep 0.1; dd if=msr bs=8 count=1 status=none | xxd; done`
