@@ -28,6 +28,11 @@
         "paragonie/ecc": "^2.5",
         "famoser/agnes": "^4.3"
     },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        }
+    },
     "autoload": {
         "psr-4": {
             "Famoser\\Elliptic\\": "src/"
