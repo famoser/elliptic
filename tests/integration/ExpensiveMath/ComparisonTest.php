@@ -135,7 +135,7 @@ class ComparisonTest extends TestCase
      */
     public function testDouble(string $curveName, MathInterface $math, MathInterface $baseline): void
     {
-        $this->skipUnresolvedError(__CLASS__, __FUNCTION__, $curveName);
+        $this->skipUnresolvedError(__CLASS__, __FUNCTION__, $math::class, $curveName);
 
         $curve = $math->getCurve();
 
@@ -167,17 +167,30 @@ class ComparisonTest extends TestCase
 
         $curve = $math->getCurve();
 
-        $factors = array_map(static fn($number) => gmp_mul($number, $curve->getH()), [0, 1, 2, 3]);
-        $order = gmp_mul($curve->getN(), $curve->getH());
-        $factors[4] = $order;
-        $factors[5] = gmp_sub($order, $curve->getH());
-        $factors[6] = gmp_add($order, $curve->getH());
-        $factors[7] = gmp_sub($order, gmp_mul(2312312, $curve->getH())); // random number close to group order
+        $order = $curve->getN();
+        $safeOrder = gmp_mul($curve->getN(), $curve->getH()); // safe order used in multiplication, so mul by small subgroup point always results in O
+        $bigDiff = gmp_init(123); // some number >1 "close" used to remain close to group order
+        $factors = [
+            gmp_init(0),
+            gmp_init(1),
+            gmp_init(2),
+            gmp_init(3),
+            $order,
+            gmp_sub($order, gmp_init(1)),
+            gmp_add($order, gmp_init(1)),
+            gmp_sub($order, $bigDiff),
+            gmp_add($order, $bigDiff),
+            $safeOrder,
+            gmp_sub($safeOrder, gmp_init(1)),
+            gmp_add($safeOrder, gmp_init(1)),
+            gmp_sub($safeOrder, $bigDiff),
+            gmp_add($safeOrder, $bigDiff)
+        ];
 
         foreach ($factors as $i => $factor) {
             $expected = $baseline->mul($curve->getG(), $factor);
             $actual = $math->mul($curve->getG(), $factor);
-            if (gmp_cmp($factor, 0) === 0 || gmp_cmp($factor, $order) === 0) {
+            if (gmp_cmp($factor, 0) === 0 || gmp_cmp($factor, $order) === 0 || gmp_cmp($factor, $safeOrder) === 0) {
                 $this->assertTrue($baseline->isInfinity($expected));
                 $this->assertTrue($math->isInfinity($actual));
             } else {
