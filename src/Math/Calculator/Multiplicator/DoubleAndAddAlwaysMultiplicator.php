@@ -26,6 +26,10 @@ trait DoubleAndAddAlwaysMultiplicator
          * first, observe r[0] is infinity and r[1] our "real" point.
          * r[0] and r[1] are swapped iff the corresponding bit in $factor is set to 1,
          * hence if $j = 1, then the "real" point is added, else the "real" point is doubled
+         *
+         * leading 0's do not change the result, because:
+         * - the add will do "real" point + infinity = the "real" point
+         * - the double will double infinity, which is still infinity
          */
         /** @var T[] $r */
         $r = [$this->getInfinity(), clone $point];
