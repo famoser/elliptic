@@ -50,12 +50,12 @@ All curves, except the `secp*k1` and the `brainpool*r1` variants, have hardened 
 | `EDMath`                     | `edwards448`, `curve448Edwards`                        | :white_check_mark:  | :grey_question:             | 2       |
 
 Correctness:
-- `MG_ED_Math` passes math sanity, but performs incorrectly in relation to baselines (e.g. third party testcases).
-- `MG_TwED_ANeg1_Math` and `TwED_ANeg1_Math` perform correctly based on third-party testcases, but math sanity (e.g. G*order = 0) fails.
+- `MG_ED_Math` passes math sanity, but performs incorrectly in relation to baselines (e.g., third party testcases).
+- `MG_TwED_ANeg1_Math` and `TwED_ANeg1_Math` perform correctly based on third-party testcases, but a math sanity check fails.
 
 Hardened:
 - No implementation can be shown constant-time, and other side-channels are not quantitively assessed.
-- Implementations finish faster with adversarial input (0 very small points and factors) vs random input.
+- Implementations finish faster with adversarial input (points and factors close to 0) vs random input.
 - Unsafe maths show 50% variance in execution time, hardened math between 3% (`MG_TwED_ANeg1_Math`) and 15% (`MGXCalculator`)
 
 Runtime:

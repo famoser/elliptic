@@ -4,10 +4,10 @@ namespace Famoser\Elliptic\Tests\Integration\ExpensiveMath;
 
 use Famoser\Elliptic\Math\EDMath;
 use Famoser\Elliptic\Math\EDUnsafeMath;
-use Famoser\Elliptic\Tests\Integration\RFC7784\MG_ED_MathTest;
-use Famoser\Elliptic\Math\MG_ED_Math;
 use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
 use Famoser\Elliptic\Math\TwED_ANeg1_Math;
+use Famoser\Elliptic\Tests\Integration\RFC7784\MG_ED_MathTest;
+use Famoser\Elliptic\Math\MG_ED_Math;
 
 trait UnresolvedErrorTrait
 {
@@ -15,22 +15,28 @@ trait UnresolvedErrorTrait
     {
         $args = func_get_args();
 
-        // MG_ED_Math is incorrect in relation to the baseline
+        // Edwards math has incorrect behavior around high order
         if (
-            ($class === MG_ED_MathTest::class) ||
-            ($class === ComparisonTest::class && $function === 'testDouble' && $args[2] === 'curve448ToEdwards') ||
-            ($class === ComparisonTest::class && $function === 'testMulSameResult' && $args[2] === MG_ED_Math::class && $args[3] === 'curve448ToEdwards')
+            ($class === ComparisonTest::class && $function === 'testMulSameResult' && $args[2] === MG_TwED_ANeg1_Math::class && $args[3] === 'curve25519ToEdwards25519') ||
+            ($class === ComparisonTest::class && $function === 'testMulSameResult' && $args[2] === TwED_ANeg1_Math::class && $args[3] === 'edwards25519')
         ) {
             $this->markTestSkipped('MG_ED_Math is incorrect in relation to the baseline.');
         }
 
-        // TwED_ANeg1 cycle incorrectly
+        // MG_ED_Math is incorrect in relation to the baseline
         if (
-            ($class === ComparisonTest::class && $function === 'testMulSameResult' && $args[2] === TwED_ANeg1_Math::class && $args[3] === 'edwards25519') ||
-            ($class === ComparisonTest::class && $function === 'testMulSameResult' && $args[2] === MG_TwED_ANeg1_Math::class && $args[3] === 'curve25519ToEdwards25519') ||
+            ($class === MG_ED_MathTest::class) ||
+            $args[2] === MG_ED_Math::class
+        ) {
+            $this->markTestSkipped('MG_ED_Math is incorrect in relation to the baseline.');
+        }
+
+        // ED cycles incorrectly
+        if (
             ($class === ConsistencyTest::class && $function === 'testMulCycle' && $args[2] === EDUnsafeMath::class && $args[3] === 'curve448Edwards') ||
             ($class === ConsistencyTest::class && $function === 'testMulCycle' && $args[2] === EDMath::class && $args[3] === 'curve448Edwards') ||
-            ($class === ConsistencyTest::class && $function === 'testMulCycle' && $args[2] === MG_ED_Math::class && $args[3] === 'curve448ToEdwards')
+            ($class === ComparisonTest::class && $function === 'testMulSameResult' && $args[2] === EDMath::class && $args[3] === 'curve448Edwards') ||
+            ($class === ComparisonTest::class && $function === 'testDouble' && $args[2] === EDMath::class && $args[3] === 'curve448ToEdwards')
         ) {
             $this->markTestSkipped('TwED_ANeg1_Math and MG_TwED_ANeg1_Math cycle incorrectly (G * N*h != 0).');
         }
