@@ -15,14 +15,6 @@ trait UnresolvedErrorTrait
     {
         $args = func_get_args();
 
-        // Edwards math has incorrect behavior around high order
-        if (
-            ($class === ComparisonTest::class && $function === 'testMulSameResult' && $args[2] === MG_TwED_ANeg1_Math::class && $args[3] === 'curve25519ToEdwards25519') ||
-            ($class === ComparisonTest::class && $function === 'testMulSameResult' && $args[2] === TwED_ANeg1_Math::class && $args[3] === 'edwards25519')
-        ) {
-            $this->markTestSkipped('MG_ED_Math is incorrect in relation to the baseline.');
-        }
-
         // MG_ED_Math is incorrect in relation to the baseline
         if (
             ($class === MG_ED_MathTest::class) ||

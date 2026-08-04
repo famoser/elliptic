@@ -44,18 +44,17 @@ All curves, except the `secp*k1` and the `brainpool*r1` variants, have hardened 
 | `SW_ANeg3_Math`              | `secp*r1`, `brainpool*t1`                              | :white_check_mark:  | :warning::warning:          | 4       |
 | `SW_QT_ANeg3_Math`           | `brainpool*r1`                                         | :white_check_mark:  | :warning::warning:          | 4       |
 | `MGXCalculator` (`mul` only) | `curve25519`, `curve448`                               | :white_check_mark:  | :warning::warning::warning: | 1       |
-| `MG_TwED_ANeg1_Math`         | `curve25519`                                           | :warning:           | :warning:                   | 2.5     |
+| `MG_TwED_ANeg1_Math`         | `curve25519`                                           | :white_check_mark:  | :warning:                   | 2.5     |
+| `TwED_ANeg1_Math`            | `edwards25519`                                         | :white_check_mark:  | :grey_question:             | 2.5     |
 | `MG_ED_Math`                 | `curve448`                                             | :x:                 | :grey_question:             | 2       |
-| `TwED_ANeg1_Math`            | `edwards25519`                                         | :warning:           | :grey_question:             | 2.5     |
 | `EDMath`                     | `edwards448`, `curve448Edwards`                        | :white_check_mark:  | :grey_question:             | 2       |
 
 Correctness:
 - `MG_ED_Math` passes math sanity, but performs incorrectly in relation to baselines (e.g., third party testcases).
-- `MG_TwED_ANeg1_Math` and `TwED_ANeg1_Math` perform correctly based on third-party testcases, but a math sanity check fails.
 
 Hardened:
 - No implementation can be shown constant-time, and other side-channels are not quantitively assessed.
-- Implementations finish faster with adversarial input (points and factors close to 0) vs random input.
+- Implementations finish faster with adversarial input (points and factors close to 0) vs random input. TODO is this due to GMP?
 - Unsafe maths show 50% variance in execution time, hardened math between 3% (`MG_TwED_ANeg1_Math`) and 15% (`MGXCalculator`)
 
 Runtime:
