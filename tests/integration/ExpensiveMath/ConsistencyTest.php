@@ -113,16 +113,18 @@ class ConsistencyTest extends \Famoser\Elliptic\Tests\Unit\Math\ConsistencyTest
 
         $curve = $math->getCurve();
 
-        $bigOrder = gmp_mul($curve->getN(), $curve->getH());
-        $actual = $math->mul($curve->getG(), $bigOrder);
+        // G * N = 0
+        $actual = $math->mul($curve->getG(), $curve->getN());
         $this->assertTrue($math->isInfinity($actual));
 
-        $orderPlusH = gmp_add(gmp_mul($curve->getN(), $curve->getH()), $curve->getH());
+        // G * N + H = G*H
+        $orderPlusH = gmp_add($curve->getN(), $curve->getH());
         $actual = $math->mul($curve->getG(), $orderPlusH);
         $Gh = $math->mul($curve->getG(), $curve->getH());
         $this->assertObjectEquals($Gh, $actual);
 
-        $orderMinusH = gmp_sub(gmp_mul($curve->getN(), $curve->getH()), $curve->getH());
+        // G * N - H + G*H = 0
+        $orderMinusH = gmp_sub($curve->getN(), $curve->getH());
         $actual = $math->add($math->mul($curve->getG(), $orderMinusH), $Gh);
         $this->assertTrue($math->isInfinity($actual));
     }
