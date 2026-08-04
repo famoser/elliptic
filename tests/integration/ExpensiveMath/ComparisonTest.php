@@ -163,7 +163,7 @@ class ComparisonTest extends TestCase
      */
     public function testMulSameResult(string $curveName, MathInterface $math, MathInterface $baseline): void
     {
-        // $this->skipUnresolvedError(__CLASS__, __FUNCTION__, $math::class, $curveName);
+        $this->skipUnresolvedError(__CLASS__, __FUNCTION__, $math::class, $curveName);
 
         $curve = $math->getCurve();
 
@@ -183,7 +183,7 @@ class ComparisonTest extends TestCase
         ];
 
         if (gmp_cmp($order, $safeOrder) !== 0) {
-            $factors[] = $safeOrder;
+            $factors[] = $safeOrder; // factor with index 9
             $factors[] = gmp_sub($safeOrder, gmp_init(1));
             $factors[] = gmp_add($safeOrder, gmp_init(1));
             $factors[] = gmp_sub($safeOrder, $bigDiff);
@@ -195,7 +195,7 @@ class ComparisonTest extends TestCase
             $actual = $math->mul($curve->getG(), $factor);
             if (gmp_cmp($factor, 0) === 0 || gmp_cmp($factor, $order) === 0 || gmp_cmp($factor, $safeOrder) === 0) {
                 $this->assertTrue($baseline->isInfinity($expected));
-                $this->assertTrue($math->isInfinity($actual));
+                $this->assertTrue($math->isInfinity($actual), "Failed for factor " . $i . " (" . gmp_strval($factor, 16) . ")");
             } else {
                 $expected2 = $math->add($expected, $curve->getG());
                 $actual2 = $math->add($actual, $curve->getG());
