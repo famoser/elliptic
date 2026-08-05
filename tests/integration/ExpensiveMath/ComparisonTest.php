@@ -197,8 +197,6 @@ class ComparisonTest extends TestCase
                 $this->assertTrue($baseline->isInfinity($expected));
                 $this->assertTrue($math->isInfinity($actual), "Failed for factor " . $i . " (" . gmp_strval($factor, 16) . ")");
             } else {
-                $expected2 = $math->add($expected, $curve->getG());
-                $actual2 = $math->add($actual, $curve->getG());
                 $this->assertObjectEquals($expected, $actual, 'equals', "Failed for factor " . $i . " (" . gmp_strval($factor, 16) . ")");
             }
         }
