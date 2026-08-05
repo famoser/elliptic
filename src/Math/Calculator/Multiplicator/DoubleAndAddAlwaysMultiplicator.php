@@ -19,7 +19,7 @@ trait DoubleAndAddAlwaysMultiplicator
 
         // normalize to the element bit length to always execute the double-add loop a constant number of times
         $factorBits = gmp_strval($reducedFactor, 2);
-        $normalizedFactorBits = str_pad($factorBits, $this->nhField->getElementBitLength() + 1, '0', STR_PAD_LEFT);
+        $normalizedFactorBits = str_pad($factorBits, $this->nhField->getElementBitLength(), '0', STR_PAD_LEFT);
 
         /**
          * how this works:
@@ -33,7 +33,7 @@ trait DoubleAndAddAlwaysMultiplicator
          */
         /** @var T[] $r */
         $r = [$this->getInfinity(), clone $point];
-        for ($i = 0; $i < $this->nhField->getElementBitLength() + 1; $i++) {
+        for ($i = 0; $i < $this->nhField->getElementBitLength(); $i++) {
             $j = (int) $normalizedFactorBits[$i];
 
             $this->conditionalSwap($r[0], $r[1], $j ^ 1);
