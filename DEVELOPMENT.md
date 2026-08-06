@@ -2,10 +2,9 @@
 
 Notes for continued development.
 
-Debug TwED_ANeg1_Extended_Adder:
-- belenios / darek 25519 library (Signal) -> uses same addition / doubling formulas
-- darek 25519 library reduces factor by order (not order * cofactor); disadvantage that must check that point is torsion-free. alternatively, could always reduce by order, then dont need to check, but log2(cofactor) longer multiplication ladder.
-- implement logic around torsion-free
+Until full release:
+- implement torsion-free / curve25519 validation as in dalek
+- fix edwards computation for curve448
 
 Next features:
 - add ristretto
