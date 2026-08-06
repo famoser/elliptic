@@ -54,7 +54,7 @@ Correctness:
 
 Hardened:
 - No implementation can be shown constant-time, and other side-channels are not quantitively assessed.
-- Implementations finish faster with adversarial input (points and factors close to 0) vs random input. TODO is this due to GMP?
+- Implementations finish faster with adversarial input (points and factors close to 0) vs random input.
 - Unsafe maths show 50% variance in execution time, hardened math between 3% (`MG_TwED_ANeg1_Math`) and 15% (`MGXCalculator`)
 
 Runtime:
@@ -67,6 +67,5 @@ Runtime:
 
 This library is part of a larger effort:
 - Provide low-level library that executes math on elliptic curves (this project)
-- Provide elliptic-crypto library which exposes general cryptographic primitives (signatures, encryptions and zero-knowledge proofs)
-- Provide more specialized libraries for more exotic cryptographic primitives (verifiable shuffle)
-
+- Provide elliptic-crypto library which exposes general cryptographic primitives (signatures, encryptions and zero-knowledge proofs) (in development [here](https://github.com/caterpillar-voting))
+- Provide more specialized libraries for more exotic cryptographic primitives (verifiable shuffle) (in development [here](https://github.com/caterpillar-voting))
