@@ -2,13 +2,13 @@
 
 namespace Famoser\Elliptic\Tests\Integration\WycheProof\Traits;
 
-use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Primitives\Point;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
 use Famoser\Elliptic\Serializer\PointDecoder\SWPointDecoder;
 use Famoser\Elliptic\Serializer\SECSerializer;
 use Famoser\Elliptic\Serializer\SerializerException;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\WycheProofConstants;
 
 trait EncodedPointTrait
 {

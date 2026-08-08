@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Famoser\Elliptic\Tests\Integration\WycheProof;
 
-use Famoser\Elliptic\Tests\Integration\Utils\ECDSASigner;
-use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\FixturesRepository;
-use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
+use Famoser\Elliptic\Tests\Integration\Utils\ECDSASigner;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\FixturesRepository;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\WycheProofConstants;
 use PHPUnit\Framework\TestCase;
 
 class EcdsaTest extends TestCase

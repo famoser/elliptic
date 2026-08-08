@@ -4,11 +4,7 @@ namespace Famoser\Elliptic\Tests\Unit\Math\Calculator;
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
-use Famoser\Elliptic\Math\Calculator\AbstractCalculator;
 use Famoser\Elliptic\Math\Calculator\EDCalculator;
-use Famoser\Elliptic\Math\Calculator\EDUnsafeCalculator;
-use Famoser\Elliptic\Math\Calculator\MGUnsafeCalculator;
-use Famoser\Elliptic\Math\Calculator\MGXCalculator;
 use Famoser\Elliptic\Math\Calculator\SW_ANeg3_Calculator;
 use Famoser\Elliptic\Math\Calculator\SWUnsafeCalculator;
 use Famoser\Elliptic\Math\Calculator\TwED_ANeg1_Calculator;

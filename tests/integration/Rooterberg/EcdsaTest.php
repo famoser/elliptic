@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Famoser\Elliptic\Tests\Integration\Rooterberg;
 
 use Famoser\Elliptic\Curves\BrainpoolCurveFactory;
-use Famoser\Elliptic\Tests\Integration\Utils\ECDSASigner;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Math\SW_QT_ANeg3_Math;
 use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\Point;
+use Famoser\Elliptic\Tests\Integration\Utils\ECDSASigner;
 use PHPUnit\Framework\TestCase;
 
 class EcdsaTest extends TestCase

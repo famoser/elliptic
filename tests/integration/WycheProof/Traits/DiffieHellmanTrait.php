@@ -2,9 +2,9 @@
 
 namespace Famoser\Elliptic\Tests\Integration\WycheProof\Traits;
 
-use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\WycheProofConstants;
 use Famoser\Elliptic\Math\MathInterface;
 use Famoser\Elliptic\Primitives\Point;
+use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\WycheProofConstants;
 
 trait DiffieHellmanTrait
 {

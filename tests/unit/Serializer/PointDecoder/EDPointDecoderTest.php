@@ -6,7 +6,6 @@ use Famoser\Elliptic\Curves\BernsteinCurveFactory;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Serializer\PointDecoder\EDPointDecoder;
 use Famoser\Elliptic\Serializer\PointDecoder\PointDecoderException;
-use Famoser\Elliptic\Serializer\PointDecoder\TwEDPointDecoder;
 use PHPUnit\Framework\TestCase;
 
 class EDPointDecoderTest extends TestCase

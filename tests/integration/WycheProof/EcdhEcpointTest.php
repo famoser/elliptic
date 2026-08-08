@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Famoser\Elliptic\Tests\Integration\WycheProof;
 
 use Famoser\Elliptic\Curves\SEC2CurveFactory;
+use Famoser\Elliptic\Math\MathInterface;
+use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use Famoser\Elliptic\Tests\Integration\WycheProof\Traits\DiffieHellmanTrait;
 use Famoser\Elliptic\Tests\Integration\WycheProof\Traits\EncodedPointTrait;
 use Famoser\Elliptic\Tests\Integration\WycheProof\Utils\FixturesRepository;
-use Famoser\Elliptic\Math\MathInterface;
-use Famoser\Elliptic\Math\SW_ANeg3_Math;
 use PHPUnit\Framework\TestCase;
 
 class EcdhEcpointTest extends TestCase

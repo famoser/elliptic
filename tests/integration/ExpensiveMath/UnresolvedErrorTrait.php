@@ -4,10 +4,8 @@ namespace Famoser\Elliptic\Tests\Integration\ExpensiveMath;
 
 use Famoser\Elliptic\Math\EDMath;
 use Famoser\Elliptic\Math\EDUnsafeMath;
-use Famoser\Elliptic\Math\MG_TwED_ANeg1_Math;
-use Famoser\Elliptic\Math\TwED_ANeg1_Math;
-use Famoser\Elliptic\Tests\Integration\RFC7784\MG_ED_MathTest;
 use Famoser\Elliptic\Math\MG_ED_Math;
+use Famoser\Elliptic\Tests\Integration\RFC7784\MG_ED_MathTest;
 
 trait UnresolvedErrorTrait
 {
@@ -30,7 +28,7 @@ trait UnresolvedErrorTrait
             ($class === ComparisonTest::class && $function === 'testMulSameResult' && $args[2] === EDMath::class && $args[3] === 'curve448Edwards') ||
             ($class === ComparisonTest::class && $function === 'testDouble' && $args[2] === EDMath::class && $args[3] === 'curve448ToEdwards')
         ) {
-            $this->markTestSkipped('TwED_ANeg1_Math and MG_TwED_ANeg1_Math cycle incorrectly (G * N*h != 0).');
+            $this->markTestSkipped('EDMath & EDUnsafeMath cycles incorrectly (G * N*h != 0).');
         }
     }
 }
