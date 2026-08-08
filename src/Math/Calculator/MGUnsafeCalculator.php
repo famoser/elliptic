@@ -4,22 +4,25 @@ namespace Famoser\Elliptic\Math\Calculator;
 
 use Famoser\Elliptic\Math\Calculator\Adder\MGUnsafeAdder;
 use Famoser\Elliptic\Math\Calculator\Coordinator\PointCoordinator;
-use Famoser\Elliptic\Math\Calculator\Multiplicator\DoubleAndAddAlwaysMultiplicator;
+use Famoser\Elliptic\Math\Calculator\Multiplicator\MultiplicationCalculator;
 use Famoser\Elliptic\Math\Calculator\Swapper\PointSwapper;
 use Famoser\Elliptic\Primitives\Curve;
 use Famoser\Elliptic\Primitives\CurveType;
 use Famoser\Elliptic\Primitives\Point;
 
 /**
- * General-purpose calculator, but uses an unsafe adder.
+ * Calculator for montgomery curves, with an unsafe (in particular non-constant-time) adder
+ *
+ * @extends AbstractCalculator<Point>
  */
 class MGUnsafeCalculator extends AbstractCalculator
 {
     use PointCoordinator;
     use MGUnsafeAdder;
     use PointSwapper;
-    /** @use DoubleAndAddAlwaysMultiplicator<Point> */
-    use DoubleAndAddAlwaysMultiplicator;
+
+    /** @use MultiplicationCalculator<Point> */
+    use MultiplicationCalculator;
 
     public function __construct(Curve $curve)
     {

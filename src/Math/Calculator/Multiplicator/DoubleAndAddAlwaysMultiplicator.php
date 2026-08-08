@@ -8,13 +8,15 @@ namespace Famoser\Elliptic\Math\Calculator\Multiplicator;
 trait DoubleAndAddAlwaysMultiplicator
 {
     /**
+     * multiplies by factor
+     *
      * @param T $point
      * @param \GMP $factor
      * @return T
      */
     public function mul(mixed $point, \GMP $factor): mixed
     {
-        // reduce factor by order size
+        // reduce factor by order*cofactor size
         $reducedFactor = $this->nhField->mod($factor);
 
         // normalize to the element bit length to always execute the double-add loop a constant number of times
