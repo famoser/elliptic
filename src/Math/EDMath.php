@@ -9,7 +9,7 @@ use Famoser\Elliptic\Primitives\Curve;
 /**
  * (Untwisted) Edwards math
  */
-class EDMath extends AbstractMath implements MathInterface
+class EDMath extends AbstractMath
 {
     use NativeMathTrait;
 

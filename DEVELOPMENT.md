@@ -2,8 +2,10 @@
 
 Notes for continued development.
 
+Validation features:
+- check for canonical encoding? -> no, this is a feature of the upper protocol. but document this possible issue.
+
 Until full release:
-- implement torsion-free / curve25519 validation as in dalek
 - fix edwards computation for curve448
 - check GMP is responsible for 0-muls faster than random-muls
 

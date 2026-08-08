@@ -35,4 +35,13 @@ trait BirationalMathTrait
 
         return $this->birationalMap->reverse($this, $mappedResult);
     }
+
+    public function mulH(Point $point): Point
+    {
+        $mapped = $this->birationalMap->map($this, $point);
+
+        $mappedResult = $this->math->mulH($mapped);
+
+        return $this->birationalMap->reverse($this, $mappedResult);
+    }
 }

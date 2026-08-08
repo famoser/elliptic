@@ -11,7 +11,7 @@ use Famoser\Elliptic\Primitives\Curve;
  *
  * This is in general unsafe, as not hardened against side-channels.
  */
-class MGUnsafeMath extends AbstractMath implements MathInterface
+class MGUnsafeMath extends AbstractMath
 {
     use MathTrait;
 

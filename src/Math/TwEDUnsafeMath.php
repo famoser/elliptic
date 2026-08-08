@@ -9,7 +9,7 @@ use Famoser\Elliptic\Primitives\Curve;
 /**
  * Twisted Edwards math
  */
-class TwEDUnsafeMath extends AbstractMath implements MathInterface
+class TwEDUnsafeMath extends AbstractMath
 {
     use MathTrait;
 
