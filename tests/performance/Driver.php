@@ -3,7 +3,6 @@
 namespace Famoser\Elliptic\Tests\Performance;
 
 use Famoser\Elliptic\Curves\CurveRepository;
-use Famoser\Elliptic\Math\Calculator\MGXCalculator;
 use Famoser\Elliptic\Math\MathFactory;
 use Famoser\Elliptic\Tests\Performance\Collectors\CollectorInterface;
 use Famoser\Elliptic\Tests\Performance\Collectors\MathMulGCollector;
