@@ -3,13 +3,22 @@
 namespace Famoser\Elliptic\Math\Calculator;
 
 use Famoser\Elliptic\Math\Calculator\Swapper\ScalarSwapper;
+use Famoser\Elliptic\Math\Primitives\PrimeField;
+use Famoser\Elliptic\Primitives\Curve;
 
 /**
  * implements https://datatracker.ietf.org/doc/html/rfc7748#section-5
  */
-class MGXCalculator extends AbstractCalculator
+class MGXCalculator
 {
     use ScalarSwapper;
+
+    private readonly PrimeField $field;
+
+    public function __construct(private readonly Curve $curve)
+    {
+        $this->field = new PrimeField($curve->getP());
+    }
 
     public function mul(\GMP $u, \GMP $factor): \GMP
     {

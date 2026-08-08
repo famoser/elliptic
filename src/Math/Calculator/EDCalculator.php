@@ -4,7 +4,7 @@ namespace Famoser\Elliptic\Math\Calculator;
 
 use Famoser\Elliptic\Math\Calculator\Adder\EDAdder;
 use Famoser\Elliptic\Math\Calculator\Coordinator\ProjectiveCoordinator;
-use Famoser\Elliptic\Math\Calculator\Multiplicator\DoubleAndAddAlwaysMultiplicator;
+use Famoser\Elliptic\Math\Calculator\Multiplicator\MultiplicationCalculator;
 use Famoser\Elliptic\Math\Calculator\Swapper\ProjectiveSwapper;
 use Famoser\Elliptic\Math\Primitives\ProjectiveCoordinates;
 use Famoser\Elliptic\Primitives\Curve;
@@ -12,14 +12,17 @@ use Famoser\Elliptic\Primitives\CurveType;
 
 /**
  * Calculator for edwards curves
+ *
+ * @extends AbstractCalculator<ProjectiveCoordinates>
  */
 class EDCalculator extends AbstractCalculator
 {
     use ProjectiveCoordinator;
     use EDAdder;
     use ProjectiveSwapper;
-    /** @use DoubleAndAddAlwaysMultiplicator<ProjectiveCoordinates> */
-    use DoubleAndAddAlwaysMultiplicator;
+
+    /** @use MultiplicationCalculator<ProjectiveCoordinates> */
+    use MultiplicationCalculator;
 
     public function __construct(Curve $curve)
     {

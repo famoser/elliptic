@@ -24,7 +24,7 @@ class ConsistencyTest extends TestCase
         $testsets[EDCalculator::class] = [new EDCalculator(BernsteinCurveFactory::edwards448())];
         $testsets[EDUnsafeCalculator::class] = [new EDUnsafeCalculator(BernsteinCurveFactory::edwards448())];
         $testsets[MGUnsafeCalculator::class] = [new MGUnsafeCalculator(BernsteinCurveFactory::curve25519())];
-        $testsets[MGXCalculator::class] = [new MGXCalculator(BernsteinCurveFactory::curve25519())];
+        // $testsets[MGXCalculator::class] = [new MGXCalculator(BernsteinCurveFactory::curve25519())]; no infinity
         $testsets[SW_ANeg3_Calculator::class] = [new SW_ANeg3_Calculator(SEC2CurveFactory::secp192r1())];
         $testsets[SWUnsafeMath::class] = [new SWUnsafeCalculator(SEC2CurveFactory::secp192r1())];
         $testsets[TwED_ANeg1_Calculator::class] = [new TwED_ANeg1_Calculator(BernsteinCurveFactory::edwards25519())];

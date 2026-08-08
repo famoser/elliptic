@@ -4,7 +4,7 @@ namespace Famoser\Elliptic\Math\Calculator;
 
 use Famoser\Elliptic\Math\Calculator\Adder\SW_ANeg3_Jacobi_Adder;
 use Famoser\Elliptic\Math\Calculator\Coordinator\JacobiCoordinator;
-use Famoser\Elliptic\Math\Calculator\Multiplicator\DoubleAndAddAlwaysMultiplicator;
+use Famoser\Elliptic\Math\Calculator\Multiplicator\MultiplicationCalculator;
 use Famoser\Elliptic\Math\Calculator\Swapper\JacobiSwapper;
 use Famoser\Elliptic\Math\Primitives\JacobiPoint;
 use Famoser\Elliptic\Primitives\Curve;
@@ -12,14 +12,17 @@ use Famoser\Elliptic\Primitives\CurveType;
 
 /**
  * Calculator for short weierstrass curves with A = -3 mod p
+ *
+ * @extends AbstractCalculator<JacobiPoint>
  */
 class SW_ANeg3_Calculator extends AbstractCalculator
 {
     use JacobiCoordinator;
     use SW_ANeg3_Jacobi_Adder;
     use JacobiSwapper;
-    /** @use DoubleAndAddAlwaysMultiplicator<JacobiPoint> */
-    use DoubleAndAddAlwaysMultiplicator;
+
+    /** @use MultiplicationCalculator<JacobiPoint> */
+    use MultiplicationCalculator;
 
     public function __construct(Curve $curve)
     {

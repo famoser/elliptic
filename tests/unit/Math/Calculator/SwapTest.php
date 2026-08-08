@@ -15,10 +15,13 @@ use Famoser\Elliptic\Math\Calculator\TwED_ANeg1_Calculator;
 use Famoser\Elliptic\Math\Calculator\TwEDUnsafeCalculator;
 use Famoser\Elliptic\Math\SWUnsafeMath;
 use Famoser\Elliptic\Primitives\Curve;
+use Famoser\Elliptic\Tests\Unit\Math\Traits\AssertGmpFields;
 use PHPUnit\Framework\TestCase;
 
 class SwapTest extends TestCase
 {
+    use AssertGmpFields;
+
     public static function calculators(): array
     {
         $testsets = [];
@@ -53,22 +56,6 @@ class SwapTest extends TestCase
             $this->assertGMPFieldsEqual($basepoint, $sInfinity);
         } else {
             $this->fail("No conditional swap implemented.");
-        }
-    }
-
-    /**
-     * Compare all GMP fields of two coordinate objects
-     */
-    private function assertGMPFieldsEqual(object $obj1, object $obj2): void
-    {
-        $reflection1 = new \ReflectionClass($obj1);
-
-        $properties = $reflection1->getProperties(\ReflectionProperty::IS_PUBLIC);
-
-        foreach ($properties as $property) {
-            $val1 = $property->getValue($obj1);
-            $val2 = $property->getValue($obj2);
-            $this->assertEquals(0, gmp_cmp($val1, $val2));
         }
     }
 }

@@ -5,7 +5,12 @@ namespace Famoser\Elliptic\Math\Calculator;
 use Famoser\Elliptic\Math\Primitives\PrimeField;
 use Famoser\Elliptic\Primitives\Curve;
 
-abstract class AbstractCalculator
+/**
+ * @template T
+ *
+ * @implements CalculatorInterface<T>
+ */
+abstract class AbstractCalculator implements CalculatorInterface
 {
     protected readonly PrimeField $field;
     protected readonly PrimeField $nhField;
