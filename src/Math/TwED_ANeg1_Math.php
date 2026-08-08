@@ -9,7 +9,7 @@ use Famoser\Elliptic\Primitives\Curve;
 /**
  * Twisted Edwards math for a=-1 mod p
  */
-class TwED_ANeg1_Math extends AbstractMath implements MathInterface
+class TwED_ANeg1_Math extends AbstractMath
 {
     use NativeMathTrait;
 

@@ -35,4 +35,13 @@ trait TwistedMathTrait
 
         return $this->twister->untwistPoint($twistedResult);
     }
+
+    public function mulH(Point $point): Point
+    {
+        $twisted = $this->twister->twistPoint($point);
+
+        $twistedResult = $this->math->mulH($twisted);
+
+        return $this->twister->untwistPoint($twistedResult);
+    }
 }

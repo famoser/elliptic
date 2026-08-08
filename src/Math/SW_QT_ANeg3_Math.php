@@ -12,7 +12,7 @@ use Famoser\Elliptic\Primitives\QuadraticTwist;
  *
  * Some hardening against side-channels has been done.
  */
-class SW_QT_ANeg3_Math extends AbstractMath implements MathInterface
+class SW_QT_ANeg3_Math extends AbstractMath
 {
     use TwistedMathTrait;
 

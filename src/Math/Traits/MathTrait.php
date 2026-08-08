@@ -16,9 +16,9 @@ trait MathTrait
         return $this->calculator->getInfinity();
     }
 
-    public function mul(Point $point, \GMP $factor): Point
+    public function add(Point $a, Point $b): Point
     {
-        return $this->calculator->mul($point, $factor);
+        return $this->calculator->add($a, $b);
     }
 
     public function double(Point $a): Point
@@ -26,8 +26,13 @@ trait MathTrait
         return $this->calculator->double($a);
     }
 
-    public function add(Point $a, Point $b): Point
+    public function mul(Point $point, \GMP $factor): Point
     {
-        return $this->calculator->add($a, $b);
+        return $this->calculator->mul($point, $factor);
+    }
+
+    public function mulH(Point $point): Point
+    {
+        return $this->calculator->mulH($point);
     }
 }

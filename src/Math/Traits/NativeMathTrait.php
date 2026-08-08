@@ -47,4 +47,13 @@ trait NativeMathTrait
 
         return $this->calculator->nativeToAffine($nativeResult);
     }
+
+    public function mulH(Point $point): Point
+    {
+        $native = $this->calculator->affineToNative($point);
+
+        $nativeResult = $this->calculator->mulH($native);
+
+        return $this->calculator->nativeToAffine($nativeResult);
+    }
 }

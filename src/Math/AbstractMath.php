@@ -28,6 +28,8 @@ abstract class AbstractMath implements MathInterface
          * - Especially costly as above implied swapping two values (x,y) repeatedly
          * - Maybe faster by encoding table as string, and only generating chosen gmp afterwards?
          * - Might introduce additional side-channels
+         *
+         * So for now, use the trivial implementation
          */
         return $this->mul($this->curve->getG(), $factor);
     }
