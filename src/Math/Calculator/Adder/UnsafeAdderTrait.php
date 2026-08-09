@@ -21,7 +21,7 @@ trait UnsafeAdderTrait
 
         if (gmp_cmp($a->x, $b->x) === 0) {
             // rule 3
-            if (gmp_cmp($b->y, $a->y) !== 0) {
+            if (gmp_cmp($b->y, $a->y) !== 0 || gmp_cmp($a->y, 0) === 0) {
                 return $this->getInfinity();
             }
 
