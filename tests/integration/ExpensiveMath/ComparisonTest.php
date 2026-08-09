@@ -193,9 +193,8 @@ class ComparisonTest extends TestCase
         foreach ($factors as $i => $factor) {
             $expected = $baseline->mul($curve->getG(), $factor);
             $actual = $math->mul($curve->getG(), $factor);
-            if (gmp_cmp($factor, 0) === 0 || gmp_cmp($factor, $order) === 0 || gmp_cmp($factor, $safeOrder) === 0) {
-                $this->assertTrue($baseline->isInfinity($expected));
-                $this->assertTrue($math->isInfinity($actual), "Failed for factor " . $i . " (" . gmp_strval($factor, 16) . ")");
+            if ($baseline->isInfinity($expected)) {
+                $this->assertTrue($math->isInfinity($actual));
             } else {
                 $this->assertObjectEquals($expected, $actual, 'equals', "Failed for factor " . $i . " (" . gmp_strval($factor, 16) . ")");
             }

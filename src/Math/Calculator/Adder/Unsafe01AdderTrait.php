@@ -20,11 +20,6 @@ trait Unsafe01AdderTrait
             return clone $a;
         }
 
-        if (gmp_cmp($a->x, $b->x) === 0) {
-            // rule 5
-            return $this->double($a);
-        }
-
         return $this->addRule4($a, $b);
     }
 

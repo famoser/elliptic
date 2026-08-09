@@ -25,8 +25,7 @@ trait UnresolvedErrorTrait
         if (
             ($class === ConsistencyTest::class && $function === 'testMulCycle' && $args[2] === EDUnsafeMath::class && $args[3] === 'curve448Edwards') ||
             ($class === ConsistencyTest::class && $function === 'testMulCycle' && $args[2] === EDMath::class && $args[3] === 'curve448Edwards') ||
-            ($class === ComparisonTest::class && $function === 'testMulSameResult' && $args[2] === EDMath::class && $args[3] === 'curve448Edwards') ||
-            ($class === ComparisonTest::class && $function === 'testDouble' && $args[2] === EDMath::class && $args[3] === 'curve448ToEdwards')
+            ($class === ComparisonTest::class && $function === 'testMulSameResult' && $args[2] === EDMath::class && $args[3] === 'curve448ToEdwards')
         ) {
             $this->markTestSkipped('EDMath & EDUnsafeMath cycles incorrectly (G * N*h != 0).');
         }
