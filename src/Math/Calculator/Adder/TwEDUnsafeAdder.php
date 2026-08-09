@@ -11,7 +11,7 @@ use Famoser\Elliptic\Primitives\Point;
  */
 trait TwEDUnsafeAdder
 {
-    use UnsafeAdderTrait;
+    use Unsafe01AdderTrait;
 
     private function addRule4(Point $a, Point $b): Point
     {
