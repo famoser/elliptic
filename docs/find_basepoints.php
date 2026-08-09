@@ -1,19 +1,19 @@
 <?php
 
 use Famoser\Elliptic\Curves\BernsteinCurveFactory;
-use Famoser\Elliptic\Math\TwED_ANeg1_Math;
+use Famoser\Elliptic\Math\EDMath;
 use Famoser\Elliptic\Serializer\Decoder\RFC7784Decoder;
-use Famoser\Elliptic\Serializer\PointDecoder\TwEDPointDecoder;
+use Famoser\Elliptic\Serializer\PointDecoder\EDPointDecoder;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$curve = BernsteinCurveFactory::edwards25519();
-$decoder = new TwEDPointDecoder($curve);
-$math = new TwED_ANeg1_Math($curve);
+$curve = BernsteinCurveFactory::edwards448();
+$decoder = new EDPointDecoder($curve);
+$math = new EDMath($curve);
 
 $knownBasepoints = [];
 while (true) {
-    $randomPoint = bin2hex(random_bytes(32));
+    $randomPoint = bin2hex(random_bytes(64));
     $deserializer = new RFC7784Decoder();
     try {
         $uCoordinate = $deserializer->decodeUCoordinate($randomPoint, 255);

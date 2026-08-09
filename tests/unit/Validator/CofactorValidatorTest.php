@@ -49,7 +49,7 @@ class CofactorValidatorTest extends TestCase
         ];
 
         $testcases = [];
-        foreach ($generatorPoints as $i => [$x, $y]) {
+        foreach ($generatorPoints as [$x, $y]) {
             $smallOrderPoint = new Point(gmp_init($x, 16), gmp_init($y, 16));
             foreach ($maths as $math) {
                 $testcases[] = [$math, $curve, $smallOrderPoint];
@@ -79,9 +79,6 @@ class CofactorValidatorTest extends TestCase
         if ($torsionGroup->equals($curve->getG())) {
             $this->markTestSkipped("already infinity, hence will not change basegroup");
         }
-
-        // TODO: why unsafe math does not detect the basepoint torsion
-        // TODO: make same test for ed448 curve to test the project coordinates
 
         $this->assertFalse($validator->isInBasepointTorsion($torsionGroup));
 

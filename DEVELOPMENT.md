@@ -7,6 +7,7 @@ Validation features:
 
 Until full release:
 - fix edwards computation for curve448
+- add cofactor test for curve448
 - check GMP is responsible for 0-muls faster than random-muls
 
 Next features:
