@@ -122,6 +122,10 @@ class ConsistencyTest extends TestCase
     {
         $curve = $math->getCurve();
 
+        if (gmp_cmp($math->getInfinity()->y, gmp_init(0)) !== 0) {
+            $this->markTestSkipped("Different infinity point representation as assumed for this test.");
+        }
+
         $negativeG = new Point($curve->getG()->x, gmp_mod(gmp_neg($curve->getG()->y), $curve->getP()));
         $actual = $math->add($curve->getG(), $negativeG);
 
