@@ -124,6 +124,18 @@ class BernsteinCurveFactory
         $order = gmp_init('10000000 00000000 00000000 00000000 14DEF9DE A2F79CD6 5812631A 5CF5D3ED', 16);
         $cofactor = gmp_init(8);
 
+        /**
+         * generator points for the G[8] torsion
+         * ['0', '1'],
+         * ['0', '7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffec'],
+         * ['547cdb7fb03e20f4d4b2ff66c2042858d0bce7f952d01b873b11e4d8b5f15f3d', '0'],
+         * ['2b8324804fc1df0b2b4d00993dfbd7a72f431806ad2fe478c4ee1b274a0ea0b0', '0'],
+         * ['1fd5b9a006394a28e933993238de4abb5c193c7013e5e238dea14646c545d14a', '5fc536d880238b13933c6d305acdfd5f098eff289f4c345b027b2c28f95e826'],
+         * ['1fd5b9a006394a28e933993238de4abb5c193c7013e5e238dea14646c545d14a', '7a03ac9277fdc74ec6cc392cfa53202a0f67100d760b3cba4fd84d3d706a17c7'],
+         * ['602a465ff9c6b5d716cc66cdc721b544a3e6c38fec1a1dc7215eb9b93aba2ea3', '5fc536d880238b13933c6d305acdfd5f098eff289f4c345b027b2c28f95e826'],
+         * ['602a465ff9c6b5d716cc66cdc721b544a3e6c38fec1a1dc7215eb9b93aba2ea3', '7a03ac9277fdc74ec6cc392cfa53202a0f67100d760b3cba4fd84d3d706a17c7'],
+         */
+
         return new Curve(CurveType::TwistedEdwards, $p, $a, $d, $P, $order, $cofactor);
     }
 
