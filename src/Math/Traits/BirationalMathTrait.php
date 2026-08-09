@@ -10,8 +10,8 @@ trait BirationalMathTrait
 
     public function add(Point $a, Point $b): Point
     {
-        $mappedA = $this->birationalMap->map($this, $a);
-        $mappedB = $this->birationalMap->map($this, $b);
+        $mappedA = $this->birationalMap->map($this->math, $a);
+        $mappedB = $this->birationalMap->map($this->math, $b);
 
         $mappedResult = $this->math->add($mappedA, $mappedB);
 
@@ -20,7 +20,7 @@ trait BirationalMathTrait
 
     public function double(Point $a): Point
     {
-        $mappedA = $this->birationalMap->map($this, $a);
+        $mappedA = $this->birationalMap->map($this->math, $a);
 
         $mappedResult = $this->math->double($mappedA);
 
@@ -29,7 +29,7 @@ trait BirationalMathTrait
 
     public function mul(Point $point, \GMP $factor): Point
     {
-        $mapped = $this->birationalMap->map($this, $point);
+        $mapped = $this->birationalMap->map($this->math, $point);
 
         $mappedResult = $this->math->mul($mapped, $factor);
 
@@ -38,7 +38,7 @@ trait BirationalMathTrait
 
     public function mulH(Point $point): Point
     {
-        $mapped = $this->birationalMap->map($this, $point);
+        $mapped = $this->birationalMap->map($this->math, $point);
 
         $mappedResult = $this->math->mulH($mapped);
 

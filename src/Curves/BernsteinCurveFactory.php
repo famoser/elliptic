@@ -56,7 +56,7 @@ class BernsteinCurveFactory
         $squareRootOfMinus486664 = gmp_init('F26EDF46 0A006BBD 27B08DC0 3FC4F7EC 5A1D3D14 B7D1A82C C6E04AAF F457E06', 16);
 
         // (x, y) = (sqrt(-486664)*u/v, (u-1)/(u+1))
-        $map = static function (MathInterface $math, Point $point) use ($field, $squareRootOfMinus486664) {
+        $map = static function (MathInterface $edwardsMath, Point $point) use ($field, $squareRootOfMinus486664) {
             $x = $field->mul(
                 $field->mul($squareRootOfMinus486664, $point->x),
                 /** @phpstan-ignore-next-line */
@@ -65,7 +65,7 @@ class BernsteinCurveFactory
 
             // if x is 0, short-cut to resolve y = 1 (following the normal flow would choose the other y^2 root)
             if (gmp_cmp($x, 0) === 0) {
-                return $math->getInfinity();
+                return $edwardsMath->getInfinity();
             }
 
             $y = $field->mul(
@@ -80,10 +80,10 @@ class BernsteinCurveFactory
         };
 
         // (u, v) = ((1+y)/(1-y), sqrt(-486664)*u/x)
-        $reverse = static function (MathInterface $math, Point $point) use ($field, $squareRootOfMinus486664) {
+        $reverse = static function (MathInterface $montgomeryMath, Point $point) use ($field, $squareRootOfMinus486664) {
             $divisor = $field->sub(gmp_init(1), $point->y);
             if (gmp_cmp($divisor, 0) === 0) {
-                return $math->getInfinity();
+                return $montgomeryMath->getInfinity();
             }
             // note: if y != 1, then x != 0
 
@@ -177,7 +177,7 @@ class BernsteinCurveFactory
         $squareRootOf15634 = gmp_init('45B2C5F7 D649EED0 77ED1AE4 5F44D541 43E34F71 4B71AA96 C945AF01 2D182975 0734CDE9 FADDBDA4 C066F7ED 54419CA5 2C85DE1E 8AAE4E6C', 16);
 
         // (x, y) = (sqrt(156324)*u/v, (1+u)/(1-u))
-        $map = static function (MathInterface $math, Point $point) use ($field, $squareRootOf15634) {
+        $map = static function (MathInterface $edwardsMath, Point $point) use ($field, $squareRootOf15634) {
             $x = $field->mul(
                 $field->mul($squareRootOf15634, $point->x),
                 /** @phpstan-ignore-next-line */
@@ -196,9 +196,9 @@ class BernsteinCurveFactory
         };
 
         // (u, v) = ((y-1)/(y+1), sqrt(156324)*u/x)
-        $reverse = static function (MathInterface $math, Point $point) use ($field, $squareRootOf15634) {
+        $reverse = static function (MathInterface $montgomeryMath, Point $point) use ($field, $squareRootOf15634) {
             if (gmp_cmp($point->x, 0) === 0) {
-                return $math->getInfinity();
+                return $montgomeryMath->getInfinity();
             }
             // note: if x != 0, then y != -1
 
