@@ -65,6 +65,15 @@ class PhpeccMath extends AbstractMath implements MathInterface
         return $this->convertFromPointInterface($resultNative);
     }
 
+    public function mulH(Point $point): Point
+    {
+        $pointNative = $this->convertToPointInterface($point);
+
+        $resultNative = $this->curveOps->scalarMult($this->getCurve()->getH(), $pointNative);
+
+        return $this->convertFromPointInterface($resultNative);
+    }
+
     private function convertToPointInterface(Point $point): PointInterface
     {
         return new \Mdanter\Ecc\Primitives\Point($this->math, $this->curveFp, $point->x, $point->y, $this->order);

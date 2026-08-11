@@ -56,6 +56,12 @@ class MathRecoder implements MathInterface
         return $this->math->mulG($factor);
     }
 
+    public function mulH(Point $point): Point
+    {
+        $this->operations[$this->context][] = ['mulH', [$point]];
+        return $this->math->mulH($point);
+    }
+
     public function mul(Point $point, \GMP $factor): Point
     {
         $this->operations[$this->context][] = ['mul', [$point, $factor]];

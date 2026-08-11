@@ -33,7 +33,9 @@ class ConsistencyTest extends TestCase
     }
 
     /**
+     * @template T
      * @dataProvider calculators
+     * @param AbstractCalculator<T> $calculator
      */
     public function testInfinity(AbstractCalculator $calculator): void
     {

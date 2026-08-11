@@ -31,7 +31,7 @@ class MultiplicatorTest extends TestCase
      */
     public function testCofactor(string $class, Curve $curve): void
     {
-        /** @var AbstractCalculator $calculator */
+        /** @var AbstractCalculator<mixed> $calculator */
         $calculator = new $class($curve);
 
         $basepoint = method_exists($calculator, 'affineToNative') ? $calculator->affineToNative($curve->getG()) : $curve->getG();
