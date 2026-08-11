@@ -118,6 +118,19 @@ class ConsistencyTest extends TestCase
     /**
      * @dataProvider maths
      */
+    public function testMulHMultipliesByCofactor(string $curveName, MathInterface $math): void
+    {
+        $curve = $math->getCurve();
+
+        $expected = $math->mul($curve->getG(), $curve->getH());
+        $actual = $math->mulH($curve->getG());
+
+        $this->assertObjectEquals($expected, $actual);
+    }
+
+    /**
+     * @dataProvider maths
+     */
     public function testNegation(string $curveName, MathInterface $math): void
     {
         $curve = $math->getCurve();
