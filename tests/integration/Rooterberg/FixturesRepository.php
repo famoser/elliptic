@@ -39,7 +39,7 @@ class FixturesRepository
                 'curve' => $curve,
                 'publicKey' => $publicKey,
                 'message' => hex2bin($testvector['msg']),
-                'sig' => $testvector['sig'],
+                'signature' => $testvector['sig'],
                 'comment' => $testvector['comment'],
                 'valid' => $testvector['valid'],
                 'flags' => $testvector['flags'] ?? [],

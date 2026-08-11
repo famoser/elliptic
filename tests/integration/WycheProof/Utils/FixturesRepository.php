@@ -54,10 +54,10 @@ class FixturesRepository
                 $tcId = "tcId: " . $testvector['tcId'];
 
                 $results[$tcId] = [
-                    'generator' => $curve,
+                    'curve' => $curve,
                     'publicKey' => $publicKey,
                     'message' => hex2bin($testvector['msg']),
-                    'sig' => $testvector['sig'],
+                    'signature' => $testvector['sig'],
                     'comment' => $testvector['comment'],
                     'result' => $testvector['result'],
                     'flags' => $testvector['flags'] ?? [],
@@ -81,7 +81,7 @@ class FixturesRepository
                 $results[$tcId] = [
                     'public' => $key,
                     'message' => $testvector['msg'],
-                    'sig' => $testvector['sig'],
+                    'signature' => $testvector['sig'],
                     'comment' => $testvector['comment'],
                     'result' => $testvector['result'],
                     'flags' => $testvector['flags'] ?? [],
