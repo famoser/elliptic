@@ -141,21 +141,20 @@ class ComparisonTest extends TestCase
 
         $expected = $curve->getG();
         $actual = $curve->getG();
-        $hNumber = (int)gmp_strval($math->getCurve()->getH());
-        $hLog = log($hNumber, 2);
-        $this->assertEquals(2 ** $hLog, $hNumber); // sanity check: log2 well-defined
-        for ($i = 0; $i < $hLog; ++$i) {
+        for ($i = 0; $i < 2; ++$i) {
             $expected = $baseline->double($expected);
             $actual = $math->double($actual);
         }
+        $this->assertObjectEquals($expected, $actual);
+
         $expectedAdd = $curve->getG();
         $actualAdd = $curve->getG();
-        for ($i = 0; $i < $hNumber - 1; ++$i) {
+        for ($i = 0; $i < 4 - 1; ++$i) {
             $expectedAdd = $baseline->add($expectedAdd, $curve->getG());
             $actualAdd = $math->add($actualAdd, $curve->getG());
         }
 
-        $this->assertObjectEquals($expected, $actual);
+        $this->assertObjectEquals($expectedAdd, $actualAdd);
     }
 
     /**
