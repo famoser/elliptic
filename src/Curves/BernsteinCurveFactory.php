@@ -125,7 +125,7 @@ class BernsteinCurveFactory
         $cofactor = gmp_init(8);
 
         /**
-         * generator points for the G[8] torsion
+         * infinity points for the G[8] torsion
          * ['0', '1'],
          * ['0', '7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffec'],
          * ['547cdb7fb03e20f4d4b2ff66c2042858d0bce7f952d01b873b11e4d8b5f15f3d', '0'],
@@ -264,6 +264,14 @@ class BernsteinCurveFactory
         // order = 2^446 - 0x8335dc163bb124b65129c96fde933d8d723a70aadc873d6d54a7bb0d
         $order = gmp_init('3FFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF 7CCA23E9 C44EDB49 AED63690 216CC272 8DC58F55 2378C292 AB5844F3', 16);
         $cofactor = gmp_init(4);
+
+        /**
+         * infinity points for the G[4] torsion
+         * (0,1)
+         * (1,0)
+         * (0,fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffffffffffffffffffffffffffffffffffffffffffffffffffffe)
+         * (fffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffffffffffffffffffffffffffffffffffffffffffffffffffffe,0)
+         */
 
         return new Curve(CurveType::Edwards, $p, $a, $d, $P, $order, $cofactor);
     }
