@@ -86,7 +86,7 @@ Results:
 ### Constant-time analysis
 
 Method:
-- Over each math, chosing one of the smaller curves available, we run the third-party test-cases.
+- Over each math, choosing one of the smaller curves available, we run the third-party test-cases.
 - We isolate the math operations (e.g. we do not measure hashing, point decoding, etc).
 - We do this multiple times, discarding the 50% slowest runs (we either keep all test-cases of a run, or discard it in its entirety).
 - We then cluster the test-cases according to their measured time, using the third-party test-cases to find reasons for non-const behaviour.
