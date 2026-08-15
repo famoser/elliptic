@@ -8,6 +8,7 @@ Until full release:
 - add ristretto
 - consider debugging curve448, but curve is less used in practice, hence less relevant.
 - reexecute the hardening measure tests for all implementations. 
+- recheck all ignored tests.
 
 Curve448 issues:
 - MG_ED_Math is incorrect: double/add are different compared to MGUnsafeMath. Are projective coordinates incorrect?
