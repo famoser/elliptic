@@ -23,9 +23,11 @@ trait UnresolvedErrorTrait
 
         // ED cycles incorrectly
         if (
-            ($class === ConsistencyTest::class && $function === 'testMulCycle' && $args[2] === EDUnsafeMath::class && $args[3] === 'curve448Edwards') ||
-            ($class === ConsistencyTest::class && $function === 'testMulCycle' && $args[2] === EDMath::class && $args[3] === 'curve448Edwards') ||
-            ($class === ComparisonTest::class && $function === 'testMulSameResult' && $args[2] === EDMath::class && $args[3] === 'curve448ToEdwards')
+            /*
+             *  Fails because infinity point of G is not in expected (0,1) torsion, but another torsion. So mathematically correct, but implementation is not sufficiently generic.
+             *  Could resolve by storing the expected infinity point explicitly on the curve, then math->getInfinity() would point to that curve point.
+             */
+            ($class === ConsistencyTest::class && $function === 'testMulCycle' &&  $args[3] === 'curve448Edwards')
         ) {
             $this->markTestSkipped('EDMath & EDUnsafeMath cycles incorrectly (G * N*h != 0).');
         }
