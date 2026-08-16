@@ -11,7 +11,7 @@ Until full release:
 - recheck all ignored tests.
 
 Curve448 issues:
-- MG_ED_Math is incorrect: double/add are different compared to MGUnsafeMath. Are projective coordinates incorrect?
+- MG_ED_Math is incorrect: double/add are different compared to MGUnsafeMath.
 - the generator of curve448 is not in torsion group of (0,1). why not? is this an issue for the montgomery ladder? how to integrate the cofactor test sensibly?
 
 Next major milestone:
